@@ -9,10 +9,10 @@ class new_deal(webapp2.RequestHandler):
 	def get(self):
 		
 		template_values = {
-			'name' : 'alonso'
+			'name' : 'Alonso'
 		}
 		
-		template = jinja_environment.get_template('index.html')
+		template = jinja_environment.get_template('./templates/index.html')
 		self.response.out.write(template.render(template_values))
 		
 class manage(webapp2.RequestHandler):

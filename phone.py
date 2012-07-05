@@ -202,4 +202,4 @@ class phone(webapp2.RequestHandler):
 		#write the response
 		self.response.out.write(json.dumps(toEcho))
 
-app = webapp2.WSGIApplication([('/phone', phone)],debug=False)
+app = webapp2.WSGIApplication([('/phone', phone)],debug=True)

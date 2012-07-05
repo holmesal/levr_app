@@ -7,9 +7,15 @@ threadsafe: true
 handlers:
 - url: /phone
   script: phone.app
+- url: /merchants/.*
+  script: merchants.app
 - url: /new
   script: test_class.app
 - url: /get
   script: test_get.app
 - url: /new_category
   script: populate_categories.app
+  
+libraries:
+- name: jinja2
+  version: latest

@@ -1,0 +1,15 @@
+application: getlevr
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /phone
+  script: phone.app
+- url: /new
+  script: test_class.app
+- url: /get
+  script: test_get.app
+- url: /new_category
+  script: populate_categories.app

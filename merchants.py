@@ -35,9 +35,10 @@ class manage(webapp2.RequestHandler):
 class new_deal(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
-		levr_utils.loginCheck(self,True)
+		headerData = levr_utils.loginCheck(self,True)
 		
 		template_values = {
+			'headerData' : headerData,
 			'title' : 'New Deal'
 		}
 		
@@ -47,19 +48,22 @@ class new_deal(webapp2.RequestHandler):
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
-		levr_utils.loginCheck(self,True)
+		headerData = levr_utils.loginCheck(self,True)
 		
 		template_values = {
+			'headerData' : headerData,
 			'title' : 'Edit Deal'
 		}
+		
 		template = jinja_environment.get_template('templates/header.html')
 		self.response.out.write(template.render(template_values))
 class account(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
-		levr_utils.loginCheck(self,True)
+		headerData = levr_utils.loginCheck(self,True)
 		
 		template_values = {
+			'headerData' : headerData,
 			'title' : 'Account'
 		}
 		

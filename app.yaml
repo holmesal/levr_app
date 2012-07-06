@@ -5,6 +5,8 @@ api_version: 1
 threadsafe: true
 
 handlers:
+- url: /
+  script: landing.app
 - url: /phone
   script: phone.app
 - url: /merchants/.*
@@ -15,6 +17,10 @@ handlers:
   script: test_get.app
 - url: /new_category
   script: populate_categories.app
+- url: /img
+  static_dir: img
+- url: /css
+  static_dir: css
   
 libraries:
 - name: jinja2

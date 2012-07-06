@@ -17,6 +17,10 @@ handlers:
   script: test_get.app
 - url: /new_category
   script: populate_categories.app
+- url: /login
+  script: login.app
+- url: /logout
+  script: logout.app
 - url: /img
   static_dir: img
 - url: /css

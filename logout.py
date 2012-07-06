@@ -1,16 +1,18 @@
 import os
 import webapp2
 import jinja2
+import logging
+
+from gaesessions import get_current_session
 
 class logout(webapp2.RequestHandler):
 	def get(self):
-		#launch the jinja environment
-		jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-		
 		#logout the user
+		session = get_current_session()
+		session['loggedIn'] = False
+		logging.info(session)
 		
 		#redirect to the landing page for merchants
-		template = jinja_environment.get_template('templates/merchantsLanding.html')
-		self.response.out.write(template.render())
+		self.redirect('/merchants')
 
 app = webapp2.WSGIApplication([('/logout', logout)],debug=True)

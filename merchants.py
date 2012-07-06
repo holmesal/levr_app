@@ -1,6 +1,7 @@
 import webapp2
 import jinja2
 import os
+import levr_utils
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
     
@@ -11,26 +12,31 @@ class merchantsLanding(webapp2.RequestHandler):
 
 class manage(webapp2.RequestHandler):
 	def get(self):
-		
-		template = jinja_environment.get_template('templates/manage.html')
-		self.response.out.write(template.render(template_values))
+		#Check if user is logged in
+		levr_utils.loginCheck(self)
+		print "This is a request for manage"
 
 class new_deal(webapp2.RequestHandler):
 	def get(self):
-		
+		#Check if user is logged in
+		levr_utils.loginCheck(self)
 		template_values = {
 			'name' : 'Alonso'
 		}
 		
-		template = jinja_environment.get_template('test.html')
+		template = jinja_environment.get_template('templates/test.html')
 		self.response.out.write(template.render(template_values))
 		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
+		#Check if user is logged in
+		levr_utils.loginCheck(self)
 		print "This is a request for edit_deal"
 		
 class account(webapp2.RequestHandler):
 	def get(self):
+		#Check if user is logged in
+		levr_utils.loginCheck(self)
 		print "This is a request for account"
 
-app = webapp2.WSGIApplication([('/merchants/', merchantsLanding), ('/merchants/manage',manage), ('/merchants/deal/new', new_deal), ('/merchants/deal/edit', edit_deal), ('/merchants/account',account)],debug=True)
+app = webapp2.WSGIApplication([('/merchants', merchantsLanding), ('/merchants/manage',manage), ('/merchants/deal/new', new_deal), ('/merchants/deal/edit', edit_deal), ('/merchants/account',account)],debug=True)

@@ -9,7 +9,7 @@ handlers:
   script: landing.app
 - url: /phone
   script: phone.app
-- url: /merchants/.*
+- url: /merchants.*
   script: merchants.app
 - url: /new
   script: test_class.app
@@ -19,6 +19,8 @@ handlers:
   script: populate_categories.app
 - url: /login
   script: login.app
+- url: /loginstate
+  script: loginstate.app
 - url: /logout
   script: logout.app
 - url: /img

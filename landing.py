@@ -13,7 +13,7 @@ class landing(webapp2.RequestHandler):
 		template_values = {}
 		
 		#serve up the landing page html
-		template = jinja_environment.get_template('landing.html')
+		template = jinja_environment.get_template('templates/landing.html')
 		self.response.out.write(template.render(template_values))
 
 app = webapp2.WSGIApplication([('/', landing)],debug=True)

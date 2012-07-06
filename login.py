@@ -1,6 +1,8 @@
 import os
 import webapp2
 import jinja2
+import logging
+import levr_classes as levr
 
 from gaesessions import get_current_session
 
@@ -18,10 +20,16 @@ class login(webapp2.RequestHandler):
 		
 		session = get_current_session()
 		
-		if pw == 'secret':
+		#query database for matching email and pw
+		q = levr.Business.gql("WHERE contact_email = :email and pw = :pw",email=email,pw=pw)
+		business = q.get()
+		
+		if business != None:
+			#if matched, pull properties and set loginstate to true
+			session['businessKey'] = business.key()
+			session['contact_owner'] = business.contact_owner
 			session['loggedIn'] = True
-			template = jinja_environment.get_template('templates/merchantsLanding.html')
-			self.response.out.write(template.render())
+			self.redirect('/merchants/manage')
 		else:
 			#show login page again
 			template = jinja_environment.get_template('templates/login.html')

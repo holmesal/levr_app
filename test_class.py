@@ -19,8 +19,9 @@ class MainPage(webapp2.RequestHandler):
         b.state 		= 'DC'
         b.zip_code 		= '10000'
         b.contact_owner = 'Joe'
-        b.contact_email = 'Joe@thebuilder.com'
+        b.contact_email = 'alonso@getlevr.com'
         b.contact_phone = '603-603-6003'
+        b.pw 			= 'alonso'
         b.put()
         
     	#new deal

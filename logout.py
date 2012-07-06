@@ -10,6 +10,7 @@ class logout(webapp2.RequestHandler):
 		#logout the user
 		session = get_current_session()
 		session['loggedIn'] = False
+		session.terminate()
 		logging.info(session)
 		
 		#redirect to the landing page for merchants

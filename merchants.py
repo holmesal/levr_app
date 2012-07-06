@@ -2,6 +2,7 @@ import webapp2
 import jinja2
 import os
 import levr_utils
+import logging
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
     
@@ -12,30 +13,34 @@ class merchantsLanding(webapp2.RequestHandler):
 
 class manage(webapp2.RequestHandler):
 	def get(self):
-		#Check if user is logged in
-		levr_utils.loginCheck(self)
-		print "This is a request for manage"
+		#Bounce if user is not logged in
+		headerData = levr_utils.loginCheck(self)
+		logging.info(headerData)
 
 class new_deal(webapp2.RequestHandler):
 	def get(self):
-		#Check if user is logged in
+		#Bounce if user is not logged in
 		levr_utils.loginCheck(self)
+		
 		template_values = {
 			'name' : 'Alonso'
 		}
 		
 		template = jinja_environment.get_template('templates/test.html')
 		self.response.out.write(template.render(template_values))
+		template = jinja_environment.get_template('templates/merchantsLanding.html')
+		self.response.out.write(template.render())
 		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
-		#Check if user is logged in
+		#Bounce if user is not logged in
 		levr_utils.loginCheck(self)
-		print "This is a request for edit_deal"
+		
+		#Still here? Good! 
 		
 class account(webapp2.RequestHandler):
 	def get(self):
-		#Check if user is logged in
+		#Bounce if user is not logged in
 		levr_utils.loginCheck(self)
 		print "This is a request for account"
 

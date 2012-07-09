@@ -15,47 +15,200 @@
 	<body>
 		<div id="header">
 			{% if headerData.loggedIn == True %}
-				<h3>This header displays when logged in</h3>
-				<h4>Your name is {{ headerData.contact_owner }}</h4>
+			<h3>This header displays when logged in</h3>
+			<h4>Your name is {{ headerData.contact_owner }}</h4>
 			{% else %}
-				<h3>This header displays when NOT logged in</h3>
+			<h3>This header displays when NOT logged in</h3>
 			{% endif %}
 		</div>
-		<div id="main">
-			<h1>This is a request for page: {{ title }}</h1>
-			<h1>This is a placeholder page. The purpose is to test the dynamically-generated header.</h1>
-			<table name="dealsTable" id="dealsTable" class="table tablesorter table-striped table-bordered">
-			<thead>
-				<tr>
-					<th width="30%">Promotion</th>
-					<th width="40%">Description</th>
-					<th width="10%">Number Redeemed</th>
-					<th width="10%">Remaining</th>
-					<th width="10%">Edit</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for deal in deals %}
-				<tr>
-					<td>
-					{% if deal['deal_type'] == 'percent' %}
-						{{deal.deal_value}}% off {{deal['secondary_name']}}
-					{% elif deal['deal_type'] == 'monetary' %}
-						${{deal.deal_value}} off {{deal['secondary_name']}}
-					{% else %}
-						Free {{deal['secondary_name']}}
-					{% endif %}
-					</td>
-					<td>{{deal['description']}}</td>
-					<td>{{deal['count_redeemed']}}</td>
-					<td>{{deal['img_path']}}</td>
-					<td><a href="/merchants/deal/edit?id={{deal['dealID']}}">edit</a></td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		</div>
-		<footer id="feet">
+		<div class="container" id="main">
+			<div class="row">
+				<div class="span10 offset1">
+					<div class="well bodyWell">
+						<div class="row-fluid">
+							<div class="alert alert-error">
+								<strong>Your offers have not launched yet.</strong> Levr is still in beta. You will receive email/phone confirmation before your offers are launched.
+							</div>
+							<h3>Manage your offers</h3>
+							<br/>
+						</div>
+						<div class="row-fluid">
+							<div class="tabbable">
+								<!-- Only required for left/right tabs -->
+								<ul class="nav nav-tabs">
+									<li class="active">
+										<a href="#tab1" id="deals" data-toggle="tab">Current Offers</a>
+									</li>
+									<li>
+										<a href="#tab3" id="credits" data-toggle="tab">Customer Credits</a>
+									</li>
+									<li>
+										<a href="#tab6" id="referrals" data-toggle="tab">Referrals</a>
+									</li>
+									<li>
+										<a href="#tab5" id="redemption" data-toggle="tab">Redemption</a>
+									</li>
+									<li>
+										<a href="#tab4" id="promotions" data-toggle="tab">Promotions</a>
+									</li>
+									<li>
+										<a href="#tab2" id="account" data-toggle="tab">Account Information</a>
+									</li>
+
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab1">
+										<!-- CURRENT DEALS-->
+										<div id="tableDiv" class="collapse in">
+											<div class="row-fluid">
+												<div class="span12">
+													<!--a href="./index.html"><img class="headerlogo" src="./img/spooflogo.png" alt="Locale!"></a-->
+													<div class="row-fluid">
+														<h2>Your Offers:</h2>
+														<table name="dealsTable" id="dealsTable" class="table tablesorter table-striped table-bordered">
+															<thead>
+																<tr>
+																	<th width="30%">Promotion</th>
+																	<th width="40%">Description</th>
+																	<th width="10%">Number Redeemed</th>
+																	<th width="10%">Remaining</th>
+																	<th width="10%">Edit</th>
+																</tr>
+															</thead>
+															<tbody>
+																{% for deal in deals %}
+																<tr>
+																	<td> {% if deal['deal_type'] == 'percent' %}
+																	{{deal.deal_value}}% off {{deal['secondary_name']}}
+																	{% elif deal['deal_type'] == 'monetary' %}
+																	${{deal.deal_value}} off {{deal['secondary_name']}}
+																	{% else %}
+																	Free {{deal['secondary_name']}}
+																	{% endif %} </td>
+																	<td>{{deal['description']}}</td>
+																	<td>{{deal['count_redeemed']}}</td>
+																	<td>{{deal['img_path']}}</td>
+																	<td><a href="/merchants/deal/edit?id={{deal['dealID']}}">edit</a></td>
+																</tr>
+																{% endfor %}
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<a href="/merchants/deal/new">
+												Add a new offer!
+											</a>
+										</div>
+									</div>
+									<div class="tab-pane" id="tab2">
+										<!-- ACCOUNT INFO-->
+										<a href="/merchants/account">
+											Edit Account Information
+										</a>
+										<div class="span4 formLeft">
+											<h3>Business</h3>
+											<p class="reviewParam">
+												Name: <span class="reviewValue">{{}}</span>
+											</p>
+											<p class="reviewParam">
+												Address 1: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												Address 2: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												City: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												Zip: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												State: <span class="reviewValue"></span>
+											</p>
+										</div>
+										<div class="span4 formRight">
+
+											<h3>Account</h3>
+											<p class="reviewParam">
+												Name: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												Phone: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												Email: <span class="reviewValue"></span>
+											</p>
+											<p class="reviewParam">
+												Updates: <span class="reviewValue"></span>
+											</p>
+
+										</div>
+									</div>
+									<div class="tab-pane" id="tab3">
+										<!-- CREDITS -->
+										<p class="secondary">
+											You currently have <span id="numCredits" style="font-weight: 800;"></span> customer credits.
+										</p>
+										<h4 class="header"> Until launch, there are two ways to gain customer credits: </h4>
+										<p class="secondary">
+											1. Refer other businesses using the "Referrals" tab above.
+										</p>
+										<p class="secondary">
+											2. Contact us and <a href="./contact.html">request them directly</a>.
+										</p>
+										<!--p>
+										Unfortunately, we are not handling payments at this time. If you would like to request more credits, please feel free to contact us
+										<a href="contact.html">here</a>, or email us at <a href="mailto:feedback@getlevr.com">feedback@getlevr.com</a>. We would love to hear from you.
+										</p-->
+									</div>
+									<div class="tab-pane" id="tab4">
+										<!-- PROMOTIONS -->
+										<h3> You currently have no available promotions </h3>
+										<p class="secondary">
+											Promotions are power-ups: they increase your visibility and kick-start your campaigns.
+										</p>
+										<p class="secondary">
+											Please feel free to <a href="./contact.html">contact us</a> for more information or questions.
+										</p>
+									</div>
+									<div class="tab-pane" id="tab5">
+										<!-- REDEMPTION -->
+										<div class="span7">
+											<legend>
+												Redemption method
+											</legend>
+											<p class="secondary">
+												Here's what customers will show you on their mobile devices:
+											</p>
+											<p class="secondary">
+												We're currently adding support for custom barcodes. If this is an important feature for you, please let us know via the <a href="./contact.html">contact form</a>.
+											</p>
+										</div>
+										<img id="iphoneRedemption" src="./img/iphoneRedemption.png">
+
+									</div>
+									<div class="tab-pane" id="tab6">
+										<!-- REFERRALS -->
+										<p class="secondary">
+											So far you have referred <strong><span id="numReferred"></span></strong> other businesses,
+											earning you <strong><span id="creditsEarned"></span></strong> extra customer credits.
+										</p>
+										<br/>
+										<p class="secondary">
+											Refer other businesses using the following link. For every business that creates an offer, you'll receive an additional 100 free customers.
+										</p>
+										<h4> Referral URL: <span id="refURL"></span></h4>
+										<br/>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer id="feet">
 			<hr class="faded">
 			<a class="footerLink" href="mailto:feedback@getlevr.com" target="_blank">Contact</a>
 			<span class="divider">&#8226</span>
@@ -63,12 +216,13 @@
 			<span class="divider">&#8226</span>
 			<a class="footerLink" href="http://www.angel.co/levr" target="_blank">Investors</a>
 		</footer>
-		
+		</div>
 		
 
 		<!-- scripts-->
-		<!--script src="js/jquery-1.7.1.js"></script>
-		<script src="js/launch.js"></script-->
-
+		<script src="./../../js/jquery-1.7.1.js"></script>
+		<!--script src="js/launch.js"></script-->
+		<!--script src="./../../js/jquery.tablesorter.js"></script-->
+		<script src="./../../js/bootstrap.min.js"></script>
 	</body>
 </html>

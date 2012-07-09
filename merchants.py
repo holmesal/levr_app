@@ -76,7 +76,9 @@ class manage(webapp2.RequestHandler):
 		headerData	= levr_utils.loginCheck(self,True)
 		##get deal values from database for the logged in merchant
 		businessID	= headerData['businessID']
-		q	 		= levr.Deal.gql("WHERE businessID=:1",businessID)
+		
+		####### DEAL INFORMATION ######
+		q = levr.Deal.gql("WHERE businessID=:1",businessID)
 		##will have list of deal dictionaries
 		deals = []
 		##for each deal:
@@ -100,8 +102,15 @@ class manage(webapp2.RequestHandler):
 				'img_path'		: d.img_path,
 				'primary_cats'	: prim_stack
 				})
+		######### BUSINESS INFORMATION ##########
+		b = levr.Business.get_by_key_name(businessID)
+		business_info = {
+			
+			}
 		
-		##Create template dictionary
+		
+		
+		################Create template dictionary
 		template_values = {
 			'deals'	: deals,
 			'headerData'	: headerData,

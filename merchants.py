@@ -74,20 +74,20 @@ class manage(webapp2.RequestHandler):
 	def get(self):
 		##get logged in state
 		headerData	= levr_utils.loginCheck(self,True)
-		logging.info("=====================================")
-		logging.debug(headerData)
-		businessID	= headerData['businessID']
 		##get deal values from database for the logged in merchant
+		businessID	= headerData['businessID']
 		q	 		= levr.Deal.gql("WHERE businessID=:1",businessID)
-		##set template values in form vals = {deal1 = {val1,val2},deal2 = {val1,val2}}
+		##will have list of deal dictionaries
 		deals = []
-		for d in q:
 		##for each deal:
+		for d in q:
 			##grab the primary categories
 			q2 = levr.Category.gql("WHERE dealID=:1",d.dealID)
+			##list of primary categories for that deal
 			prim_stack = []
 			for p in q2:
 				prim_stack.append(p.primary_cat)
+			
 			##create deal dict that has all the info needed to populate table
 			deals.append({
 				'dealID'		: d.dealID,
@@ -100,6 +100,7 @@ class manage(webapp2.RequestHandler):
 				'img_path'		: d.img_path,
 				'primary_cats'	: prim_stack
 				})
+		
 		##Create template dictionary
 		template_values = {
 			'deals'	: deals,
@@ -109,5 +110,4 @@ class manage(webapp2.RequestHandler):
 		##create view and send values to template
 		template = jinja_environment.get_template('templates/manage.html')
 		self.response.out.write(template.render(template_values))
-		#self.response.out.write(template_values)
 app = webapp2.WSGIApplication([('/merchants', merchantsLanding), ('/merchants/manage',manage), ('/merchants/deal/new', new_deal), ('/merchants/deal/edit', edit_deal), ('/merchants/account',account)],debug=True)

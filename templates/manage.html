@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{{ title }}</title>
+		<!--meta name="viewport" content="width=device-width, initial-scale=1.0"-->
+		<meta name="viewport" content="width = 600, initial-scale = 0.6, user-scalable = no"/>
+		<meta name="author" content="Patrick Walsh, Alonso Holmes, Ethan Sherr"/>
+		<!-- Le styles
+		=======================================================-->
+		<!--link href="css/getlevrStyles.css" rel="stylesheet">
+		<link rel="icon" type="image/png" href="./img/favicon.png"-->
+
+	</head>
+	<body>
+		<div id="header">
+			{% if headerData.loggedIn == True %}
+				<h3>This header displays when logged in</h3>
+				<h4>Your name is {{ headerData.contact_owner }}</h4>
+			{% else %}
+				<h3>This header displays when NOT logged in</h3>
+			{% endif %}
+		</div>
+		<div id="main">
+			<h1>This is a request for page: {{ title }}</h1>
+			<h1>This is a placeholder page. The purpose is to test the dynamically-generated header.</h1>
+			<table name="dealsTable" id="dealsTable" class="table tablesorter table-striped table-bordered">
+			<thead>
+				<tr>
+					<th width="30%">Promotion</th>
+					<th width="40%">Description</th>
+					<th width="10%">Number Redeemed</th>
+					<th width="10%">Remaining</th>
+					<th width="10%">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for deal in deals %}
+				<tr>
+					<td>
+					{% if deal['deal_type'] == 'percent' %}
+						{{deal.deal_value}}% off {{deal['secondary_name']}}
+					{% elif deal['deal_type'] == 'monetary' %}
+						${{deal.deal_value}} off {{deal['secondary_name']}}
+					{% else %}
+						Free {{deal['secondary_name']}}
+					{% endif %}
+					</td>
+					<td>{{deal['description']}}</td>
+					<td>{{deal['count_redeemed']}}</td>
+					<td>{{deal['img_path']}}</td>
+					<td><a href="/merchants/deal/edit?id={{deal['dealID']}}">edit</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</div>
+		<footer id="feet">
+			<hr class="faded">
+			<a class="footerLink" href="mailto:feedback@getlevr.com" target="_blank">Contact</a>
+			<span class="divider">&#8226</span>
+			<a class="footerLink" href="./manage">For Businesses</a>
+			<span class="divider">&#8226</span>
+			<a class="footerLink" href="http://www.angel.co/levr" target="_blank">Investors</a>
+		</footer>
+		
+		
+
+		<!-- scripts-->
+		<!--script src="js/jquery-1.7.1.js"></script>
+		<script src="js/launch.js"></script-->
+
+	</body>
+</html>

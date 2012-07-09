@@ -16,6 +16,7 @@ class Business(db.Model):
     user 			= db.UserProperty()
     pw 				= db.StringProperty()
     
+    businessID		= db.StringProperty()
     signup_date 	= db.DateTimeProperty()
     business_name 	= db.StringProperty()
     

@@ -13,8 +13,6 @@ handlers:
   script: merchants.app
 - url: /new
   script: test_class.app
-- url: /get
-  script: test_get.app
 - url: /new_category
   script: populate_categories.app
 - url: /login
@@ -27,6 +25,8 @@ handlers:
   static_dir: img
 - url: /css
   static_dir: css
+- url: /js
+  static_dir: js
   
 libraries:
 - name: jinja2

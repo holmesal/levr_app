@@ -43,7 +43,7 @@ class new_deal(webapp2.RequestHandler):
 			'title' : 'New Deal'
 		}
 		
-		template = jinja_environment.get_template('templates/header.html')
+		template = jinja_environment.get_template('templates/newDeal.html')
 		self.response.out.write(template.render(template_values))
 		
 class edit_deal(webapp2.RequestHandler):

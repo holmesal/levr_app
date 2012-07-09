@@ -140,7 +140,7 @@ class phone(webapp2.RequestHandler):
 			toEcho = {"success":0}
 		#DELETE FAVORITE********************************************************
 		elif action == "delFav":
-		'''
+			'''
 			User presses delete favorite button - delete favorite mapping
 			input: dealID,uid,primaryCat
 			output: success = bool

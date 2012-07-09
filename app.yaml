@@ -27,6 +27,8 @@ handlers:
   static_dir: img
 - url: /css
   static_dir: css
+- url: /js
+  static_dir: js
   
 libraries:
 - name: jinja2

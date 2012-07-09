@@ -35,7 +35,7 @@
 		<div class="container" id="main">
 			<div class="row">
 				<div class="span12">
-					<form id="dealForm" class="well bigForm form-horizontal">
+					<form id="dealForm" class="well bigForm form-horizontal" action="/merchants/deal/new" method="post">
 						
 							<div class="formGroup" id="accord0">
 								<div class="hidden">
@@ -640,12 +640,10 @@
 												</p>
 											</div>
 											<div class="span9 formBtn">
-												<button class="btn btn-primary" id="btnSubmit">
+												<!--<button class="btn btn-primary" id="btnSubmit">
 													Submit
-												</button>
-												<button class="btn btn-primary hidden" id="btnUpdateDeal">
-													Update
-												</button>
+												</button>-->
+												<input type="submit" value="Submit">
 											</div>
 										</fieldset>
 									</div>

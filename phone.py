@@ -1,6 +1,7 @@
 import webapp2
 import json
 import sys
+import datetime
 import logging
 import levr_classes as levr
 from google.appengine.ext import db
@@ -22,11 +23,56 @@ class phone(webapp2.RequestHandler):
 			logging.error("Could not parse action. Input passed: " + self.request.body)
 			sys.exit()
 		#switch action
-		#***************login************************************************
+		#***************signup************************************************
+		if action == "signup":
+			#grab email/password from request body
+			try:
+				email = decoded["in"]["email"]
+				pw = decoded["in"]["password"]
+			except:
+				logging.error("Could not grab email/password. Input passed: " + self.request.body)
+				
+			#check that email is available in customer table
+			taken = False
+			q = levr.Customer.gql("WHERE email = :email",email=email)
+			for result in q:
+				taken = True
+				logging.info('Customer result found!')
+			q = levr.Business.gql("WHERE email = :email",email=email)
+			for result in q:
+				taken = True
+				logging.info('Business result found!')
+
+			if taken==False:
+				customer = levr.Customer()
+				customer.email = email
+				customer.pw = pw
+				#customer.uid = customer.key()
+				customer.put()
+				customerKey = customer.key().__str__()
+				toEcho = {"success":1,"uid":customerKey}
+			else:
+				toEcho = {"success":0,"error":"Oh snap, that email's already taken. Try again!"}
 		
+		#***************login************************************************
+		elif action == "login":
+			#grab email/password from request body
+			try:
+				email = decoded["in"]["email"]
+				pw = decoded["in"]["password"]
+			except:
+				logging.error("Could not grab email/password. Input passed: " + self.request.body)
+				
+			#check for matches
+			toEcho = {"success":0}
+			q = levr.Customer.gql("WHERE email = :email AND pw = :pw",email = email,pw=pw)
+			for result in q:
+				toEcho = {"success":1,"uid":result.key().__str__()}
+			
 		#***************autoCompleteList************************************************
-		if action == "autoCompleteList":
-			toEcho = {"success":0,"data":"some data!"}
+		elif action == "autoCompleteList":
+			cats = ['shirt','coat','bonobos','apples']
+			toEcho = {"success":1,"data":cats}
 		
 		#***************dealResults************************************************
 		elif action == "dealResults":
@@ -112,7 +158,7 @@ class phone(webapp2.RequestHandler):
 			data = []
 			#grab data from each deal
 			for idx,deal in enumerate(deals):
-				#print deal.__dict__
+				# deal.__dict__
 				#send to format function - package for phone
 				data.append(levr.phoneDealFormat(deal))
 				
@@ -152,7 +198,6 @@ class phone(webapp2.RequestHandler):
 			#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
 			
 			for fav in q:
-				print fav.__dict__
 				fav.delete()
 			
 			toEcho = {"success":0,"data":"some data!"}

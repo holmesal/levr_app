@@ -8,6 +8,8 @@ class MainPage(webapp2.RequestHandler):
     	# new customer
         c = levr_classes.Customer(key_name='2111111111111')
         c.name='alonso'
+        c.user = 'ethan@getlevr.com'
+        c.pw = 'ethan'
         c.put()
         
     	#new business
@@ -46,7 +48,7 @@ class MainPage(webapp2.RequestHandler):
         cat = levr_classes.Category()
         cat.primary_cat 	= 'Socks'
         cat.dealID			= '2333333333333'
-        #cat.put()
+        cat.put()
         
         #new favorite
         f = levr_classes.Favorite()

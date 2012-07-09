@@ -45,6 +45,19 @@ class new_deal(webapp2.RequestHandler):
 		
 		template = jinja_environment.get_template('templates/newDeal.html')
 		self.response.out.write(template.render(template_values))
+	
+	def post(self):
+		#grab the form data
+		formdata = self.request.body
+		logging.info(formdata)
+		#create a new deal object
+		#deal = levr.Deal()
+		#map request parameters to deal object parameters
+		#deal.businessID 	= 1111111111111
+		#deal.dealID 		= 9999999999999
+		#deal.business_name	= formdata.businessName
+		#deal.secondary_name	= formdata.
+		
 		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):

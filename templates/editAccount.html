@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Levr - Create an offer</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="Patrick Walsh, Alonso Holmes, Ethan Sherr">
+		<!-- Le styles
+		=======================================================-->
+		<link href="../../css/bootstrap.min.css" rel="stylesheet">
+		<!--link href="css/bootstrap-responsive.min.css" rel="stylesheet"-->
+		<link href="../../css/deal.css" rel="stylesheet">
+		<link rel="icon" type="image/png" href="./favicon.png">
+
+		<!-- google analytics -->
+		<!--script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-32183987-1']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script-->
+
+	</head>
+	<body>
+		<!-- Container
+		======================================================== -->
+		<div class="container" id="main">
+			<div class="row">
+				<div class="span12">
+					<form id="dealForm" class="well bigForm form-horizontal" action="/merchants/deal/new" method="post">
+
+							<div class="formGroup" id="accord4">
+								<div id="collapse4Head" class=" hidden">
+									<a class="accordion-toggle collapse4" data-toggle="collapse" data-parent="#formAccord" href="#collapse4">Step Four: Business Details</a>
+								</div>
+								<div id="collapse4" class=" collapse in">
+									<div class="accordion-inner">
+										<fieldset class="control-group" id="fieldset-businessInfo">
+											<legend>
+												Business Information
+											</legend>
+											<div class="span5 formLeft">
+												<div class="control-group" id="group-businessName">
+													<label class="control-label" id="label-businessName" for="businessName">Your Business's Name</label>
+													<div class="controls">
+														<input type="text" name="businessName" id="text-businessName" placeholder="e.g. Milliway's">
+														<span class="help-inline hidden" id="error-businessName">Please enter your businesses name as you would like it to appear</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-address1">
+													<label class="control-label" id="label-address1" for="text-address1">Street Address line 1</label>
+													<div class="controls">
+														<input type="text" name="address1" id="text-address1" placeholder="1 Weathertop Rd.">
+														<span class="help-inline hidden" id="error-address1">Please enter your businesses street address so people can find you</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-address2">
+													<label class="control-label" id="label-address2" for="text-address2">Street Address line 2</label>
+													<div class="controls">
+														<input type="text" name="address2" id="text-address2" placeholder="">
+														<span class="help-inline hidden" id="error-address2">There shouldn't be an error for this</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-city">
+													<label class="control-label" id="label-city" for="text-city">City</label>
+													<div class="controls">
+														<input type="text" name="city" id="text-city" placeholder="Atlantis">
+														<span class="help-inline hidden" id="error-city">Please enter a U.S. city</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-zipCode">
+													<label class="control-label" id="label-zipCode" for="text-zipCode">Zip Code</label>
+													<div class="controls">
+														<input type="text" name="zipCode" id="text-zipCode" placeholder="02215" maxlength="5" style="width: 75px;">
+														<span class="help-inline hidden" id="error-zipCode">Please enter a U.S. zip code</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-state">
+													<label class="control-label" id="label-state" for="text-state">State</label>
+													<div class="controls">
+														<input type="text" name="state" id="text-state" maxlength="2" placeholder="FL" style="text-transform: uppercase; width: 25px;">
+														<span class="help-inline hidden" id="error-state">Please enter a valid  U.S. state</span>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													This is how customers will find your store.
+												</p>
+											</div>
+											<div class="span9 formBtn">
+												<button class="btn btn-primary" id="goTo5">
+													Save and continue
+												</button>
+											</div>
+
+										</fieldset>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="formGroup" id="accord5">
+								<div id="collapse5Head" class=" hidden">
+									<a class="accordion-toggle collapse5" data-toggle="collapse" data-parent="#formAccord" href="#collapse5">Step Five: Account Details</a>
+								</div>
+								<div id="collapse5" class=" collapse">
+									<div class="accordion-inner">
+										<fieldset class="control-group" id="fieldset-contactInfo">
+											<legend>
+												Contact Information - for us only
+											</legend>
+											<div class="span5 formLeft">
+												<div class="control-group" id="group-ownerName">
+													<label class="control-label" id="label-ownerName" for="text-ownerName">Name</label>
+													<div class="controls">
+														<input type="text" name="ownerName" id="text-ownerName" placeholder="John Doe">
+														<span class="help-inline hidden" id="error-ownerName">Please enter your name</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-phone">
+													<label class="control-label" id="label-phone" for="text-phone">Phone Number</label>
+													<div class="controls">
+														<input type="text" name="phone" id="text-phone" placeholder="(555) 555-5555">
+														<span class="help-inline hidden" id="error-phone">Please enter a valid 10-digit US phone number</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-email">
+													<label class="control-label" id="label-email" for="text-email">Email Address</label>
+													<div class="controls">
+														<input type="text" name="email" id="text-email" placeholder="feedback@getlevr.com">
+														<span class="help-inline hidden" id="error-email">Please enter a valid email address</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-password">
+													<label class="control-label" id="label-password" for="text-password">Choose a password</label>
+													<div class="controls">
+														<input type="password" name="password" id="text-password" placeholder="IHeartMom143">
+														<span class="help-inline hidden" id="error-password">Password must be at least 6 characters</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-confirmPassword">
+													<label class="control-label" id="label-confirmPassword" for="text-confirmPasword">Confirm Password</label>
+													<div class="controls">
+														<input type="password" name="confirmPassword" id="text-confirmPassword" placeholder="IHeartMom143">
+														<span class="help-inline hidden" id="error-confirmPassword">Password does not match</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-sendEmails">
+													<label class="control-label" id="label-sendEmails" for="text-sendEmails">Want to stay up-to-date?</label>
+													<div class="controls">
+														<input type="checkbox" name="sendEmails" id="checkbox-sendEmails">
+														<span>Check this box if you would like us to notify you when new features become available</span>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													This information is purely for our use. We will never sell or otherwise abuse it!
+												</p>
+												<br/>
+												<p class="helpText">
+													You'll use your email and password to log in and manage your deals.
+												</p>
+												<br/>
+												<p class="helpText">
+													We'll use your phone number to confirm your deal before we launch it.
+												</p>
+												<br/>
+												<p class="helpText">
+													We're building new features every day. Check the box to stay in the loop! We won't spam you.
+												</p>
+
+											</div>
+											<div class="span9 formBtn">
+												<button class="btn btn-primary hidden" id="btnUpdateAccount">
+													Update
+												</button>
+												<button class="btn btn-primary" id="goTo6">
+													Review
+												</button>
+												<button class="btn btn-primary hidden" id="reviewWholeForm">
+													Review
+												</button>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+
+							<div class="formGroup" id="accord6">
+								<div id="collapse6Head" class=" hidden">
+									<a class="accordion-toggle collapse6" data-toggle="collapse" data-parent="#formAccord" href="#collapse6">Review</a>
+								</div>
+								<div id="collapse6" class=" collapse">
+									<div class="accordion-inner">
+										<fieldset class="control-group" id="fieldset-review">
+											<legend>
+												Review
+											</legend>
+											<div class="span4 formLeft">
+												<h3>Primary item</h3>
+												<p class="reviewParam">
+													Primary item tags: <span id="review-dealTags" class="reviewValue"></span>
+												</p>
+												<h3>Discounted item</h3>
+												<p class="reviewParam">
+													Item name: <span id="review-specificName" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Item tag: <span id="review-specificTag" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Description: <span id="review-specificDescription" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Category tag: <span id="review-categoryTag" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Description: <span id="review-categoryDescription" class="reviewValue"></span>
+												</p>
+												<h3>Offer</h3>
+												<p class="reviewParam">
+													Discount type: <span id="review-dealType" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Discount amount: <span id="review-dealValue" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Number of customers: <span id="review-endValue" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													City: <span id="review-dealCity" class="reviewValue"></span>
+												</p>
+											</div>
+											<div class="span4 formRight">
+												<h3>Business</h3>
+												<p class="reviewParam">
+													Name: <span id="review-businessName" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Address 1: <span id="review-address1" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Address 2: <span id="review-address2" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													City: <span id="review-city" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													City: <span id="review-zipCode" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													State: <span id="review-state" class="reviewValue"></span>
+												</p>
+												<h3>Account</h3>
+												<p class="reviewParam">
+													Name: <span id="review-ownerName" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Phone: <span id="review-phone" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Email: <span id="review-email" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Updates: <span id="review-sendEmails" class="reviewValue"></span>
+												</p>
+											</div>
+											<legend>
+												Pricing
+											</legend>
+											<div class="alert alert-success">
+												<h4>You have <span class="creditsHave">100</span> free customers.</h4>
+											</div>
+											<div class="span2" style="text-align: right;">
+												<p>
+													Credits required:
+												</p>
+												<p>
+													Total cost:
+												</p>
+											</div>
+											<div class="span3">
+												<p>
+													<span id='creditsUsed'></span> credits will be used.
+												</p>
+												<p>
+													$0.00
+												</p>
+											</div>
+											<div class="span9 formBtn">
+												<!--<button class="btn btn-primary" id="btnSubmit">
+													Submit
+												</button>-->
+												<input type="submit" value="Submit">
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<input type="submit" value="Submit">
+							</div>
+
+							<div class="formGroup" id="accord7">
+								<div id="collapseSevenHead" class=" hidden">
+									<a class="accordion-toggle collapseSeven" data-toggle="collapse" data-parent="#formAccord" href="#collapseSeven">Hooray!</a>
+								</div>
+								<div id="collapseSeven" class=" collapse">
+									<div class="accordion-inner">
+										<div class="span5">
+											<legend>
+												It pays to share
+											</legend>
+											<p class="secondary">
+												Refer other businesses using the following link. For every business that creates an offer, you'll receive an additional 100 free customers.
+											</p>
+											<p class="secondary">
+												Referral URL: <textarea id="refURL" rows="1">http://getlevr.com/merchants.html?ref=</textarea>
+											</p>
+											<legend class="finalHeader">
+												Redemption method
+											</legend>
+											<p class="secondary">
+												Here's what customers will show you on their mobile devices:
+											</p>
+											<p class="secondary">
+												You can change this screen, use custom barcodes, and more.
+											</p>
+											<p class="secondary">
+												We'll contact you with detailed redemption information when we launch your offer.
+											</p>
+											<a href="./manageDeals.html?tab=redemption">
+											<button class="btn btn-primary" id="btnRedemption">
+												Edit Redemption
+											</button></a>
+											<legend class="finalHeader">
+												Manage your offer
+											</legend>
+											<p class="secondary">
+												Get real-time stats, add new offers, and edit existing ones.
+											</p>
+											<a href="./manageDeals.html">
+											<button class="btn btn-primary" id="btnManage">
+												Manage Offer
+											</button></a>
+
+										</div>
+										<img id="iphoneRedemption" src="./img/iphoneRedemption.png">
+									</div>
+								</div>
+							</div>
+
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- /container
+		======================================================== -->
+		<script src="../../js/jquery-1.7.1.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
+		<script src="../../js/newDeal.js"></script>
+		<!--script src="./lib/closure-library/closure/goog/base.js"></script>
+		<script src="./lib/closure-library/closure/goog/format/emailaddress.js"></script>
+		<script>
+		goog.require('goog.dom');
+		goog.require('goog.proto2.ObjectSerializer');
+		</script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/phonemetadata.pb.js"></script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/phonenumber.pb.js"></script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/metadata.js"></script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/phonenumberutil.js"></script-->
+
+	</body>
+</html>

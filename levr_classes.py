@@ -1,5 +1,3 @@
-import webapp2
-import datetime
 from google.appengine.ext import db
 
 
@@ -18,7 +16,6 @@ class Business(db.Model):
     email 			= db.StringProperty()
     pw 				= db.StringProperty()
     
-    businessID		= db.StringProperty()
     signup_date 	= db.DateTimeProperty()
     business_name 	= db.StringProperty()
     
@@ -64,7 +61,6 @@ class Deal(db.Model):
 	#key name is deal id
 	#deal information
 	businessID 		= db.ReferenceProperty #uid
-	dealID			= db.StringProperty()
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 	= db.StringProperty() #secondary category
@@ -87,17 +83,17 @@ class Deal(db.Model):
 #functions!
 def phoneDealFormat(deal):
 	#map object properties to dictionary
-	data = {"businessID": deal.businessID,
+	data = {"businessID"	: deal.businessID,
 			"businessName"	: deal.business_name,
 			"dealID"		: deal.dealID,
-			"nameType"  : deal.cat_or_name,
-			"name"  : deal.secondary_name,
+			"nameType"  	: deal.cat_or_name,
+			"name"  		: deal.secondary_name,
 			"description"   : deal.description,
-			"dealType"  : deal.discount_type,
-			"dealValue" : deal.discount_value,
-			"endValue"  : deal.count_end,
+			"dealType"  	: deal.discount_type,
+			"dealValue" 	: deal.discount_value,
+			"endValue"  	: deal.count_end,
 			"imgPath"		: deal.img_path,
-			"dealOrigin": deal.deal_origin}
+			"dealOrigin"	: deal.deal_origin}
 	return data
 
 def phoneBusinessFormat(business):
@@ -108,5 +104,20 @@ def phoneBusinessFormat(business):
 			"city"			: business.city,
 			"state"			: business.state,
 			"zip"			: business.zip_code
+	}
+	return data
+
+def webBusinessFormat(business):
+	data = {
+		"email"			: business.email,
+		"password"		: business.pw,
+		"businessName"	: business.business_name,
+		"address1"		: business.address_line1,
+		"address2"		: business.address_line2,
+		"city"			: business.city,
+		"state"			: business.state,
+		"zipCode"		: business.zip_code,
+		"ownerName"		: business.contact_owner,
+		"phone"			: business.contact_phone
 	}
 	return data

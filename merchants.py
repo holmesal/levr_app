@@ -4,8 +4,10 @@ import os
 import levr_utils
 import logging
 import levr_classes as levr
+import cgi
 
 from gaesessions import get_current_session
+from google.appengine.ext import db
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -36,6 +38,7 @@ class manage(webapp2.RequestHandler):
 		self.response.out.write(template.render(template_values))
 
 class new_deal(webapp2.RequestHandler):
+	'''
 	def get(self):
 		#Don't bounce if user is not logged in
 		headerData = levr_utils.loginCheck(self,False)
@@ -58,13 +61,16 @@ class new_deal(webapp2.RequestHandler):
 		#grab the form data
 		formdata = self.request.body
 		logging.info(formdata)
+		
+		
 		#create a new deal object (but don't store yet)
 		#this will be the same for both new and existing users
 		deal = levr.Deal()
 		#map request parameters to deal object parameters
-		deal.secondary_is_category 	= formdata.dealType
-		deal.discount_type				=
-		deal.discount_value				=
+
+		deal.name_type			 	= formdata.dealType
+		deal.discount_type			= 
+		deal.discount_value			=
 		#(deal_rating)
 		deal.deal_origin			=
 		deal.count_end				=
@@ -74,10 +80,12 @@ class new_deal(webapp2.RequestHandler):
 			deal.secondary_name = deal.specificName
 			deal.description = deal.specific
 		elif deal.name_type == "category":
-			pass
+			deal.secondary_name = deal.categoryName
+			deal.description = deal.categoryDescription
 		
 		
 		#get session, check loginstate
+		#hello ethan
 		session = get_current_session()
 		
 		if session.has_key('loggedIn') == False or session['loggedIn'] == False:
@@ -111,7 +119,9 @@ class new_deal(webapp2.RequestHandler):
 			#add businessID, businessName to deal
 			deal.businessID = business.key().__str__()
 			deal.business_name = business.business_name
-				
+			
+			#login
+			#change state
 			
 		elif session.has_key('loggedIn') == True or session['loggedIn'] == True:
 			#logged in, grab current business info
@@ -124,9 +134,16 @@ class new_deal(webapp2.RequestHandler):
 		#put category mappings into db
 		#for now, put request tags into list
 		prim_stack = [formdata.dealTag1,formdata.dealTag2,formdata.dealTag3]
+		#build and store
+		for tag in prim_stack:
+			category = new Category()
+			category.dealID = dealID
+			category.primary_cat = tag
+			category.put()
 		
-		#businessID
-		#businessName
+		#redirect to manage
+		self.redirect('/merchants/manage')
+	'''
 		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
@@ -146,19 +163,52 @@ class account(webapp2.RequestHandler):
 		headerData = levr_utils.loginCheck(self,True)
 		session = get_current_session()
 		
-		template_values = {
-			'headerData' : headerData,
-			'title' : 'Account'
-		}
+		#get business info
+		business = db.get(session['businessKey'])
+		#business = db.fetch(business)
+		logging.info(business)
+		logging.info(session)
+		#dictionary-ize business info
+		template_values = levr.webBusinessFormat(business)
+		#put business info into form template
+		template_values['headerData']	= headerData
+		template_values['title']		= 'Account'
+		
 		self.response.out.write(session)
+		self.response.out.write(template_values)
 		template = jinja_environment.get_template('templates/editAccount.html')
 		self.response.out.write(template.render(template_values))
+
+	def post(self):
+		session = get_current_session()
+		formdata = self.request.body
+		logging.info(formdata)
+		#create instance of the business entity
+		b = levr.Business(key=session['businessKey'])
+#		logging.info(b.__dict__)
+		#alias the request function
+		form = self.request.get
+		b.business_name = form('businessName')
+		b.address_line1 = form('address1')
+		b.address_line2 = form('address2')
+		b.city			= form('city')
+		b.state			= form('state')
+		b.zip_code		= form('zipCode')
+		b.contact_owner	= form('ownerName')
+		b.contact_phone	= form('phone')
+		b.pw			= form('password')
+		b.email			= form('email')
+		b.put()
+		
+        
+		
 class manage(webapp2.RequestHandler):
 	def get(self):
+		session = get_current_session()
 		##get logged in state
 		headerData	= levr_utils.loginCheck(self,True)
 		##get deal values from database for the logged in merchant
-		businessID	= headerData['businessID']
+		businessID	= session['businessKey']
 		
 		####### DEAL INFORMATION ######
 		q = levr.Deal.gql("WHERE businessID=:1",businessID)
@@ -186,7 +236,7 @@ class manage(webapp2.RequestHandler):
 				'primary_cats'	: prim_stack
 				})
 		######### BUSINESS INFORMATION ##########
-		b = levr.Business.get_by_key_name(businessID)
+		b = levr.Business.get(businessID)
 		business_info = {
 			
 			}

@@ -1,7 +1,7 @@
-import webapp2
-import os
+#import webapp2
+#import os
 import logging
-import jinja2
+#import jinja2
 
 from gaesessions import get_current_session
 
@@ -27,7 +27,6 @@ def loginCheck(self,strict):
 		headerData = {
 			'loggedIn'		: session['loggedIn'],
 			'contact_owner' : session['contact_owner'],
-			'businessID'	: session['businessID']
 		}
 		#return user metadata.
 		return headerData

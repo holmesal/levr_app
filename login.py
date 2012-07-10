@@ -11,8 +11,8 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 
 class login(webapp2.RequestHandler):
 	def get(self):
-			template = jinja_environment.get_template('templates/login.html')
-			self.response.out.write(template.render())
+		template = jinja_environment.get_template('templates/login.html')
+		self.response.out.write(template.render())
 		
 	def post(self):
 		email = self.request.get('email')
@@ -21,13 +21,13 @@ class login(webapp2.RequestHandler):
 		session = get_current_session()
 		
 		#query database for matching email and pw
-		q = levr.Business.gql("WHERE contact_email = :email and pw = :pw",email=email,pw=pw)
+		q = levr.Business.gql("WHERE email = :email and pw = :pw",email=email,pw=pw)
 		business = q.get()
-		
+		logging.info(business)
 		if business != None:
 			#if matched, pull properties and set loginstate to true
 			session['businessKey'] = business.key()
-			session['businessID'] = business.businessID
+			#session['businessID'] = business.businessID
 			session['contact_owner'] = business.contact_owner
 			session['loggedIn'] = True
 			self.redirect('/merchants/manage')

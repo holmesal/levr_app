@@ -251,6 +251,6 @@ class phone(webapp2.RequestHandler):
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):
-		logging.info(self.request.body)
+		logging.error(self.request.body)
 
 app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log)],debug=True)

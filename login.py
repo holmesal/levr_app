@@ -26,8 +26,7 @@ class login(webapp2.RequestHandler):
 		logging.info(business)
 		if business != None:
 			#if matched, pull properties and set loginstate to true
-			session['businessKey'] = business.key()
-			#session['businessID'] = business.businessID
+			session['businessID'] = business.key()
 			session['contact_owner'] = business.contact_owner
 			session['loggedIn'] = True
 			self.redirect('/merchants/manage')

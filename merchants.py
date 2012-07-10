@@ -64,15 +64,19 @@ class new_deal(webapp2.RequestHandler):
 		#this will be the same for both new and existing users
 		deal = levr.Deal()
 		#map request parameters to deal object parameters
-		deal.secondary_name			= 
-		deal.secondary_is_category 	= 
-		deal.description 			=
+		deal.secondary_is_category 	= formdata.dealType
 		deal.deal_type				=
 		deal.deal_value				=
 		#(deal_rating)
 		deal.deal_origin			=
 		deal.count_max				=
 		deal.city					=
+		
+		if deal.deal_type == "specific":
+			deal.secondary_name = deal.specificName
+			deal.description = deal.specific
+		elif deal.deal_type == "category":
+			pass
 		
 		
 		#get session, check loginstate
@@ -116,8 +120,12 @@ class new_deal(webapp2.RequestHandler):
 			
 		#put deal into database
 		deal.put()
+		#get dealID
+		dealID = deal.key().__str__()
 		
-		#put 
+		#put category mappings into db
+		#for now, put request tags into list
+		prim_stack = [formdata.dealTag1,formdata.dealTag2,formdata.dealTag3]
 		
 		#businessID
 		#businessName

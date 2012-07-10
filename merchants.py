@@ -5,6 +5,8 @@ import levr_utils
 import logging
 import levr_classes as levr
 
+from gaesessions import get_current_session
+
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class merchantsLanding(webapp2.RequestHandler):
@@ -43,7 +45,7 @@ class new_deal(webapp2.RequestHandler):
 			'title' : 'New Deal'
 		}
 		
-		if headerData.loggedIn == True:
+		if headerData['loggedIn'] == True:
 			template = jinja_environment.get_template('templates/new_deal_existing_user.html')
 			self.response.out.write(template.render(template_values))
 		else:
@@ -54,16 +56,71 @@ class new_deal(webapp2.RequestHandler):
 	
 	def post(self):
 		#grab the form data
-		logging.info(template_values)
 		formdata = self.request.body
 		logging.info(formdata)
-		#create a new deal object
-		#deal = levr.Deal()
+		
+		
+		#create a new deal object (but don't store yet…)
+		#this will be the same for both new and existing users
+		deal = levr.Deal()
 		#map request parameters to deal object parameters
-		#deal.businessID 	= 1111111111111
-		#deal.dealID 		= 9999999999999
-		#deal.business_name	= formdata.businessName
-		#deal.secondary_name	= formdata.
+		deal.secondary_name			= 
+		deal.secondary_is_category 	= 
+		deal.description 			=
+		deal.deal_type				=
+		deal.deal_value				=
+		#(deal_rating)
+		deal.deal_origin			=
+		deal.count_max				=
+		deal.city					=
+		
+		
+		#get session, check loginstate
+		session = get_current_session()
+		
+		if session.has_key('loggedIn') == False or session['loggedIn'] == False:
+			#not logged in, create new business
+			business = levr.Business()
+			#map request parameters to business object
+			business.email 			=
+			business.pw				=
+			business.business_name	=
+			business.address_line1	=
+			business.address_line2	=
+			business.city			=
+			business.state			=
+			business.zip_code		=
+			business.contact_owner	=
+			business.contact_phone	=
+			
+			#check that email is available
+			q = business.gql("WHERE email = :email",email=email)
+			#if exists, write error page and exit
+			for result in q:
+				template = jinja_environment.get_template('templates/error.html')
+				template_values = {}
+				self.response.out.write(template.render(template_values))
+				sys.exit()
+			
+			#create business
+			business.put()
+			
+			#add business properties to deal
+			#add businessID, businessName to deal
+			deal.businessID = business.key().__str__()
+			deal.business_name = business.business_name
+				
+			
+		elif session.has_key('loggedIn') == True or session['loggedIn'] == True:
+			#logged in, grab current business info
+			
+		#put deal into database
+		deal.put()
+		
+		#put 
+		
+		#businessID
+		#businessName
 		
 		
 class edit_deal(webapp2.RequestHandler):

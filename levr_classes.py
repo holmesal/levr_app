@@ -15,7 +15,7 @@ class Customer(db.Model):
 class Business(db.Model):
 
 	#key is businessID
-    user 			= db.UserProperty()
+    email 			= db.StringProperty()
     pw 				= db.StringProperty()
     
     businessID		= db.StringProperty()
@@ -29,7 +29,6 @@ class Business(db.Model):
     zip_code		= db.StringProperty()
     
     contact_owner 	= db.StringProperty()
-    contact_email 	= db.EmailProperty()
     contact_phone 	= db.PhoneNumberProperty()
     
     

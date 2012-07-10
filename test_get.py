@@ -157,7 +157,7 @@ class phone(webapp2.RequestHandler):
 					"description"   : d.description,
 					"dealType"      : d.offer_type,
 					"dealValue"     : d.offer_value,
-					"endValue"      : d.count_max,
+					"endValue"      : d.count_end,
 					"imgPath"       : d.image,
 					"city"          : d.region,
 					"dealOrigin"    : "internal",

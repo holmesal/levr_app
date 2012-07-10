@@ -34,10 +34,10 @@ class MainPage(webapp2.RequestHandler):
         d.secondary_name 	= 'jeggings'
         d.secondary_is_category = False
         d.description 		= 'describe me, hun.'
-        d.deal_type 		= 'monetary'
-        d.deal_value 		= 50.2
+        d.discount_type 		= 'monetary'
+        d.discount_value 		= 50.2
         d.rating 			= 50
-        d.count_max 		= 101
+        d.count_end 		= 101
         d.count_redeemed 	= 42
         d.count_seen 		= 43
         d.img_path 			= './img/bobs-discount-furniture.png'

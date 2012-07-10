@@ -68,18 +68,14 @@ class Deal(db.Model):
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 			= db.StringProperty() #secondary category
-	#CHANGED THIS
-	deal_type 		= db.StringProperty(choices=set(["specific","category"])) #category or single item
+	name_type 		= db.StringProperty(choices=set(["specific","category"])) #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal
-	#CHANGED THIS
 	discount_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
-	#CHANGED THIS
 	discount_value 		= db.FloatProperty() #number, -1 if free
-	deal_rating 	= db.RatingProperty() #deal rating
+	
 	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
-
-	count_max 		= db.IntegerProperty()  #max redemptions
+	count_end 		= db.IntegerProperty()  #max redemptions
 	count_redeemed 	= db.IntegerProperty() 		#total redemptions
 	count_seen 		= db.IntegerProperty()  #number seen
 
@@ -90,12 +86,6 @@ class Deal(db.Model):
 
 #functions!
 def phoneDealFormat(deal):
-	#check if the secondary parameter is a category or a single item
-	if deal.secondary_is_category:
-		deal.cat_or_name = "category"
-	else:
-		deal.cat_or_name = "itemName"
-	
 	#map object properties to dictionary
 	data = {"businessID": deal.businessID,
 			"businessName"	: deal.business_name,
@@ -103,9 +93,9 @@ def phoneDealFormat(deal):
 			"nameType"  : deal.cat_or_name,
 			"name"  : deal.secondary_name,
 			"description"   : deal.description,
-			"dealType"  : deal.deal_type,
-			"dealValue" : deal.deal_value,
-			"endValue"  : deal.count_max,
+			"dealType"  : deal.discount_type,
+			"dealValue" : deal.discount_value,
+			"endValue"  : deal.count_end,
 			"imgPath"		: deal.img_path,
 			"dealOrigin": deal.deal_origin}
 	return data

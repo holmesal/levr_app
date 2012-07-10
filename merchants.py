@@ -65,17 +65,17 @@ class new_deal(webapp2.RequestHandler):
 		deal = levr.Deal()
 		#map request parameters to deal object parameters
 		deal.secondary_is_category 	= formdata.dealType
-		deal.deal_type				=
-		deal.deal_value				=
+		deal.discount_type				=
+		deal.discount_value				=
 		#(deal_rating)
 		deal.deal_origin			=
-		deal.count_max				=
+		deal.count_end				=
 		deal.city					=
 		
-		if deal.deal_type == "specific":
+		if deal.name_type == "specific":
 			deal.secondary_name = deal.specificName
 			deal.description = deal.specific
-		elif deal.deal_type == "category":
+		elif deal.name_type == "category":
 			pass
 		
 		
@@ -180,9 +180,9 @@ class manage(webapp2.RequestHandler):
 				'dealID'		: d.dealID,
 				'secondary_name': d.secondary_name,
 				'description'	: d.description,
-				'deal_type'		: d.deal_type,
-				'deal_value'	: d.deal_value,
-				'count_max'		: d.count_max,
+				'discount_type'		: d.discount_type,
+				'discount_value'	: d.discount_value,
+				'count_end'		: d.count_end,
 				'count_redeemed': d.count_redeemed,
 				'img_path'		: d.img_path,
 				'primary_cats'	: prim_stack

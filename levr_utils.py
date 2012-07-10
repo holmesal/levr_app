@@ -22,7 +22,7 @@ def loginCheck(self,strict):
 				'loggedIn'	: False
 			}
 			return headerData
-	elif session.has_key('loggedIn') == True or session['loggedIn'] == True:
+	elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 		#logged in, grab the useful bits
 		headerData = {
 			'loggedIn'		: session['loggedIn'],

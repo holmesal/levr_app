@@ -12,6 +12,29 @@ levr.deals = [];
 levr.credits = 100;
 
 $(document).ready(function() {
+	
+	//add parameters to submit
+	$('#dealForm').submit(function(){
+		//Parameters to add
+		var params = [
+           {
+             name: "nameType",
+             value: levr.nameType
+           },
+           {
+              name: "discountType",
+              value: levr.dealType
+           }
+         ];
+	
+		$.each(params, function(i,param){
+	        $('<input />').attr('type', 'hidden')
+	            .attr('name', param.name)
+	            .attr('value', param.value)
+	            .appendTo('#dealForm');
+		    });
+		});
+	
 	//prevent default for radio buttons
 	$('.btn').click(function(e) {
 		//console.log('default event prevented');

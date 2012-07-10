@@ -1,3 +1,5 @@
+import webapp2
+import datetime
 from google.appengine.ext import db
 
 
@@ -16,6 +18,7 @@ class Business(db.Model):
     email 			= db.StringProperty()
     pw 				= db.StringProperty()
     
+    businessID		= db.StringProperty()
     signup_date 	= db.DateTimeProperty()
     business_name 	= db.StringProperty()
     
@@ -48,7 +51,7 @@ class Customer(db.Model):
 	contact_phone 	= db.PhoneNumberProperty()
 
 class Category(db.Model):
-	#Maps primary categories to deals
+#Maps primary categories to deals
 	primary_cat		= db.StringProperty()
 	dealID 			= db.ReferenceProperty()
 
@@ -86,8 +89,8 @@ def phoneDealFormat(deal):
 	data = {"businessID"	: deal.businessID,
 			"businessName"	: deal.business_name,
 			"dealID"		: deal.dealID,
-			"nameType"  	: deal.cat_or_name,
-			"name"  		: deal.secondary_name,
+			"nameType"  : deal.name_type,
+			"name"  : deal.secondary_name,
 			"description"   : deal.description,
 			"dealType"  	: deal.discount_type,
 			"dealValue" 	: deal.discount_value,

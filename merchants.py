@@ -82,6 +82,7 @@ class new_deal(webapp2.RequestHandler):
 		
 		
 		#get session, check loginstate
+		#hello ethan
 		session = get_current_session()
 		
 		if session.has_key('loggedIn') == False or session['loggedIn'] == False:

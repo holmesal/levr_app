@@ -128,7 +128,7 @@ class new_deal(webapp2.RequestHandler):
 			deal.business_name = business.business_name
 			
 			#login
-				
+			#change state
 			
 		elif session.has_key('loggedIn') == True or session['loggedIn'] == True:
 			#logged in, grab current business info

@@ -68,12 +68,14 @@ class Deal(db.Model):
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 			= db.StringProperty() #secondary category
-	secondary_is_category 	= db.BooleanProperty() #category or single item
+	#CHANGED THIS
+	deal_type 		= db.StringProperty(choices=set(["specific","category"])) #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal
-
-	deal_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
-	deal_value 		= db.FloatProperty() #number, -1 if free
+	#CHANGED THIS
+	discount_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
+	#CHANGED THIS
+	discount_value 		= db.FloatProperty() #number, -1 if free
 	deal_rating 	= db.RatingProperty() #deal rating
 	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
 

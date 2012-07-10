@@ -35,19 +35,26 @@ class manage(webapp2.RequestHandler):
 
 class new_deal(webapp2.RequestHandler):
 	def get(self):
-		#Bounce if user is not logged in
-		headerData = levr_utils.loginCheck(self,True)
+		#Don't bounce if user is not logged in
+		headerData = levr_utils.loginCheck(self,False)
 		
 		template_values = {
 			'headerData' : headerData,
 			'title' : 'New Deal'
 		}
 		
-		template = jinja_environment.get_template('templates/newDeal.html')
-		self.response.out.write(template.render(template_values))
+		if headerData.loggedIn == True:
+			template = jinja_environment.get_template('templates/new_deal_existing_user.html')
+			self.response.out.write(template.render(template_values))
+		else:
+			template = jinja_environment.get_template('templates/new_deal_new_user.html')
+			self.response.out.write(template.render(template_values))
+		
+		
 	
 	def post(self):
 		#grab the form data
+		logging.info(template_values)
 		formdata = self.request.body
 		logging.info(formdata)
 		#create a new deal object

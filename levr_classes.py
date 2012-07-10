@@ -13,7 +13,7 @@ class Customer(db.Model):
 #^^^would need another assoc table 
 
 class Business(db.Model):
-<<<<<<< HEAD
+
 	#key is businessID
     user 			= db.UserProperty()
     pw 				= db.StringProperty()
@@ -32,7 +32,8 @@ class Business(db.Model):
     contact_email 	= db.EmailProperty()
     contact_phone 	= db.PhoneNumberProperty()
     
-=======
+    
+class Customer(db.Model):
 	uid				= db.StringProperty()
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
@@ -50,7 +51,6 @@ class Business(db.Model):
 	contact_email 	= db.EmailProperty()
 	contact_phone 	= db.PhoneNumberProperty()
 
->>>>>>> Phone login and signup functionality!
 class Category(db.Model):
 #Maps primary categories to deals
 	primary_cat		= db.StringProperty()

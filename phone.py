@@ -64,7 +64,7 @@ class phone(webapp2.RequestHandler):
 				logging.error("Could not grab email/password. Input passed: " + self.request.body)
 				
 			#check for matches
-			toEcho = {"success":0}
+			toEcho = {"success":0,"error":"Incorrect email or password"}
 			q = levr.Customer.gql("WHERE email = :email AND pw = :pw",email = email,pw=pw)
 			for result in q:
 				toEcho = {"success":1,"uid":result.key().__str__()}
@@ -161,8 +161,9 @@ class phone(webapp2.RequestHandler):
 				# deal.__dict__
 				#send to format function - package for phone
 				data.append(levr.phoneDealFormat(deal))
+				data[idx]['primaryCat'] = cats[idx]
 				
-			toEcho = {"success":0,"data":data}
+			toEcho = {"success":1,"data":data}
 		#ADD FAVORITE***********************************************************
 		elif action == "addFav":
 			'''
@@ -183,7 +184,7 @@ class phone(webapp2.RequestHandler):
 			#place in database
 			fav.put()
 			
-			toEcho = {"success":0}
+			toEcho = {"success":1}
 		#DELETE FAVORITE********************************************************
 		elif action == "delFav":
 			'''
@@ -200,7 +201,7 @@ class phone(webapp2.RequestHandler):
 			for fav in q:
 				fav.delete()
 			
-			toEcho = {"success":0,"data":"some data!"}
+			toEcho = {"success":1}
 		#***************getOneDeal************************************************
 		elif action == "getOneDeal":
 			'''

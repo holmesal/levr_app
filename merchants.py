@@ -197,9 +197,9 @@ class account(webapp2.RequestHandler):
 		logging.info(formdata)
 		#create instance of the business entity
 		b = levr.Business(key=session['businessKey'])
-#		logging.info(b.__dict__)
 		#alias the request function
 		form = self.request.get
+		#grab data from form
 		b.business_name = form('businessName')
 		b.address_line1 = form('address1')
 		b.address_line2 = form('address2')
@@ -210,20 +210,20 @@ class account(webapp2.RequestHandler):
 		b.contact_phone	= form('phone')
 		b.pw			= form('password')
 		b.email			= form('email')
+		#insert into database
 		b.put()
-		
+		#redirect
+		self.redirect('/merchants/manage')
         
 		
 class manage(webapp2.RequestHandler):
 	def get(self):
-		session = get_current_session()
 		##get logged in state
 		headerData	= levr_utils.loginCheck(self,True)
 		##get deal values from database for the logged in merchant
-		businessID	= session['businessKey']
 		
 		####### DEAL INFORMATION ######
-		q = levr.Deal.gql("WHERE businessID=:1",businessID)
+		q = levr.Deal.gql("WHERE businessID=:1",headerData['businessID'])
 		##will have list of deal dictionaries
 		deals = []
 		##for each deal:

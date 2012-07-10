@@ -6,6 +6,7 @@ import logging
 import levr_classes as levr
 
 from gaesessions import get_current_session
+from google.appengine.ext import db
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -82,7 +83,7 @@ class new_deal(webapp2.RequestHandler):
 			deal.secondary_name = self.request.get('specificName')
 			deal.description = self.request.get('specificDescription')
 		elif deal.name_type == "category":
-			deal.secondary_name = self.request.get('categoryName')
+			deal.secondary_name = self.request.get('categoryTag')
 			deal.description = self.request.get('categoryDescription')
 		
 		
@@ -127,7 +128,12 @@ class new_deal(webapp2.RequestHandler):
 			deal.put()
 			
 			#login
-			#change state
+			session['businessKey'] = business.key()
+			session['contact_owner'] = business.contact_owner
+			#session['loggedIn'] = True
+			logging.info(session)
+			logging.info(db.get(session['businessKey']).__dict__)
+			
 			'''
 		elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 			#logged in, grab current business info

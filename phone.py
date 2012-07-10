@@ -248,5 +248,9 @@ class phone(webapp2.RequestHandler):
 		
 		#write the response
 		self.response.out.write(json.dumps(toEcho))
+		
+class phone_log(webapp2.RequestHandler):
+	def post(self):
+		logging.info(self.request.body)
 
-app = webapp2.WSGIApplication([('/phone', phone)],debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log)],debug=True)

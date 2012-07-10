@@ -7,7 +7,7 @@ threadsafe: true
 handlers:
 - url: /
   script: landing.app
-- url: /phone
+- url: /phone.*
   script: phone.app
 - url: /merchants.*
   script: merchants.app

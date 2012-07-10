@@ -58,9 +58,7 @@ class new_deal(webapp2.RequestHandler):
 		#grab the form data
 		formdata = self.request.body
 		logging.info(formdata)
-		
-		
-		#create a new deal object (but don't store yet…)
+		#create a new deal object (but don't store yet)
 		#this will be the same for both new and existing users
 		deal = levr.Deal()
 		#map request parameters to deal object parameters
@@ -130,7 +128,6 @@ class new_deal(webapp2.RequestHandler):
 		#businessID
 		#businessName
 		
-		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
@@ -147,13 +144,14 @@ class account(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
 		headerData = levr_utils.loginCheck(self,True)
+		session = get_current_session()
 		
 		template_values = {
 			'headerData' : headerData,
 			'title' : 'Account'
 		}
-		
-		template = jinja_environment.get_template('templates/header.html')
+		self.response.out.write(session)
+		template = jinja_environment.get_template('templates/editAccount.html')
 		self.response.out.write(template.render(template_values))
 class manage(webapp2.RequestHandler):
 	def get(self):

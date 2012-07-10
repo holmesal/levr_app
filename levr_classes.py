@@ -51,23 +51,23 @@ class Customer(db.Model):
 	contact_phone 	= db.PhoneNumberProperty()
 
 class Category(db.Model):
-#Maps primary categories to deals
+	#Maps primary categories to deals
 	primary_cat		= db.StringProperty()
-	dealID 			= db.StringProperty()
+	dealID 			= db.ReferenceProperty()
 
 class Favorite(db.Model):
-	uid				= db.StringProperty()
-	dealID			= db.StringProperty()
+	uid				= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
+	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
 	primary_cat		= db.StringProperty()
 
 class Deal(db.Model):
 	#key name is deal id
 	#deal information
-	businessID 		= db.StringProperty() #uid
+	businessID 		= db.ReferenceProperty #uid
 	dealID			= db.StringProperty()
 	business_name 	= db.StringProperty() #name of business
 
-	secondary_name 			= db.StringProperty() #secondary category
+	secondary_name 	= db.StringProperty() #secondary category
 	name_type 		= db.StringProperty(choices=set(["specific","category"])) #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal

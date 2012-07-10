@@ -67,12 +67,12 @@ class Deal(db.Model):
 	dealID			= db.StringProperty()
 	business_name 	= db.StringProperty() #name of business
 
-	secondary_name 			= db.StringProperty() #secondary category
-	name_type 		= db.StringProperty(choices=set(["specific","category"])) #category or single item
+	secondary_name 	= db.StringProperty() #secondary category
+	name_type 		= db.StringProperty(choices=set(["itemName","category"])) #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal
-	discount_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
-	discount_value 		= db.FloatProperty() #number, -1 if free
+	discount_type 	= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
+	discount_value 	= db.FloatProperty() #number, -1 if free
 	
 	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
 	count_end 		= db.IntegerProperty()  #max redemptions
@@ -90,7 +90,7 @@ def phoneDealFormat(deal):
 	data = {"businessID": deal.businessID,
 			"businessName"	: deal.business_name,
 			"dealID"		: deal.dealID,
-			"nameType"  : deal.cat_or_name,
+			"nameType"  : deal.name_type,
 			"name"  : deal.secondary_name,
 			"description"   : deal.description,
 			"dealType"  : deal.discount_type,

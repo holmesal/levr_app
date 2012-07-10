@@ -60,50 +60,56 @@ class new_deal(webapp2.RequestHandler):
 		logging.info(formdata)
 		
 		
-		#create a new deal object (but don't store yet…)
+		#create a new deal object (but don't store yet)
 		#this will be the same for both new and existing users
 		deal = levr.Deal()
 		#map request parameters to deal object parameters
-
-		deal.name_type			 	= formdata.dealType
-		deal.discount_type			= 
-		deal.discount_value			=
-		#(deal_rating)
-		deal.deal_origin			=
-		deal.count_end				=
-		deal.city					=
 		
-		if deal.name_type == "specific":
-			deal.secondary_name = deal.specificName
-			deal.description = deal.specific
+		deal.name_type			 	= self.request.get('nameType')
+		deal.discount_type			= self.request.get('discountType')
+		#(deal_rating)
+		deal.deal_origin			= 'internal'
+		deal.count_end				= int(self.request.get('endValue'))
+		deal.city					= self.request.get('dealCity')
+		
+		logging.info(deal.discount_type)
+		if deal.discount_type == "free":
+			pass
+		else:
+			deal.discount_value		= float(self.request.get('dealValue'))
+		
+		if deal.name_type == "itemName":
+			deal.secondary_name = self.request.get('specificName')
+			deal.description = self.request.get('specificDescription')
 		elif deal.name_type == "category":
-			deal.secondary_name = deal.categoryName
-			deal.description = deal.categoryDescription
+			deal.secondary_name = self.request.get('categoryName')
+			deal.description = self.request.get('categoryDescription')
 		
 		
 		#get session, check loginstate
-		#hello ethan
 		session = get_current_session()
 		
 		if session.has_key('loggedIn') == False or session['loggedIn'] == False:
 			#not logged in, create new business
 			business = levr.Business()
 			#map request parameters to business object
-			business.email 			=
-			business.pw				=
-			business.business_name	=
-			business.address_line1	=
-			business.address_line2	=
-			business.city			=
-			business.state			=
-			business.zip_code		=
-			business.contact_owner	=
-			business.contact_phone	=
+			business.email 			= self.request.get('email')
+			business.pw				= self.request.get('password')
+			business.business_name	= self.request.get('businessName')
+			business.address_line1	= self.request.get('address1')
+			business.address_line2	= self.request.get('address2')
+			business.city			= self.request.get('city')
+			business.state			= self.request.get('state')
+			business.zip_code		= self.request.get('zipCode')
+			business.contact_owner	= self.request.get('ownerName')
+			business.contact_phone	= self.request.get('phone')
+			
 			
 			#check that email is available
-			q = business.gql("WHERE email = :email",email=email)
+			q = business.gql("WHERE email = :email",email=business.email)
 			#if exists, write error page and exit
 			for result in q:
+				logging.info('duplicate email in use')
 				template = jinja_environment.get_template('templates/error.html')
 				template_values = {}
 				self.response.out.write(template.render(template_values))
@@ -117,10 +123,13 @@ class new_deal(webapp2.RequestHandler):
 			deal.businessID = business.key().__str__()
 			deal.business_name = business.business_name
 			
+			#insert deal into DB
+			deal.put()
+			
 			#login
 			#change state
-			
-		elif session.has_key('loggedIn') == True or session['loggedIn'] == True:
+			'''
+		elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 			#logged in, grab current business info
 			
 		#put deal into database
@@ -140,7 +149,7 @@ class new_deal(webapp2.RequestHandler):
 		
 		#redirect to manage
 		self.redirect('/merchants/manage')
-		
+		'''
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in

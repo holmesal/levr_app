@@ -154,6 +154,7 @@ class phone(webapp2.RequestHandler):
 			
 			#grab all the deal data with the keys
 			deals = levr.Deal.get_by_key_name(keys)
+			
 			#data is deal obj array
 			data = []
 			#grab data from each deal

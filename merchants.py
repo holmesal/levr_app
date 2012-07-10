@@ -64,9 +64,15 @@ class new_deal(webapp2.RequestHandler):
 		#this will be the same for both new and existing users
 		deal = levr.Deal()
 		#map request parameters to deal object parameters
+<<<<<<< HEAD
 		deal.secondary_is_category 	= formdata.dealType
 		deal.discount_type				=
 		deal.discount_value				=
+=======
+		deal.				= formdata.nameType
+		deal.discount_type			= formdata.dealType
+		deal.deal_value				=
+>>>>>>> new deal etc
 		#(deal_rating)
 		deal.deal_origin			=
 		deal.count_end				=
@@ -74,9 +80,16 @@ class new_deal(webapp2.RequestHandler):
 		
 		if deal.name_type == "specific":
 			deal.secondary_name = deal.specificName
+<<<<<<< HEAD
 			deal.description = deal.specific
 		elif deal.name_type == "category":
 			pass
+=======
+			deal.description = deal.specificDescription
+		elif deal.name_type == "category":
+			deal.secondary_name = deal.categoryName
+			deal.description = deal.categoryDescription
+>>>>>>> new deal etc
 		
 		
 		#get session, check loginstate
@@ -113,6 +126,8 @@ class new_deal(webapp2.RequestHandler):
 			#add businessID, businessName to deal
 			deal.businessID = business.key().__str__()
 			deal.business_name = business.business_name
+			
+			#login
 				
 			
 		elif session.has_key('loggedIn') == True or session['loggedIn'] == True:
@@ -126,10 +141,15 @@ class new_deal(webapp2.RequestHandler):
 		#put category mappings into db
 		#for now, put request tags into list
 		prim_stack = [formdata.dealTag1,formdata.dealTag2,formdata.dealTag3]
+		#build and store
+		for tag in prim_stack:
+			category = new Category()
+			category.dealID = dealID
+			category.primary_cat = tag
+			category.put()
 		
-		#businessID
-		#businessName
-		
+		#redirect to manage
+		self.redirect('/merchants/manage')
 		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):

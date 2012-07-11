@@ -31,10 +31,9 @@ class image(webapp2.RequestHandler):
 		idx			= int(self.request.get('index'))
 		primary_cat	= self.request.get('primary_cat')
 		image		= self.request.get('img')
-		image		= images.resize(image,32,32)
+		image		= images.resize(image,640,160)
 		
 		
-#		obj				= levr.EmptySetResponse('index',idx)
 		obj = levr.EmptySetResponse.all().filter('index',idx).get()
 		if not obj:
 			obj	= levr.EmptySetResponse()
@@ -43,6 +42,7 @@ class image(webapp2.RequestHandler):
 		obj.index		= idx
 		obj.put()
 		
+		url = images.get_serving_url(obj.img)
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(obj.img)
 

@@ -250,7 +250,7 @@ class manage(webapp2.RequestHandler):
 				'primary_cats'	: prim_stack
 				})
 		######### BUSINESS INFORMATION ##########
-		b = levr.Business.get(businessID)
+		b = levr.Business.get(headerData['businessID'])
 		business_info = {
 			
 			}

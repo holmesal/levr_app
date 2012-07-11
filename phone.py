@@ -92,7 +92,7 @@ class phone(webapp2.RequestHandler):
 			#define an empty "dealResults" LIST, and initialize the counter to 0
 			dealResults = []
 			resultsPushed = 0
-			#initialize isEmpty to 0
+			#initialize isEmpty to 1
 			isEmpty = 1
 			#iterate over the results
 			for category in q:
@@ -111,27 +111,34 @@ class phone(webapp2.RequestHandler):
 				dealResults.append(deal)
 				#increment the counter
 				resultsPushed += 1
-			#if not 20 yet, continue adding deals up to numResults
-			if resultsPushed < numResults:
-				#place the null object, to signify to ethan to place a heading
-				dealResults.append(None)
-				#grab <numResults> random deals, push them one-by-one (for now)
-				#later refine this to be actual recommendations
-				q = levr.Category.gql("")
-				for category in q:
-					#break if results limit is hit
-					if resultsPushed == numResults:
-						break
-					#grab the appropriate deal
-					result = levr.Deal.get_by_key_name(category.dealID)
-					#trade an object for a phone-formatted dictionary
-					deal = levr.phoneDealFormat(result)
-					#push the primary onto the dictionary
-					deal['primaryCat'] = category.primary_cat
-					#push the whole dictionary onto a list
-					dealResults.append(deal)
-					#increment the counter
-					resultsPushed += 1
+			#if isempty is true, send back suggested searches instead
+			if isEmpty = 1:
+				#go get suggested searches
+				
+				
+			#else, isempty is false, append some related deals
+			else:
+				#if not 20 yet, continue adding deals up to numResults
+				if resultsPushed < numResults:
+					#place the null object, to signify to ethan to place a heading
+					dealResults.append(None)
+					#grab <numResults> random deals, push them one-by-one (for now)
+					#later refine this to be actual recommendations
+					q = levr.Category.gql("")
+					for category in q:
+						#break if results limit is hit
+						if resultsPushed == numResults:
+							break
+						#grab the appropriate deal
+						result = levr.Deal.get_by_key_name(category.dealID)
+						#trade an object for a phone-formatted dictionary
+						deal = levr.phoneDealFormat(result)
+						#push the primary onto the dictionary
+						deal['primaryCat'] = category.primary_cat
+						#push the whole dictionary onto a list
+						dealResults.append(deal)
+						#increment the counter
+						resultsPushed += 1
 			#echo back success!
 			toEcho = {"success":1,"data":dealResults,"isEmpty":isEmpty}
 			

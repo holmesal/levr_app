@@ -83,6 +83,11 @@ class Deal(db.Model):
 	img_path		= db.StringProperty()   #string path to image
 	city 			= db.StringProperty()  #optional
 
+class EmptySetResponse(db.Model):
+	primary_cat		= db.StringProperty()
+	img				= db.BlobProperty()
+	index			= db.IntegerProperty()
+	
 #functions!
 def phoneDealFormat(deal):
 	#map object properties to dictionary

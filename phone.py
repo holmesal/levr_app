@@ -113,9 +113,16 @@ class phone(webapp2.RequestHandler):
 				resultsPushed += 1
 			#if isempty is true, send back suggested searches instead
 			if isEmpty = 1:
-				#go get suggested searches
-				
-				
+				#go get (all) suggested searches
+				q = levr.EmptySetResponse.all()
+				#sory by index
+				q.order('index')
+				#loop through and append to data
+				for result in q:
+					searchObj = {"primaryCat":result['primaryCat'],"img":result['img']}
+					#push to stack
+					dealResults.append(searchObj)
+					
 			#else, isempty is false, append some related deals
 			else:
 				#if not 20 yet, continue adding deals up to numResults

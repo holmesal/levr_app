@@ -27,6 +27,7 @@ def loginCheck(self,strict):
 		headerData = {
 			'loggedIn'		: session['loggedIn'],
 			'contact_owner' : session['contact_owner'],
+			'businessID'	: session['businessID']
 		}
 		#return user metadata.
 		return headerData

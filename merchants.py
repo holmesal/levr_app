@@ -41,6 +41,8 @@ class new_deal(webapp2.RequestHandler):
 		#Don't bounce if user is not logged in
 		headerData = levr_utils.loginCheck(self,False)
 		
+		logging.info(headerData)
+		
 		template_values = {
 			'headerData' : headerData,
 			'title' : 'New Deal'
@@ -129,34 +131,32 @@ class new_deal(webapp2.RequestHandler):
 			deal.put()
 			
 			#login
-			session['businessKey'] = business.key()
+			session['businessID'] = business.key()
 			session['contact_owner'] = business.contact_owner
-			#session['loggedIn'] = True
+			session['loggedIn'] = True
 			logging.info(session)
-			logging.info(db.get(session['businessKey']).__dict__)
 			
-			'''
 		elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 			#logged in, grab current business info
-			
-		#put deal into database
-		deal.put()
+			pass
+		
+
 		#get dealID
 		dealID = deal.key().__str__()
 		
 		#put category mappings into db
 		#for now, put request tags into list
-		prim_stack = [formdata.dealTag1,formdata.dealTag2,formdata.dealTag3]
+		prim_stack = [self.request.get('dealTag1'),self.request.get('dealTag2'),self.request.get('dealTag3')]
 		#build and store
 		for tag in prim_stack:
-			category = new Category()
+			category = levr.Category()
 			category.dealID = dealID
 			category.primary_cat = tag
 			category.put()
 		
 		#redirect to manage
 		self.redirect('/merchants/manage')
-		'''
+		
 class edit_deal(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in

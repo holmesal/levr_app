@@ -34,6 +34,7 @@ class image(webapp2.RequestHandler):
 		image		= images.resize(image,640,160)
 		
 		
+#		obj				= levr.EmptySetResponse('index',idx)
 		obj = levr.EmptySetResponse.all().filter('index',idx).get()
 		if not obj:
 			obj	= levr.EmptySetResponse()
@@ -45,5 +46,17 @@ class image(webapp2.RequestHandler):
 		url = images.get_serving_url(obj.img)
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(obj.img)
+		
+class get_img:
+	def post(self):
+		#grab input data
+		decoded = json.loads(self.request.body)
+		img_key = decoded["img_key"]
+		
+		#grab image from datastore
+		result = get(img_key)
+		
+		self.response.headers['Content-Type'] = 'image/png'
+		self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/editEmptySet', image)],debug=True)
+app = webapp2.WSGIApplication([('/emptySet/edit', edit),('/emptySet/get', get_img)],debug=True)

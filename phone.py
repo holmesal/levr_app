@@ -112,14 +112,14 @@ class phone(webapp2.RequestHandler):
 				#increment the counter
 				resultsPushed += 1
 			#if isempty is true, send back suggested searches instead
-			if isEmpty = 1:
+			if isEmpty == 1:
 				#go get (all) suggested searches
 				q = levr.EmptySetResponse.all()
 				#sory by index
 				q.order('index')
 				#loop through and append to data
 				for result in q:
-					searchObj = {"primaryCat":result['primaryCat'],"img":result['img']}
+					searchObj = {"primaryCat":result.primary_cat,"img_key":result.key()}
 					#push to stack
 					dealResults.append(searchObj)
 					

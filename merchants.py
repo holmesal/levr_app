@@ -223,7 +223,9 @@ class manage(webapp2.RequestHandler):
 		##get deal values from database for the logged in merchant
 		
 		####### DEAL INFORMATION ######
+		logging.info(headerData['businessID'])
 		q = levr.Deal.gql("WHERE businessID=:1",headerData['businessID'])
+		
 		##will have list of deal dictionaries
 		deals = []
 		##for each deal:

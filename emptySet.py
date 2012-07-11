@@ -5,7 +5,7 @@ from google.appengine.ext import db
 from google.appengine.api import images
 
 
-class image(webapp2.RequestHandler):
+class edit(webapp2.RequestHandler):
 	def get(self):
 		#launch the jinja environment
 		self.response.out.write("""
@@ -31,7 +31,7 @@ class image(webapp2.RequestHandler):
 		idx			= int(self.request.get('index'))
 		primary_cat	= self.request.get('primary_cat')
 		image		= self.request.get('img')
-		image		= images.resize(image,32,32)
+		#image		= images.resize(image,32,32)
 		
 		
 #		obj				= levr.EmptySetResponse('index',idx)
@@ -45,5 +45,17 @@ class image(webapp2.RequestHandler):
 		
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(obj.img)
+		
+class get_img:
+	def post(self):
+		#grab input data
+		decoded = json.loads(self.request.body)
+		img_key = decoded["img_key"]
+		
+		#grab image from datastore
+		result = get(img_key)
+		
+		self.response.headers['Content-Type'] = 'image/png'
+		self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/editEmptySet', image)],debug=True)
+app = webapp2.WSGIApplication([('/emptySet/edit', edit),('/emptySet/get', get_img)],debug=True)

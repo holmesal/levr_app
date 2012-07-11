@@ -21,8 +21,8 @@ handlers:
   script: loginstate.app
 - url: /logout
   script: logout.app
-- url: /editEmptySet
-  script: editEmptySet.app
+- url: /emptySet.*
+  script: emptySet.app
 - url: /img
   static_dir: img
 - url: /css

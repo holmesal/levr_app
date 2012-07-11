@@ -173,20 +173,17 @@ class account(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
 		headerData = levr_utils.loginCheck(self,True)
-		session = get_current_session()
 		
 		#get business info
-		business = db.get(session['businessKey'])
+		business = db.get(headerData['businessID'])
 		#business = db.fetch(business)
 		logging.info(business)
-		logging.info(session)
 		#dictionary-ize business info
 		template_values = levr.webBusinessFormat(business)
 		#put business info into form template
 		template_values['headerData']	= headerData
 		template_values['title']		= 'Account'
 		
-		self.response.out.write(session)
 		self.response.out.write(template_values)
 		template = jinja_environment.get_template('templates/editAccount.html')
 		self.response.out.write(template.render(template_values))

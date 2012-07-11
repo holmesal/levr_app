@@ -35,7 +35,7 @@
 		<div class="container" id="main">
 			<div class="row">
 				<div class="span12">
-					<form id="dealForm" class="well bigForm form-horizontal" action="/merchants/deal/new" method="post">
+					<form id="dealForm" class="well bigForm form-horizontal" action="/merchants/account" method="post">
 
 							<div class="formGroup" id="accord4">
 								<div id="collapse4Head" class=" hidden">
@@ -51,42 +51,42 @@
 												<div class="control-group" id="group-businessName">
 													<label class="control-label" id="label-businessName" for="businessName">Your Business's Name</label>
 													<div class="controls">
-														<input type="text" name="businessName" id="text-businessName" placeholder="e.g. Milliway's">
+														<input type="text" name="businessName" id="text-businessName" placeholder="e.g. Milliway's" value="{{businessName}}">
 														<span class="help-inline hidden" id="error-businessName">Please enter your businesses name as you would like it to appear</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-address1">
 													<label class="control-label" id="label-address1" for="text-address1">Street Address line 1</label>
 													<div class="controls">
-														<input type="text" name="address1" id="text-address1" placeholder="1 Weathertop Rd.">
+														<input type="text" name="address1" id="text-address1" placeholder="1 Weathertop Rd." value="{{address1}}">
 														<span class="help-inline hidden" id="error-address1">Please enter your businesses street address so people can find you</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-address2">
 													<label class="control-label" id="label-address2" for="text-address2">Street Address line 2</label>
 													<div class="controls">
-														<input type="text" name="address2" id="text-address2" placeholder="">
+														<input type="text" name="address2" id="text-address2" placeholder="" value="{{address_line2}}">
 														<span class="help-inline hidden" id="error-address2">There shouldn't be an error for this</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-city">
 													<label class="control-label" id="label-city" for="text-city">City</label>
 													<div class="controls">
-														<input type="text" name="city" id="text-city" placeholder="Atlantis">
+														<input type="text" name="city" id="text-city" placeholder="Atlantis" value="{{city}}">
 														<span class="help-inline hidden" id="error-city">Please enter a U.S. city</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-zipCode">
 													<label class="control-label" id="label-zipCode" for="text-zipCode">Zip Code</label>
 													<div class="controls">
-														<input type="text" name="zipCode" id="text-zipCode" placeholder="02215" maxlength="5" style="width: 75px;">
+														<input type="text" name="zipCode" id="text-zipCode" placeholder="02215" maxlength="5" style="width: 75px;" value="{{zipCode}}">
 														<span class="help-inline hidden" id="error-zipCode">Please enter a U.S. zip code</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-state">
 													<label class="control-label" id="label-state" for="text-state">State</label>
 													<div class="controls">
-														<input type="text" name="state" id="text-state" maxlength="2" placeholder="FL" style="text-transform: uppercase; width: 25px;">
+														<input type="text" name="state" id="text-state" maxlength="2" placeholder="FL" style="text-transform: uppercase; width: 25px;" value="{{state}}">
 														<span class="help-inline hidden" id="error-state">Please enter a valid  U.S. state</span>
 													</div>
 												</div>
@@ -122,26 +122,26 @@
 												<div class="control-group" id="group-ownerName">
 													<label class="control-label" id="label-ownerName" for="text-ownerName">Name</label>
 													<div class="controls">
-														<input type="text" name="ownerName" id="text-ownerName" placeholder="John Doe">
+														<input type="text" name="ownerName" id="text-ownerName" placeholder="John Doe" value="{{ownerName}}">
 														<span class="help-inline hidden" id="error-ownerName">Please enter your name</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-phone">
 													<label class="control-label" id="label-phone" for="text-phone">Phone Number</label>
 													<div class="controls">
-														<input type="text" name="phone" id="text-phone" placeholder="(555) 555-5555">
+														<input type="text" name="phone" id="text-phone" placeholder="(555) 555-5555" value="{{phone}}">
 														<span class="help-inline hidden" id="error-phone">Please enter a valid 10-digit US phone number</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-email">
 													<label class="control-label" id="label-email" for="text-email">Email Address</label>
 													<div class="controls">
-														<input type="text" name="email" id="text-email" placeholder="feedback@getlevr.com">
+														<input type="text" name="email" id="text-email" placeholder="feedback@getlevr.com" value="{{email}}">
 														<span class="help-inline hidden" id="error-email">Please enter a valid email address</span>
 													</div>
 												</div>
 												<div class="control-group" id="group-password">
-													<label class="control-label" id="label-password" for="text-password">Choose a password</label>
+													<label class="control-label" id="label-password" for="text-password">Enter your password to confirm changes</label>
 													<div class="controls">
 														<input type="password" name="password" id="text-password" placeholder="IHeartMom143">
 														<span class="help-inline hidden" id="error-password">Password must be at least 6 characters</span>
@@ -181,15 +181,10 @@
 
 											</div>
 											<div class="span9 formBtn">
-												<button class="btn btn-primary hidden" id="btnUpdateAccount">
+												<input type="submit"/>
+												<!--button class="btn btn-primary" id="btnUpdateAccount">
 													Update
-												</button>
-												<button class="btn btn-primary" id="goTo6">
-													Review
-												</button>
-												<button class="btn btn-primary hidden" id="reviewWholeForm">
-													Review
-												</button>
+												</button-->
 											</div>
 										</fieldset>
 									</div>

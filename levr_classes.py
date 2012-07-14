@@ -55,7 +55,7 @@ class Deal(db.Model):
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 	= db.StringProperty() #secondary category
-	name_type 		= db.StringProperty(choices=set(["specific","category"])) #category or single item
+	name_type 		= db.StringProperty(choices=set(["itemName","category"])) #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free

@@ -250,6 +250,13 @@ class phone(webapp2.RequestHandler):
 			
 			#echo back success!
 			toEcho = {"success":1,"data":data}
+		elif action == "uploadDeal":
+			#takes a key and uid, put into deals table with status "pending"
+			toEcho = {"success":0,"data":"some data!"}
+		elif action == "getMyDeals":
+			toEcho = {"success":0,"data":"some data!"}
+		elif action == "getMyStats":
+			toEcho = {"success":0,"data":"some data!"}
 		elif action == "getRedeem":
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "addRedeem":
@@ -263,8 +270,30 @@ class phone(webapp2.RequestHandler):
 		#write the response
 		self.response.out.write(json.dumps(toEcho))
 		
+class uploadDealImage(webapp2.RequestHandler):
+	def post(self):
+		#create new deal object
+		deal = levr.Deal()
+		
+		#grab uploaded image
+		deal.img			= self.request.get('img')
+		#deal.business_name	= self.request.get('businessName')
+		deal.deal_status	= 'pending'
+		
+		#put in DB
+		deal.put()
+		
+		#set as a child of user object
+		#uid 				= self.request.get('uid')
+		
+		logging.info('Image put in ok!')
+		
+		data = "someKeyStuff"
+		toEcho = {"success":1,"data":data}
+		self.response.out.write(json.dumps(toEcho))
+		
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		logging.error(self.request.body)
 
-app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log)],debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDealImage', uploadDealImage)],debug=True)

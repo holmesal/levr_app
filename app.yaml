@@ -23,6 +23,8 @@ handlers:
   script: logout.app
 - url: /emptySet.*
   script: emptySet.app
+- url: /admin.*
+  script: admin.app
 - url: /img
   static_dir: img
 - url: /css

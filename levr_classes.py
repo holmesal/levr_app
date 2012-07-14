@@ -63,6 +63,10 @@ class Favorite(db.Model):
 class Deal(db.Model):
 	#key name is deal id
 	#deal information
+	
+	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
+	img				= db.BlobProperty()
+	
 	businessID 		= db.ReferenceProperty #uid
 	business_name 	= db.StringProperty() #name of business
 

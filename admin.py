@@ -13,8 +13,11 @@ class image(webapp2.RequestHandler):
 		#get the first matching entity and parse into template values
 		result = q.get()
 		template_values = {
-			'image'		: result.image
+			'image'				: result.image,
+			'business_name'		: result.business_name
 		}
+		template = jinja_environment.get_template('templates/admin_pending.html')
+		self.response.out.write(template.render(template_values))
 		
 
 app = webapp2.WSGIApplication([('/admin/pending', pending)],debug=True)

@@ -49,10 +49,10 @@ class new_deal(webapp2.RequestHandler):
 		}
 		
 		if headerData['loggedIn'] == True:
-			template = jinja_environment.get_template('templates/new_deal_existing_user.html')
+			template = jinja_environment.get_template('templates/form_new_deal_existing_account.html')
 			self.response.out.write(template.render(template_values))
 		else:
-			template = jinja_environment.get_template('templates/new_deal_new_user.html')
+			template = jinja_environment.get_template('templates/form_new_deal_new_account.html')
 			self.response.out.write(template.render(template_values))
 		
 		
@@ -150,14 +150,29 @@ class edit_deal(webapp2.RequestHandler):
 	def get(self):
 		#Bounce if user is not logged in
 		headerData = levr_utils.loginCheck(self,True)
-		#set tamplate variables
-		template_values = {
+		
+		#grab deal key
+		deal_key = self.request.get('id')
+		self.response.out.write(deal_key)
+		
+		#get the deal information from the key
+		deal = db.get(deal_key)
+		
+		#grab categories for deal
+		primary_cats = levr.Category.gql("WHERE ANCESTOR IS :1",deal_key)
+		
+		logging.info(deal)
+		#set form variables from deal
+		template_values = levr.web_edit_deal_format(deal)
+		#add form variables not handled by format function
+		template_values.update({
 			'headerData' : headerData,
 			'title' : 'Edit Deal'
-		}
+		})
+		self.response.out.write(template_values)
 		#create template, render, and push to browser
-		template = jinja_environment.get_template('templates/header.html')
-		self.response.out.write(template.render(template_values))
+#		template = jinja_environment.get_template('templates/header.html')
+#		self.response.out.write(template.render(template_values))
 		
 class account(webapp2.RequestHandler):
 	def get(self):
@@ -169,13 +184,13 @@ class account(webapp2.RequestHandler):
 		#business = db.fetch(business)
 		logging.info(business)
 		#dictionary-ize business info
-		template_values = levr.webBusinessFormat(business)
+		template_values = levr.web_edit_account_format(business)
 		#put business info into form template
 		template_values['headerData']	= headerData
 		template_values['title']		= 'Account'
 		
 		self.response.out.write(template_values)
-		template = jinja_environment.get_template('templates/editAccount.html')
+		template = jinja_environment.get_template('templates/form_edit_account.html')
 		self.response.out.write(template.render(template_values))
 
 	def post(self):
@@ -211,14 +226,17 @@ class manage(webapp2.RequestHandler):
 		
 		####### DEAL INFORMATION ######
 		logging.info(headerData['businessID'])
-		q = levr.Deal.gql("WHERE businessID=:1",headerData['businessID'])
+		#grab all of the deals
+		q = levr.Deal.gql("WHERE ANCESTOR IS :1",headerData['businessID'])
+#		q = levr.Deal.gql("WHERE businessID=:1",headerData['businessID'])
 		
 		##will have list of deal dictionaries
 		deals = []
 		##for each deal:
 		for d in q:
 			##grab the primary categories
-			q2 = levr.Category.gql("WHERE dealID=:1",d.dealID)
+			q2 = levr.Category.gql("WHERE ANCESTOR IS :1",d.key())
+#			q2 = levr.Category.gql("WHERE dealID=:1",d.dealID)
 			##list of primary categories for that deal
 			prim_stack = []
 			for p in q2:
@@ -226,11 +244,11 @@ class manage(webapp2.RequestHandler):
 			
 			##create deal dict that has all the info needed to populate table
 			deals.append({
-				'dealID'		: d.dealID,
+				'dealID'		: d.key(),
 				'secondary_name': d.secondary_name,
 				'description'	: d.description,
-				'discount_type'		: d.discount_type,
-				'discount_value'	: d.discount_value,
+				'discount_type'	: d.discount_type,
+				'discount_value': d.discount_value,
 				'count_end'		: d.count_end,
 				'count_redeemed': d.count_redeemed,
 				'img_path'		: d.img_path,

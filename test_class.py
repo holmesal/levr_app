@@ -1,7 +1,7 @@
 import webapp2
 import levr_classes
 #import logging
-#from google.appengine.ext import db
+from google.appengine.ext import db
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -28,11 +28,11 @@ class MainPage(webapp2.RequestHandler):
         
         
     	#new deal
-        d = levr_classes.Deal(parent=b)
+        d = levr_classes.Deal(parent=db.Key('agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYNQw'))
         #d.businessID 		= b.key()
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
-        d.secondary_is_category = False
+        d.name_type			= 'specific'
         d.description 		= 'describe me, hun.'
         d.discount_type 	= 'monetary'
         d.discount_value 	= 50.2
@@ -56,7 +56,7 @@ class MainPage(webapp2.RequestHandler):
         f.dealID			= str(d.key())
         f.primary_cat	 	= 'Toe Socks'
         f.put()
-        cust = f.parent()
+#        cust = f.parent()
 #        self.response.out.write(cust.children())
         
         q = levr_classes.Deal.gql('WHERE ANCESTOR IS :1','agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYHQw')

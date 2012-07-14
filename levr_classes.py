@@ -55,7 +55,7 @@ class Deal(db.Model):
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 	= db.StringProperty() #secondary category
-	name_type 		= db.StringProperty(choices=set(["itemName","category"])) #category or single item
+	name_type 		= db.StringProperty() #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
@@ -104,7 +104,7 @@ def phoneBusinessFormat(business):
 	}
 	return data
 
-def webBusinessFormat(business):
+def web_edit_account_format(business):
 	data = {
 		"email"			: business.email,
 		"password"		: business.pw,
@@ -116,5 +116,16 @@ def webBusinessFormat(business):
 		"zipCode"		: business.zip_code,
 		"ownerName"		: business.contact_owner,
 		"phone"			: business.contact_phone
+	}
+	return data
+def web_edit_deal_format(deal):
+	data = {
+		"secondary_name": deal.secondary_name,
+		"name_type"		: deal.name_type,
+		"description"	: deal.description,
+		"end_value"		: deal.count_end,
+		"discount_type"	: deal.discount_type,
+		"deal_value"	: deal.discount_value,
+		"city"			: deal.city
 	}
 	return data

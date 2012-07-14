@@ -1,5 +1,3 @@
-import webapp2
-import datetime
 from google.appengine.ext import db
 
 
@@ -56,7 +54,8 @@ class Category(db.Model):
 	dealID 			= db.ReferenceProperty()
 
 class Favorite(db.Model):
-	uid				= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
+	# Favorite is child of user
+	#uid				= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
 	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
 	primary_cat		= db.StringProperty()
 

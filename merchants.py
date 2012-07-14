@@ -255,19 +255,17 @@ class manage(webapp2.RequestHandler):
 				'primary_cats'	: prim_stack
 				})
 		######### BUSINESS INFORMATION ##########
-		b = levr.Business.get(headerData['businessID'])
-		business_info = {
-			
-			}
-		
-		
+		business = levr.Business.get(headerData['businessID'])
+		business_info = levr.web_edit_account_format(business)
 		
 		################Create template dictionary
 		template_values = {
-			'deals'	: deals,
+			'deals'			: deals,
 			'headerData'	: headerData,
-			'title'			: 'Manage'
+			'title'			: 'Manage',
+			'business'		: business_info
 			}
+		self.response.out.write(template_values)
 		##create view and send values to template
 		template = jinja_environment.get_template('templates/manage.html')
 		self.response.out.write(template.render(template_values))

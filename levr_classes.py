@@ -107,7 +107,6 @@ def phoneBusinessFormat(business):
 def web_edit_account_format(business):
 	data = {
 		"email"			: business.email,
-		"password"		: business.pw,
 		"businessName"	: business.business_name,
 		"address1"		: business.address_line1,
 		"address2"		: business.address_line2,
@@ -118,6 +117,7 @@ def web_edit_account_format(business):
 		"phone"			: business.contact_phone
 	}
 	return data
+
 def web_edit_deal_format(deal):
 	data = {
 		"secondary_name": deal.secondary_name,

@@ -36,7 +36,7 @@ class Category(db.Model):
 #Child of deal
 #Maps primary categories to deals
 	primary_cat		= db.StringProperty()
-	dealID 			= db.ReferenceProperty()
+#	dealID 			= db.ReferenceProperty()
 
 class Favorite(db.Model):
 #child of user
@@ -44,7 +44,7 @@ class Favorite(db.Model):
 	primary_cat		= db.StringProperty()
 
 class Deal(db.Model):
-#root class
+#Parent of business OR customer ninja
 	#key name is deal id
 	#deal information
 	

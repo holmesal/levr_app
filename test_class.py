@@ -1,7 +1,7 @@
 import webapp2
 import levr_classes
 #import logging
-from google.appengine.ext import db
+#from google.appengine.ext import db
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -28,8 +28,8 @@ class MainPage(webapp2.RequestHandler):
         
         
     	#new deal
-        d = levr_classes.Deal()
-        d.businessID 		= b.key()
+        d = levr_classes.Deal(parent=b)
+        #d.businessID 		= b.key()
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
         d.secondary_is_category = False
@@ -45,22 +45,27 @@ class MainPage(webapp2.RequestHandler):
         d.put()
         
         #new Category
-        cat = levr_classes.Category()
+        cat = levr_classes.Category(parent=d)
         cat.primary_cat 	= 'Socks'
-        cat.dealID			= d.key()
+        #cat.dealID			= d.key()
         cat.put()
         
         #new favorite
-        f = levr_classes.Favorite()
-        f.uid				= str(c.key())
+        f = levr_classes.Favorite(parent=c)
+#        f.uid				= str(c.key())
         f.dealID			= str(d.key())
         f.primary_cat	 	= 'Toe Socks'
         f.put()
+        cust = f.parent()
+#        self.response.out.write(cust.children())
         
+        q = levr_classes.Deal.gql('WHERE ANCESTOR IS :1','agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYHQw')
+        for result in q:
+        	self.response.out.write(result)
         
-        id = 'agtkZXZ-Z2V0bGV2cnIbCxIIQnVzaW5lc3MiDTMyMjIyMjIyMjIyMjIM'
-        result = db.get(id)
-        self.response.out.write(result)
+#        id = 'agtkZXZ-Z2V0bGV2cnIbCxIIQnVzaW5lc3MiDTMyMjIyMjIyMjIyMjIM'
+#        result = db.get(id)
+#        self.response.out.write(result)
 
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write('I think this means it was a success')

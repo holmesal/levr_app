@@ -275,18 +275,19 @@ class uploadDealImage(webapp2.RequestHandler):
 		#create new deal object
 		deal = levr.Deal()
 		
+		logging.info(self.request.headers)
+		logging.info(self.request.body_file)
 		logging.info(self.request.get('img'))
+		logging.info(self.request.body)
 		#grab uploaded image
 		deal.img			= db.Blob(self.request.get('img'))
 		#deal.business_name	= self.request.get('businessName')
-		#deal.deal_status	= 'pending'
+		deal.deal_status	= 'pending'
 		#put in DB
 		deal.put()
 		
 		#set as a child of user object
 		#uid 				= self.request.get('uid')
-		
-		logging.info('Image put in ok!')
 		
 		data = "someKeyStuff"
 		toEcho = {"success":1,"data":data}

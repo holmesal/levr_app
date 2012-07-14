@@ -1,11 +1,12 @@
-import webapp2
-import datetime
+#import webapp2
+#import datetime
 from google.appengine.ext import db
 
 
 class Customer(db.Model):
+#root class
 	#key_name is uid
-	uid 			= db.StringProperty()
+	#uid 			= db.StringProperty()
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
 
@@ -13,7 +14,7 @@ class Customer(db.Model):
 #^^^would need another assoc table 
 
 class Business(db.Model):
-
+#root class
 	#key is businessID
     email 			= db.StringProperty()
     pw 				= db.StringProperty()
@@ -30,37 +31,20 @@ class Business(db.Model):
     
     contact_owner 	= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
-    
-    
-class Customer(db.Model):
-	uid				= db.StringProperty()
-	email 			= db.EmailProperty()
-	pw 				= db.StringProperty()
-
-	signup_date 	= db.DateTimeProperty()
-	business_name 	= db.StringProperty()
-
-	address_line1 	= db.StringProperty()
-	address_line2 	= db.StringProperty()
-	city			= db.StringProperty()
-	state 			= db.StringProperty()
-	zip_code		= db.StringProperty()
-
-	contact_owner 	= db.StringProperty()
-	contact_email 	= db.EmailProperty()
-	contact_phone 	= db.PhoneNumberProperty()
 
 class Category(db.Model):
+#Child of deal
 #Maps primary categories to deals
 	primary_cat		= db.StringProperty()
 	dealID 			= db.ReferenceProperty()
 
 class Favorite(db.Model):
-	uid				= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
+#child of user
 	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
 	primary_cat		= db.StringProperty()
 
 class Deal(db.Model):
+#root class
 	#key name is deal id
 	#deal information
 	
@@ -88,6 +72,7 @@ class Deal(db.Model):
 	city 			= db.StringProperty()  #optional
 
 class EmptySetResponse(db.Model):
+#root class
 	primary_cat		= db.StringProperty()
 	img				= db.BlobProperty()
 	index			= db.IntegerProperty()

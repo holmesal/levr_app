@@ -50,16 +50,15 @@ class Deal(db.Model):
 	
 	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
 	img				= db.BlobProperty()
-	
-	businessID 		= db.ReferenceProperty #uid
+	businessID 		= db.ReferenceProperty() #uid
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 	= db.StringProperty() #secondary category
 	name_type 		= db.StringProperty() #category or single item
 
 	description 	= db.StringProperty(multiline=True) #description of deal
-	discount_type 		= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
-	discount_value 		= db.FloatProperty() #number, -1 if free
+	discount_type 	= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
+	discount_value 	= db.FloatProperty() #number, -1 if free
 	
 	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
 	count_end 		= db.IntegerProperty()  #max redemptions
@@ -80,9 +79,9 @@ class EmptySetResponse(db.Model):
 #functions!
 def phoneDealFormat(deal):
 	#map object properties to dictionary
-	data = {"businessID"	: deal.businessID,
+	data = {"businessID"	: str(deal.businessID),
 			"businessName"	: deal.business_name,
-			"dealID"		: deal.dealID,
+			"dealID"		: str(deal.parent().key()),
 			"nameType"  	: deal.name_type,
 			"name"  		: deal.secondary_name,
 			"description"   : deal.description,

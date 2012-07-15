@@ -158,26 +158,31 @@ class phone(webapp2.RequestHandler):
 			'''
 			uid = decoded["in"]["uid"]
 			#grabs the deal key name and primary category from table
-			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
+			q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
+#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
 			#init key,cats list
-			keys,cats = [],[]
+			logging.info(q1)
+			deal_keys,cats = [],[]
 			#grab deal keys from each favorite
 			for fav in q1:
-				keys.append(fav.dealID)
+#				logging.info(fav)
+				deal_keys.append(fav.dealID)
 				cats.append(fav.primary_cat)
 			
 			#grab all the deal data with the keys
-			deals = levr.Deal.get_by_key_name(keys)
+			deals = levr.Deal.get(deal_keys)
 			
 			#data is deal obj array
 			data = []
 			#grab data from each deal
 			for idx,deal in enumerate(deals):
-				# deal.__dict__
+				self.response.out.write(deal.__dict__)
 				#send to format function - package for phone
-				data.append(levr.phoneDealFormat(deal))
-				data[idx]['primaryCat'] = cats[idx]
-				
+				deal_stack = levr.phoneDealFormat(deal)
+				deal_stack.update({"primaryCat":cats[idx]})
+				data.append(deal_stack)
+#				data[idx]['primaryCat'] = cats[idx]
+#			self.response.out.write(data)
 			toEcho = {"success":1,"data":data}
 		#ADD FAVORITE***********************************************************
 		elif action == "addFav":
@@ -191,9 +196,9 @@ class phone(webapp2.RequestHandler):
 			primary_cat = decoded["in"]["primaryCat"]
 			
 			#create new Favorite instance
-			fav = levr.Favorite()
+			fav = levr.Favorite(parent=db.Key(uid))
 			#populate data in new favorite
-			fav.uid 		= uid
+#			fav.uid 		= uid
 			fav.dealID 		= dealID
 			fav.primary_cat = primary_cat
 			#place in database
@@ -210,7 +215,7 @@ class phone(webapp2.RequestHandler):
 			uid = decoded["in"]["uid"]
 			dealID = decoded["in"]["dealID"]
 			primary_cat = decoded["in"]["primaryCat"]
-			q = levr.Favorite.gql("WHERE uid=:1 and dealID=:2 and primary_cat=:3",uid, dealID, primary_cat)
+			q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2 and primary_cat=:3",uid, dealID, primary_cat)
 			#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
 			
 			for fav in q:
@@ -296,4 +301,7 @@ class phone_log(webapp2.RequestHandler):
 	def post(self):
 		logging.error(self.request.body)
 
-app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDealImage', uploadDealImage)],debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),
+								('/phone/log', phone_log),
+								('/phone/uploadDealImage', uploadDealImage)],
+								debug=True)

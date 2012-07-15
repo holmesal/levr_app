@@ -28,7 +28,7 @@ class MainPage(webapp2.RequestHandler):
         
     	#new deal
         d = levr_classes.Deal(parent=b)
-        d.businessID 		= b.key()
+        d.businessID 		= str(b.key())
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
         d.name_type			= 'specific'

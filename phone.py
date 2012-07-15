@@ -231,24 +231,22 @@ class phone(webapp2.RequestHandler):
 			'''
 			#grab input dealID
 			try:
-				dealID = decoded["in"]["dealID"]
+				dealID 		= decoded["in"]["dealID"]
 				primary_cat = decoded["in"]["primaryCat"]
 			except:
 				logging.error("Could not grab dealID AND/OR primaryCat. Input passed: " + self.request.body)
-			
 			#fetch deal
-			result = levr.Deal.get_by_key_name(dealID)
-			#pass through phone formatting thingy
+			result = levr.Deal.get(dealID)
+			#convert fetched deal into dictionary
 			deal = levr.phoneDealFormat(result)
 			#push the primary onto the dictionary
-			deal['primaryCat'] = primary_cat
-			
+			deal.update({"primaryCat":primary_cat})
 			#grab businessID from deal
 			businessID = deal['businessID']
-			#fetch business
-			result = levr.Business.get_by_key_name(businessID)
+			#fetch business information
+			b = levr.Business.get(businessID)
 			#pass thru business formatting thing
-			business = levr.phoneBusinessFormat(result)
+			business = levr.phoneBusinessFormat(b)
 			
 			#merge the two dictionaries
 			data = dict(deal.items()+business.items())

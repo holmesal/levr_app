@@ -50,7 +50,7 @@ class Deal(db.Model):
 	
 	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
 	img				= db.BlobProperty()
-	businessID 		= db.ReferenceProperty() #uid
+	businessID 		= db.StringProperty() #uid
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 	= db.StringProperty() #secondary category

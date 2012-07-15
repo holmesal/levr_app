@@ -1,7 +1,7 @@
 import webapp2
 import levr_classes
 #import logging
-from google.appengine.ext import db
+#from google.appengine.ext import db
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -13,7 +13,7 @@ class MainPage(webapp2.RequestHandler):
         c.put()
         
     	#new business
-        b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYHQw')
+        b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYNQw')
         b.business_name = 'Shaws'
         b.address_line1 = '1 white house road'
         b.address_line2 = 'box 10'
@@ -26,13 +26,12 @@ class MainPage(webapp2.RequestHandler):
         b.pw 			= 'alonso'
         b.put()
         
-        
     	#new deal
-        d = levr_classes.Deal()
-        d.businessID 		= b.key()
+        d = levr_classes.Deal(parent=b)
+        d.businessID 		= str(b.key())
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
-        d.secondary_is_category = False
+        d.name_type			= 'specific'
         d.description 		= 'describe me, hun.'
         d.discount_type 	= 'monetary'
         d.discount_value 	= 50.2
@@ -45,22 +44,19 @@ class MainPage(webapp2.RequestHandler):
         d.put()
         
         #new Category
-        cat = levr_classes.Category()
+        cat = levr_classes.Category(parent=d)
         cat.primary_cat 	= 'Socks'
-        cat.dealID			= d.key()
+        #cat.dealID			= d.key()
         cat.put()
         
         #new favorite
-        f = levr_classes.Favorite()
-        f.uid				= str(c.key())
+        f = levr_classes.Favorite(parent=c)
+#        f.uid				= str(c.key())
         f.dealID			= str(d.key())
         f.primary_cat	 	= 'Toe Socks'
         f.put()
         
         
-        id = 'agtkZXZ-Z2V0bGV2cnIbCxIIQnVzaW5lc3MiDTMyMjIyMjIyMjIyMjIM'
-        result = db.get(id)
-        self.response.out.write(result)
 
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write('I think this means it was a success')

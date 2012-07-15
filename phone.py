@@ -87,22 +87,25 @@ class phone(webapp2.RequestHandler):
 				logging.error("Could not grab primary category. Input passed: " + self.request.body)
 			
 			#query the database for all deals with a matching primaryCat
-			q = levr.Category.gql("WHERE primary_cat = :primary_cat",primary_cat=primaryCat)
-			
+			q = levr.Category.gql("WHERE primary_cat=:1",primaryCat)
+			#logging.info(q.count())
 			#define an empty "dealResults" LIST, and initialize the counter to 0
 			dealResults = []
 			resultsPushed = 0
 			#initialize isEmpty to 1
 			isEmpty = 1
 			#iterate over the results
+			#Want to grab deal information for each category
 			for category in q:
 				#set isEmpty to 1
 				isEmpty = 0
 				#break if results limit is hit
 				if resultsPushed == numResults:
 					break
-				#grab the appropriate deal
-				result = levr.Deal.get_by_key_name(category.dealID)
+				#grab the parent deal key so we can grab the info from it
+				d = category.parent().key()
+				#grab the appropriate deal parent
+				result = levr.Deal.get(d)
 				#trade an object for a phone-formatted dictionary
 				deal = levr.phoneDealFormat(result)
 				#push the primary onto the dictionary
@@ -125,6 +128,7 @@ class phone(webapp2.RequestHandler):
 					
 			#else, isempty is false, append some related deals
 			else:
+				#THIS WILL BE REPLACED WITH A STANDARD RESPONSE
 				#if not 20 yet, continue adding deals up to numResults
 				if resultsPushed < numResults:
 					#place the null object, to signify to ethan to place a heading
@@ -137,7 +141,7 @@ class phone(webapp2.RequestHandler):
 						if resultsPushed == numResults:
 							break
 						#grab the appropriate deal
-						result = levr.Deal.get_by_key_name(category.dealID)
+						result = levr.Deal.get(category.parent().key())
 						#trade an object for a phone-formatted dictionary
 						deal = levr.phoneDealFormat(result)
 						#push the primary onto the dictionary
@@ -158,26 +162,31 @@ class phone(webapp2.RequestHandler):
 			'''
 			uid = decoded["in"]["uid"]
 			#grabs the deal key name and primary category from table
-			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
+			q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
+#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
 			#init key,cats list
-			keys,cats = [],[]
+			logging.info(q1)
+			deal_keys,cats = [],[]
 			#grab deal keys from each favorite
 			for fav in q1:
-				keys.append(fav.dealID)
+#				logging.info(fav)
+				deal_keys.append(fav.dealID)
 				cats.append(fav.primary_cat)
 			
 			#grab all the deal data with the keys
-			deals = levr.Deal.get_by_key_name(keys)
+			deals = levr.Deal.get(deal_keys)
 			
 			#data is deal obj array
 			data = []
 			#grab data from each deal
 			for idx,deal in enumerate(deals):
-				# deal.__dict__
+				self.response.out.write(deal.__dict__)
 				#send to format function - package for phone
-				data.append(levr.phoneDealFormat(deal))
-				data[idx]['primaryCat'] = cats[idx]
-				
+				deal_stack = levr.phoneDealFormat(deal)
+				deal_stack.update({"primaryCat":cats[idx]})
+				data.append(deal_stack)
+#				data[idx]['primaryCat'] = cats[idx]
+#			self.response.out.write(data)
 			toEcho = {"success":1,"data":data}
 		#ADD FAVORITE***********************************************************
 		elif action == "addFav":
@@ -191,9 +200,9 @@ class phone(webapp2.RequestHandler):
 			primary_cat = decoded["in"]["primaryCat"]
 			
 			#create new Favorite instance
-			fav = levr.Favorite()
+			fav = levr.Favorite(parent=db.Key(uid))
 			#populate data in new favorite
-			fav.uid 		= uid
+#			fav.uid 		= uid
 			fav.dealID 		= dealID
 			fav.primary_cat = primary_cat
 			#place in database
@@ -210,7 +219,7 @@ class phone(webapp2.RequestHandler):
 			uid = decoded["in"]["uid"]
 			dealID = decoded["in"]["dealID"]
 			primary_cat = decoded["in"]["primaryCat"]
-			q = levr.Favorite.gql("WHERE uid=:1 and dealID=:2 and primary_cat=:3",uid, dealID, primary_cat)
+			q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2 and primary_cat=:3",uid, dealID, primary_cat)
 			#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
 			
 			for fav in q:
@@ -226,24 +235,22 @@ class phone(webapp2.RequestHandler):
 			'''
 			#grab input dealID
 			try:
-				dealID = decoded["in"]["dealID"]
+				dealID 		= decoded["in"]["dealID"]
 				primary_cat = decoded["in"]["primaryCat"]
 			except:
 				logging.error("Could not grab dealID AND/OR primaryCat. Input passed: " + self.request.body)
-			
 			#fetch deal
-			result = levr.Deal.get_by_key_name(dealID)
-			#pass through phone formatting thingy
+			result = levr.Deal.get(dealID)
+			#convert fetched deal into dictionary
 			deal = levr.phoneDealFormat(result)
 			#push the primary onto the dictionary
-			deal['primaryCat'] = primary_cat
-			
+			deal.update({"primaryCat":primary_cat})
 			#grab businessID from deal
 			businessID = deal['businessID']
-			#fetch business
-			result = levr.Business.get_by_key_name(businessID)
+			#fetch business information
+			b = levr.Business.get(businessID)
 			#pass thru business formatting thing
-			business = levr.phoneBusinessFormat(result)
+			business = levr.phoneBusinessFormat(b)
 			
 			#merge the two dictionaries
 			data = dict(deal.items()+business.items())
@@ -254,8 +261,36 @@ class phone(webapp2.RequestHandler):
 			#takes a key and uid, put into deals table with status "pending"
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "getMyDeals":
-			toEcho = {"success":0,"data":"some data!"}
+			'''
+			returns all of the deals that were uploaded by the ninja
+			input	: uid
+			output	: list of deal objects
+			'''
+			try:
+				uid	= decoded["in"]["uid"]
+			except:
+				logging.error("could not grab uid. Input passed: "+self.request.body)
+			
+			#grab all deal children of the user
+			deals = levr.Deal.gql("WHERE ANCESTOR IS :1",uid)
+			#format deals
+			data = [levr.phoneDealFormat(x) for x in deals]
+			
+			toEcho = {"success":0,"data":data}
 		elif action == "getMyStats":
+			'''
+			returns the user's statistics
+			input	: uid
+			output	: 
+			'''
+			try:
+				uid = decoded['in']['uid']
+			except:
+				logging.error("could not grab uid. Input passed: "+self.request.body)
+			#get user information
+			user = db.get(uid)
+			#format user information
+			
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "getRedeem":
 			toEcho = {"success":0,"data":"some data!"}
@@ -296,4 +331,7 @@ class phone_log(webapp2.RequestHandler):
 	def post(self):
 		logging.error(self.request.body)
 
-app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDealImage', uploadDealImage)],debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),
+								('/phone/log', phone_log),
+								('/phone/uploadDealImage', uploadDealImage)],
+								debug=True)

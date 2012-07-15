@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Levr - Create an offer</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta name="author" content="Patrick Walsh, Alonso Holmes, Ethan Sherr"/>
+		<!-- Le styles
+		=======================================================-->
+		<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+		<!--link href="css/bootstrap-responsive.min.css" rel="stylesheet"-->
+		<link href="../../css/deal.css" rel="stylesheet"/>
+		<link rel="icon" type="image/png" href="./favicon.png"/>
+
+		<!-- google analytics -->
+		<!--script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-32183987-1']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script-->
+
+	</head>
+	<body>
+		<!-- Container
+		======================================================== -->
+		<div class="container" id="main">
+			<div class="row">
+				<div class="span12">
+					<form id="dealForm" class="well bigForm form-horizontal" action="/merchants/deal/new" method="post">
+						
+							<div class="formGroup" id="accord0">
+								<div class="hidden">
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#formAccord" href="#collapse0">Introduction</a>
+								</div>
+								<div id="collapse0" class="collapse in">
+									<div class="accordion-inner">
+										<div class="newAbout">
+											<p id="welcomeTo" class="secondary">
+												Welcome to
+											</p>
+											<img id="newLogo" src="./img/biglogo.png"/>
+
+										</div>
+										<div class="span4" style="margin-left: 94px;">
+											<h2 class="colHead">What we do:</h2>
+											<p class="secondary">
+												Deliver you paying customers on a per-customer basis.
+											</p>
+										</div>
+										<div class="span4">
+											<h2 class="colHead">What you do:</h2>
+											<p class="secondary">
+												Bundle full-price item purchases with discounts on other items.
+											</p>
+										</div>
+										<div class="newAbout">
+											<button class="btn btn-success btn-large" id="goTo1">
+												Get started!
+											</button>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="formGroup" id="accord1">
+								<div id="collapse1Head" class=" hidden">
+									<a class="accordion-toggle collapse1" data-toggle="collapse" data-parent="#formAccord" href="#collapse1">Step One: The Items</a>
+								</div>
+								<div id="collapse1" class=" collapse">
+									<div class="accordion-inner">
+										<button class="btn btn-danger hidden" style="float: right;" id="deleteDeal">
+											Delete Deal
+										</button>
+										<fieldset class="control-group" id="fieldset-items">
+
+											<legend>
+												Full-price Item
+											</legend>
+											<div class="span5 formLeft">
+												<p class="prompt">
+													Select up to three tags for your full-price item:
+												</p>
+												<div class="control-group" id="group-dealTag1">
+													<label class="control-label" id="label-dealTag1" for="text-dealTag1">Tag 1: </label>
+													<div class="controls">
+														<input type="text" name="dealTag1" data-provide="typeahead" id="text-dealTag1" class="tagSelect" autocomplete="off" placeholder="Like: shirt, computer, indian food"/>
+														<span class="help-inline hidden" id="error-dealTag1">Please enter at least one tag</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-dealTag2">
+													<label class="control-label" id="label-dealTag2" for="text-dealTag2">Tag 2: </label>
+													<div class="controls">
+														<input type="text" name="dealTag2" data-provide="typeahead" id="text-dealTag2" class="tagSelect" autocomplete='off' placeholder="Like: shirt, computer, indian food"/>
+														<span class="help-inline hidden" id="error-dealTag2">Please enter at least one tag</span>
+													</div>
+												</div>
+												<div class="control-group" id="group-dealTag3">
+													<label class="control-label" id="label-dealTag3" for="text-dealTag3">Tag 3: </label>
+													<div class="controls">
+														<input type="text" name="dealTag3" data-provide="typeahead" id="text-dealTag3" class="tagSelect" autocomplete='off' placeholder="Like: shirt, computer, indian food">
+														<span class="help-inline hidden" id="error-dealTag3">Please enter at least one tag</span>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													This is the item that people intend to buy at full price, and how they find you. Generally, a mix of general and specific tags works best. Don't worry about using all three - stick to what makes sense.
+												</p>
+												<p class="helpText">
+													Example: If you were a clothing retailer, you might want to bundle a full-price jacket with a discounted pair of jeans. Your full-price item tags could be clothing (general) and jacket (specific).
+												</p>
+											</div>
+
+											<legend>
+												Discounted Item
+											</legend>
+											<div class="span5">
+												<p class="prompt">
+													Choose what you will offer a discount on:
+												</p>
+												<div class="control-group" id="group-dealType">
+													<label class="control-label" id="label-dealType" for="btn-dealType">Offer type: </label>
+													<div class="controls">
+														<div class="btn-group" id="btn-dealType" data-toggle="buttons-radio">
+															<button class="btn radio-dealType" id="radio-itemName" value="itemName">
+																Single item
+															</button>
+															<button class="btn radio-dealType" id="radio-category" value="category">
+																Category of items
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													A single item is specific, e.g. "UberBrand Model T Jeans".
+												</p>
+												<p class="helpText">
+													A category of items is more general, e.g. "Jeans".
+												</p>
+												<p class="helpText">
+													Discounting an entire category offers choice, but a item is easier to manage.
+												</p>
+											</div>
+
+											<div class="span9 formBtn">
+												<button class="btn btn-primary" id="goTo2">
+													Save and continue
+												</button>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+
+							<div class="formGroup" id="accord2">
+								<div id="collapse2Head" class=" hidden">
+									<a class="accordion-toggle collapse2" data-toggle="collapse" data-parent="#formAccord" href="#collapse2">Step Two: Item Details</a>
+								</div>
+								<div id="collapse2" class=" collapse">
+									<div class="accordion-inner">
+										<fieldset class="control-group" id="fieldset-details">
+											<div class="dealCategory hidden">
+												<!--******CATEGORY OF ITEMS******-->
+												<legend>
+													Category Details
+												</legend>
+												<div class="span5 formLeft">
+													<p class="prompt">
+														Choose a tag that describes the category you wish to discount.
+													</p>
+													<div class="control-group" id="group-categoryTag">
+														<label class="control-label" id="label-categoryTag" for="text-categoryTag">Tag: </label>
+														<div class="controls">
+															<input type="text" name="categoryTag" data-provide="typeahead" id="text-categoryTag" class="tagSelect" autocomplete='off' placeholder="Like: shirt, computer, indian food">
+															<span class="help-inline hidden" id="error-categoryTag">Please enter a tag</span>
+														</div>
+													</div>
+													<p class="prompt">
+														Enter a brief description of the category you wish to discount (optional)
+													</p>
+													<div class="control-group" id="group-categoryDescription">
+														<label class="control-label" id="label-categoryDescription" for="text-categoryDescription">Description: </label>
+														<div class="controls">
+															<textarea type="text" name="categoryDescription" class="input-xlarge" id="text-categoryDescription" rows="3"></textarea>
+															<p id="characterCounts-categoryDescription" class="help-block">
+																140 characters remaining
+															</p>
+														</div>
+													</div>
+												</div>
+												<div class="span3 formRight">
+													<p class="helpText">
+														This is how customers will first see your offer.
+													</p>
+													<p class="helpText">
+														Example: If your category tag was jeans, customers would see "20% off Jeans with purchase of Jacket"
+													</p>
+													<p class="helpText">
+														Descriptions are optional - if you choose to use one, keep it short and sweet.
+													</p>
+												</div>
+											</div>
+											<div class="dealSpecific hidden">
+												<!--******SPECIFIC ITEM******-->
+												<legend>
+													Item Details
+												</legend>
+												<div class="span5 formLeft">
+													<p class="prompt">
+														Enter the name of the item as you would like it to appear
+													</p>
+													<div class="control-group" id="group-specificName">
+														<label class="control-label" id="label-specificName" for="text-specificName">Name: </label>
+														<div class="controls">
+															<input type="text" name="specificName" id="text-specificName" autocomplete='off' placeholder="Everything bagel">
+															<span class="help-inline hidden" id="error-specificName">Please enter a name</span>
+														</div>
+													</div>
+													<p class="prompt">
+														Choose a tag that describes the category of the item you wish to discount
+													</p>
+													<div class="control-group" id="group-specificTag">
+														<label class="control-label" id="label-specificTag" for="text-specificTag">Tag: </label>
+														<div class="controls">
+															<input type="text" name="specificTag" data-provide="typeahead" id="text-specificTag" class="tagSelect" autocomplete='off' placeholder="Like: shirt, computer, indian food">
+															<span class="help-inline hidden" id="error-specificTag">Please enter a tag</span>
+														</div>
+													</div>
+													<p class="prompt">
+														Enter a brief description of the item you wish to discount
+													</p>
+													<div class="control-group" id="group-specificDescription">
+														<label class="control-label" id="label-specificDescription" for="text-specificDescription">Description: </label>
+														<div class="controls">
+															<textarea type="text" name="specificDescription" class="input-xlarge" id="text-specificDescription" rows="3"></textarea>
+															<p id="characterCounts-specificDescription" class="help-block">
+																140 characters remaining
+															</p>
+															<span class="help-inline hidden" id="error-dealValue">Please enter a description</span>
+														</div>
+													</div>
+
+												</div>
+												<div class="span3 formRight">
+													<p class="helpText">
+														This is how customers will first see your offer.
+													</p>
+													<p class="helpText">
+														If your item name was UberBrand Model T Jeans, customers would see "20% off UberBrand Model T Jeans with purchase of Jacket"
+													</p>
+													<p class="helpText">
+														A tag helps customers find your offer among other offers. In this example, your tag would be "Jeans"
+													</p>
+													<p class="helpText">
+														Descriptions are optional - if you choose to use one, keep it short and sweet.
+													</p>
+												</div>
+											</div>
+											<div class="span9 formBtn">
+												<button class="btn btn-primary" id="goTo3">
+													Save and continue
+												</button>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+
+							<div class="formGroup" id="accord3">
+								<div id="collapse3Head" class=" hidden">
+									<a class="accordion-toggle collapse3" data-toggle="collapse" data-parent="#formAccord" href="#collapse3">Step Three: The Offer</a>
+								</div>
+								<div id="collapse3" class=" collapse">
+									<div class="accordion-inner">
+										<fieldset class="control-group" id="fieldset-offer">
+
+											<legend>
+												Offer Details
+											</legend>
+											<div class="span5 formLeft">
+												<p class="prompt">
+													Choose the type of discount that you would like to offer
+												</p>
+												<div class="control-group" id="group-discountType">
+													<label class="control-label" id="label-discountType" for="btn-discountType">Discount: </label>
+													<div class="controls">
+														<div class="btn-group" id="btn-discountType" data-toggle="buttons-radio">
+															<button class="btn radio-discountType" id="radio-percent" value="percent">
+																Percent (%)
+															</button>
+															<button class="btn radio-discountType" id="radio-monetary" value="monetary">
+																Monetary ($)
+															</button>
+															<button class="btn radio-discountType" id="radio-free" value="free">
+																Free
+															</button>
+														</div>
+													</div>
+												</div>
+												<div class="control-group" id="group-dealValue">
+													<label class="control-label" id="label-dealValue" for="text-dealValue">Amount: </label>
+													<div class="controls">
+														<input type="text" name="dealValue" id="text-dealValue" class="span1" placeholder="20">
+														<span id="valueText"></span>
+														<span class="help-inline hidden" id="error-dealValue">Please enter a valid amount</span>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													Make sure to offer an incentive that people will find valuable.
+												</p>
+											</div>
+											<legend>
+												End Condition
+											</legend>
+											<div class="span5">
+												<p class="prompt">
+													Choose the number of customers you wish to attract. You have <span class="creditsHave">100</span><span id="creditsHavePostText"> free customers to attract.</span>
+												</p>
+												<div class="control-group" id="group-endValue">
+													<label class="control-label" id="label-endValue" for="text-endValue">Customers: </label>
+													<div class="controls">
+														<input type="text" name="endValue" class="span1" id="text-endValue" autocomplete='off' placeholder="100">
+														<span class="help-inline hidden" id="error-endValue">Please enter a number of customers less than <span class="creditsHave">100</span></span>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													This is your "budget" - how many additional customers you would like Levr to pull in.
+													<a href="pricing.html" target="_blank">Info</a>
+												</p>
+											</div>
+											<legend>
+												Location
+											</legend>
+											<div class="span5">
+												<p class="prompt">
+													Select your nearest major metropolitan area
+												</p>
+												<div class="control-group" id="group-dealCity">
+													<label class="control-label" id="label-dealCity" for="text-dealCity">City: </label>
+													<div class="controls">
+														<input type="text" name="dealCity" id="text-dealCity" data-provide="typeahead" autocomplete='off' placeholder="Boston">
+														<span class="help-inline hidden" id="error-dealCity">Please select a city</span>
+													</div>
+												</div>
+											</div>
+											<div class="span3 formRight">
+												<p class="helpText">
+													This is where most of your customer base is located.
+												</p>
+											</div>
+											<div class="span9 formBtn">
+												<button class="btn btn-primary" id="goTo4">
+													Save and continue
+												</button>
+												<button class="btn btn-primary hidden" id="skipTo6">
+													Review
+												</button>
+
+											</div>
+
+										</fieldset>
+									</div>
+								</div>
+							</div>
+
+							<div class="formGroup" id="accord6">
+								<div id="collapse6Head" class=" hidden">
+									<a class="accordion-toggle collapse6" data-toggle="collapse" data-parent="#formAccord" href="#collapse6">Review</a>
+								</div>
+								<div id="collapse6" class=" collapse">
+									<div class="accordion-inner">
+										<fieldset class="control-group" id="fieldset-review">
+											<legend>
+												Review
+											</legend>
+											<div class="span4 formLeft">
+												<h3>Primary item</h3>
+												<p class="reviewParam">
+													Primary item tags: <span id="review-dealTags" class="reviewValue"></span>
+												</p>
+												<h3>Discounted item</h3>
+												<p class="reviewParam">
+													Item name: <span id="review-specificName" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Item tag: <span id="review-specificTag" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Description: <span id="review-specificDescription" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Category tag: <span id="review-categoryTag" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Description: <span id="review-categoryDescription" class="reviewValue"></span>
+												</p>
+												<h3>Offer</h3>
+												<p class="reviewParam">
+													Discount type: <span id="review-dealType" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Discount amount: <span id="review-dealValue" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Number of customers: <span id="review-endValue" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													City: <span id="review-dealCity" class="reviewValue"></span>
+												</p>
+											</div>
+											<div class="span4 formRight hidden">
+												<h3>Business</h3>
+												<p class="reviewParam">
+													Name: <span id="review-businessName" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Address 1: <span id="review-address1" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Address 2: <span id="review-address2" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													City: <span id="review-city" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													City: <span id="review-zipCode" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													State: <span id="review-state" class="reviewValue"></span>
+												</p>
+												<h3>Account</h3>
+												<p class="reviewParam">
+													Name: <span id="review-ownerName" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Phone: <span id="review-phone" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Email: <span id="review-email" class="reviewValue"></span>
+												</p>
+												<p class="reviewParam">
+													Updates: <span id="review-sendEmails" class="reviewValue"></span>
+												</p>
+											</div>
+											<legend>
+												Pricing
+											</legend>
+											<div class="alert alert-success">
+												<h4>You have <span class="creditsHave">100</span> free customers.</h4>
+											</div>
+											<div class="span2" style="text-align: right;">
+												<p>
+													Credits required:
+												</p>
+												<p>
+													Total cost:
+												</p>
+											</div>
+											<div class="span3">
+												<p>
+													<span id='creditsUsed'></span> credits will be used.
+												</p>
+												<p>
+													$0.00
+												</p>
+											</div>
+											<div class="span9 formBtn">
+												<!--<button class="btn btn-primary" id="btnSubmit">
+													Submit
+												</button>-->
+												<input type="submit" value="Submit">
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<input type="submit" value="Submit">
+							</div>
+
+							<div class="formGroup" id="accord7">
+								<div id="collapseSevenHead" class=" hidden">
+									<a class="accordion-toggle collapseSeven" data-toggle="collapse" data-parent="#formAccord" href="#collapseSeven">Hooray!</a>
+								</div>
+								<div id="collapseSeven" class=" collapse">
+									<div class="accordion-inner">
+										<div class="span5">
+											<legend>
+												It pays to share
+											</legend>
+											<p class="secondary">
+												Refer other businesses using the following link. For every business that creates an offer, you'll receive an additional 100 free customers.
+											</p>
+											<p class="secondary">
+												Referral URL: <textarea id="refURL" rows="1">http://getlevr.com/merchants.html?ref=</textarea>
+											</p>
+											<legend class="finalHeader">
+												Redemption method
+											</legend>
+											<p class="secondary">
+												Here's what customers will show you on their mobile devices:
+											</p>
+											<p class="secondary">
+												You can change this screen, use custom barcodes, and more.
+											</p>
+											<p class="secondary">
+												We'll contact you with detailed redemption information when we launch your offer.
+											</p>
+											<a href="./manageDeals.html?tab=redemption">
+											<button class="btn btn-primary" id="btnRedemption">
+												Edit Redemption
+											</button></a>
+											<legend class="finalHeader">
+												Manage your offer
+											</legend>
+											<p class="secondary">
+												Get real-time stats, add new offers, and edit existing ones.
+											</p>
+											<a href="./manageDeals.html">
+											<button class="btn btn-primary" id="btnManage">
+												Manage Offer
+											</button></a>
+
+										</div>
+										<img id="iphoneRedemption" src="./img/iphoneRedemption.png">
+									</div>
+								</div>
+							</div>
+
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- /container
+		======================================================== -->
+		<script src="../../js/jquery-1.7.1.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
+		<script src="../../js/newDeal.js"></script>
+		<!--script src="./lib/closure-library/closure/goog/base.js"></script>
+		<script src="./lib/closure-library/closure/goog/format/emailaddress.js"></script>
+		<script>
+		goog.require('goog.dom');
+		goog.require('goog.proto2.ObjectSerializer');
+		</script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/phonemetadata.pb.js"></script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/phonenumber.pb.js"></script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/metadata.js"></script>
+		<script src="./lib/libphonenumber/javascript/i18n/phonenumbers/phonenumberutil.js"></script-->
+
+	</body>
+</html>

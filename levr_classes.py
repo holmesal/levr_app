@@ -50,7 +50,7 @@ class Deal(db.Model):
 	
 	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
 	img				= db.BlobProperty()
-	businessID 		= db.StringProperty() #uid
+	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty() #name of business
 
 	secondary_name 	= db.StringProperty() #secondary category
@@ -103,6 +103,11 @@ def phoneBusinessFormat(business):
 	}
 	return data
 
+def phone_my_deal_format(deal):
+	data = {
+		
+	}
+	return data
 def web_edit_account_format(business):
 	data = {
 		"email"			: business.email,

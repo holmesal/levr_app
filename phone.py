@@ -87,22 +87,25 @@ class phone(webapp2.RequestHandler):
 				logging.error("Could not grab primary category. Input passed: " + self.request.body)
 			
 			#query the database for all deals with a matching primaryCat
-			q = levr.Category.gql("WHERE primary_cat = :primary_cat",primary_cat=primaryCat)
-			
+			q = levr.Category.gql("WHERE primary_cat=:1",primaryCat)
+			#logging.info(q.count())
 			#define an empty "dealResults" LIST, and initialize the counter to 0
 			dealResults = []
 			resultsPushed = 0
 			#initialize isEmpty to 1
 			isEmpty = 1
 			#iterate over the results
+			#Want to grab deal information for each category
 			for category in q:
 				#set isEmpty to 1
 				isEmpty = 0
 				#break if results limit is hit
 				if resultsPushed == numResults:
 					break
-				#grab the appropriate deal
-				result = levr.Deal.get_by_key_name(category.dealID)
+				#grab the parent deal key so we can grab the info from it
+				d = category.parent().key()
+				#grab the appropriate deal parent
+				result = levr.Deal.get(d)
 				#trade an object for a phone-formatted dictionary
 				deal = levr.phoneDealFormat(result)
 				#push the primary onto the dictionary
@@ -125,6 +128,7 @@ class phone(webapp2.RequestHandler):
 					
 			#else, isempty is false, append some related deals
 			else:
+				#THIS WILL BE REPLACED WITH A STANDARD RESPONSE
 				#if not 20 yet, continue adding deals up to numResults
 				if resultsPushed < numResults:
 					#place the null object, to signify to ethan to place a heading
@@ -137,7 +141,7 @@ class phone(webapp2.RequestHandler):
 						if resultsPushed == numResults:
 							break
 						#grab the appropriate deal
-						result = levr.Deal.get_by_key_name(category.dealID)
+						result = levr.Deal.get(category.parent().key())
 						#trade an object for a phone-formatted dictionary
 						deal = levr.phoneDealFormat(result)
 						#push the primary onto the dictionary
@@ -257,8 +261,36 @@ class phone(webapp2.RequestHandler):
 			#takes a key and uid, put into deals table with status "pending"
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "getMyDeals":
-			toEcho = {"success":0,"data":"some data!"}
+			'''
+			returns all of the deals that were uploaded by the ninja
+			input	: uid
+			output	: list of deal objects
+			'''
+			try:
+				uid	= decoded["in"]["uid"]
+			except:
+				logging.error("could not grab uid. Input passed: "+self.request.body)
+			
+			#grab all deal children of the user
+			deals = levr.Deal.gql("WHERE ANCESTOR IS :1",uid)
+			#format deals
+			data = [levr.phoneDealFormat(x) for x in deals]
+			
+			toEcho = {"success":0,"data":data}
 		elif action == "getMyStats":
+			'''
+			returns the user's statistics
+			input	: uid
+			output	: 
+			'''
+			try:
+				uid = decoded['in']['uid']
+			except:
+				logging.error("could not grab uid. Input passed: "+self.request.body)
+			#get user information
+			user = db.get(uid)
+			#format user information
+			
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "getRedeem":
 			toEcho = {"success":0,"data":"some data!"}

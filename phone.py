@@ -276,11 +276,12 @@ class uploadDealImage(webapp2.RequestHandler):
 		deal = levr.Deal()
 		
 		logging.info(self.request.headers)
-		logging.info(self.request.body_file)
-		logging.info(self.request.get('img'))
 		logging.info(self.request.body)
+
+		
 		#grab uploaded image
-		deal.img			= db.Blob(self.request.get('img'))
+		deal.img			= self.request.get('img')
+		
 		#deal.business_name	= self.request.get('businessName')
 		deal.deal_status	= 'pending'
 		#put in DB

@@ -3,15 +3,16 @@ import webapp2
 import levr_classes as levr
 from google.appengine.ext import db
 from google.appengine.api import images
+import logging
 
 
-class image(webapp2.RequestHandler):
+class edit(webapp2.RequestHandler):
 	def get(self):
 		#launch the jinja environment
 		self.response.out.write("""
 			<html>
 			<body>
-			<form action="/editEmptySet" enctype="multipart/form-data" method="post">
+			<form action="/phone/uploadDealImage" enctype="multipart/form-data" method="post">
 				<div><label>Index (1-10):</label></div>
 				<div><input type="text" name="index"></input></div>
 
@@ -27,6 +28,7 @@ class image(webapp2.RequestHandler):
 			</html>""")
 	
 	def post(self):
+		logging.info(self.request.body)
 		#grab form data
 		idx			= int(self.request.get('index'))
 		primary_cat	= self.request.get('primary_cat')
@@ -43,9 +45,11 @@ class image(webapp2.RequestHandler):
 		obj.index		= idx
 		obj.put()
 		
-		url = images.get_serving_url(obj.img)
+		#url = images.get_serving_url(obj.img)
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(obj.img)
+		logging.info(self.request.headers)
+		logging.info(self.request.body)
 		
 class get_img:
 	def post(self):

@@ -1,9 +1,9 @@
 <html>
 	<body>
 	<div>
-		<img src="./admin/pendingImage/{{ image_key }}">
+		<img src="./admin/pendingImage/?key={{ image_key }}">
 		<p>Business name: {{business_name}}</p>
-		<p>Secondary name: {{secondary_name}}</p>
+		
 	</div>
 	<form method="post" action="/login">
 		<p><strong>Deal type:</strong> </br>
@@ -11,9 +11,17 @@
 		<input type="radio" name="discount_type" value="monetary"> Monetary </br>
 		<input type="radio" name="discount_type" value="free"> Free </br>
 		</p>
-		<p>Deal Value: <input type="text" name="discount_value"></p>
+		<p>Deal Value: <input type="text" name="discount_value" value="{{deal_value}}"></p>
+		<p>Secondary Name: <input type="text" name="text" value="secondary_name"></p>
 		<p>Tags: <textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
-		<p>Location: <input type="password" name="password"></p>
+		<p>Location: <input type="text" name="text" value=""></p>
+		<p>Business Name: <input type="text" name="text" value=""></p>
+		<p>Gate Requirement: <input type="text" name="text" value=""></p>
+		<p>Gate Payment Per: <input type="text" name="text" value=""></p>
+		<p>Gate Max: <input type="text" name="text" value=""></p>
+		<h2>Business Information</h2>
+		<p><input type="text" name="text" value=""></p>
+		<p><input type="text" name="text" value=""></p>
 		<input type="submit" value="Login">
 	</form>
 	

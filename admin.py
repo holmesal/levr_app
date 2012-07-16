@@ -11,21 +11,14 @@ class Pending(webapp2.RequestHandler):
 		#grab all the deals with current status == pending
 		deal = levr.CustomerDeal.gql('WHERE deal_status=:1','pending').get()
 		#dictify deal
-		template_values = deal.format_pending_deal()
-		#dealID, business_name, deal_address, geo_location
-		
+		template_values = deal.dictify()
 		
 		#get the first matching entity and parse into template values
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(deal.img)
 		self.response.headers['Content-Type'] = 'text/html'	
 		
-		
-		
-		template_values.update({
-			'image_key'				: deal.key().__str__(),
-		})
-		
+		business = levr.Business.get(deal['businessID'])
 		logging.info(template_values)
 		
 		jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -42,6 +35,8 @@ class Approve(webapp2.RequestHandler):
 class PendingImage(webapp2.RequestHandler):
 	def get(self):
 		logging.info(self.request.get('key'))
+		key = self.request.get('key')
+		img = levr.CustomerDeal.get(key)
 		
 class AllImages(webapp2.RequestHandler):
 	def get(self):

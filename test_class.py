@@ -9,6 +9,7 @@ class MainPage(webapp2.RequestHandler):
         c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM')
         c.name	= 'alonso'
         c.email	= 'ethan@getlevr.com'
+        c.payment_email = c.email
         c.pw 	= 'ethan'
         c.put()
         

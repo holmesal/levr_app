@@ -7,12 +7,14 @@ class Customer(db.Model):
 #root class
 	#key_name is uid
 	email 			= db.EmailProperty()
+	payment_email	= db.EmailProperty()
 	pw 				= db.StringProperty()
 	alias			= db.StringProperty()
 	#stats
 	money_earned	= db.FloatProperty()
-	money_saved		= db.FloatProperty()
+	money_paid		= db.FloatProperty()
 	
+
 	def format_stats(self):
 		data = {
 			"alias"			: self.alias,
@@ -20,7 +22,11 @@ class Customer(db.Model):
 			"money_saved"	: self.money_saved
 		}
 		return data
-	
+	def update_total_earned(self):
+		'''Updates the total amount that the user has earned'''
+		pass
+	def update_total_paid(self):
+		'''Updates the total amount that the user has cashed out'''
 #class Redemption(db.Model):
 #child of customer
 #	dealID
@@ -82,48 +88,82 @@ class Deal(polymodel.PolyModel):
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
+	
+	def dictify(self):
+		'''Dictifies object for viewing its information on the phone - "myDeals" '''
+		data = {
+			"dealID"		: self.parent().key().__str__(),
+			"img"			: self.img,
+			"businessID"	: self.businessID.__str__(),
+			"businessName"	: self.business_name,
+			"name"  		: self.secondary_name,
+			"nameType"  	: self.name_type,
+			"description"   : self.description,
+			"dealValue" 	: self.discount_value,
+			"dealType"  	: self.discount_type,
+#			"dealOrigin"	: self.deal_origin,
+#			"dateStart"		: self.date_start,
+			"dateEnd"		: self.date_end,
+			"city"			: self.city,
+			"endValue"  	: self.count_end,
+#			"imgPath"		: self.img_path,
+			"countRedeemed"	: self.count_redeemed,
+#			"gateRequirement": self.gate_requirement,
+#			"gatePaymentPer": self.gate_payment_per,
+#			"gateCount"		: self.gate_count,
+#			"gateMax"		: self.gate_max,
+#			"dateUploaded"	: self.date_uploaded,
+#			"paymentTotal"	: self.payment_total(),
+			"geoPoint"		: self.geo_point,
+			"dealStatus"	: self.deal_status,
+		}
+		return data
+	def increment_redeem(self):
+		''' write what this does'''
+		pass
+
 
 class CustomerDeal(Deal):
 #Sub-class of deal
 #A deal that has been uploaded by a user
 	gate_requirement= db.IntegerProperty()
 	gate_payment_per= db.IntegerProperty()
-	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases
+	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases to gate_requirement
 	gate_max		= db.IntegerProperty()
 	date_uploaded	= db.DateProperty()
+	cashed_out		= db.BooleanProperty()
 	
 	def payment_total(self):
 		return "$"+str(self.gate_count*self.gate_payment_per)
 	
-	def format_pending_deal(self):
-		'''Formats the object into dictionary for review before release'''
-		data = {
-			"dealID"		: self.key().__str__(),
-			"business_name"	: self.business_name,
-			"deal_address"	: self.address,
-			"geo_point"	: self.geo_point,
-		}
-		return data
-	
-	def format_my_deals(self):
+	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"businessID"	: str(self.businessID),
+			"dealID"		: self.parent().key().__str__(),
+			"img"			: self.img,
+			"businessID"	: self.businessID.__str__(),
 			"businessName"	: self.business_name,
-			"dealID"		: str(self.parent().key()),
-			"nameType"  	: self.name_type,
 			"name"  		: self.secondary_name,
+			"nameType"  	: self.name_type,
 			"description"   : self.description,
-			"dealType"  	: self.discount_type,
 			"dealValue" 	: self.discount_value,
+			"dealType"  	: self.discount_type,
+#			"dealOrigin"	: self.deal_origin,
+#			"dateStart"		: self.date_start,
+			"dateEnd"		: self.date_end,
+			"city"			: self.city,
 			"endValue"  	: self.count_end,
-			"imgPath"		: self.img_path,
-			"deal_status"	: self.deal_status,
-			"gate_requirement": self.gate_requirement,
-			"gate_payment_per": self.gate_payment_per,
-			"gate_count"	: self.gate_count,
-			"gate_max"		: self.gate_max,
-			"payment_total"	: self.payment_total()
+#			"imgPath"		: self.img_path,
+			"countRedeemed"	: self.count_redeemed,
+			"gateRequirement": self.gate_requirement,
+			"gatePaymentPer": self.gate_payment_per,
+			"gateCount"		: self.gate_count,
+			"gateMax"		: self.gate_max,
+			"dateUploaded"	: self.date_uploaded,
+			"paymentTotal"	: self.payment_total(),
+			"geoPoint"		: self.geo_point,
+			"dealStatus"	: self.deal_status,
+			"cashedOut"		: self.cashed_out
 		}
 		return data
 
@@ -203,3 +243,8 @@ def web_edit_deal_format(deal):
 		"city"			: deal.city
 	}
 	return data
+def geo_converter(geo_str):
+	if geo_str:
+		lat, lng = geo_str.split(',')
+		return db.GeoPt(lat=float(lat), lon=float(lng))
+	return None

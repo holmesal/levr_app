@@ -61,7 +61,7 @@ class loginFav(webapp2.RequestHandler):
 		if customer != None:
 			#if matched, pull properties and set loginstate to true
 			session['uid'] = customer.key()
-			session['contact_owner'] = customer.contact_owner
+			session['alias'] = customer.alias
 			session['loggedIn'] = True
 			#add deal to fav
 			fav = levr.Favorite()
@@ -78,10 +78,10 @@ class signupFav(webapp2.RequestHandler):
 	def post(self):
 		#pull signup info from post
 		email = self.request.get('email')
-		contact_owner = self.request.get('contact_owner')
+		alias = self.request.get('alias')
 		pw = self.request.get('pw')
 		
-		response = levr_utils.signupCustomer(email,contact_owner,pw)
+		response = levr_utils.signupCustomer(email,alias,pw)
 		
 		if response['success']:
 			self.response.out.write(response)

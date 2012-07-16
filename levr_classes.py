@@ -46,7 +46,7 @@ class Business(db.Model):
     state 			= db.StringProperty()
     zip_code		= db.StringProperty()
     
-    contact_owner 	= db.StringProperty()
+    alias 	= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
     
     
@@ -165,7 +165,7 @@ def web_edit_account_format(business):
 		"city"			: business.city,
 		"state"			: business.state,
 		"zipCode"		: business.zip_code,
-		"ownerName"		: business.contact_owner,
+		"ownerName"		: business.alias,
 		"phone"			: business.contact_phone
 	}
 	return data

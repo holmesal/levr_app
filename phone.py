@@ -29,14 +29,14 @@ class phone(webapp2.RequestHandler):
 			#grab email/password from request body
 			try:
 				email = decoded["in"]["email"]
-				contact_owner = decoded["in"]["contact_owner"]
+				alias = decoded["in"]["alias"]
 				pw = decoded["in"]["pw"]
 			except:
-				logging.error("Could not grab email/password/contact_owner. Input passed: " + self.request.body)
+				logging.error("Could not grab email/password/alias. Input passed: " + self.request.body)
 				sys.exit()
 				
 			#attempt signup
-			toEcho = levr_utils.signupCustomer(email,contact_owner,pw)
+			toEcho = levr_utils.signupCustomer(email,alias,pw)
 		
 		#***************login************************************************
 		elif action == "login":

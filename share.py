@@ -3,7 +3,6 @@ import webapp2
 import levr_classes as levr
 import levr_utils
 from google.appengine.ext import db
-from google.appengine.api import images
 import logging
 import jinja2
 

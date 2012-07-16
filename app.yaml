@@ -27,6 +27,8 @@ handlers:
   script: admin.app
 - url: /share.*
   script: share.app
+- url: /payments/.*
+  script: payments.app
 - url: /img
   static_dir: img
 - url: /css

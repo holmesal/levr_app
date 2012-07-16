@@ -21,7 +21,7 @@ class MainPage(webapp2.RequestHandler):
         b.city 			= 'washington'
         b.state 		= 'DC'
         b.zip_code 		= '10000'
-        b.contact_owner = 'Joe'
+        b.alias = 'Joe'
         b.email 		= 'alonso@getlevr.com'
         b.contact_phone = '603-603-6003'
         b.pw 			= 'alonso'

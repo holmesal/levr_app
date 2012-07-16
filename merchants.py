@@ -79,7 +79,7 @@ class new_deal(webapp2.RequestHandler):
 			business.city			= self.request.get('city')
 			business.state			= self.request.get('state')
 			business.zip_code		= self.request.get('zipCode')
-			business.contact_owner	= self.request.get('ownerName')
+			business.alias	= self.request.get('ownerName')
 			business.contact_phone	= self.request.get('phone')
 			
 			
@@ -98,7 +98,7 @@ class new_deal(webapp2.RequestHandler):
 			
 			#log in the newly created business account
 			session['businessID'] = business.key()
-			session['contact_owner'] = business.contact_owner
+			session['alias'] = business.alias
 			session['loggedIn'] = True
 			logging.info(session)
 			
@@ -208,7 +208,7 @@ class account(webapp2.RequestHandler):
 		b.city			= form('city')
 		b.state			= form('state')
 		b.zip_code		= form('zipCode')
-		b.contact_owner	= form('ownerName')
+		b.alias			= form('ownerName')
 		b.contact_phone	= form('phone')
 		b.pw			= form('password')
 		b.email			= form('email')

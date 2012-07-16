@@ -1,0 +1,22 @@
+<html>
+	<body>
+		<p>Key: {{ refKey }}</p>	
+		{% if headerData.loggedIn == True %}
+		<h3>This header displays when logged in</h3>
+		<h4>Your name is {{ headerData.contact_owner }}</h4>
+		{% else %}
+		<form method="post" action="/share/loginFav">
+			Email orUsername: <input type="text" name="owner_name">
+			Password: <input type="password" name="pw">
+			<input type="submit" value="Signup">
+		</form>
+		<h2>Signup:</h2>
+		<form method="post" action="/share/signupFav">
+			Username: <input type="text" name="owner_name">
+			Email: <input type="text" name="email">
+			Password: <input type="password" name="pw">
+			<input type="submit" value="Signup">
+		</form>
+		{% endif %}
+	</body>
+</html>

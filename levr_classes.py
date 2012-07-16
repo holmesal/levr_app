@@ -43,12 +43,14 @@ class Business(db.Model):
     signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
     creation_date	= db.DateTimeProperty() #when created organically by user
     business_name 	= db.StringProperty()
+    
     address_line1 	= db.StringProperty()
     address_line2 	= db.StringProperty()
     city			= db.StringProperty()
     state 			= db.StringProperty()
     zip_code		= db.StringProperty()
-    contact_owner 	= db.StringProperty()
+    
+    alias 	= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
     geo_point		= db.GeoPtProperty() #latitude the longitude
     
@@ -67,6 +69,7 @@ class Business(db.Model):
 		return data
 class Deal(polymodel.PolyModel):
 #Child of business OR customer ninja
+	#key name is deal id
 	#deal information
 	img				= db.BlobProperty()
 	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
@@ -126,6 +129,7 @@ class Deal(polymodel.PolyModel):
 class CustomerDeal(Deal):
 #Sub-class of deal
 #A deal that has been uploaded by a user
+
 	gate_requirement= db.IntegerProperty()
 	gate_payment_per= db.IntegerProperty()
 	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases to gate_requirement
@@ -227,7 +231,7 @@ def web_edit_account_format(business):
 		"city"			: business.city,
 		"state"			: business.state,
 		"zipCode"		: business.zip_code,
-		"ownerName"		: business.contact_owner,
+		"ownerName"		: business.alias,
 		"phone"			: business.contact_phone
 	}
 	return data

@@ -309,26 +309,57 @@ class phone(webapp2.RequestHandler):
 		
 class uploadDealImage(webapp2.RequestHandler):
 	def post(self):
-		#create new deal object
-		deal = levr.Deal()
-		
 		logging.info(self.request.headers)
 		logging.info(self.request.body)
+		
+		#create alias for self.request.get
+		inputs = json.loads(self.request.body)
+#		inputs		= self.request.get
 
+		#grab existing business
+		business_name	= inputs['businessName']
+		geo_point		= inputs['geo_point']
+		business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+		#if a business doesn't exist in db, then create a new one
+		if not business:
+			business = levr.Business()
 		
-		#grab uploaded image
-		deal.img			= self.request.get('img')
+		#populate entity
+		business.geo_point		= geo_point
+		business.business_name	= business_name
+		business.address_line1	= inputs['address_line1'],
+		business.address_line2	= inputs['address_line2'],
+		business.city			= inputs['city'],
+		business.state			= inputs['state'],
+		business.zip_code		= inputs['zipCode']
+		#put business in db
+		business.put()
 		
-		#deal.business_name	= self.request.get('businessName')
+		
+		uid = inputs('uid')
+		#create new deal object as child of the uploader Customer
+		deal 				= levr.CustomerDeal(parent=uid)
+		deal.img			= inputs('img')			#D
+		deal.businessID		= business.key()
+		deal.secondary_name	= inputs('secondary_name') #### check name!!!
 		deal.deal_status	= 'pending'
+		deal.deal_origin	= 'external'
+		gate_requirement	= 5
+		gate_payment_per	= 1
+		gate_count			= 0
+		gate_max			= 5
+		count_redeemed		= 0
+		count_seen			= 0
+		geo_point			= geo_point
+#		date_uploaded		= current date and time
+		
+		
 		#put in DB
 		deal.put()
 		
-		#set as a child of user object
-		#uid 				= self.request.get('uid')
-		
-		data = "someKeyStuff"
-		toEcho = {"success":1,"data":data}
+		#return deal id
+		dealID = deal.key()
+		toEcho = {"success":1,"dealID":business}
 		self.response.out.write(json.dumps(toEcho))
 		
 class phone_log(webapp2.RequestHandler):

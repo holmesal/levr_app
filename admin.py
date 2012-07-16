@@ -1,30 +1,30 @@
 import os
 import webapp2
 import levr_classes as levr
-from google.appengine.ext import db
-from google.appengine.api import images
+#from google.appengine.ext import db
+#from google.appengine.api import images
 import logging
 import jinja2
 
-class pending(webapp2.RequestHandler):
+class Pending(webapp2.RequestHandler):
 	def get(self):
 		#grab all the deals with current status == pending
-		q = levr.Deal.gql('WHERE deal_status=:1','pending')
+		deal = levr.CustomerDeal.gql('WHERE deal_status=:1','pending').get()
+		#dictify deal
+		template_values = deal.format_pending_deal()
+		#dealID, business_name, deal_address, geo_location
+		
 		
 		#get the first matching entity and parse into template values
+		self.response.headers['Content-Type'] = 'image/png'
+		self.response.out.write(deal.img)
+		self.response.headers['Content-Type'] = 'text/html'	
 		
 		
-		result = q.get()
 		
-		#self.response.headers['Content-Type'] = 'image/png'
-		#self.response.out.write(result.img)
-			
-		
-		template_values = {
-			'image_key'				: result.key().__str__(),
-			'business_name'			: result.business_name,
-			'secondary_name'		: result.secondary_name
-		}
+		template_values.update({
+			'image_key'				: deal.key().__str__(),
+		})
 		
 		logging.info(template_values)
 		
@@ -35,12 +35,15 @@ class pending(webapp2.RequestHandler):
 	def post(self):
 		#pahaha
 		pass
-		
-class pendingImage(webapp2.RequestHandler):
+
+class Approve(webapp2.RequestHandler):
+	#insert into database and redirect to Pending for next pending deal
+	pass
+class PendingImage(webapp2.RequestHandler):
 	def get(self):
 		logging.info(self.request.get('key'))
 		
-class allImages(webapp2.RequestHandler):
+class AllImages(webapp2.RequestHandler):
 	def get(self):
 		q = levr.Deal.gql('WHERE deal_status=:1','pending')
 		for result in q:
@@ -48,4 +51,8 @@ class allImages(webapp2.RequestHandler):
 			self.response.headers['Content-Type'] = 'image/png'
 			self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/admin/pending', pending),('/admin/pendingImage', pendingImage),('/admin/allImages', allImages)],debug=True)
+app = webapp2.WSGIApplication([('/admin/pending', Pending),
+								('/admin/pendingImage', PendingImage),
+								('/admin/allImages', AllImages),
+								('/admin/approve', Approve)],
+								debug=True)

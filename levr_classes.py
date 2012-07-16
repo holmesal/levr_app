@@ -32,27 +32,35 @@ class Customer(db.Model):
 
 class Business(db.Model):
 #root class
-	#key is businessID
-    email 			= db.StringProperty()
+    email 			= db.EmailProperty()
     pw 				= db.StringProperty()
-    
-    businessID		= db.StringProperty()
-    signup_date 	= db.DateTimeProperty()
+    signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
+    creation_date	= db.DateTimeProperty() #when created organically by user
     business_name 	= db.StringProperty()
-    
     address_line1 	= db.StringProperty()
     address_line2 	= db.StringProperty()
     city			= db.StringProperty()
     state 			= db.StringProperty()
     zip_code		= db.StringProperty()
-    
     contact_owner 	= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
+    geo_point		= db.GeoPtProperty() #latitude the longitude
     
-    
+    def format_for_pending_deal(self):
+		'''Formats the object into dictionary for review before release'''
+		data = {
+			"businessID"	: self.key().__str__(),
+			"address_line1"	: self.address_line1,
+			"address_line2"	: self.address_line2,
+			"city"			: self.city,
+			"state"			: self.state,
+			"zip_code"		: self.zip_code,
+			"business_name"	: self.business_name,
+			"geo_point"		: self.geo_point,
+		}
+		return data
 class Deal(polymodel.PolyModel):
 #Child of business OR customer ninja
-	#key name is deal id
 	#deal information
 	img				= db.BlobProperty()
 	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
@@ -63,28 +71,42 @@ class Deal(polymodel.PolyModel):
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
+	
 	date_start 		= db.DateProperty() #start date
 	date_end 		= db.DateProperty()
-	img_path		= db.StringProperty()   #string path to image
+#	img_path		= db.StringProperty()   #string path to image
 	city 			= db.StringProperty()  #optional
 	count_end 		= db.IntegerProperty()  #max redemptions
 	count_redeemed 	= db.IntegerProperty() 	#total redemptions
 	count_seen 		= db.IntegerProperty()  #number seen
-
+	geo_point		= db.GeoPtProperty() #latitude the longitude
+	
+	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 
 class CustomerDeal(Deal):
 #Sub-class of deal
 #A deal that has been uploaded by a user
-	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
 	gate_requirement= db.IntegerProperty()
 	gate_payment_per= db.IntegerProperty()
-	gate_count		= db.IntegerProperty()
+	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases
 	gate_max		= db.IntegerProperty()
+	date_uploaded	= db.DateProperty()
 	
 	def payment_total(self):
 		return "$"+str(self.gate_count*self.gate_payment_per)
 	
+	def format_pending_deal(self):
+		'''Formats the object into dictionary for review before release'''
+		data = {
+			"dealID"		: self.key().__str__(),
+			"business_name"	: self.business_name,
+			"deal_address"	: self.address,
+			"geo_point"	: self.geo_point,
+		}
+		return data
+	
 	def format_my_deals(self):
+		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
 			"businessID"	: str(self.businessID),
 			"businessName"	: self.business_name,

@@ -4,6 +4,7 @@ import sys
 import datetime
 import logging
 import levr_classes as levr
+import levr_utils
 from google.appengine.ext import db
 
 class phone(webapp2.RequestHandler):
@@ -28,46 +29,30 @@ class phone(webapp2.RequestHandler):
 			#grab email/password from request body
 			try:
 				email = decoded["in"]["email"]
-				pw = decoded["in"]["password"]
+				contact_owner = decoded["in"]["contact_owner"]
+				pw = decoded["in"]["pw"]
 			except:
-				logging.error("Could not grab email/password. Input passed: " + self.request.body)
+				logging.error("Could not grab email/password/contact_owner. Input passed: " + self.request.body)
+				sys.exit()
 				
-			#check that email is available in customer table
-			taken = False
-			q = levr.Customer.gql("WHERE email = :email",email=email)
-			for result in q:
-				taken = True
-				logging.info('Customer result found!')
-			q = levr.Business.gql("WHERE email = :email",email=email)
-			for result in q:
-				taken = True
-				logging.info('Business result found!')
-
-			if taken==False:
-				customer = levr.Customer()
-				customer.email = email
-				customer.pw = pw
-				#customer.uid = customer.key()
-				customer.put()
-				customerKey = customer.key().__str__()
-				toEcho = {"success":1,"uid":customerKey}
-			else:
-				toEcho = {"success":0,"error":"Oh snap, that email's already taken. Try again!"}
+			#attempt signup
+			toEcho = levr_utils.signupCustomer(email,contact_owner,pw)
 		
 		#***************login************************************************
 		elif action == "login":
 			#grab email/password from request body
 			try:
-				email = decoded["in"]["email"]
-				pw = decoded["in"]["password"]
+				email_or_owner = decoded["in"]["email_or_owner"]
+				pw = decoded["in"]["pw"]
 			except:
 				logging.error("Could not grab email/password. Input passed: " + self.request.body)
 				
 			#check for matches
-			toEcho = {"success":0,"error":"Incorrect email or password"}
+			toEcho = levr_utils.loginCustomer(email_or_owner,pw)
+			'''toEcho = {"success":0,"error":"Incorrect email or password"}
 			q = levr.Customer.gql("WHERE email = :email AND pw = :pw",email = email,pw=pw)
 			for result in q:
-				toEcho = {"success":1,"uid":result.key().__str__()}
+				toEcho = {"success":1,"uid":result.key().__str__()}'''
 			
 		#***************autoCompleteList************************************************
 		elif action == "autoCompleteList":

@@ -2,6 +2,7 @@
 #import os
 import logging
 #import jinja2
+import levr_classes as levr
 
 from gaesessions import get_current_session
 
@@ -33,3 +34,56 @@ def loginCheck(self,strict):
 		return headerData
 		#return session['businessID']
 	return
+
+def signupCustomer(email,contact_owner,pw):
+	'''Check availability of username+pass, create and login if not taken'''
+	#check availabilities
+	q_email = levr.Customer.gql('WHERE email = :1',email)
+	q_contact_owner  = levr.Customer.gql('WHERE contact_owner = :1',contact_owner)
+	r_email = q_email.get()
+	r_contact_owner = q_contact_owner.get()
+	
+	if r_email == None and r_contact_owner == None: #nothing found
+		c = levr.Customer()
+		c.email = email
+		c.pw = pw
+		c.contact_owner = contact_owner
+		#put
+		c.put()
+		return {'success':True,'uid':c.key().__str__()}
+	elif r_email != None:
+		return {
+			'success': False,
+			'field': 'email',
+			'error': 'That email is already registered. Try again!'
+		}
+	elif r_contact_owner != None:
+		return {
+			'success': False,
+			'field': 'contact_owner',
+			'error': 'That nickname is already registered. Try again!'
+		}
+		
+def loginCustomer(email_or_owner,pw):
+	'''This is passed either an email or a username, so check both'''
+	q_email = levr.Customer.gql('WHERE email = :1',email_or_owner)
+	q_owner  = levr.Customer.gql('WHERE contact_owner = :1',email_or_owner)
+	r_email = q_email.get()
+	r_owner = q_owner.get()
+	if r_email != None:
+		#found user on the basis of email
+		return {
+			'success'	: True,
+			'uid'		: r_email.key().__str__()
+		}
+	elif r_owner != None:
+		#found user on the basis of username
+		return {
+			'success'	: True,
+			'uid'		: r_owner.key().__str__()
+		}
+	else:
+		return {
+			'success'	: False
+		}
+	

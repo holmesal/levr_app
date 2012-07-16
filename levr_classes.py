@@ -1,13 +1,31 @@
 #import webapp2
 #import datetime
 from google.appengine.ext import db
-
+from google.appengine.ext.db import polymodel
 
 class Customer(db.Model):
 #root class
 	#key_name is uid
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
+	alias			= db.StringProperty()
+	#stats
+	money_earned	= db.FloatProperty()
+	money_saved		= db.FloatProperty()
+	
+	def format_stats(self):
+		data = {
+			"alias"			: self.alias,
+			"money_earned"	: self.money_earned,
+			"money_saved"	: self.money_saved
+		}
+		return data
+	
+#class Redemption(db.Model):
+#child of customer
+#	dealID
+	
+
 
 #deal_redeemed 	= db.ListProperty(str) #list of deal keys
 #^^^would need another assoc table 
@@ -30,6 +48,63 @@ class Business(db.Model):
     
     contact_owner 	= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
+    
+    
+class Deal(polymodel.PolyModel):
+#Child of business OR customer ninja
+	#key name is deal id
+	#deal information
+	img				= db.BlobProperty()
+	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
+	business_name 	= db.StringProperty() #name of business
+	secondary_name 	= db.StringProperty() #secondary category
+	name_type 		= db.StringProperty() #category or single item
+	description 	= db.StringProperty(multiline=True) #description of deal
+	discount_value 	= db.FloatProperty() #number, -1 if free
+	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
+	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
+	date_start 		= db.DateProperty() #start date
+	date_end 		= db.DateProperty()
+	img_path		= db.StringProperty()   #string path to image
+	city 			= db.StringProperty()  #optional
+	count_end 		= db.IntegerProperty()  #max redemptions
+	count_redeemed 	= db.IntegerProperty() 	#total redemptions
+	count_seen 		= db.IntegerProperty()  #number seen
+
+
+class CustomerDeal(Deal):
+#Sub-class of deal
+#A deal that has been uploaded by a user
+	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
+	gate_requirement= db.IntegerProperty()
+	gate_payment_per= db.IntegerProperty()
+	gate_count		= db.IntegerProperty()
+	gate_max		= db.IntegerProperty()
+	
+	def payment_total(self):
+		return "$"+str(self.gate_count*self.gate_payment_per)
+	
+	def format_my_deals(self):
+		data = {
+			"businessID"	: str(self.businessID),
+			"businessName"	: self.business_name,
+			"dealID"		: str(self.parent().key()),
+			"nameType"  	: self.name_type,
+			"name"  		: self.secondary_name,
+			"description"   : self.description,
+			"dealType"  	: self.discount_type,
+			"dealValue" 	: self.discount_value,
+			"endValue"  	: self.count_end,
+			"imgPath"		: self.img_path,
+			"deal_status"	: self.deal_status,
+			"gate_requirement": self.gate_requirement,
+			"gate_payment_per": self.gate_payment_per,
+			"gate_count"	: self.gate_count,
+			"gate_max"		: self.gate_max,
+			"payment_total"	: self.payment_total()
+		}
+		return data
+
 
 class Category(db.Model):
 #Child of deal
@@ -42,32 +117,6 @@ class Favorite(db.Model):
 	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
 	primary_cat		= db.StringProperty()
 
-class Deal(db.Model):
-#Child of business OR customer ninja
-	#key name is deal id
-	#deal information
-	
-	deal_status		= db.StringProperty(choices=set(["pending","active","expired"]))
-	img				= db.BlobProperty()
-	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
-	business_name 	= db.StringProperty() #name of business
-
-	secondary_name 	= db.StringProperty() #secondary category
-	name_type 		= db.StringProperty() #category or single item
-
-	description 	= db.StringProperty(multiline=True) #description of deal
-	discount_type 	= db.StringProperty(choices=set(["percent","monetary","free"])) #percent, monetary, free
-	discount_value 	= db.FloatProperty() #number, -1 if free
-	
-	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
-	count_end 		= db.IntegerProperty()  #max redemptions
-	count_redeemed 	= db.IntegerProperty() 		#total redemptions
-	count_seen 		= db.IntegerProperty()  #number seen
-
-	date_start 		= db.DateProperty() #start date
-	date_end 		= db.DateProperty()
-	img_path		= db.StringProperty()   #string path to image
-	city 			= db.StringProperty()  #optional
 
 class EmptySetResponse(db.Model):
 #root class
@@ -110,7 +159,6 @@ def phone_my_deal_format(deal):
 def web_edit_account_format(business):
 	data = {
 		"email"			: business.email,
-
 		"businessName"	: business.business_name,
 		"address1"		: business.address_line1,
 		"address2"		: business.address_line2,

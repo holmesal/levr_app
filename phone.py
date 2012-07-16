@@ -272,11 +272,11 @@ class phone(webapp2.RequestHandler):
 				logging.error("could not grab uid. Input passed: "+self.request.body)
 			
 			#grab all deal children of the user
-			deals = levr.Deal.gql("WHERE ANCESTOR IS :1",uid)
+			deals = levr.Deal.gql("WHERE ANCESTOR IS :1 and class='CustomerDeal'",uid)
 			#format deals
-			data = [levr.phoneDealFormat(x) for x in deals]
+			data = [x.format_my_deals() for x in deals]
 			
-			toEcho = {"success":0,"data":data}
+			toEcho = {"success":1,"data":data}
 		elif action == "getMyStats":
 			'''
 			returns the user's statistics
@@ -290,13 +290,15 @@ class phone(webapp2.RequestHandler):
 			#get user information
 			user = db.get(uid)
 			#format user information
+			data = user.format_stats()
 			
-			toEcho = {"success":0,"data":"some data!"}
+			toEcho = {"success":0,"data":data}
 		elif action == "getRedeem":
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "addRedeem":
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "delRedeem":
+			
 			toEcho = {"success":0,"data":"some data!"}
 		else:
 			logging.error("Unrecognized action. Input passed: " + action)

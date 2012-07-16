@@ -6,9 +6,9 @@ import levr_classes
 class MainPage(webapp2.RequestHandler):
     def get(self):
     	# new customer
-        c = levr_classes.Customer()
+        c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM')
         c.name	= 'alonso'
-        c.user 	= 'ethan@getlevr.com'
+        c.email	= 'ethan@getlevr.com'
         c.pw 	= 'ethan'
         c.put()
         
@@ -27,7 +27,7 @@ class MainPage(webapp2.RequestHandler):
         b.put()
         
     	#new deal
-        d = levr_classes.Deal(parent=b)
+        d = levr_classes.Deal(parent=c)
         d.businessID 		= str(b.key())
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
@@ -43,6 +43,28 @@ class MainPage(webapp2.RequestHandler):
         d.city 				= 'Qatar'
         d.put()
         
+        #new customer deal
+        cd = levr_classes.CustomerDeal(parent=c)
+        cd.businessID 		= str(b.key())
+        cd.business_name 	= 'Shaws'
+        cd.secondary_name 	= 'jeggings'
+        cd.name_type		= 'specific'
+        cd.description 		= 'describe me, hun.'
+        cd.discount_type 	= 'monetary'
+        cd.discount_value 	= 50.2
+        cd.rating 			= 50
+        cd.count_end 		= 101
+        cd.count_redeemed 	= 42
+        cd.count_seen 		= 43
+        cd.img_path 		= './img/bobs-discount-furniture.png'
+        cd.city 			= 'Qatar'
+        cd.deal_status		= 'pending'
+        cd.gate_requirement	= 10
+        cd.gate_payment_per	= 1
+        cd.gate_count		= 2
+        cd.gate_max			= 5
+        cd.put()
+        
         #new Category
         cat = levr_classes.Category(parent=d)
         cat.primary_cat 	= 'Socks'
@@ -53,7 +75,7 @@ class MainPage(webapp2.RequestHandler):
         f = levr_classes.Favorite(parent=c)
 #        f.uid				= str(c.key())
         f.dealID			= str(d.key())
-        f.primary_cat	 	= 'Toe Socks'
+        f.primary_cat	 	= 'Shoes'
         f.put()
         
         

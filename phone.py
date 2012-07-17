@@ -423,8 +423,6 @@ class images(webapp2.RequestHandler):
 		except:
 			logging.error('could not parse dealID or size. . . you passed:'+self.request.body)
 			sys.exit()
-		logging.info(dealID)
-		logging.info(size)
 		#grab deal
 		deal = levr.Deal.get(dealID)
 		#grab image

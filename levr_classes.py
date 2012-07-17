@@ -262,7 +262,8 @@ def phoneFormat(deal,use):
 	elif use == 'deal':
 		#view deal information screen
 		#uploaded by a user
-		businessAddress = deal.address_string
+		idx = deal.address_string.find(',')
+		displayAddress = deal.address_string[0:idx]
 		#uploaded by a business
 		#businessID = deal.key().parent()
 		#b = Business.get(businessID)
@@ -273,7 +274,8 @@ def phoneFormat(deal,use):
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
-				"businessAddress"	: businessAddress}
+				"gmapsAddress"	: deal.address_string,
+				"displayAddress": displayAddress}
 	logging.info(data)
 	return data
 

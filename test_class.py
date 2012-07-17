@@ -54,7 +54,7 @@ class MainPage(webapp2.RequestHandler):
         d.city 				= 'Qatar'
         d.deal_item			= 'Coat'
         d.deal_status		= 'active'
-        d.address_string	= '7 Gardner Terrace Apt 1 Allston MA 02134'
+        d.address_string	= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
         d.put()
         
         #new customer deal
@@ -73,7 +73,7 @@ class MainPage(webapp2.RequestHandler):
         cd.city 			= 'Qatar'
         cd.deal_status		= 'active'
         cd.geo_point		= levr_classes.geo_converter('-80.,70.')
-        cd.address_string	= '1234 Cherry Lane Boston, MA 02134'
+        cd.address_string	= '1234 Cherry Lane, Boston, MA 02134, USA'
         cd.put()
         
         #new Category

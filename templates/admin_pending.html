@@ -1,34 +1,35 @@
 <html>
 	<body>
 	<div>
-		<img src="./admin/pendingImage/?key={{ image_key }}">
-		<p>Business name: {{business_name}}</p>
-		
+		<img src="./admin/pendingImage/?dealID={{ deal.dealID }}">
 	</div>
-	<form method="post" action="/login">
-		<p><strong>Deal type:</strong> </br>
-		<input type="radio" name="discount_type" value="percent"> Percent </br>
-		<input type="radio" name="discount_type" value="monetary"> Monetary </br>
-		<input type="radio" name="discount_type" value="free"> Free </br>
+	<form method="post" action="/admin/approve?dealID={{ deal.dealID }}&businessID={{ business.businessID }}">
+		<h2>New Deal Information</h2>
+		<p>
+		<input type="radio" name="discountType" class="active" value="percent"> Percent <br/>
+		<input type="radio" name="discountType" value="monetary"> Monetary <br/>
+		<input type="radio" name="discountType" value="free"> Free <br/>
 		</p>
-		<p>Deal Value: <input type="text" name="discount_value" value="{{deal_value}}"></p>
-		<p>Secondary Name: <input type="text" name="text" value="secondary_name"></p>
-		<p>Tags: <textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
-		<p>Location: <input type="text" name="text" value=""></p>
-		<p>Business Name: <input type="text" name="text" value=""></p>
-		<p>Gate Requirement: <input type="text" name="text" value=""></p>
-		<p>Gate Payment Per: <input type="text" name="text" value=""></p>
-		<p>Gate Max: <input type="text" name="text" value=""></p>
+		<p>Deal Value: 		<br/><input type="text" name="discountValue" value="{{deal.discountValue}}"></p>
+		<p>Secondary Name: 	<br/><input type="text" name="name" value="{{deal.name}}"></p>
+		<p>Tags: 			<br/><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
+		<h2>Confirm Deal Information</h2>
+		<p>Gate Requirement:<br/><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
+		<p>Gate Payment Per:<br/><input type="text" name="gatePaymentPer" value="{{ deal.gatePaymentPer }}"></p>
+		<p>Gate Max Count: 	<br/><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>
 		<h2>Business Information</h2>
+		<p>Business Name: 	<br/><input type="text" name="businessName" value="{{ business.businessName }}"></p>
+		<p>Location: 		<br/><input type="text" name="geoPoint" value="{{ business.geoPoint }}"></p>
+		<p>Address Line1:	<br/><input type="text" name="addressLine1" value="{{ business.addressLine1 }}"></p>
+		<p>Address Line2:	<br/><input type="text" name="addressLine2" value="{{ business.addressLine2 }}"></p>
+		<p>City:			<br/><input type="text" name="city" value="{{ business.city }}"></p>
+		<p>State:			<br/><input type="text" name="state" value="{{ business.state }}"></p>
+		<p>Zip:				<br/><input type="text" name="zip" value="{{ business.zip }}"></p>
 		<p><input type="text" name="text" value=""></p>
 		<p><input type="text" name="text" value=""></p>
-		<input type="submit" value="Login">
+		<p><input type="text" name="text" value=""></p>
+		<input type="submit" value="Enter">
 	</form>
-	
-	<p>
-		<h2>Or <a href="./merchants/deal/new">sign up:</a></h2>
-	</p>
-	
 	</body>
 </html>
 

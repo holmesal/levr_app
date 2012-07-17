@@ -68,6 +68,7 @@ class MainPage(webapp2.RequestHandler):
         cd.gate_payment_per	= 1
         cd.gate_count		= 2
         cd.gate_max			= 5
+        cd.geo_point		= levr_classes.geo_converter('-80.,70.')
         cd.put()
         
         #new Category

@@ -1,5 +1,6 @@
 #import webapp2
 #import datetime
+#import logging
 from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
 
@@ -16,7 +17,7 @@ class Customer(db.Model):
 	redemptions		= db.StringListProperty()
 	
 
-	def format_stats(self):
+	def dictify(self):
 		data = {
 			"alias"			: self.alias,
 			"moneyEarned"	: self.money_earned,
@@ -59,8 +60,8 @@ class Business(db.Model):
 #root class
     email 			= db.EmailProperty()
     pw 				= db.StringProperty()
-    signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
-    creation_date	= db.DateTimeProperty() #when created organically by user
+    signup_date 	= db.DateProperty()	#when signed up for our service $$$
+    creation_date	= db.DateProperty(auto_now_add=True) #when created organically by user
     business_name 	= db.StringProperty()
     
     address_line1 	= db.StringProperty()
@@ -77,13 +78,13 @@ class Business(db.Model):
 		'''Formats the object into dictionary for review before release'''
 		data = {
 			"businessID"	: self.key().__str__(),
-			"address_line1"	: self.address_line1,
-			"address_line2"	: self.address_line2,
+			"addressLine1"	: self.address_line1,
+			"addressLine2"	: self.address_line2,
 			"city"			: self.city,
 			"state"			: self.state,
-			"zip_code"		: self.zip_code,
-			"business_name"	: self.business_name,
-			"geo_point"		: self.geo_point,
+			"zip"			: self.zip_code,
+			"businessName"	: self.business_name,
+			"geoPoint"		: self.geo_point,
 		}
 		return data
 class Deal(polymodel.PolyModel):
@@ -98,7 +99,6 @@ class Deal(polymodel.PolyModel):
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
-	deal_origin		= db.StringProperty(choices=set(["internal","external"]))
 	
 	date_start 		= db.DateProperty() #start date
 	date_end 		= db.DateProperty()
@@ -108,13 +108,12 @@ class Deal(polymodel.PolyModel):
 	count_redeemed 	= db.IntegerProperty() 	#total redemptions
 	count_seen 		= db.IntegerProperty()  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
-	
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"dealID"		: self.parent().key().__str__(),
+			"dealID"		: self.key().__str__(),
 			"img"			: self.img,
 			"businessID"	: self.businessID.__str__(),
 			"businessName"	: self.business_name,
@@ -136,7 +135,7 @@ class Deal(polymodel.PolyModel):
 #			"gateMax"		: self.gate_max,
 #			"dateUploaded"	: self.date_uploaded,
 #			"paymentTotal"	: self.payment_total(),
-			"geoPoint"		: self.geo_point,
+			"geoPoint"		: str(self.geo_point),
 			"dealStatus"	: self.deal_status,
 		}
 		return data
@@ -153,7 +152,7 @@ class CustomerDeal(Deal):
 	gate_payment_per= db.IntegerProperty()
 	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases to gate_requirement
 	gate_max		= db.IntegerProperty()
-	date_uploaded	= db.DateProperty()
+	date_uploaded	= db.DateProperty(auto_now_add=True)
 	cashed_out		= db.BooleanProperty()
 	
 	def payment_total(self):
@@ -164,7 +163,7 @@ class CustomerDeal(Deal):
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"dealID"		: self.parent().key().__str__(),
+			"dealID"		: self.key().__str__(),
 			"img"			: self.img,
 			"businessID"	: self.businessID.__str__(),
 			"businessName"	: self.business_name,
@@ -186,7 +185,7 @@ class CustomerDeal(Deal):
 			"gateMax"		: self.gate_max,
 			"dateUploaded"	: self.date_uploaded,
 			"paymentTotal"	: self.payment_total(),
-			"geoPoint"		: self.geo_point,
+			"geoPoint"		: str(self.geo_point),
 			"dealStatus"	: self.deal_status,
 			"cashedOut"		: self.cashed_out
 		}

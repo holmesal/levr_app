@@ -242,9 +242,7 @@ class phone(webapp2.RequestHandler):
 			
 			#echo back success!
 			toEcho = {"success":1,"data":data}
-		elif action == "uploadDeal":
-			#takes a key and uid, put into deals table with status "pending"
-			toEcho = {"success":0,"data":"some data!"}
+
 		elif action == "getMyDeals":
 			'''
 			returns all of the deals that were uploaded by the ninja
@@ -276,15 +274,10 @@ class phone(webapp2.RequestHandler):
 			#get user information
 			user = db.get(uid)
 			#format user information
-			data = user.format_stats()
+			data = user.dictify()
 			
 			toEcho = {"success":0,"data":data}
-		elif action == "getRedeem":
-			toEcho = {"success":0,"data":"some data!"}
 		elif action == "addRedeem":
-			toEcho = {"success":0,"data":"some data!"}
-		elif action == "delRedeem":
-			
 			toEcho = {"success":0,"data":"some data!"}
 		else:
 			logging.error("Unrecognized action. Input passed: " + action)
@@ -293,7 +286,7 @@ class phone(webapp2.RequestHandler):
 		#write the response
 		self.response.out.write(json.dumps(toEcho))
 		
-class uploadDealImage(webapp2.RequestHandler):
+class uploadDeal(webapp2.RequestHandler):
 	def post(self):
 		logging.info(self.request.headers)
 		logging.info('Body is next!')
@@ -335,13 +328,13 @@ class uploadDealImage(webapp2.RequestHandler):
 		deal.secondary_name	= inputs('name') #### check name!!!
 		deal.deal_status	= 'pending'
 		deal.deal_origin	= 'external'
-		gate_requirement	= 5
-		gate_payment_per	= 1
-		gate_count			= 0
-		gate_max			= 5
-		count_redeemed		= 0
-		count_seen			= 0
-		geo_point			= geo_point
+		deal.gate_requirement	= 5
+		deal.gate_payment_per	= 1
+		deal.gate_count			= 0
+		deal.gate_max			= 5
+		deal.count_redeemed		= 0
+		deal.count_seen			= 0
+		deal.geo_point			= geo_point
 #		date_uploaded		= current date and time
 		
 		
@@ -359,5 +352,5 @@ class phone_log(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
-								('/phone/uploadDealImage', uploadDealImage)],
+								('/phone/uploadDealImage', uploadDeal)],
 								debug=True)

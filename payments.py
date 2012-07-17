@@ -6,7 +6,13 @@ from google.appengine.ext import db
 import logging
 import jinja2
 
-class cashOut(webapp2.RequestHandler):
+class view(webapp2.RequestHandler):
+	def get(self):
+		cor = levr.CashOutRequest.gql('WHERE status=:1','pending').get()
+		self.response.out.write(cor.__dict__)
+		
+
+class post(webapp2.RequestHandler):
 	def post(self):
 		'''
 		Currently a mockup for the payment functionality
@@ -15,5 +21,11 @@ class cashOut(webapp2.RequestHandler):
 		'''
 		
 		
+		
+		#attempt payment
+		
+		#on success, decrement customer.money_available
+		
+		
 
-app = webapp2.WSGIApplication([('/payments/cashOut', cashOut)],debug=True)
+app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post)],debug=True)

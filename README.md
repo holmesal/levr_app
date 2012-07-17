@@ -1,5 +1,12 @@
 levr_app
 ========
 
-Known issues:
-NONE!!!
+Things to do:
+
+url, query parameter gives back small or large image
+
+cron job
+
+payment queue checking and smart stuff
+
+we are currently only handling customer-created deals

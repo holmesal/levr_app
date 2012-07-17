@@ -11,11 +11,19 @@ class MainPage(webapp2.RequestHandler):
         c.email	= 'ethan@getlevr.com'
         c.payment_email = c.email
         c.pw 	= 'ethan'
-        c.money_earned = 0.
-        c.money_paid = 0.
-        c.redemptions = ['agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM','agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM']
-        logging.info(c)
+        c.money_earned = 0.0
+        c.money_paid = 0.0
         c.put()
+        
+        #new ninja
+        ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYAQw')
+        ninja.alias	= 'ninja'
+        ninja.email	= 'santa@getlevr.com'
+        ninja.payment_email = c.email
+        ninja.pw 	= 'ethan'
+        ninja.money_earned = 0.0
+        ninja.money_paid = 0.0
+        ninja.put()
         
     	#new business
         b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYNQw')
@@ -32,8 +40,7 @@ class MainPage(webapp2.RequestHandler):
         b.put()
         
     	#new deal
-        d = levr_classes.Deal(parent=c)
-        d.businessID 		= str(b.key())
+        d = levr_classes.Deal(parent=b)
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
         d.name_type			= 'specific'
@@ -49,8 +56,7 @@ class MainPage(webapp2.RequestHandler):
         d.put()
         
         #new customer deal
-        cd = levr_classes.CustomerDeal(parent=c)
-        cd.businessID 		= str(b.key())
+        cd = levr_classes.CustomerDeal(parent=ninja)
         cd.business_name 	= 'Shaws'
         cd.secondary_name 	= 'jeggings'
         cd.name_type		= 'specific'
@@ -64,10 +70,6 @@ class MainPage(webapp2.RequestHandler):
         cd.img_path 		= './img/bobs-discount-furniture.png'
         cd.city 			= 'Qatar'
         cd.deal_status		= 'pending'
-        cd.gate_requirement	= 10
-        cd.gate_payment_per	= 1
-        cd.gate_count		= 2
-        cd.gate_max			= 5
         cd.geo_point		= levr_classes.geo_converter('-80.,70.')
         cd.put()
         

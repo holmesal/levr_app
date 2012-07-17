@@ -297,27 +297,58 @@ class phone(webapp2.RequestHandler):
 			deal.count_redeemed += 1
 			#add deal to "redeemed" for the customer
 			
-			#put the deal back in the DB
-			#deal.put()
-			
 			#Is this a deal uploaded by a ninja, or by a business?
 			if type(deal) is levr.CustomerDeal:
-				#update ninja stats, if in valid range
-				deal.gate_count = int(math.floor(deal.count_redeemed / deal.gate_requirement)))
+				#update deal ninjaStats
+				deal.gate_count = int(math.floor(deal.count_redeemed / deal.gate_requirement))
 				if deal.gate_count > deal.gate_max:
 					#reset if over
 					deal.gate_count = deal.gate_max
+				#update deal.earned_total
+				deal.update_earned_total()
+				#put deal
+				deal.put()
 				#get the ninja
 				ninjaKey = deal.key().parent()
 				ninja = levr.Customer.get(ninjaKey)
-				#update the ninja's stats
+				
+				#update the ninja's earned amount
+				ninja.update_money_earned()
+				
+				#update the ninja's available amount
+				ninja.update_money_available()
+				
+				#echo stats
+				ninja.echo_stats()
+				deal.echo_stats()
+				
+				#update ninja
+				ninja.put()
 			elif type(deal) is levr.Deal:
 				logging.info('uploaded by a business!')
 			else:
 				logging.error('Deal typing seems to be broken. Who owns this deal?' + dealID)
 				sys.exit()
 			
-			toEcho = {"success":0,"data":"some data!"}
+			toEcho = {"success":1,"data":"some data!"}
+		elif action == "cashOut":
+			try:
+				uid = decoded['in']['uid']
+			except:
+				logging.error("could not grab uid/dealID. Input passed: "+self.request.body)
+				sys.exit()
+			
+			#grab the ninja
+			ninja = levr.Customer.get(uid)
+			#delete any current cashOutRequests
+			q = levr.CashOutRequest.gql('WHERE ANCESTOR IS :1',ninja.key())
+			for result in q:
+				result.delete()
+			#create a new cashOut request
+			cor = levr.CashOutRequest(parent=ninja)
+			cor.amount = ninja.money_available
+			cor.put()
+				
 		else:
 			logging.error("Unrecognized action. Input passed: " + action)
 			sys.exit()

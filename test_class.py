@@ -28,7 +28,7 @@ class MainPage(webapp2.RequestHandler):
         b.put()
         
     	#new deal
-        d = levr_classes.Deal(parent=c)
+        d = levr_classes.Deal(parent=b)
         d.businessID 		= str(b.key())
         d.business_name 	= 'Shaws'
         d.secondary_name 	= 'jeggings'
@@ -55,15 +55,11 @@ class MainPage(webapp2.RequestHandler):
         cd.discount_value 	= 50.2
         cd.rating 			= 50
         cd.count_end 		= 101
-        cd.count_redeemed 	= 42
+        cd.count_redeemed 	= 4
         cd.count_seen 		= 43
         cd.img_path 		= './img/bobs-discount-furniture.png'
         cd.city 			= 'Qatar'
         cd.deal_status		= 'pending'
-        cd.gate_requirement	= 10
-        cd.gate_payment_per	= 1
-        cd.gate_count		= 2
-        cd.gate_max			= 5
         cd.put()
         
         #new Category

@@ -234,6 +234,7 @@ class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
 	date			= db.DateProperty()
+	status			= db.StringProperty()
 	
 #functions!
 def phoneDealFormat(deal):

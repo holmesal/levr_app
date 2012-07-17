@@ -50,15 +50,15 @@ class phone(webapp2.RequestHandler):
 				
 			#check for matches
 			toEcho = levr_utils.loginCustomer(email_or_owner,pw)
-			'''toEcho = {"success":0,"error":"Incorrect email or password"}
+			'''toEcho = {"success":False,"error":"Incorrect email or password"}
 			q = levr.Customer.gql("WHERE email = :email AND pw = :pw",email = email,pw=pw)
 			for result in q:
-				toEcho = {"success":1,"uid":result.key().__str__()}'''
+				toEcho = {"success":True,"uid":result.key().__str__()}'''
 			
 		#***************autoCompleteList************************************************
 		elif action == "autoCompleteList":
 			cats = ['shirt','coat','bonobos','apples']
-			toEcho = {"success":1,"data":cats}
+			toEcho = {"success":True,"data":cats}
 		
 		#***************dealResults************************************************
 		elif action == "dealResults":
@@ -137,7 +137,7 @@ class phone(webapp2.RequestHandler):
 						#increment the counter
 						resultsPushed += 1
 			#echo back success!
-			toEcho = {"success":1,"data":dealResults,"isEmpty":isEmpty}
+			toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}
 			
 		#***************getUserFavs************************************************
 		elif action == "getUserFavs":
@@ -173,7 +173,7 @@ class phone(webapp2.RequestHandler):
 				data.append(deal_stack)
 #				data[idx]['primaryCat'] = cats[idx]
 #			self.response.out.write(data)
-			toEcho = {"success":1,"data":data}
+			toEcho = {"success":True,"data":data}
 		#ADD FAVORITE***********************************************************
 		elif action == "addFav":
 			'''
@@ -194,7 +194,7 @@ class phone(webapp2.RequestHandler):
 			#place in database
 			fav.put()
 			
-			toEcho = {"success":1}
+			toEcho = {"success":True}
 		#DELETE FAVORITE********************************************************
 		elif action == "delFav":
 			'''
@@ -211,7 +211,7 @@ class phone(webapp2.RequestHandler):
 			for fav in q:
 				fav.delete()
 			
-			toEcho = {"success":1}
+			toEcho = {"success":True}
 		#***************getOneDeal************************************************
 		elif action == "getOneDeal":
 			'''
@@ -242,7 +242,7 @@ class phone(webapp2.RequestHandler):
 			data = dict(deal.items()+business.items())
 			
 			#echo back success!
-			toEcho = {"success":1,"data":data}
+			toEcho = {"success":True,"data":data}
 
 		elif action == "getMyDeals":
 			'''
@@ -260,7 +260,7 @@ class phone(webapp2.RequestHandler):
 			#format CUSTOMER deals
 			data = [x.dictify() for x in deals]
 			#I believe this will just return data:None if deals is empty
-			toEcho = {"success":1,"data":data}
+			toEcho = {"success":True,"data":data}
 		elif action == "getMyStats":
 			'''
 			returns the user's statistics
@@ -276,7 +276,7 @@ class phone(webapp2.RequestHandler):
 			#format user information
 			data = user.dictify()
 			
-			toEcho = {"success":0,"data":data}
+			toEcho = {"success":False,"data":data}
 		elif action == "redeem":
 			#grab corresponding deal
 			try:
@@ -286,11 +286,14 @@ class phone(webapp2.RequestHandler):
 				logging.error("could not grab uid/dealID. Input passed: "+self.request.body)
 				sys.exit()
 			
-			
 			#grab the deal
 			deal = levr.Deal.get(dealID)
 			#grab the customer
 			customer = levr.Customer.get(uid)
+			
+			#don't try and redeem the same deal twice. . .
+			#if dealID in customer.redemptions:
+				#sys.exit()
 			#increment deal "redeemed" count by 1
 			deal.count_redeemed += 1
 			#add deal to "redeemed" for the customer
@@ -309,7 +312,7 @@ class phone(webapp2.RequestHandler):
 				#get the ninja
 				ninjaKey = deal.key().parent()
 				ninja = levr.Customer.get(ninjaKey)
-				
+				ninja.echo_stats()
 				#update the ninja's earned amount
 				ninja.update_money_earned()
 				
@@ -333,7 +336,7 @@ class phone(webapp2.RequestHandler):
 			#update customer
 			customer.put()
 			
-			toEcho = {"success":1,"data":"some data!"}
+			toEcho = {"success":True,"data":"some data!"}
 		elif action == "cashOut":
 			try:
 				uid = decoded['in']['uid']
@@ -350,8 +353,9 @@ class phone(webapp2.RequestHandler):
 			#create a new cashOut request
 			cor = levr.CashOutRequest(parent=ninja)
 			cor.amount = ninja.money_available
+			cor.status = 'pending'
 			cor.put()
-				
+			toEcho = {"success":True}
 		else:
 			logging.error("Unrecognized action. Input passed: " + action)
 			sys.exit()
@@ -416,7 +420,7 @@ class uploadDeal(webapp2.RequestHandler):
 		
 		#return deal id
 		dealID = deal.key().__str__()
-		toEcho = {"success":1,"dealID":dealID}
+		toEcho = {"success":True,"dealID":dealID}
 		self.response.out.write(json.dumps(toEcho))
 		
 class phone_log(webapp2.RequestHandler):

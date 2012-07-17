@@ -1,16 +1,20 @@
 import webapp2
 import levr_classes
-#import logging
+import logging
 #from google.appengine.ext import db
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
     	# new customer
         c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM')
-        c.name	= 'alonso'
+        c.alias	= 'alonso'
         c.email	= 'ethan@getlevr.com'
         c.payment_email = c.email
         c.pw 	= 'ethan'
+        c.money_earned = 0.
+        c.money_paid = 0.
+        c.redemptions = ['agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM','agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM']
+        logging.info(c)
         c.put()
         
     	#new business

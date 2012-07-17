@@ -13,18 +13,37 @@ class Customer(db.Model):
 	#stats
 	money_earned	= db.FloatProperty()
 	money_paid		= db.FloatProperty()
+	redemptions		= db.StringListProperty()
 	
 
 	def format_stats(self):
 		data = {
 			"alias"			: self.alias,
-			"money_earned"	: self.money_earned,
-			"money_saved"	: self.money_saved
+			"moneyEarned"	: self.money_earned,
+			"numUploads"	: self.get_num_uploads(),
+			"numRedemptions": self.redemptions.__len__(),
+			"paymentPending": self.get_pending_payment()
 		}
 		return data
+	
+	def get_pending_payment(self):
+		'''Searches through the uploaded deal children and sums the payment_total
+		fields'''
+		uploads = CustomerDeal.gql("WHERE ANCESTOR IS :1",self.key())
+		payments_list = [x.payment_total() for x in uploads]
+		total_payment_pending = sum(payments_list)
+		return total_payment_pending
+	
+	def get_num_uploads(self):
+		'''Returns the number of deal children of user i.e. num they have uploaded'''
+		uploads = CustomerDeal.gql("WHERE ANCESTOR IS :1",self.key())
+		count = uploads.count()
+		return count
+
 	def update_total_earned(self):
 		'''Updates the total amount that the user has earned'''
 		pass
+		
 	def update_total_paid(self):
 		'''Updates the total amount that the user has cashed out'''
 #class Redemption(db.Model):
@@ -138,7 +157,9 @@ class CustomerDeal(Deal):
 	cashed_out		= db.BooleanProperty()
 	
 	def payment_total(self):
-		return "$"+str(self.gate_count*self.gate_payment_per)
+		'''The total amount of money that this deal has made for them thus far,
+		not the amount that we have actually paid them'''
+		return self.gate_count*self.gate_payment_per
 	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''

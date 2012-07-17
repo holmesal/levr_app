@@ -257,11 +257,12 @@ class phone(webapp2.RequestHandler):
 				logging.error("could not grab uid. Input passed: "+self.request.body)
 			
 			#grab all deal children of the user
-			deals = levr.Deal.gql("WHERE ANCESTOR IS :1 and class='CustomerDeal'",uid)
-			#format deals
-			data = [x.format_my_deals() for x in deals]
-			
+			deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1",uid)
+			#format CUSTOMER deals
+			data = [x.dictify() for x in deals]
+			#I believe this will just return data:None if deals is empty
 			toEcho = {"success":1,"data":data}
+			
 		elif action == "getMyStats":
 			'''
 			returns the user's statistics

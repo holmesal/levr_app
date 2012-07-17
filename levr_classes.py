@@ -117,7 +117,7 @@ class Deal(polymodel.PolyModel):
 	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty() #name of business
 	secondary_name 	= db.StringProperty() #secondary category
-	name_type 		= db.StringProperty() #category or single item
+	deal_type 		= db.StringProperty() #category or single item
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
@@ -140,7 +140,7 @@ class Deal(polymodel.PolyModel):
 			"businessID"	: self.businessID.__str__(),
 			"businessName"	: self.business_name,
 			"name"  		: self.secondary_name,
-			"nameType"  	: self.name_type,
+			"deal_type"  	: self.deal_type,
 			"description"   : self.description,
 			"dealValue" 	: self.discount_value,
 			"dealType"  	: self.discount_type,
@@ -189,7 +189,7 @@ class CustomerDeal(Deal):
 			"businessID"	: self.businessID.__str__(),
 			"businessName"	: self.business_name,
 			"name"  		: self.secondary_name,
-			"nameType"  	: self.name_type,
+			"dealType"  	: self.deal_type,
 			"description"   : self.description,
 			"dealValue" 	: self.discount_value,
 			"dealType"  	: self.discount_type,
@@ -243,7 +243,7 @@ def phoneDealFormat(deal):
 	data = {"businessID"	: str(deal.businessID),
 			"businessName"	: deal.business_name,
 			"dealID"		: str(deal.parent().key()),
-			"nameType"  	: deal.name_type,
+			"dealType"  	: deal.deal_type,
 			"name"  		: deal.secondary_name,
 			"description"   : deal.description,
 			"dealType"  	: deal.discount_type,
@@ -286,7 +286,7 @@ def web_edit_account_format(business):
 def web_edit_deal_format(deal):
 	data = {
 		"secondary_name": deal.secondary_name,
-		"name_type"		: deal.name_type,
+		"deal_type"		: deal.deal_type,
 		"description"	: deal.description,
 		"end_value"		: deal.count_end,
 		"discount_type"	: deal.discount_type,

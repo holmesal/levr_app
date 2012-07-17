@@ -8,6 +8,7 @@ import logging
 import levr_classes as levr
 import levr_utils
 from google.appengine.ext import db
+from google.appengine.api import images
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -299,7 +300,7 @@ class phone(webapp2.RequestHandler):
 			deal.count_redeemed += 1
 			#add deal to "redeemed" for the customer
 			
-			#Is this a deal uploaded by a ninja, or by a business?
+			#Is this a deal uploaded by a ninja? If so, do ninja things
 			if type(deal) is levr.CustomerDeal:
 				#update deal ninjaStats
 				deal.gate_count = int(math.floor(deal.count_redeemed / deal.gate_requirement))
@@ -326,11 +327,6 @@ class phone(webapp2.RequestHandler):
 				
 				#update ninja
 				ninja.put()
-			elif type(deal) is levr.Deal:
-				logging.info('uploaded by a business!')
-			else:
-				logging.error('Deal typing seems to be broken. Who owns this deal?' + dealID)
-				sys.exit()
 				
 			#add to customer's redemption list
 			customer.redemptions.append(dealID)
@@ -411,7 +407,6 @@ class uploadDeal(webapp2.RequestHandler):
 		deal.date_end		= datetime.now().date() + relativedelta(days=+7)
 #		date_uploaded		= automatic
 		
-		
 		#put in DB
 		deal.put()
 		
@@ -423,8 +418,44 @@ class uploadDeal(webapp2.RequestHandler):
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		logging.error(self.request.body)
+		
+class images(webapp2.RequestHandler):
+	def get(self):
+		#get inputs
+		try:
+			dealID = self.request.get('dealID')
+			size = self.request.get('size')
+		except:
+			logging.error('could not parse dealID or size. . . you passed:'+self.request.body)
+			sys.exit()
+		
+		#grab deal
+		deal = levr.Deal.get(dealID)
+		#grab image
+		image = deal.img
+		
+		self.response.headers['Content-Type'] = 'image/png'
+		self.response.out.write(image)
+		
+		#crop to square
+		width = image.width
+		height = image.height
+		loss = height-width
+		offset = loss/2
+		fractional = offset/height
+		image = image.crop(0,(1-fractional),1,fractional)
+
+		self.response.out.write(image)
+		
+		#resize?
+		if size == 'list':
+			pass
+		else:
+			pass
+			
 
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
-								('/phone/uploadDealImage', uploadDeal)],
+								('/phone/uploadDeal', uploadDeal),
+								('/phone/images.*', images)],
 								debug=True)

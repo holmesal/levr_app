@@ -18,8 +18,10 @@ class Pending(webapp2.RequestHandler):
 		self.response.out.write(deal.img)
 		self.response.headers['Content-Type'] = 'text/html'	
 		
-		business = levr.Business.get(deal['businessID'])
+		business = levr.Business.get(template_values['businessID'])
 		logging.info(template_values)
+		business = business.dictify()
+		template_values.update(business)
 		
 		jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 		template = jinja_environment.get_template('templates/admin_pending.html')
@@ -35,8 +37,8 @@ class Approve(webapp2.RequestHandler):
 class PendingImage(webapp2.RequestHandler):
 	def get(self):
 		logging.info(self.request.get('key'))
-		key = self.request.get('key')
-		img = levr.CustomerDeal.get(key)
+#		key = self.request.get('key')
+#		img = levr.CustomerDeal.get(key)
 		
 class AllImages(webapp2.RequestHandler):
 	def get(self):

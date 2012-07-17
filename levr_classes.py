@@ -54,7 +54,7 @@ class Business(db.Model):
     contact_phone 	= db.PhoneNumberProperty()
     geo_point		= db.GeoPtProperty() #latitude the longitude
     
-    def format_for_pending_deal(self):
+    def dictify(self):
 		'''Formats the object into dictionary for review before release'''
 		data = {
 			"businessID"	: self.key().__str__(),

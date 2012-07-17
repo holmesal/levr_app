@@ -25,7 +25,10 @@ class Customer(db.Model):
 	def update_total_earned(self):
 		'''Updates the total amount that the user has earned'''
 		#grab all deals that are children, add money_earned from each
+		q = Deal.all()
 		
+		for deal in q:
+			self.out.response.write(deal.__str__())
 		
 		pass
 	def update_total_paid(self):
@@ -126,19 +129,16 @@ class Deal(polymodel.PolyModel):
 			"dealStatus"	: self.deal_status,
 		}
 		return data
-	def increment_redeem(self):
-		''' write what this does'''
-		pass
 
 
 class CustomerDeal(Deal):
 #Sub-class of deal
 #A deal that has been uploaded by a user
 
-	gate_requirement= db.IntegerProperty()
-	gate_payment_per= db.IntegerProperty()
-	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases to gate_requirement
-	gate_max		= db.IntegerProperty()
+	gate_requirement= db.IntegerProperty() #threshold of redeems that must be passed to earn a gate
+	gate_payment_per= db.IntegerProperty() #dollar amount per gate
+	gate_count		= db.IntegerProperty() #number of gates passed so far
+	gate_max		= db.IntegerProperty() #max number of gates allowed
 	date_uploaded	= db.DateProperty()
 	cashed_out		= db.BooleanProperty()
 	

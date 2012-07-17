@@ -1,6 +1,7 @@
 import webapp2
 import json
 import sys
+import math
 import datetime
 import logging
 import levr_classes as levr
@@ -278,11 +279,44 @@ class phone(webapp2.RequestHandler):
 			data = user.format_stats()
 			
 			toEcho = {"success":0,"data":data}
-		elif action == "getRedeem":
-			toEcho = {"success":0,"data":"some data!"}
-		elif action == "addRedeem":
-			toEcho = {"success":0,"data":"some data!"}
-		elif action == "delRedeem":
+		elif action == "redeem":
+			#grab corresponding deal
+			try:
+				uid = decoded['in']['uid']
+				dealID = decoded['in']['dealID']
+			except:
+				logging.error("could not grab uid/dealID. Input passed: "+self.request.body)
+				sys.exit()
+			
+			
+			#grab the deal
+			deal = levr.Deal.get(dealID)
+			#grab the customer
+			customer = levr.Customer.get(uid)
+			#increment deal "redeemed" count by 1
+			deal.count_redeemed += 1
+			#add deal to "redeemed" for the customer
+			
+			#put the deal back in the DB
+			#deal.put()
+			
+			#Is this a deal uploaded by a ninja, or by a business?
+			if type(deal) is levr.CustomerDeal:
+				#update ninja stats, if in valid range
+				deal.gate_count = int(math.floor(deal.count_redeemed / deal.gate_requirement)))
+				if deal.gate_count > deal.gate_max:
+					#reset if over
+					deal.gate_count = deal.gate_max
+				#get the ninja
+				ninjaKey = deal.key().parent()
+				ninja = levr.Customer.get(ninjaKey)
+				#update the ninja's stats
+			elif type(deal) is levr.Deal:
+				logging.info('uploaded by a business!')
+			else:
+				logging.error('Deal typing seems to be broken. Who owns this deal?' + dealID)
+				sys.exit()
+			
 			toEcho = {"success":0,"data":"some data!"}
 		else:
 			logging.error("Unrecognized action. Input passed: " + action)

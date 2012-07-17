@@ -74,8 +74,8 @@ class phone(webapp2.RequestHandler):
 				logging.error("Could not grab primary category. Input passed: " + self.request.body)
 			
 			#query the database for all deals with a matching primaryCat
-			q = levr.Category.gql("WHERE primary_cat=:1 and deal_status='active'",primaryCat)
-			#logging.info(q.count())
+			q = levr.Category.gql("WHERE primary_cat=:1",primaryCat).fetch(int(numResults),offset=int(start))
+#			logging.info(q.count())
 			#define an empty "dealResults" LIST, and initialize the counter to 0
 			dealResults = []
 			resultsPushed = 0
@@ -85,7 +85,7 @@ class phone(webapp2.RequestHandler):
 			#Want to grab deal information for each category
 			for category in q:
 				#set isEmpty to 1
-				isEmpty = 0
+				
 				#break if results limit is hit
 				if resultsPushed == numResults:
 					break
@@ -93,14 +93,18 @@ class phone(webapp2.RequestHandler):
 				d = category.parent().key()
 				#grab the appropriate deal parent
 				result = levr.Deal.get(d)
-				#trade an object for a phone-formatted dictionary
-				deal = levr.phoneFormat(result,'list')
-				#push the primary onto the dictionary
-				deal['primaryCat'] = category.primary_cat
-				#push the whole dictionary onto a list
-				dealResults.append(deal)
-				#increment the counter
-				resultsPushed += 1
+				if result.deal_status == 'active':
+					isEmpty = 0
+					#trade an object for a phone-formatted dictionary
+					deal = levr.phoneFormat(result,'list')
+					#push the primary onto the dictionary
+					deal['primaryCat'] = category.primary_cat
+					#push the whole dictionary onto a list
+					dealResults.append(deal)
+					#increment the counter
+					resultsPushed += 1
+				else:
+					pass
 			#if isempty is true, send back suggested searches instead
 			if isEmpty == 1:
 				#go get (all) suggested searches

@@ -53,6 +53,7 @@ class MainPage(webapp2.RequestHandler):
         d.img_path 			= './img/bobs-discount-furniture.png'
         d.city 				= 'Qatar'
         d.deal_item			= 'Coat'
+        d.deal_status		= 'active'
         d.put()
         
         #new customer deal
@@ -69,7 +70,7 @@ class MainPage(webapp2.RequestHandler):
         cd.count_seen 		= 43
         cd.img_path 		= './img/bobs-discount-furniture.png'
         cd.city 			= 'Qatar'
-        cd.deal_status		= 'pending'
+        cd.deal_status		= 'active'
         cd.geo_point		= levr_classes.geo_converter('-80.,70.')
         cd.put()
         

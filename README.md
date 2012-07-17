@@ -11,8 +11,6 @@ payment queue checking and smart stuff
 
 we are currently only handling customer-created deals (in redeem)
 
-admin wall for admin things
-
 dealResults should take in 2 parameters: number of results and index to start at (start, size)
 
 

@@ -132,6 +132,7 @@ class Deal(polymodel.PolyModel):
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
+	address_string	= db.StringProperty()
 	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
@@ -217,7 +218,6 @@ class Category(db.Model):
 #Child of deal
 #Maps primary categories to deals
 	primary_cat		= db.StringProperty()
-#	dealID 			= db.ReferenceProperty()
 
 class Favorite(db.Model):
 #child of user
@@ -260,17 +260,20 @@ def phoneFormat(deal,use):
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name}
 	elif use == 'deal':
-		b = levr.Business.get(deal.businessID)
-		displayAddress = b.address_line1 + ', ' + b.address_line2
-		businessAddress = deal.business_name + ' ' + b.address_line1 + ' ' + b.address_line2 + ' ' + b.city + ' ' + b.state + ' ' + b.zip_code
+		#uploaded by a user
+		businessAddress = deal.address_string
+		#uploaded by a business
+		#businessID = deal.key().parent()
+		#b = Business.get(businessID)
+		#displayAddress = b.address_line1 + ', ' + b.address_line2
+		#businessAddress = '%(:1)s %(:2)s %(:3)s %(:4)s, %(:5)s %(:6)s' % {deal.business_name, b.address_line1, b.address_line2, b.city, b.state, b.zip_code}
 		data = {"dealID"		: str(deal.key()),
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/images?dealID='+str(deal.key())+'?size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
-				"city"			: deal.city,
-				"displayAddress"	:displayAddress,
-				"gmapsAddress"	: businessAddress}
+				"businessAddress"	: businessAddress}
+	logging.info(data)
 	return data
 
 def phoneBusinessFormat(business):

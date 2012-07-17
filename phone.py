@@ -3,7 +3,7 @@ import json
 import sys
 import math
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
+#from dateutil.relativedelta import relativedelta
 import logging
 import levr_classes as levr
 import levr_utils
@@ -236,18 +236,8 @@ class phone(webapp2.RequestHandler):
 			deal = levr.phoneFormat(result,'deal')
 			#push the primary onto the dictionary
 			deal.update({"primaryCat":primary_cat})
-			#grab businessID from deal
-			businessID = deal['businessID']
-			#fetch business information
-			b = levr.Business.get(businessID)
-			#pass thru business formatting thing
-			business = levr.phoneBusinessFormat(b)
-			
-			#merge the two dictionaries
-			data = dict(deal.items()+business.items())
-			
 			#echo back success!
-			toEcho = {"success":True,"data":data}
+			toEcho = {"success":True,"data":deal}
 
 		elif action == "getMyDeals":
 			'''
@@ -407,7 +397,7 @@ class uploadDeal(webapp2.RequestHandler):
 		deal.geo_point		= geo_point
 		#set expiration date to one week from now
 		#only need date, not time for this
-		deal.date_end		= datetime.now().date() + relativedelta(days=+7)
+		#deal.date_end		= datetime.now().date() + relativedelta(days=+7)
 #		date_uploaded		= automatic
 		
 		#put in DB
@@ -431,7 +421,8 @@ class images(webapp2.RequestHandler):
 		except:
 			logging.error('could not parse dealID or size. . . you passed:'+self.request.body)
 			sys.exit()
-		
+		logging.info(dealID)
+		logging.info(size)
 		#grab deal
 		deal = levr.Deal.get(dealID)
 		#grab image

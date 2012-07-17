@@ -24,9 +24,14 @@ class Customer(db.Model):
 		return data
 	def update_total_earned(self):
 		'''Updates the total amount that the user has earned'''
+		#grab all deals that are children, add money_earned from each
+		
+		
 		pass
 	def update_total_paid(self):
 		'''Updates the total amount that the user has cashed out'''
+		
+		
 #class Redemption(db.Model):
 #child of customer
 #	dealID

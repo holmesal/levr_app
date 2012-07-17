@@ -283,7 +283,6 @@ class phone(webapp2.RequestHandler):
 		elif action == "addRedeem":
 			toEcho = {"success":0,"data":"some data!"}
 		elif action == "delRedeem":
-			
 			toEcho = {"success":0,"data":"some data!"}
 		else:
 			logging.error("Unrecognized action. Input passed: " + action)
@@ -327,7 +326,7 @@ class uploadDealImage(webapp2.RequestHandler):
 		uid = inputs('uid')
 		logging.info(uid)
 		#create new deal object as child of the uploader Customer
-		deal 				= levr.CustomerDeal()#(parent=uid)
+		deal 				= levr.CustomerDeal(parent=agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEQw)
 		deal.img			= inputs('img')			#D
 		deal.businessID		= business.key().__str__()
 		deal.business_name	= business_name

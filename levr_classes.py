@@ -15,6 +15,7 @@ class Customer(db.Model):
 	money_earned	= db.FloatProperty(default = 0.0)
 	money_available = db.FloatProperty(default = 0.0)
 	money_paid		= db.FloatProperty(default = 0.0)
+	redemptions		= db.StringListProperty()
 	
 
 	def dictify(self):

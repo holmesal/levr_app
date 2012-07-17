@@ -1,6 +1,6 @@
 import webapp2
 import levr_classes
-import logging
+#import logging
 #from google.appengine.ext import db
 
 class MainPage(webapp2.RequestHandler):

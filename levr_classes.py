@@ -1,8 +1,8 @@
 #import webapp2
 #import datetime
-#import logging
 from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
+import logging
 
 class Customer(db.Model):
 #root class
@@ -12,9 +12,9 @@ class Customer(db.Model):
 	pw 				= db.StringProperty()
 	alias			= db.StringProperty()
 	#stats
-	money_earned	= db.FloatProperty()
-	money_paid		= db.FloatProperty()
-	redemptions		= db.StringListProperty()
+	money_earned	= db.FloatProperty(default = 0.0)
+	money_available = db.FloatProperty(default = 0.0)
+	money_paid		= db.FloatProperty(default = 0.0)
 	
 
 	def dictify(self):
@@ -26,27 +26,47 @@ class Customer(db.Model):
 			"paymentPending": self.get_pending_payment()
 		}
 		return data
+	def update_money_earned(self):
+		'''Updates the total amount that the user has earned'''
+		#grab all deals that are children, add payment_total from each
+		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())
+		cashmoneys = 0
+		for deal in q:
+			logging.info(deal.__dict__)
+			cashmoneys = cashmoneys + deal.earned_total
+			
+		if cashmoneys < self.money_earned:
+			logging.error('Something strange is happening with the payment total calculation. Money is going down. Its a recession! MY GOD.')
+		else:
+			self.money_earned = cashmoneys
+			logging.info('Total earned: ' + str(self.money_earned))
 	
-	def get_pending_payment(self):
-		'''Searches through the uploaded deal children and sums the payment_total
-		fields'''
-		uploads = CustomerDeal.gql("WHERE ANCESTOR IS :1",self.key())
-		payments_list = [x.payment_total() for x in uploads]
-		total_payment_pending = sum(payments_list)
-		return total_payment_pending
+	def update_money_available(self):
+		#grab all child deals, sum (total_earned - paid_out)
+		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())
+		available = 0
+		for deal in q:
+			available = available + (deal.earned_total-deal.paid_out)
+		if available < self.money_available:
+			logging.error('The amount of available money has somehow decreased. Is this okay?')
+		else:
+			self.money_available = available
+			logging.info('Money available: ' + str(self.money_available))
 	
 	def get_num_uploads(self):
 		'''Returns the number of deal children of user i.e. num they have uploaded'''
 		uploads = CustomerDeal.gql("WHERE ANCESTOR IS :1",self.key())
 		count = uploads.count()
-		return count
-
-	def update_total_earned(self):
-		'''Updates the total amount that the user has earned'''
-		pass
-		
+		return count		
 	def update_total_paid(self):
 		'''Updates the total amount that the user has cashed out'''
+		
+	def echo_stats(self):
+		logging.info('Customer money earned: ' + str(self.money_earned))
+		logging.info('Customer money available: ' + str(self.money_available))
+		logging.info('Customer money paid: ' + str(self.money_paid))
+		
+		
 #class Redemption(db.Model):
 #child of customer
 #	dealID
@@ -99,7 +119,6 @@ class Deal(polymodel.PolyModel):
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
-	
 	date_start 		= db.DateProperty() #start date
 	date_end 		= db.DateProperty()
 #	img_path		= db.StringProperty()   #string path to image
@@ -139,26 +158,26 @@ class Deal(polymodel.PolyModel):
 			"dealStatus"	: self.deal_status,
 		}
 		return data
-	def increment_redeem(self):
-		''' write what this does'''
-		pass
 
 
 class CustomerDeal(Deal):
 #Sub-class of deal
 #A deal that has been uploaded by a user
 
-	gate_requirement= db.IntegerProperty()
-	gate_payment_per= db.IntegerProperty()
-	gate_count		= db.IntegerProperty() #+1 when count_redeemed increases to gate_requirement
-	gate_max		= db.IntegerProperty()
+	gate_requirement= db.IntegerProperty(default = 5) #threshold of redeems that must be passed to earn a gate
+	gate_payment_per= db.IntegerProperty(default = 1) #dollar amount per gate
+	gate_count		= db.IntegerProperty(default = 0) #number of gates passed so far
+	gate_max		= db.IntegerProperty(default = 10) #max number of gates allowed
 	date_uploaded	= db.DateProperty(auto_now_add=True)
-	cashed_out		= db.BooleanProperty()
+	earned_total	= db.FloatProperty(default = 0.0) #amount earned by this deal
+	paid_out		= db.FloatProperty(default = 0.0) #amount paid out by this deal
 	
-	def payment_total(self):
-		'''The total amount of money that this deal has made for them thus far,
-		not the amount that we have actually paid them'''
-		return self.gate_count*self.gate_payment_per
+	def update_earned_total(self):
+		self.earned_total = float(self.gate_count*self.gate_payment_per)
+	
+	def echo_stats(self):
+		logging.info('Deal money earned: ' + str(self.earned_total))
+		logging.info('Deal money paid: ' + str(self.paid_out))
 	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
@@ -209,6 +228,11 @@ class EmptySetResponse(db.Model):
 	primary_cat		= db.StringProperty()
 	img				= db.BlobProperty()
 	index			= db.IntegerProperty()
+	
+class CashOutRequest(db.Model):
+#child of ninja
+	amount			= db.FloatProperty()
+	date			= db.DateProperty()
 	
 #functions!
 def phoneDealFormat(deal):

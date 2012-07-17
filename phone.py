@@ -399,7 +399,7 @@ class uploadDeal(webapp2.RequestHandler):
 		deal.geo_point		= geo_point
 		#set expiration date to one week from now
 		#only need date, not time for this
-		#deal.date_end		= datetime.now().date() + relativedelta(days=+7)
+		deal.date_end		= datetime.now().date() + timedelta(days=7)
 #		date_uploaded		= automatic
 		
 		#put in DB

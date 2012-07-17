@@ -260,6 +260,7 @@ def phoneFormat(deal,use):
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name}
 	elif use == 'deal':
+		#view deal information screen
 		#uploaded by a user
 		businessAddress = deal.address_string
 		#uploaded by a business
@@ -287,11 +288,6 @@ def phoneBusinessFormat(business):
 	}
 	return data
 
-def phone_my_deal_format(deal):
-	data = {
-		
-	}
-	return data
 def web_edit_account_format(business):
 	data = {
 		"email"			: business.email,

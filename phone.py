@@ -320,7 +320,9 @@ class phone(webapp2.RequestHandler):
 				
 				#update ninja
 				ninja.put()
-				
+			else:
+				#deal is owned by a business - FOR THE FUTURE!
+				pass	
 			#add to customer's redemption list
 			customer.redemptions.append(dealID)
 			#update customer

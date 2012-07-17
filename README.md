@@ -11,9 +11,6 @@ payment queue checking and smart stuff
 
 we are currently only handling customer-created deals (in redeem)
 
-<<<<<<< HEAD
-dealResults should take in 2 parameters: number of results and index to start at (start, size)
-
 
 returns for dealResults
 
@@ -22,12 +19,8 @@ returns for dealResults
 3. primary deal string
 4. appended deal string
 5. business name
-=======
-admin wall for admin things
 
 parse input address into address_string DB field on entry of deal
->>>>>>> Updated outputs for ethan, added logging to image code
-
 
 returns for getOneDeal
 

@@ -65,12 +65,11 @@ class phone(webapp2.RequestHandler):
 		#***************dealResults************************************************
 		elif action == "dealResults":
 			
-			#hard-code the number of results
-			numResults = 20;
-			
 			#grab primaryCat from the request body
 			try:
 				primaryCat = decoded["in"]["primaryCat"]
+				start = decoded["in"]["start"]
+				numResults = decoded["in"]["size"]
 			except:
 				logging.error("Could not grab primary category. Input passed: " + self.request.body)
 			
@@ -95,7 +94,7 @@ class phone(webapp2.RequestHandler):
 				#grab the appropriate deal parent
 				result = levr.Deal.get(d)
 				#trade an object for a phone-formatted dictionary
-				deal = levr.phoneDealFormat(result)
+				deal = levr.phoneFormat(result,'list')
 				#push the primary onto the dictionary
 				deal['primaryCat'] = category.primary_cat
 				#push the whole dictionary onto a list
@@ -131,7 +130,7 @@ class phone(webapp2.RequestHandler):
 						#grab the appropriate deal
 						result = levr.Deal.get(category.parent().key())
 						#trade an object for a phone-formatted dictionary
-						deal = levr.phoneDealFormat(result)
+						deal = levr.phoneFormat(result,'list')
 						#push the primary onto the dictionary
 						deal['primaryCat'] = category.primary_cat
 						#push the whole dictionary onto a list
@@ -170,7 +169,7 @@ class phone(webapp2.RequestHandler):
 			for idx,deal in enumerate(deals):
 				self.response.out.write(deal.__dict__)
 				#send to format function - package for phone
-				deal_stack = levr.phoneDealFormat(deal)
+				deal_stack = levr.phoneFormat(deal,'list')
 				deal_stack.update({"primaryCat":cats[idx]})
 				data.append(deal_stack)
 #				data[idx]['primaryCat'] = cats[idx]
@@ -230,7 +229,7 @@ class phone(webapp2.RequestHandler):
 			#fetch deal
 			result = levr.Deal.get(dealID)
 			#convert fetched deal into dictionary
-			deal = levr.phoneDealFormat(result)
+			deal = levr.phoneFormat(result,'deal')
 			#push the primary onto the dictionary
 			deal.update({"primaryCat":primary_cat})
 			#grab businessID from deal
@@ -454,8 +453,4 @@ class images(webapp2.RequestHandler):
 			pass
 			
 
-app = webapp2.WSGIApplication([('/phone', phone),
-								('/phone/log', phone_log),
-								('/phone/uploadDeal', uploadDeal),
-								('/phone/images.*', images)],
-								debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDeal', uploadDeal),('/phone/images.*', images)],debug=True)

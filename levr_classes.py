@@ -117,7 +117,8 @@ class Deal(polymodel.PolyModel):
 	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty() #name of business
 	secondary_name 	= db.StringProperty() #secondary category
-	deal_type 		= db.StringProperty() #category or single item
+	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
+	deal_item		= db.StringProperty() #the item the deal is on - could be primary, secondary, ternery, whattt?
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
@@ -238,19 +239,39 @@ class CashOutRequest(db.Model):
 	status			= db.StringProperty()
 	
 #functions!
-def phoneDealFormat(deal):
-	#map object properties to dictionary
-	data = {"businessID"	: str(deal.businessID),
-			"businessName"	: deal.business_name,
-			"dealID"		: str(deal.parent().key()),
-			"dealType"  	: deal.deal_type,
-			"name"  		: deal.secondary_name,
-			"description"   : deal.description,
-			"dealType"  	: deal.discount_type,
-			"dealValue" 	: deal.discount_value,
-			"endValue"  	: deal.count_end,
-			"imgPath"		: deal.img_path,
-			"dealOrigin"	: deal.deal_origin}
+def phoneFormat(deal,use):
+	#dealText
+	if deal.discount_type == 'free':
+		dealText = 'Free ' + deal.deal_item
+	elif deal.discount_type == 'percent':
+		dealText = '%(discount_value)d%% Off %(deal_item)s' % {"discount_value":deal.discount_value,"deal_item":deal.deal_item}
+	elif deal.discount_type == 'monetary':
+		dealText = '$%(discount_value)d Off %(deal_item)s' % {"discount_value":deal.discount_value,"deal_item":deal.deal_item}
+		
+	#dealTextExtra
+	if deal.deal_type == 'bundle':
+		dealTextExtra = '(with purchase of ' + deal.secondary_name + ')'
+	else:
+		dealTextExtra = ''
+		
+	if use == 'list':
+		data = {"dealID"		: str(deal.key()),
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/images?dealID='+str(deal.key())+'?size=list',
+				"dealText"  	: dealText,
+				"dealTextExtra" : dealTextExtra,
+				"businessName"	: deal.business_name}
+	elif use == 'deal':
+		b = levr.Business.get(deal.businessID)
+		displayAddress = b.address_line1 + ', ' + b.address_line2
+		businessAddress = deal.business_name + ' ' + b.address_line1 + ' ' + b.address_line2 + ' ' + b.city + ' ' + b.state + ' ' + b.zip_code
+		data = {"dealID"		: str(deal.key()),
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/images?dealID='+str(deal.key())+'?size=dealDetail',
+				"dealText"  	: dealText,
+				"dealTextExtra" : dealTextExtra,
+				"businessName"	: deal.business_name,
+				"city"			: deal.city,
+				"displayAddress"	:displayAddress,
+				"gmapsAddress"	: businessAddress}
 	return data
 
 def phoneBusinessFormat(business):

@@ -42,7 +42,6 @@ class MainPage(webapp2.RequestHandler):
     	#new deal
         d = levr_classes.Deal(parent=b)
         d.business_name 	= 'Shaws'
-        d.secondary_name 	= 'jeggings'
         d.name_type			= 'specific'
         d.description 		= 'describe me, hun.'
         d.discount_type 	= 'monetary'
@@ -53,12 +52,13 @@ class MainPage(webapp2.RequestHandler):
         d.count_seen 		= 43
         d.img_path 			= './img/bobs-discount-furniture.png'
         d.city 				= 'Qatar'
+        d.deal_item			= 'Coat'
         d.put()
         
         #new customer deal
         cd = levr_classes.CustomerDeal(parent=ninja)
         cd.business_name 	= 'Shaws'
-        cd.secondary_name 	= 'jeggings'
+        cd.deal_item 		= 'socks'
         cd.name_type		= 'specific'
         cd.description 		= 'describe me, hun.'
         cd.discount_type 	= 'monetary'

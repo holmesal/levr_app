@@ -29,6 +29,12 @@ handlers:
   script: share.app
 - url: /payments/.*
   script: payments.app
+- url: /test.*
+  script: test.app
+- url: /tasks/cleanDeals
+  script: tasks/cleanDeals.py
+
+
 - url: /img
   static_dir: img
 - url: /css

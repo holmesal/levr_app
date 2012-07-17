@@ -1,0 +1,4 @@
+cron:
+- description: daily check to remove expired deals from the active pool
+  url: /tasks/cleanDeals
+  schedule: every 2 minutes synchronized

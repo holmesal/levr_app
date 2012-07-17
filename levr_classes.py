@@ -121,7 +121,8 @@ class Deal(polymodel.PolyModel):
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateProperty() #start date
-	date_end 		= db.DateProperty()
+	date_uploaded	= db.DateProperty(auto_now_add=True)
+	date_end 		= db.DateProperty(auto_now_add=False)
 #	img_path		= db.StringProperty()   #string path to image
 	city 			= db.StringProperty()  #optional
 	count_end 		= db.IntegerProperty()  #max redemptions
@@ -153,7 +154,7 @@ class Deal(polymodel.PolyModel):
 #			"gatePaymentPer": self.gate_payment_per,
 #			"gateCount"		: self.gate_count,
 #			"gateMax"		: self.gate_max,
-#			"dateUploaded"	: self.date_uploaded,
+			"dateUploaded"	: self.date_uploaded,
 #			"paymentTotal"	: self.payment_total(),
 			"geoPoint"		: str(self.geo_point),
 			"dealStatus"	: self.deal_status,
@@ -169,7 +170,6 @@ class CustomerDeal(Deal):
 	gate_payment_per= db.IntegerProperty(default = 1) #dollar amount per gate
 	gate_count		= db.IntegerProperty(default = 0) #number of gates passed so far
 	gate_max		= db.IntegerProperty(default = 10) #max number of gates allowed
-	date_uploaded	= db.DateProperty(auto_now_add=True)
 	earned_total	= db.FloatProperty(default = 0.0) #amount earned by this deal
 	paid_out		= db.FloatProperty(default = 0.0) #amount paid out by this deal
 	

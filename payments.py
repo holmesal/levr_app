@@ -20,7 +20,9 @@ class post(webapp2.RequestHandler):
 		just hook in actual payment service and go get a beer
 		'''
 		
+		#grab payment requests, sort by dollar amount
 		
+		#check for a bunch of stuff - repeated payment requests, multiple requests from the same user, large dollar amounts, redemptions that happen too quickly, etc
 		
 		#attempt payment
 		

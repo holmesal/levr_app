@@ -5,7 +5,7 @@ from google.appengine.ext import db
 #from google.appengine.api import images
 import logging
 import jinja2
-import datetime
+from datetime import datetime
 
 class Pending(webapp2.RequestHandler):
 	def get(self):
@@ -39,22 +39,23 @@ class Approve(webapp2.RequestHandler):
 		#dealID is pulled from admin/approve?dealID=dealID
 		dealID = inputs('dealID')
 		#grabs deal object from database and updates information
-		deal 				= db.get(dealID)
-		#deal.img			= inputs('img')			#D
-		deal.businessID		= inputs('businessID')
-		deal.business_name	= inputs('businessName')
-		deal.deal_status	= 'active'
+		deal 					= db.get(dealID)
+		deal.businessID			= inputs('businessID')
+		deal.business_name		= inputs('businessName')
+		deal.deal_status		= 'active'
 		deal.gate_requirement	= int(inputs('gateRequirement'))
 		deal.gate_payment_per	= int(inputs('gatePaymentPer'))
 		deal.gate_max			= int(inputs('gateMax'))
 		deal.geo_point			= levr.geo_converter(inputs('geoPoint'))
+		deal.date_end			= inputs('dateEnd')
 		
 		##new properties
 		deal.discount_type	= inputs('discountType')
 		deal.discount_value	= float(inputs('discountValue'))
 		deal.city			= inputs('city')
 		deal.secondary_name	= inputs('name') #### check name!!!
-		deal.start_date		= datetime.date
+		deal.date_end		= inputs('dateEnd')
+		deal.date_start		= datetime.now()
 		
 		
 		logging.info(deal.__dict__)

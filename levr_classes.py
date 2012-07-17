@@ -27,6 +27,7 @@ class Customer(db.Model):
 			"paymentPending": self.get_pending_payment()
 		}
 		return data
+
 	def update_money_earned(self):
 		'''Updates the total amount that the user has earned'''
 		#grab all deals that are children, add payment_total from each
@@ -61,13 +62,13 @@ class Customer(db.Model):
 		return count		
 	def update_total_paid(self):
 		'''Updates the total amount that the user has cashed out'''
-		
+
 	def echo_stats(self):
 		logging.info('Customer money earned: ' + str(self.money_earned))
 		logging.info('Customer money available: ' + str(self.money_available))
 		logging.info('Customer money paid: ' + str(self.money_paid))
 		
-		
+	
 #class Redemption(db.Model):
 #child of customer
 #	dealID
@@ -81,8 +82,8 @@ class Business(db.Model):
 #root class
     email 			= db.EmailProperty()
     pw 				= db.StringProperty()
-    signup_date 	= db.DateProperty()	#when signed up for our service $$$
-    creation_date	= db.DateProperty(auto_now_add=True) #when created organically by user
+    signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
+    creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
     business_name 	= db.StringProperty()
     
     address_line1 	= db.StringProperty()
@@ -120,14 +121,14 @@ class Deal(polymodel.PolyModel):
 	description 	= db.StringProperty(multiline=True) #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
-	date_start 		= db.DateProperty() #start date
-	date_uploaded	= db.DateProperty(auto_now_add=True)
+	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
+	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_end 		= db.DateProperty(auto_now_add=False)
 #	img_path		= db.StringProperty()   #string path to image
 	city 			= db.StringProperty()  #optional
 	count_end 		= db.IntegerProperty()  #max redemptions
-	count_redeemed 	= db.IntegerProperty() 	#total redemptions
-	count_seen 		= db.IntegerProperty()  #number seen
+	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
+	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 	
@@ -233,7 +234,7 @@ class EmptySetResponse(db.Model):
 class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
-	date			= db.DateProperty()
+	date			= db.DateTimeProperty()
 	status			= db.StringProperty()
 	
 #functions!

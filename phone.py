@@ -2,7 +2,8 @@ import webapp2
 import json
 import sys
 import math
-import datetime
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import logging
 import levr_classes as levr
 import levr_utils
@@ -73,7 +74,7 @@ class phone(webapp2.RequestHandler):
 				logging.error("Could not grab primary category. Input passed: " + self.request.body)
 			
 			#query the database for all deals with a matching primaryCat
-			q = levr.Category.gql("WHERE primary_cat=:1",primaryCat)
+			q = levr.Category.gql("WHERE primary_cat=:1 and deal_status='active'",primaryCat)
 			#logging.info(q.count())
 			#define an empty "dealResults" LIST, and initialize the counter to 0
 			dealResults = []
@@ -398,21 +399,17 @@ class uploadDeal(webapp2.RequestHandler):
 		uid = inputs('uid')
 		logging.info(uid)
 		#create new deal object as child of the uploader Customer
-		deal 				= levr.CustomerDeal(parent=agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEQw)
+		deal 				= levr.CustomerDeal(parent='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEQw')
 		deal.img			= inputs('img')			#D
 		deal.businessID		= business.key().__str__()
 		deal.business_name	= business_name
 		deal.secondary_name	= inputs('name') #### check name!!!
 		deal.deal_status	= 'pending'
-		deal.deal_origin	= 'external'
-		deal.gate_requirement	= 5
-		deal.gate_payment_per	= 1
-		deal.gate_count			= 0
-		deal.gate_max			= 5
-		deal.count_redeemed		= 0
-		deal.count_seen			= 0
-		deal.geo_point			= geo_point
-#		date_uploaded		= current date and time
+		deal.geo_point		= geo_point
+		#set expiration date to one week from now
+		#only need date, not time for this
+		deal.date_end		= datetime.now().date() + relativedelta(days=+7)
+#		date_uploaded		= automatic
 		
 		
 		#put in DB

@@ -4,6 +4,9 @@
 		<img src="./admin/pendingImage/?dealID={{ deal.dealID }}">
 	</div>
 	<form method="post" action="/admin/approve?dealID={{ deal.dealID }}&businessID={{ business.businessID }}">
+		<h2>Deal Lifetime</h2>
+		<p>Upload date:		<br/><input type="text" name="dateUpload" value="{{ deal.dateUpload }}"></p>
+		<p>Expiration date:	<br/><input type="text" name="dateEnd" value="{{ deal.dateEnd }}"></p>
 		<h2>New Deal Information</h2>
 		<p>
 		<input type="radio" name="discountType" class="active" value="percent"> Percent <br/>
@@ -17,6 +20,7 @@
 		<p>Gate Requirement:<br/><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
 		<p>Gate Payment Per:<br/><input type="text" name="gatePaymentPer" value="{{ deal.gatePaymentPer }}"></p>
 		<p>Gate Max Count: 	<br/><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>
+		
 		<h2>Business Information</h2>
 		<p>Business Name: 	<br/><input type="text" name="businessName" value="{{ business.businessName }}"></p>
 		<p>Location: 		<br/><input type="text" name="geoPoint" value="{{ business.geoPoint }}"></p>
@@ -25,9 +29,6 @@
 		<p>City:			<br/><input type="text" name="city" value="{{ business.city }}"></p>
 		<p>State:			<br/><input type="text" name="state" value="{{ business.state }}"></p>
 		<p>Zip:				<br/><input type="text" name="zip" value="{{ business.zip }}"></p>
-		<p><input type="text" name="text" value=""></p>
-		<p><input type="text" name="text" value=""></p>
-		<p><input type="text" name="text" value=""></p>
 		<input type="submit" value="Enter">
 	</form>
 	</body>

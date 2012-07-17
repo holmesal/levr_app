@@ -205,10 +205,9 @@ class CustomerDeal(Deal):
 			"gateCount"		: self.gate_count,
 			"gateMax"		: self.gate_max,
 			"dateUploaded"	: self.date_uploaded,
-			"paymentTotal"	: self.payment_total(),
+			"paid_out"		: self.paid_out,
 			"geoPoint"		: str(self.geo_point),
 			"dealStatus"	: self.deal_status,
-			"cashedOut"		: self.cashed_out
 		}
 		return data
 

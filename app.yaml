@@ -13,8 +13,7 @@ handlers:
   script: merchants.app
 - url: /new
   script: test_class.app
-- url: /new_category
-  script: populate_categories.app
+  login: admin
 - url: /login
   script: login.app
 - url: /loginstate
@@ -23,17 +22,21 @@ handlers:
   script: logout.app
 - url: /emptySet.*
   script: emptySet.app
+  login: admin
+  secure: always
 - url: /admin.*
   script: admin.app
+  login: admin
+  secure: always
 - url: /share.*
   script: share.app
 - url: /payments/.*
   script: payments.app
 - url: /test.*
   script: test.app
+  login: admin
 - url: /tasks/cleanDeals
-  script: tasks/cleanDeals.py
-
+  script: cleanDeals.app
 
 - url: /img
   static_dir: img
@@ -45,3 +48,4 @@ handlers:
 libraries:
 - name: jinja2
   version: latest
+

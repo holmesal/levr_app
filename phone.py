@@ -327,6 +327,11 @@ class phone(webapp2.RequestHandler):
 			else:
 				logging.error('Deal typing seems to be broken. Who owns this deal?' + dealID)
 				sys.exit()
+				
+			#add to customer's redemption list
+			customer.redemptions.append(dealID)
+			#update customer
+			customer.put()
 			
 			toEcho = {"success":1,"data":"some data!"}
 		elif action == "cashOut":

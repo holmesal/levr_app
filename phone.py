@@ -422,44 +422,30 @@ class img(webapp2.RequestHandler):
 			#view for top of deal screen
 			aspect_ratio 	= 3. 	#width/height
 			output_width 	= 640.	#arbitrary standard
-			if img_width > img_height*aspect_ratio:
-				#width must be cropped
-				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
-				w_crop 	= float(w_crop_unscaled/img_width)
-				left_x 	= w_crop
-				right_x = 1.-w_crop
-				top_y	= 0.
-				bot_y	= 1.
-			else:
-				#height must be cropped
-				h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
-				h_crop	= float(h_crop_unscaled/img_height)
-				left_x	= 0.
-				right_x	= 1.
-				top_y	= h_crop
-				bot_y	= 1.-h_crop
+		
 		
 		elif size == 'list':
 			#view for in deal or favorites list
 			aspect_ratio	= 1.	#width/height
 			output_width	= 200.	#arbitrary standard
-			#fit to desired aspect ratio for square
-			if img_width > img_height:
-				#width must be cropped
-				w_crop_unscaled = (img_width-img_height)/2
-				w_crop 	= float(w_crop_unscaled/img_width)
-				left_x 	= w_crop
-				right_x = 1.-w_crop
-				top_y	= 0.
-				bot_y	= 1.
-			else:
-				#height must be cropped
-				h_crop_unscaled = (img_height-img_width)/2
-				h_crop	= float(h_crop_unscaled/img_height)
-				left_x	= 0.
-				right_x	= 1.
-				top_y	= h_crop
-				bot_y	= 1.-h_crop
+		
+		##get crop dimensions
+		if img_width > img_height*aspect_ratio:
+			#width must be cropped
+			w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
+			w_crop 	= float(w_crop_unscaled/img_width)
+			left_x 	= w_crop
+			right_x = 1.-w_crop
+			top_y	= 0.
+			bot_y	= 1.
+		else:
+			#height must be cropped
+			h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
+			h_crop	= float(h_crop_unscaled/img_height)
+			left_x	= 0.
+			right_x	= 1.
+			top_y	= h_crop
+			bot_y	= 1.-h_crop
 		
 		#crop image to aspect ratio
 		img.crop(left_x,top_y,right_x,bot_y)

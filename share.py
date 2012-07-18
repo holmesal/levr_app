@@ -11,20 +11,19 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 class share(webapp2.RequestHandler):
 	def get(self):
 		#grab refKey
-		refKey = self.request.get('dealID')
-		logging.info(refKey)
+		dealID = self.request.get('id')
+		logging.info(dealID)
 		#grab deal from datastore
 		try:
 			deal = levr.Deal.get(dealID)
 		except:
-			logging.error('Could not grab deal. refKey passed: ' + refKey)
+			logging.error('Could not grab deal. id passed: ' + dealID)
 			sys.exit()
 		
 		if deal:
 			logging.info('found!')
 		else:
 			logging.info('empty!')
-		logging.info(refKey)
 		logging.info(deal.__dict__)
 		
 		#check loginstate
@@ -34,7 +33,7 @@ class share(webapp2.RequestHandler):
 			'headerData' : headerData,
 			'title' : 'Share',
 			'deal'	: deal,
-			'refKey': refKey
+			'dealID': dealID
 		}
 		
 		#jinja2

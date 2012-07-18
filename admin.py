@@ -19,7 +19,6 @@ class Pending(webapp2.RequestHandler):
 		if deal:
 			deal = deal.dictify()
 			logging.info(deal['dateEnd'])
-			deal['dateEnd'] = deal['dateEnd'][:10]
 			#get the first matching entity and parse into template values
 			self.response.headers['Content-Type'] = 'text/html'	
 			
@@ -62,7 +61,7 @@ class Approve(webapp2.RequestHandler):
 		deal.city			= inputs('city')
 		deal.secondary_name	= inputs('name') #### check name!!!
 		deal.date_start		= datetime.now()
-		deal.date_end		= datetime.strptime(inputs('dateEnd'),'%Y-%m-%d')
+		deal.date_end		= datetime.strptime(inputs('dateEnd'),'%Y-%m-%d %H:%M:%S.%f')
 		
 		logging.info(deal.__dict__)
 		deal.put()

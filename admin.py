@@ -80,6 +80,7 @@ class Reject(webapp2.RequestHandler):
 		deal = levr.CustomerDeal.get(dealID)
 		deal.deal_status = 'rejected'
 		deal.put()
+		self.redirect('/admin/pending')
 		
 class PendingImage(webapp2.RequestHandler):
 	def get(self):

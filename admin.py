@@ -77,7 +77,7 @@ class Reject(webapp2.RequestHandler):
 	def post(self):
 		inputs = self.request.get
 		dealID = inputs('dealID')
-		deal = levr.CustomerDeal.get(key=dealID)
+		deal = levr.CustomerDeal.get(dealID)
 		deal.deal_status = 'rejected'
 		deal.put()
 		
@@ -101,5 +101,6 @@ class AllImages(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/admin/pending', Pending),
 								('/admin/pendingImage', PendingImage),
 								('/admin/allImages', AllImages),
-								('/admin/approve', Approve)],
+								('/admin/approve', Approve),
+								('/admin/reject',Reject)],
 								debug=True)

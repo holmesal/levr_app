@@ -91,7 +91,7 @@ class phone(webapp2.RequestHandler):
 				if resultsPushed == numResults:
 					break
 				#grab the parent deal key so we can grab the info from it
-				d = category.parent().key()
+				d = category.key().parent()
 				#grab the appropriate deal parent
 				result = levr.Deal.get(d)
 				if result.deal_status == 'active':
@@ -133,7 +133,7 @@ class phone(webapp2.RequestHandler):
 						if resultsPushed == numResults:
 							break
 						#grab the appropriate deal
-						result = levr.Deal.get(category.parent().key())
+						result = levr.Deal.get(category.key().parent())
 						#trade an object for a phone-formatted dictionary
 						deal = levr.phoneFormat(result,'list')
 						#push the primary onto the dictionary

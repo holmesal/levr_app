@@ -35,8 +35,6 @@ handlers:
 - url: /test.*
   script: test.app
   login: admin
-- url: /tasks/cleanDeals
-  script: cleanDeals.app
 
 - url: /img
   static_dir: img

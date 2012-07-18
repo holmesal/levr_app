@@ -390,7 +390,7 @@ class uploadDeal(webapp2.RequestHandler):
 		uid = inputs('uid')
 		logging.info(uid)
 		#create new deal object as child of the uploader Customer
-		deal 				= levr.CustomerDeal(parent='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEQw')
+		deal 				= levr.CustomerDeal(parent=db.Key(uid))
 		deal.img			= inputs('img')			#D
 		deal.businessID		= business.key().__str__()
 		deal.business_name	= business_name
@@ -399,7 +399,7 @@ class uploadDeal(webapp2.RequestHandler):
 		deal.geo_point		= geo_point
 		#set expiration date to one week from now
 		#only need date, not time for this
-		deal.date_end		= datetime.now().date() + timedelta(days=7)
+		deal.date_end		= datetime.now().date()# + timedelta(days=7)
 #		date_uploaded		= automatic
 		
 		#put in DB
@@ -412,11 +412,12 @@ class uploadDeal(webapp2.RequestHandler):
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):
-		
+		pass
 		
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
+		logging.info(self.request.body)
 		try:
 			dealID = self.request.get('dealID')
 			size = self.request.get('size')
@@ -433,12 +434,21 @@ class img(webapp2.RequestHandler):
 		
 		#crop to square
 		width = image.width
+		logging.info(width)
 		height = image.height
-		loss = height-width
-		offset = loss/2
-		fractional = offset/height
-		image = image.crop(0.0,(1.0-float(fractional)),1.0,float(fractional))
+		logging.info(height)
 		
+		if height > width:
+			loss = height-width
+		else:
+			loss = width-height
+		logging.info(loss)
+		offset = float(loss)/2
+		logging.info(offset)
+		fractional = float(offset)/float(height)
+		logging.info(fractional)
+		image = image.crop(0.0,float(fractional),1.0,(1.0-float(fractional)))
+		logging.info(image)
 		logging.info(width)
 		logging.info(height)
 		logging.info(loss)
@@ -454,4 +464,8 @@ class img(webapp2.RequestHandler):
 			pass
 			
 
-app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDeal', uploadDeal),('/phone/img.*', img)],debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),
+								('/phone/log', phone_log),
+								('/phone/uploadDeal', uploadDeal),
+								('/phone/img.*', img)],
+								debug=True)

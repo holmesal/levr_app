@@ -467,7 +467,7 @@ class img(webapp2.RequestHandler):
 		#calculate output_height from output_width
 		output_height	= output_width/aspect_ratio
 		#resize cropped image
-		img.resize(width=output_width,height=output_height)
+		img.resize(width=int(output_width),height=int(output_height))
 		logging.info(img)
 		output_img = img.execute_transforms()
 		logging.info(output_img)

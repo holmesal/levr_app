@@ -97,7 +97,7 @@ class phone(webapp2.RequestHandler):
 				if result.deal_status == 'active':
 					isEmpty = 0
 					#trade an object for a phone-formatted dictionary
-					deal = levr.phoneFormat(result,'list')
+					deal = levr.phoneFormat(result,'list',primaryCat)
 					#push the primary onto the dictionary
 					deal['primaryCat'] = category.primary_cat
 					#push the whole dictionary onto a list
@@ -115,7 +115,7 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"img_key":'http://getlevr.appspot.com/emptySet/get?img_key='+result.key().__str__()}
+									"imgURL":'http://getlevr.appspot.com/emptySet/get?img_key='+result.key().__str__()}
 					#push to stack
 					dealResults.append(searchObj)
 					
@@ -136,7 +136,7 @@ class phone(webapp2.RequestHandler):
 						#grab the appropriate deal
 						result = levr.Deal.get(category.key().parent())
 						#trade an object for a phone-formatted dictionary
-						deal = levr.phoneFormat(result,'list')
+						deal = levr.phoneFormat(result,'list',primaryCat)
 						#push the primary onto the dictionary
 						deal['primaryCat'] = category.primary_cat
 						#push the whole dictionary onto a list
@@ -175,7 +175,7 @@ class phone(webapp2.RequestHandler):
 			for idx,deal in enumerate(deals):
 				self.response.out.write(deal.__dict__)
 				#send to format function - package for phone
-				deal_stack = levr.phoneFormat(deal,'list')
+				deal_stack = levr.phoneFormat(deal,'list',cats[idx])
 				deal_stack.update({"primaryCat":cats[idx]})
 				data.append(deal_stack)
 #				data[idx]['primaryCat'] = cats[idx]

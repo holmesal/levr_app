@@ -238,7 +238,7 @@ class CashOutRequest(db.Model):
 	status			= db.StringProperty()
 	
 #functions!
-def phoneFormat(deal,use):
+def phoneFormat(deal,use,primary_cat=None):
 	#dealText
 	if deal.discount_type == 'free':
 		dealText = 'Free ' + deal.deal_item
@@ -258,7 +258,8 @@ def phoneFormat(deal,use):
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'?size=list',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
-				"businessName"	: deal.business_name}
+				"businessName"	: deal.business_name,
+				"primaryCat"	: primary_cat}
 	elif use == 'deal':
 		#view deal information screen
 		#uploaded by a user

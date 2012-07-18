@@ -5,6 +5,6 @@ Things to do:
 
 url, query parameter gives back small or large image
 
-cron job
+(cron job)
 
 payment queue checking and smart stuff

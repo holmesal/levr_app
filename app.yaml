@@ -32,6 +32,7 @@ handlers:
   script: share.app
 - url: /payments/.*
   script: payments.app
+  login: admin
 - url: /test.*
   script: test.app
   login: admin

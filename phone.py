@@ -431,8 +431,8 @@ class img(webapp2.RequestHandler):
 		
 		#grab image from deal
 		image = images.Image(deal.img)
+
 		self.response.out.write(image)
-		
 		
 		#crop to square
 #		width = image.width

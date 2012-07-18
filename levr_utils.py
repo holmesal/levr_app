@@ -66,8 +66,8 @@ def signupCustomer(email,alias,pw):
 		
 def loginCustomer(email_or_owner,pw):
 	'''This is passed either an email or a username, so check both'''
-	q_email = levr.Customer.gql('WHERE email = :1',email_or_owner)
-	q_owner  = levr.Customer.gql('WHERE alias = :1',email_or_owner)
+	q_email = levr.Customer.gql('WHERE email = :1 AND pw=:2',email_or_owner,pw)
+	q_owner  = levr.Customer.gql('WHERE alias = :1 AND pw=:2',email_or_owner,pw)
 	r_email = q_email.get()
 	r_owner = q_owner.get()
 	if r_email != None:
@@ -84,6 +84,7 @@ def loginCustomer(email_or_owner,pw):
 		}
 	else:
 		return {
-			'success'	: False
+			'success'	: False,
+			'error': 'Incorrect username, email, or password. Please try again!'
 		}
 	

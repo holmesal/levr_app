@@ -6,11 +6,26 @@ from google.appengine.ext import db
 import logging
 import jinja2
 
+jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
 class view(webapp2.RequestHandler):
 	def get(self):
-		cor = levr.CashOutRequest.gql('WHERE status=:1','pending').get()
-		self.response.out.write(cor.__dict__)
+		cor = levr.CashOutRequest.gql('WHERE status=:1 ORDER BY amount DESC','pending').get()
+		ninja = levr.Customer.get(cor.key().parent())
 		
+		#count the number of deals from this person
+		q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
+		numDeals = q.count()
+		
+		
+		template_values = {
+			"amount"					: cor.amount,
+			"life_paid"					: ninja.money_paid,
+			"numDeals"					: numDeals
+		}
+		
+		template = jinja_environment.get_template('templates/payments.html')
+		self.response.out.write(template.render(template_values))
 
 class post(webapp2.RequestHandler):
 	def post(self):
@@ -21,6 +36,7 @@ class post(webapp2.RequestHandler):
 		'''
 		
 		#grab payment requests, sort by dollar amount
+		
 		
 		#check for a bunch of stuff - repeated payment requests, multiple requests from the same user, large dollar amounts, redemptions that happen too quickly, etc
 		

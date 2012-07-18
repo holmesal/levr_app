@@ -280,7 +280,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
-				"gmapsAddress"	: deal.address_string,
+				"gmapsAddress"	: '%(addy1)s %(addy2)s, %(city)s, %(state)s %(zip)s' % {"addy1":b.address_line1,"addy2":b.address_line2,"city":b.city,"state":b.state,"zip":b.zip_code},
 				"displayAddress": b.address_line1,
 				"description"	: deal.description,
 				"city"			: deal.city}

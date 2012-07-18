@@ -81,7 +81,7 @@ class phone(webapp2.RequestHandler):
 			dealResults = []
 			resultsPushed = 0
 			#initialize isEmpty to 1
-			isEmpty = 1
+			isEmpty = True
 			#iterate over the results
 			#Want to grab deal information for each category
 			for category in q:
@@ -95,7 +95,7 @@ class phone(webapp2.RequestHandler):
 				#grab the appropriate deal parent
 				result = levr.Deal.get(d)
 				if result.deal_status == 'active':
-					isEmpty = 0
+					isEmpty = False
 					#trade an object for a phone-formatted dictionary
 					deal = levr.phoneFormat(result,'list',primaryCat)
 					#push the primary onto the dictionary
@@ -107,42 +107,19 @@ class phone(webapp2.RequestHandler):
 				else:
 					pass
 			#if isempty is true, send back suggested searches instead
-			if isEmpty == 1:
-				#go get (all) suggested searches
-				q = levr.EmptySetResponse.all()
-				#sory by index
-				q.order('index')
-				#loop through and append to data
-				for result in q:
-					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/emptySet/get?img_key='+result.key().__str__()}
-					#push to stack
-					dealResults.append(searchObj)
-					
-			#else, isempty is false, append some related deals
-			else:
-				#THIS WILL BE REPLACED WITH A STANDARD RESPONSE
-				#if not 20 yet, continue adding deals up to numResults
-				if resultsPushed < numResults:
-					#place the null object, to signify to ethan to place a heading
-					dealResults.append(None)
-					#grab <numResults> random deals, push them one-by-one (for now)
-					#later refine this to be actual recommendations
-					q = levr.Category.gql("")
-					for category in q:
-						#break if results limit is hit
-						if resultsPushed == numResults:
-							break
-						#grab the appropriate deal
-						result = levr.Deal.get(category.key().parent())
-						#trade an object for a phone-formatted dictionary
-						deal = levr.phoneFormat(result,'list',primaryCat)
-						#push the primary onto the dictionary
-						deal['primaryCat'] = category.primary_cat
-						#push the whole dictionary onto a list
-						dealResults.append(deal)
-						#increment the counter
-						resultsPushed += 1
+			if isEmpty == False:
+				dealResults.append(None)
+				
+			#go get (all) suggested searches
+			q = levr.EmptySetResponse.all()
+			#sory by index
+			q.order('index')
+			#loop through and append to data
+			for result in q:
+				searchObj = {"primaryCat":result.primary_cat,
+								"imgURL":'http://getlevr.appspot.com/emptySet/get?img_key='+result.key().__str__()}
+				#push to stack
+				dealResults.append(searchObj)
 			#echo back success!
 			toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}
 			

@@ -275,7 +275,9 @@ def phoneFormat(deal,use):
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
 				"gmapsAddress"	: deal.address_string,
-				"displayAddress": displayAddress}
+				"displayAddress": displayAddress,
+				"description"	: deal.description,
+				"city"			: deal.city}
 	logging.info(data)
 	return data
 

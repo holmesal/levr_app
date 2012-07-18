@@ -8,6 +8,10 @@ import jinja2
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
+def throwFlags(cor,ninja):
+	#check for a bunch of stuff - repeated payment requests, multiple requests from the same user, large dollar amounts, redemptions that happen too quickly, etc
+	pass
+
 class view(webapp2.RequestHandler):
 	def get(self):
 		cor = levr.CashOutRequest.gql('WHERE status=:1 ORDER BY amount DESC','pending').get()
@@ -35,10 +39,19 @@ class post(webapp2.RequestHandler):
 		just hook in actual payment service and go get a beer
 		'''
 		
-		#grab payment requests, sort by dollar amount
+		#PAYPAL ACCOUNT INFORMATION
+		userid 			= None		#pretty sure this is the url from which the request is coming, and the url to which it will be returned
+		password		= None
+		signature		= None
+		ipaddress		= None		#pretty sure this is the current IP address, NOT that of the phone. Makes sense, no?
+		request_format	= 'JSON'
+		response_format = 'JSON'
+		app_id			= None
+		
+		#PAYPAL REQUEST BODY
 		
 		
-		#check for a bunch of stuff - repeated payment requests, multiple requests from the same user, large dollar amounts, redemptions that happen too quickly, etc
+		
 		
 		#attempt payment
 		

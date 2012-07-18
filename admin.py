@@ -83,10 +83,9 @@ class Reject(webapp2.RequestHandler):
 		
 class PendingImage(webapp2.RequestHandler):
 	def get(self):
-		inputs = self.request.get
-		dealID = inputs('dealID')
+		dealID = self.request.get('dealID')
 		deal = db.get(dealID)
-		self.response.headers['Content-Type'] = 'image/png'
+		self.response.headers['Content-Type'] = 'image/jpeg'
 		self.response.out.write(deal.img)
 #		key = self.request.get('key')
 #		img = levr.CustomerDeal.get(key)
@@ -96,7 +95,7 @@ class AllImages(webapp2.RequestHandler):
 		q = levr.Deal.gql('WHERE deal_status=:1','pending')
 		for result in q:
 			logging.info(result.img)
-			self.response.headers['Content-Type'] = 'image/png'
+			self.response.headers['Content-Type'] = 'image/jpeg'
 			self.response.out.write(result.img)
 
 app = webapp2.WSGIApplication([('/admin/pending', Pending),

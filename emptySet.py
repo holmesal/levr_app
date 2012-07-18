@@ -63,4 +63,6 @@ class get_img:
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/emptySet/edit', edit),('/emptySet/get', get_img)],debug=True)
+app = webapp2.WSGIApplication([('/emptySet/edit', edit),
+								('/emptySet/get', get_img)],
+								debug=True)

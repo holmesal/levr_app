@@ -417,10 +417,12 @@ class phone_log(webapp2.RequestHandler):
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
-		logging.info(self.request.get('dealID'),self.request.get('size'))
+		
 		try:
 			dealID = self.request.get('dealID')
 			size = self.request.get('size')
+			logging.info(dealID)
+			logging.info(size)
 		except:
 			logging.error('could not parse dealID or size. . . you passed:'+self.request.body)
 			sys.exit()
@@ -430,34 +432,29 @@ class img(webapp2.RequestHandler):
 		
 		
 		#grab image from deal
-		image = images.Image(deal.img)
-
-		self.response.out.write(image)
+		#image = images.Image(deal.img)
+		image = deal.img
+#		self.response.out.write(image)
 		
 		#crop to square
-#		width = image.width
-#		logging.info(width)
-#		height = image.height
-#		logging.info(height)
-#		
-#		if height > width:
-#			loss = height-width
-#		else:
-#			loss = width-height
-#		logging.info(loss)
-#		offset = float(loss)/2
-#		logging.info(offset)
-#		fractional = float(offset)/float(height)
-#		logging.info(fractional)
-#		cropped_image = image.crop(0.0,float(fractional),1.0,(1.0-float(fractional)))
-#		logging.info(cropped_image)
-#		logging.info(width)
-#		logging.info(height)
-#		logging.info(loss)
-#		logging.info(offset)
-#		logging.info(fractional)
+		width = image.width
+		logging.info(width)
+		height = image.height
+		logging.info(height)
+		
+		if height > width:
+			loss = height-width
+		else:
+			loss = width-height
+		logging.info(loss)
+		offset = float(loss)/2
+		logging.info(offset)
+		fractional = float(offset)/float(height)
+		logging.info(fractional)
+		cropped_image = images.crop(image,0.0,float(fractional),1.0,(1.0-float(fractional)))
+		logging.info(cropped_image)
 
-#		self.response.out.write(cropped_image)
+		self.response.out.write(cropped_image)
 #		
 #		#resize?
 #		if size == 'list':

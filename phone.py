@@ -421,11 +421,6 @@ class img(webapp2.RequestHandler):
 		try:
 			dealID = self.request.get('dealID')
 			size = self.request.get('size')
-#			left_x = float(self.request.get('left_x'))
-#			top_y  = float(self.request.get('top_y'))
-#			right_x= float(self.request.get('right_x'))
-#			bot_y  = float(self.request.get('bot_y'))
-#			test   = self.request.get('test')
 			logging.info(dealID)
 			logging.info(size)
 		except:
@@ -434,7 +429,7 @@ class img(webapp2.RequestHandler):
 		self.response.headers['Content-Type'] = 'image/png'
 		#grab deal
 		deal = db.get(dealID)
-		#convert to PIL object
+		#convert deal img to PIL object
 		img = images.Image(deal.img)
 		logging.info(img)
 		
@@ -445,7 +440,7 @@ class img(webapp2.RequestHandler):
 		elif size == 'list':
 			#view for in deal or favorites list
 			aspect_ratio	= 1.	#width/height
-			output_with		= 200.	#arbitrary standard
+			output_width	= 200.	#arbitrary standard
 		#calculate height of output
 		output_height	= output_width/aspect_ratio
 		img_width		= img.width
@@ -476,50 +471,6 @@ class img(webapp2.RequestHandler):
 		#output
 		self.response.out.write(cropped_img)
 		
-#		self.response.out.write(img)
-#		img.resize(width=80,height=100)
-#		if test == 0:
-#			#crop to square
-#			width = img.width
-#			height = img.height
-#			if height > width:
-#				loss = height-width
-#			else:
-#				loss = width-height
-#				logging.info("Landscape picture!!")
-#			fractional = float(offset)/float(height)
-#			logging.info(fractional)
-#			logging.info(1.0-fractional)
-#			offset 	= float(loss)/2
-#			left_x 	= 0.0
-#			top_y	= float(fractional)
-#			right_x	= 1.0
-#			bot_y	= 1.0-float(fractional)
-#		img.crop(left_x,top_y,right_x,bot_y)
-#		logging.info(img)
-#		thumbnail = img.execute_transforms()
-#		logging.info(thumbnail)
-#		self.response.out.write(thumbnail)
-		
-		
-		
-#		
-#		
-##		image = img.crop(0.0,float(fractional),1.0,(1.0-float(fractional)))
-#		image = img.crop(0.0,0.0,.5,.5)
-#		logging.info(img)
-#		cropped_image = img.execute_transforms(output_encoding=images.JPG)
-#		logging.info(cropped_image)
-
-#		self.response.out.write(cropped_image)
-##		
-#		#resize?
-#		if size == 'list':
-#			pass
-#		else:
-#			pass
-#			
-
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),

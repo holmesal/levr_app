@@ -1,7 +1,7 @@
 <html>
 	<body>
 	<div>
-		<img src="./admin/pendingImage/?dealID={{ deal.dealID }}">
+		<img src="http://getlevr.appspot.com/admin/pendingImage?dealID={{ deal.dealID }}">
 	</div>
 	<form method="post" action="/admin/approve?dealID={{ deal.dealID }}&businessID={{ business.businessID }}">
 		<h2>Deal Lifetime</h2>
@@ -30,6 +30,11 @@
 		<p>State:			<br/><input type="text" name="state" value="{{ business.state }}"></p>
 		<p>Zip:				<br/><input type="text" name="zip" value="{{ business.zip }}"></p>
 		<input type="submit" value="Enter">
+	</form>
+	
+	<p>Danger, Will Robinson…</p>
+	<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
+		<input type="submit" value="Reject">
 	</form>
 	</body>
 </html>

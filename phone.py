@@ -455,8 +455,6 @@ class img(webapp2.RequestHandler):
 		logging.info(offset)
 		logging.info(fractional)
 
-		self.response.out.write(image)
-		
 		#resize?
 		if size == 'list':
 			pass

@@ -119,7 +119,7 @@ class Deal(polymodel.PolyModel):
 	secondary_name 	= db.StringProperty() #secondary category
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_item		= db.StringProperty() #the item the deal is on - could be primary, secondary, ternery, whattt?
-	description 	= db.StringProperty(multiline=True) #description of deal
+	description 	= db.StringProperty(multiline=True,default='') #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date

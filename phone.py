@@ -418,7 +418,7 @@ class img(webapp2.RequestHandler):
 		img_height		= img.height
 		
 		#define output parameters
-		if size == 'deal':
+		if size == 'dealDetail':
 			#view for top of deal screen
 			aspect_ratio 	= 3. 	#width/height
 			output_width 	= 640.	#arbitrary standard
@@ -428,6 +428,9 @@ class img(webapp2.RequestHandler):
 			#view for in deal or favorites list
 			aspect_ratio	= 1.	#width/height
 			output_width	= 200.	#arbitrary standard
+		else:
+			logging.error("invalid size parameter. input: "+self.request.body)
+			sys.exit()
 		
 		##get crop dimensions
 		if img_width > img_height*aspect_ratio:

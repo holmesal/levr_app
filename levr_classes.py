@@ -124,7 +124,7 @@ class Deal(polymodel.PolyModel):
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
-	date_end 		= db.DateProperty(auto_now_add=False)
+	date_end 		= db.DateTimeProperty(auto_now_add=False)
 #	img_path		= db.StringProperty()   #string path to image
 	city 			= db.StringProperty()  #optional
 	count_end 		= db.IntegerProperty()  #max redemptions

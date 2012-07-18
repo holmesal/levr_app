@@ -48,16 +48,14 @@ class Approve(webapp2.RequestHandler):
 		deal.gate_payment_per	= int(inputs('gatePaymentPer'))
 		deal.gate_max			= int(inputs('gateMax'))
 		deal.geo_point			= levr.geo_converter(inputs('geoPoint'))
-		deal.date_end			= inputs('dateEnd')
 		
 		##new properties
 		deal.discount_type	= inputs('discountType')
 		deal.discount_value	= float(inputs('discountValue'))
 		deal.city			= inputs('city')
 		deal.secondary_name	= inputs('name') #### check name!!!
-		deal.date_end		= inputs('dateEnd')
 		deal.date_start		= datetime.now()
-		
+		deal.date_end		= datetime.strptime(inputs('dateEnd'),'%Y-%m-%d')
 		
 		logging.info(deal.__dict__)
 		deal.put()

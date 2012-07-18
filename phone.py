@@ -421,6 +421,11 @@ class img(webapp2.RequestHandler):
 		try:
 			dealID = self.request.get('dealID')
 			size = self.request.get('size')
+#			left_x = float(self.request.get('left_x'))
+#			top_y  = float(self.request.get('top_y'))
+#			right_x= float(self.request.get('right_x'))
+#			bot_y  = float(self.request.get('bot_y'))
+#			test   = self.request.get('test')
 			logging.info(dealID)
 			logging.info(size)
 		except:
@@ -429,33 +434,85 @@ class img(webapp2.RequestHandler):
 		self.response.headers['Content-Type'] = 'image/png'
 		#grab deal
 		deal = db.get(dealID)
+		#convert to PIL object
+		img = images.Image(deal.img)
+		logging.info(img)
+		
+		if size == 'deal':
+			#view for top of deal screen
+			aspect_ratio 	= 3. 	#width/height
+			output_width 	= 640.	#arbitrary standard
+		elif size == 'list':
+			#view for in deal or favorites list
+			aspect_ratio	= 1.	#width/height
+			output_with		= 200.	#arbitrary standard
+		#calculate height of output
+		output_height	= output_width/aspect_ratio
+		img_width		= img.width
+		img_height		= img.height
+		'''crop values are the distances from the x or y edges
+		to the output edges. values are defined as a fraction of the db img'''
+		y_crop			= (1.-output_height/img_height)/2
+		x_crop			= (1.-output_width/img_width)/2
+		left_x			= x_crop
+		right_x			= 1.-x_crop
+		top_y			= y_crop
+		bot_y			= 1.-y_crop
+		logging.info(img_width)
+		logging.info(img_height)
+		logging.info(y_crop)
+		logging.info(x_crop)
+		logging.info(left_x)
+		logging.info(right_x)
+		logging.info(top_y)
+		logging.info(bot_y)
+		
+		#crop img
+		img.crop(left_x,top_y,right_x,bot_y)
+		logging.info(img)
+		#effect crop changes
+		cropped_img = img.execute_transforms()
+		logging.info(cropped_img)
+		#output
+		self.response.out.write(cropped_img)
+		
+#		self.response.out.write(img)
+#		img.resize(width=80,height=100)
+#		if test == 0:
+#			#crop to square
+#			width = img.width
+#			height = img.height
+#			if height > width:
+#				loss = height-width
+#			else:
+#				loss = width-height
+#				logging.info("Landscape picture!!")
+#			fractional = float(offset)/float(height)
+#			logging.info(fractional)
+#			logging.info(1.0-fractional)
+#			offset 	= float(loss)/2
+#			left_x 	= 0.0
+#			top_y	= float(fractional)
+#			right_x	= 1.0
+#			bot_y	= 1.0-float(fractional)
+#		img.crop(left_x,top_y,right_x,bot_y)
+#		logging.info(img)
+#		thumbnail = img.execute_transforms()
+#		logging.info(thumbnail)
+#		self.response.out.write(thumbnail)
 		
 		
-		#grab image from deal
-		#image = images.Image(deal.img)
-		image = deal.img
-#		self.response.out.write(image)
 		
-		#crop to square
-		width = image.width
-		logging.info(width)
-		height = image.height
-		logging.info(height)
-		
-		if height > width:
-			loss = height-width
-		else:
-			loss = width-height
-		logging.info(loss)
-		offset = float(loss)/2
-		logging.info(offset)
-		fractional = float(offset)/float(height)
-		logging.info(fractional)
-		cropped_image = images.crop(image,0.0,float(fractional),1.0,(1.0-float(fractional)))
-		logging.info(cropped_image)
-
-		self.response.out.write(cropped_image)
 #		
+#		
+##		image = img.crop(0.0,float(fractional),1.0,(1.0-float(fractional)))
+#		image = img.crop(0.0,0.0,.5,.5)
+#		logging.info(img)
+#		cropped_image = img.execute_transforms(output_encoding=images.JPG)
+#		logging.info(cropped_image)
+
+#		self.response.out.write(cropped_image)
+##		
 #		#resize?
 #		if size == 'list':
 #			pass

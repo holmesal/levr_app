@@ -425,18 +425,18 @@ class img(webapp2.RequestHandler):
 			if img_width > img_height*aspect_ratio:
 				#width must be cropped
 				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
-				w_crop 	= w_crop_unscaled/img_width
-				left_x 	= float(w_crop)
+				w_crop 	= float(w_crop_unscaled/img_width)
+				left_x 	= w_crop
 				right_x = 1.-w_crop
 				top_y	= 0.
 				bot_y	= 1.
 			else:
 				#height must be cropped
-				h_crop_unscaled = (img_height-img_width/aspet_ratio)/2
-				h_crop	= h_crop_unscaled/img_height
+				h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
+				h_crop	= float(h_crop_unscaled/img_height)
 				left_x	= 0.
 				right_x	= 1.
-				top_y	= float(h_crop)
+				top_y	= h_crop
 				bot_y	= 1.-h_crop
 		
 		elif size == 'list':
@@ -447,18 +447,18 @@ class img(webapp2.RequestHandler):
 			if img_width > img_height:
 				#width must be cropped
 				w_crop_unscaled = (img_width-img_height)/2
-				w_crop 	= w_crop_unscaled/img_width
-				left_x 	= float(w_crop)
+				w_crop 	= float(w_crop_unscaled/img_width)
+				left_x 	= w_crop
 				right_x = 1.-w_crop
 				top_y	= 0.
 				bot_y	= 1.
 			else:
 				#height must be cropped
 				h_crop_unscaled = (img_height-img_width)/2
-				h_crop	= h_crop_unscaled/img_height
+				h_crop	= float(h_crop_unscaled/img_height)
 				left_x	= 0.
 				right_x	= 1.
-				top_y	= float(h_crop)
+				top_y	= h_crop
 				bot_y	= 1.-h_crop
 		
 		#crop image to aspect ratio

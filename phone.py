@@ -384,9 +384,9 @@ class uploadDeal(webapp2.RequestHandler):
 		#put in DB
 		deal.put()
 		
-		#return deal id
+		#return deal id and shareURL
 		dealID = deal.key().__str__()
-		toEcho = {"success":True,"dealID":dealID}
+		toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?dealID='+dealID}
 		self.response.out.write(json.dumps(toEcho))
 		
 class phone_log(webapp2.RequestHandler):

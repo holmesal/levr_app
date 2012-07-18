@@ -263,10 +263,13 @@ def phoneFormat(deal,use,primary_cat=None):
 				"businessName"	: deal.business_name,
 				"primaryCat"	: primary_cat}
 	elif use == 'deal':
+	
+		#grab business
+		b = db.get(deal.businessID)
 		#view deal information screen
 		#uploaded by a user
-		idx = deal.address_string.find(',')
-		displayAddress = deal.address_string[0:idx]
+		#idx = deal.address_string.find(',')
+		#displayAddress = deal.address_string[0:idx]
 		#uploaded by a business
 		#businessID = deal.key().parent()
 		#b = Business.get(businessID)
@@ -278,7 +281,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
 				"gmapsAddress"	: deal.address_string,
-				"displayAddress": displayAddress,
+				"displayAddress": b.address_line1,
 				"description"	: deal.description,
 				"city"			: deal.city}
 	logging.info(data)

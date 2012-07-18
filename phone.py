@@ -414,7 +414,7 @@ class phone_log(webapp2.RequestHandler):
 	def post(self):
 		logging.error(self.request.body)
 		
-class images(webapp2.RequestHandler):
+class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
 		try:
@@ -426,7 +426,7 @@ class images(webapp2.RequestHandler):
 		#grab deal
 		deal = levr.Deal.get(dealID)
 		#grab image
-		image = deal.img
+		image = images.Image(deal.img)
 		
 		self.response.headers['Content-Type'] = 'image/png'
 		self.response.out.write(image)
@@ -437,7 +437,13 @@ class images(webapp2.RequestHandler):
 		loss = height-width
 		offset = loss/2
 		fractional = offset/height
-		image = image.crop(0,(1-fractional),1,fractional)
+		image = image.crop(0.0,(1.0-float(fractional)),1.0,float(fractional))
+		
+		logging.info(width)
+		logging.info(height)
+		logging.info(loss)
+		logging.info(offset)
+		logging.info(fractional)
 
 		self.response.out.write(image)
 		
@@ -448,4 +454,4 @@ class images(webapp2.RequestHandler):
 			pass
 			
 
-app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDeal', uploadDeal),('/phone/images.*', images)],debug=True)
+app = webapp2.WSGIApplication([('/phone', phone),('/phone/log', phone_log),('/phone/uploadDeal', uploadDeal),('/phone/img.*', img)],debug=True)

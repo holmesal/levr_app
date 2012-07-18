@@ -255,7 +255,7 @@ def phoneFormat(deal,use):
 		
 	if use == 'list':
 		data = {"dealID"		: str(deal.key()),
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/images?dealID='+str(deal.key())+'?size=list',
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'?size=list',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name}
@@ -270,7 +270,7 @@ def phoneFormat(deal,use):
 		#displayAddress = b.address_line1 + ', ' + b.address_line2
 		#businessAddress = '%(:1)s %(:2)s %(:3)s %(:4)s, %(:5)s %(:6)s' % {deal.business_name, b.address_line1, b.address_line2, b.city, b.state, b.zip_code}
 		data = {"dealID"		: str(deal.key()),
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/images?dealID='+str(deal.key())+'?size=dealDetail',
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'?size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,

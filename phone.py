@@ -117,7 +117,7 @@ class phone(webapp2.RequestHandler):
 			#loop through and append to data
 			for result in q:
 				searchObj = {"primaryCat":result.primary_cat,
-								"imgURL":'http://getlevr.appspot.com/emptySet/get?img_key='+result.key().__str__()}
+								"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key='+result.key().__str__()}
 				#push to stack
 				dealResults.append(searchObj)
 			#echo back success!

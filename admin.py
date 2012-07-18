@@ -18,6 +18,8 @@ class Pending(webapp2.RequestHandler):
 		#dictify deal
 		if deal:
 			deal = deal.dictify()
+			logging.info(deal['dateEnd'])
+			deal['dateEnd'] = deal['dateEnd'][:10]
 			#get the first matching entity and parse into template values
 			self.response.headers['Content-Type'] = 'text/html'	
 			

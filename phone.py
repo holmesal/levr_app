@@ -114,7 +114,8 @@ class phone(webapp2.RequestHandler):
 				q.order('index')
 				#loop through and append to data
 				for result in q:
-					searchObj = {"primaryCat":result.primary_cat,"img_key":result.key().__str__()}
+					searchObj = {"primaryCat":result.primary_cat,
+									"img_key":'http://getlevr.appspot.com/emptySet/get?img_key='+result.key().__str__()}
 					#push to stack
 					dealResults.append(searchObj)
 					

@@ -54,8 +54,7 @@ class edit(webapp2.RequestHandler):
 class get_img:
 	def post(self):
 		#grab input data
-		decoded = json.loads(self.request.body)
-		img_key = decoded["img_key"]
+		img_key = self.request.get("img_key")
 		
 		#grab image from datastore
 		result = get(img_key)

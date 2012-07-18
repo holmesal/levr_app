@@ -405,7 +405,7 @@ class img(webapp2.RequestHandler):
 		except:
 			logging.error('could not parse dealID or size. . . you passed:'+self.request.body)
 			sys.exit()
-		self.response.headers['Content-Type'] = 'image/png'
+		self.response.headers['Content-Type'] = 'image/jpeg'
 		#grab deal
 		deal = db.get(dealID)
 		#convert deal img to PIL object
@@ -428,6 +428,11 @@ class img(webapp2.RequestHandler):
 			#view for in deal or favorites list
 			aspect_ratio	= 1.	#width/height
 			output_width	= 200.	#arbitrary standard
+		elif size == 'fullSize':
+			aspect_ratio	= float(img_width)/float(img_height)
+			output_width	= float(img_width)
+#			self.response.out.write(deal.img)
+		
 		else:
 			logging.error("invalid size parameter. input: "+self.request.body)
 			sys.exit()
@@ -458,40 +463,9 @@ class img(webapp2.RequestHandler):
 		#resize cropped image
 		img.resize(width=int(output_width),height=int(output_height))
 		logging.info(img)
-		output_img = img.execute_transforms()
+		output_img = img.execute_transforms(output_encoding=images.JPEG)
 		logging.info(output_img)
 		self.response.out.write(output_img)
-		
-		
-		
-		
-		
-		
-#		'''crop values are the distances from the x or y edges
-#		to the output edges. values are defined as a fraction of the db img'''
-#		y_crop			= (1.-output_height/img_height)/2
-#		x_crop			= (1.-output_width/img_width)/2
-#		left_x			= x_crop
-#		right_x			= 1.-x_crop
-#		top_y			= y_crop
-#		bot_y			= 1.-y_crop
-#		logging.info(img_width)
-#		logging.info(img_height)
-#		logging.info(y_crop)
-#		logging.info(x_crop)
-#		logging.info(left_x)
-#		logging.info(right_x)
-#		logging.info(top_y)
-#		logging.info(bot_y)
-#		
-#		#crop img
-#		img.crop(left_x,top_y,right_x,bot_y)
-#		logging.info(img)
-#		#effect crop changes
-#		cropped_img = img.execute_transforms()
-#		logging.info(cropped_img)
-#		#output
-#		self.response.out.write(cropped_img)
 		
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),

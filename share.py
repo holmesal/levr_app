@@ -11,11 +11,11 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 class share(webapp2.RequestHandler):
 	def get(self):
 		#grab refKey
-		refKey = self.request.get('refKey')
+		refKey = self.request.get('dealID')
 		logging.info(refKey)
 		#grab deal from datastore
 		try:
-			deal = levr.Deal.get(refKey)
+			deal = levr.Deal.get(dealID)
 		except:
 			logging.error('Could not grab deal. refKey passed: ' + refKey)
 			sys.exit()

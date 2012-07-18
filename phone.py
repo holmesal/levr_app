@@ -412,7 +412,7 @@ class uploadDeal(webapp2.RequestHandler):
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):
-		logging.error(self.request.body)
+		
 		
 class img(webapp2.RequestHandler):
 	def get(self):

@@ -7,6 +7,8 @@ import logging
 import jinja2
 from datetime import datetime
 
+#dealtype - bundle or 
+#dealitem -
 
 class Pending(webapp2.RequestHandler):
 	def get(self):
@@ -52,6 +54,8 @@ class Approve(webapp2.RequestHandler):
 		##new properties
 		deal.discount_type	= inputs('discountType')
 		deal.discount_value	= float(inputs('discountValue'))
+		deal.deal_type		= inputs('deal_type')
+		deal.deal_item		= inputs('deal_item')
 		deal.city			= inputs('city')
 		deal.secondary_name	= inputs('name') #### check name!!!
 		deal.date_start		= datetime.now()

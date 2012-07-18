@@ -3,6 +3,7 @@ import json
 import sys
 import math
 from datetime import datetime
+from datetime import timedelta
 #from dateutil.relativedelta import relativedelta
 import logging
 import levr_classes as levr
@@ -399,7 +400,7 @@ class uploadDeal(webapp2.RequestHandler):
 		deal.geo_point		= geo_point
 		#set expiration date to one week from now
 		#only need date, not time for this
-		deal.date_end		= datetime.now().date()# + timedelta(days=7)
+		deal.date_end		= datetime.now() + timedelta(days=7)
 #		date_uploaded		= automatic
 		
 		#put in DB
@@ -433,43 +434,97 @@ class img(webapp2.RequestHandler):
 		img = images.Image(deal.img)
 		logging.info(img)
 		
+		#calculate height of output
+
+		img_width		= img.width
+		img_height		= img.height
+		
+		#define output parameters
 		if size == 'deal':
 			#view for top of deal screen
 			aspect_ratio 	= 3. 	#width/height
 			output_width 	= 640.	#arbitrary standard
+			if img_width > img_height*aspect_ratio:
+				#width must be cropped
+				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
+				w_crop 	= w_crop_unscaled/img_width
+				left_x 	= w_crop
+				right_x = 1.-w_crop
+				top_y	= 0.
+				bot_y	= 1.
+			else:
+				#height must be cropped
+				h_crop_unscaled = (img_height-img_width/aspet_ratio)/2
+				h_crop	= h_crop_unscaled/img_height
+				left_x	= 0.
+				right_x	= 1.
+				top_y	= h_crop
+				bot_y	= 1.-h_crop
+		
 		elif size == 'list':
 			#view for in deal or favorites list
 			aspect_ratio	= 1.	#width/height
 			output_width	= 200.	#arbitrary standard
-		#calculate height of output
-		output_height	= output_width/aspect_ratio
-		img_width		= img.width
-		img_height		= img.height
-		'''crop values are the distances from the x or y edges
-		to the output edges. values are defined as a fraction of the db img'''
-		y_crop			= (1.-output_height/img_height)/2
-		x_crop			= (1.-output_width/img_width)/2
-		left_x			= x_crop
-		right_x			= 1.-x_crop
-		top_y			= y_crop
-		bot_y			= 1.-y_crop
-		logging.info(img_width)
-		logging.info(img_height)
-		logging.info(y_crop)
-		logging.info(x_crop)
-		logging.info(left_x)
-		logging.info(right_x)
-		logging.info(top_y)
-		logging.info(bot_y)
+			#fit to desired aspect ratio for square
+			if img_width > img_height:
+				#width must be cropped
+				w_crop_unscaled = (img_width-img_height)/2
+				w_crop 	= w_crop_unscaled/img_width
+				left_x 	= w_crop
+				right_x = 1.-w_crop
+				top_y	= 0.
+				bot_y	= 1.
+			else:
+				#height must be cropped
+				h_crop_unscaled = (img_height-img_width)/2
+				h_crop	= h_crop_unscaled/img_height
+				left_x	= 0.
+				right_x	= 1.
+				top_y	= h_crop
+				bot_y	= 1.-h_crop
 		
-		#crop img
+		#crop image to aspect ratio
 		img.crop(left_x,top_y,right_x,bot_y)
 		logging.info(img)
-		#effect crop changes
-		cropped_img = img.execute_transforms()
-		logging.info(cropped_img)
-		#output
-		self.response.out.write(cropped_img)
+		#calculate output_height from output_width
+		output_height	= output_width/aspect_ratio
+		#resize cropped image
+		img.resize(width=output_width,height=output_height)
+		logging.info(img)
+		output_img = img.execute_transforms()
+		logging.info(output_img)
+		self.response.out.write(output_img)
+		
+		
+		
+		
+		
+		
+#		'''crop values are the distances from the x or y edges
+#		to the output edges. values are defined as a fraction of the db img'''
+#		y_crop			= (1.-output_height/img_height)/2
+#		x_crop			= (1.-output_width/img_width)/2
+#		left_x			= x_crop
+#		right_x			= 1.-x_crop
+#		top_y			= y_crop
+#		bot_y			= 1.-y_crop
+#		logging.info(img_width)
+#		logging.info(img_height)
+#		logging.info(y_crop)
+#		logging.info(x_crop)
+#		logging.info(left_x)
+#		logging.info(right_x)
+#		logging.info(top_y)
+#		logging.info(bot_y)
+#		
+#		#crop img
+#		img.crop(left_x,top_y,right_x,bot_y)
+#		logging.info(img)
+#		#effect crop changes
+#		cropped_img = img.execute_transforms()
+#		logging.info(cropped_img)
+#		#output
+#		self.response.out.write(cropped_img)
 		
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),

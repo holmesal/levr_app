@@ -50,6 +50,7 @@ class Approve(webapp2.RequestHandler):
 		deal.gate_payment_per	= int(inputs('gatePaymentPer'))
 		deal.gate_max			= int(inputs('gateMax'))
 		deal.geo_point			= levr.geo_converter(inputs('geoPoint'))
+		deal.description		= inputs('description')
 		
 		##new properties
 		deal.discount_type	= inputs('discountType')

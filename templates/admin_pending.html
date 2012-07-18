@@ -9,14 +9,22 @@
 		<p>Expiration date:	<br/><input type="text" name="dateEnd" value="{{ deal.dateEnd }}"></p>
 		<h2>New Deal Information</h2>
 		<p>
-		<input type="radio" name="discountType" class="active" value="percent"> Percent <br/>
+		<input type="radio" name="discountType" value="percent"> Percent <br/>
 		<input type="radio" name="discountType" value="monetary"> Monetary <br/>
 		<input type="radio" name="discountType" value="free"> Free <br/>
 		</p>
 		<p>Deal Value: 		<br/><input type="text" name="discountValue" value="{{deal.discountValue}}"></p>
-		<p>Secondary Name: 	<br/><input type="text" name="name" value="{{deal.name}}"></p>
-		<p>Tags: 			<br/><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
+		<br/>
+		<p>
+		<input type="radio" name="deal_type" value="single" />Single
+		<input type="radio" name="deal_type" value="bundle" />Bundle (BOGO)
+		</p>
+		<p>Deal Item: The item that the deal is on 		<br/><input type="text" name="dealItem" value="{{deal.deal_item}}"></p> 
+		<p>Secondary Name: 	<br /><input type="text" name="name" value="{{deal.name}}"></p>
+		<p>Tags: 			<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
+		
 		<h2>Confirm Deal Information</h2>
+		<p>Description:		<br /><textarea rows="3" name="description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
 		<p>Gate Requirement:<br/><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
 		<p>Gate Payment Per:<br/><input type="text" name="gatePaymentPer" value="{{ deal.gatePaymentPer }}"></p>
 		<p>Gate Max Count: 	<br/><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>

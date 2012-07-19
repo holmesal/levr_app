@@ -37,7 +37,7 @@ handlers:
   script: test.app
   login: admin
 - url: /tasks/cleanDeals
-  script: cleanDeals.py
+  script: cleanDeals.app
   login: admin
 
 
@@ -54,4 +54,3 @@ libraries:
 
 builtins:
 - appstats: on
-

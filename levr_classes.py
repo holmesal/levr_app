@@ -138,7 +138,7 @@ class Deal(polymodel.PolyModel):
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_end 		= db.DateTimeProperty(auto_now_add=False)
 #	img_path		= db.StringProperty()   #string path to image
-	city 			= db.StringProperty()  #optional
+	city 			= db.StringProperty(default='')  #optional
 	count_end 		= db.IntegerProperty()  #max redemptions
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
@@ -263,6 +263,7 @@ class CashOutRequest(db.Model):
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):
+	logging.info(deal.key())
 	#dealText
 	if deal.discount_type == 'free':
 		dealText = 'Free ' + deal.deal_item
@@ -294,8 +295,8 @@ def phoneFormat(deal,use,primary_cat=None):
 				"paidOut"			: deal.paid_out,
 				"dealStatus"		: deal.deal_status,
 				"dateEnd"			: deal.date_end,
-				"moneyAvailable"	: deal.key().parent().get().money_available,
-				"weightedRedeems"	: deal.count_redeem % deal.gate_requirement
+				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
+				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement
 			})
 	elif use == 'deal':
 	

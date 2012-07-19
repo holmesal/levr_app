@@ -251,15 +251,15 @@ class phone(webapp2.RequestHandler):
 				'''
 				try:
 					uid	= decoded["in"]["uid"]
+					#grab all deal children of the user
+					deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
+					#format CUSTOMER deals
+					data = [levr.phoneFormat(x,'myDeals') for x in deals]
+					#I believe this will just return data:None if deals is empty
+					toEcho = {"success":True,"data":data}
 				except:
-					logging.error("could not grab uid. Input passed: "+self.request.body)
-			
-				#grab all deal children of the user
-				deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
-				#format CUSTOMER deals
-				data = [levr.phoneFormat(x,'myDeals') for x in deals]
-				#I believe this will just return data:None if deals is empty
-				toEcho = {"success":True,"data":data}
+					levr.log_error(self.request.body)
+				
 			elif action == "getMyStats":
 				'''
 				returns the user's statistics
@@ -268,14 +268,14 @@ class phone(webapp2.RequestHandler):
 				'''
 				try:
 					uid = decoded['in']['uid']
-				except:
-					logging.error("could not grab uid. Input passed: "+self.request.body)
-				#get user information
-				user = db.get(uid)
-				#format user information
-				data = user.get_stats()
+					#get user information
+					user = db.get(uid)
+					#format user information
+					data = user.get_stats()
 			
-				toEcho = {"success":False,"data":data}
+					toEcho = {"success":False,"data":data}
+				except:
+					levr.log_error(self.request.body)
 			elif action == "redeem":
 				#grab corresponding deal
 				try:

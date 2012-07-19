@@ -33,6 +33,7 @@ handlers:
 - url: /payments/.*
   script: payments.app
   login: admin
+  secure: always
 - url: /test.*
   script: test.app
   login: admin

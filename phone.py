@@ -10,6 +10,7 @@ import levr_classes as levr
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
+from google.appengine.api import mail
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -388,6 +389,17 @@ class uploadDeal(webapp2.RequestHandler):
 		dealID = deal.key().__str__()
 		toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
 		self.response.out.write(json.dumps(toEcho))
+		
+		#send mail to the admins to notify of new pending deal
+		mail.send_mail(sender="Pending Deal <null@getlevr.com>",
+						to="Patrick Walsh <patrick@getlevr.com>",
+						subject="New pending deal",
+						body="""
+						Another dealdebeast has been caught by one of your
+						faithful ninjas! Heed your call to arms and approve the 
+						dealdebeast before it gets away!
+						""").send()
+		
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):

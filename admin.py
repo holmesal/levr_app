@@ -74,8 +74,8 @@ class Approve(webapp2.RequestHandler):
 			category 			 = levr.Category(parent=db.Key(dealID))
 			category.primary_cat = tag
 			category.put()
-		self.response.out.write('<a href="/admin/pending">Success</a>')
-#		self.redirect('/admin/pending')
+#		self.response.out.write('<a href="/admin/pending">Success</a>')
+		self.redirect('/admin/pending')
 		
 class Reject(webapp2.RequestHandler):
 	def post(self):

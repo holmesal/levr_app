@@ -387,10 +387,10 @@ class uploadDeal(webapp2.RequestHandler):
 		#return deal id and shareURL
 		dealID = deal.key().__str__()
 		toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
-		self.response.out.write(json.dumps(toEcho))
+		
 		
 		#send mail to the admins to notify of new pending deal
-		mail.send_mail(sender="Pending Deal <null@getlevr.com>",
+		mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
 						to="Patrick Walsh <patrick@getlevr.com>",
 						subject="New pending deal",
 						body="""
@@ -398,7 +398,7 @@ class uploadDeal(webapp2.RequestHandler):
 						faithful ninjas! Heed your call to arms and approve the 
 						dealdebeast before it gets away!
 						""").send()
-		
+		self.response.out.write(json.dumps(toEcho))
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):

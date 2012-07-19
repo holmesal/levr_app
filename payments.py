@@ -110,6 +110,7 @@ class post(webapp2.RequestHandler):
 			cor.status = "paid"
 			cor.date_paid = datetime.now()
 			cor.payKey = response['payKey']
+			cor.money_available_paytime = ninja.money_available
 			cor.put()
 			
 			#for each deal, make paid_out == earned_total
@@ -117,6 +118,11 @@ class post(webapp2.RequestHandler):
 			for deal in q:
 				deal.paid_out = deal.earned_total
 				deal.put()
+			
+			#are number consistent?
+			if cor.amount != cor.money_available_paytime
+				logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
+				#send email here later
 			
 			#set ninja money_available back to 0
 			ninja.money_available = 0.0
@@ -129,11 +135,6 @@ class post(webapp2.RequestHandler):
 			logging.info('Payment completed!')
 
 		self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
-		
-		#attempt payment
-		
-		#on success, decrement customer.money_available
-		
-		
+
 
 app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post)],debug=True)

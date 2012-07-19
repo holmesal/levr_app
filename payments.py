@@ -1,5 +1,6 @@
 import os, sys
 import webapp2
+import json
 import levr_classes as levr
 import levr_utils
 from google.appengine.ext import db
@@ -9,7 +10,6 @@ import urllib,urllib2
 from google.appengine.api import urlfetch
 
 #change this later
-import simplejson as json
 log = logging.getLogger(__name__)
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -94,18 +94,13 @@ class post(webapp2.RequestHandler):
 		paypal_init = PaypalAdaptivePayment(True)
 		response = paypal_init.initialize_payment("10","http://cancel_url.com","http://return_url.com")
 		
-		self.response.out.write('<p>Payment status: <strong>'+ response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
-		
-		#PAYPAL ACCOUNT INFORMATION
-		userid			= None		#pretty sure this is the url from which the request is coming, and the url to which it will be returned
-		password		= None
-		signature		= None
-		ipaddress		= None		#pretty sure this is the current IP address, NOT that of the phone. Makes sense, no?
-		request_format	= 'JSON'
-		response_format = 'JSON'
-		app_id			= None
-		
-		#PAYPAL REQUEST BODY
+		if response['paymentExecStatus'] == 'COMPLETED':
+			#increment paid_out for the deal
+			#increment money_paid for the customer
+			logging.info('Payment completed!')
+		# + '</strong></p><p><a href="/payments/view">Next Request</a></p>
+		self.response.out.write('<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
+		self.response.out.write('<p>Danger, will robinson. . .</p>')
 		
 		
 		

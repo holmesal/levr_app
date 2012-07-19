@@ -29,9 +29,11 @@ class Customer(db.Model):
 		}
 		return data
 
-	def update_money_earned(self):
+	def update_money_earned(self,difference):
+		self.money_earned = self.money_earned + difference
+		
 		'''Updates the total amount that the user has earned'''
-		#grab all deals that are children, add payment_total from each
+		'''#grab all deals that are children, add payment_total from each
 		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())
 		cashmoneys = 0
 		for deal in q:
@@ -42,19 +44,20 @@ class Customer(db.Model):
 			logging.error('Something strange is happening with the payment total calculation. Money is going down. Its a recession! MY GOD.')
 		else:
 			self.money_earned = cashmoneys
-			logging.info('Total earned: ' + str(self.money_earned))
+			logging.info('Total earned: ' + str(self.money_earned))'''
 	
-	def update_money_available(self):
-		#grab all child deals, sum (total_earned - paid_out)
+	def update_money_available(self,difference):
+		self.money_available = self.money_available + difference
+		
+		'''#grab all child deals, sum (total_earned - paid_out)
 		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())
 		available = 0
 		for deal in q:
 			available = available + (deal.earned_total-deal.paid_out)
 		if available < self.money_available:
-			logging.error('The amount of available money has somehow decreased. Is this okay?')
-		else:
-			self.money_available = available
-			logging.info('Money available: ' + str(self.money_available))
+			logging.info('The amount of available money has somehow decreased. Has the user cashed out?')
+		self.money_available = available
+		logging.info('Money available: ' + str(self.money_available))'''
 	
 	def get_num_uploads(self):
 		'''Returns the number of deal children of user i.e. num they have uploaded'''
@@ -62,8 +65,6 @@ class Customer(db.Model):
 		count = uploads.count()
 		return count
 
-	def update_total_paid(self):
-		'''Updates the total amount that the user has cashed out'''
 
 	def echo_stats(self):
 		logging.info('Customer money earned: ' + str(self.money_earned))
@@ -180,7 +181,17 @@ class CustomerDeal(Deal):
 	paid_out		= db.FloatProperty(default = 0.0) #amount paid out by this deal
 	
 	def update_earned_total(self):
+		#what was self.earned_total to start with?
+		old = self.earned_total
+		#update
 		self.earned_total = float(self.gate_count*self.gate_payment_per)
+		#if changed, find the difference
+		difference = 0.0
+		if self.earned_total > old:
+			difference = self.earned_total - old
+			logging.info('Earned ' + difference.__str__() + ' dollar!')
+			
+		return difference
 	
 	def echo_stats(self):
 		logging.info('Deal money earned: ' + str(self.earned_total))

@@ -207,7 +207,7 @@ class phone(webapp2.RequestHandler):
 					uid = decoded["in"]["uid"]
 					dealID = decoded["in"]["dealID"]
 				except:
-					levr.log_error(self.response.body)
+					levr.log_error(self.request.body)
 				else:
 					try:
 						q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
@@ -229,15 +229,19 @@ class phone(webapp2.RequestHandler):
 					dealID 		= decoded["in"]["dealID"]
 					primary_cat = decoded["in"]["primaryCat"]
 				except:
-					logging.error("Could not grab dealID AND/OR primaryCat. Input passed: " + self.request.body)
-				#fetch deal
-				result = levr.Deal.get(dealID)
-				#convert fetched deal into dictionary
-				deal = levr.phoneFormat(result,'deal')
-				#push the primary onto the dictionary
-				deal.update({"primaryCat":primary_cat})
-				#echo back success!
-				toEcho = {"success":True,"data":deal}
+					levr.log_error(self.request.body)
+				else:
+					try:
+						#fetch deal
+						result = levr.Deal.get(dealID)
+						#convert fetched deal into dictionary
+						deal = levr.phoneFormat(result,'deal')
+						#push the primary onto the dictionary
+						deal.update({"primaryCat":primary_cat})
+						#echo back success!
+						toEcho = {"success":True,"data":deal}
+					except:
+						levr.log_error()
 
 			elif action == "getMyDeals":
 				'''

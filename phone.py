@@ -278,6 +278,7 @@ class phone(webapp2.RequestHandler):
 					toEcho = {"success":False}
 				else:
 					cor.status = 'pending'
+					cor.date_created = datetime.now()
 					cor.put()
 					toEcho = {"success":True}
 				

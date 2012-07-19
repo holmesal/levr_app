@@ -2,6 +2,7 @@ import os, sys
 import webapp2
 import json
 import levr_classes as levr
+from datetime import datetime
 import levr_utils
 from google.appengine.ext import db
 import logging
@@ -107,6 +108,8 @@ class post(webapp2.RequestHandler):
 		if response['paymentExecStatus'] == 'COMPLETED':
 			#set cor to "paid"
 			cor.status = "paid"
+			cor.date_paid = datetime.now()
+			cor.payKey = response['payKey']
 			cor.put()
 			
 			#for each deal, make paid_out == earned_total

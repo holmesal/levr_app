@@ -204,7 +204,7 @@ class phone(webapp2.RequestHandler):
 				#format user information
 				data = user.get_stats()
 		
-				toEcho = {"success":False,"data":data}
+				toEcho = {"success":True,"data":data}
 			elif action == "redeem":
 				#grab corresponding deal
 				uid = decoded['in']['uid']

@@ -1,2 +1,5 @@
 cron:
-
+- description: set status of expired deals from active to expired
+  url: tasks/cleanDeals
+  schedule: every day 03:00
+  timezone: America/New_York

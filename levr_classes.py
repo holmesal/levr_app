@@ -289,9 +289,12 @@ def phoneFormat(deal,use,primary_cat=None):
 				"gateRequirement"	: deal.gate_requirement,
 				"gatePaymentPer"	: deal.gate_payment_per,
 				"earnedTotal"		: deal.earned_total,
+				"paymentMax"		: deal.gate_max*deal.gate_payment_per,
 				"paidOut"			: deal.paid_out,
 				"dealStatus"		: deal.deal_status,
-				"dateEnd"			: deal.date_end
+				"dateEnd"			: deal.date_end,
+				"moneyAvailable"	: deal.key().parent().get().money_available,
+				"weightedRedeems"	: deal.count_redeem % deal.gate_requirement
 			})
 	elif use == 'deal':
 	

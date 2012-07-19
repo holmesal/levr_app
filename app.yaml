@@ -36,6 +36,10 @@ handlers:
 - url: /test.*
   script: test.app
   login: admin
+- url: /tasks/cleanDeals
+  script: cleanDeals.py
+  login: admin
+
 
 - url: /img
   static_dir: img

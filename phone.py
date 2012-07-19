@@ -1,6 +1,3 @@
-#At first I was afraid
-#I was petrified
-#I kept thinking I could never live without you by my side
 import webapp2
 import json
 import math

@@ -27,7 +27,7 @@ class phone(webapp2.RequestHandler):
 				pw = decoded["in"]["pw"]
 				toEcho = levr_utils.signupCustomer(email,alias,pw)
 		
-			#***************login************************************************
+			#***************login*************************************************
 			elif action == "login":
 			#grab email/password from request body
 				email_or_owner = decoded["in"]["email_or_owner"]

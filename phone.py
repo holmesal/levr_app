@@ -19,16 +19,10 @@ class phone(webapp2.RequestHandler):
 		#decode the input JSON and pull out the action parameter
 		try:
 			decoded = json.loads(self.request.body)
+			action = decoded["action"]
 		except:
 			levr.log_error(self.request.body)
 		else:
-			
-			#pull out the action parameter
-			try:
-				action = decoded["action"]
-			except KeyError:
-				logging.error("Could not parse action. Input passed: " + self.request.body)
-				sys.exit()
 			#switch action
 			#***************signup************************************************
 			if action == "signup":
@@ -39,7 +33,6 @@ class phone(webapp2.RequestHandler):
 					pw = decoded["in"]["pw"]
 				except:
 					levr.log_error(self.request.body)
-					sys.exit()
 				else:
 					#attempt signup
 					try:
@@ -54,10 +47,13 @@ class phone(webapp2.RequestHandler):
 					email_or_owner = decoded["in"]["email_or_owner"]
 					pw = decoded["in"]["pw"]
 				except:
-					logging.error("Could not grab email/password. Input passed: " + self.request.body)
-				
-				#check for matches
-				toEcho = levr_utils.loginCustomer(email_or_owner,pw)
+					levr.log_error(self.request.body)
+				else:
+					try:
+						#check for matches
+						toEcho = levr_utils.loginCustomer(email_or_owner,pw)
+					except:
+						levr.log_error()
 				'''toEcho = {"success":False,"error":"Incorrect email or password"}
 				q = levr.Customer.gql("WHERE email = :email AND pw = :pw",email = email,pw=pw)
 				for result in q:

@@ -221,27 +221,26 @@ class phone(webapp2.RequestHandler):
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
-			
-				#Is this a deal uploaded by a ninja? If so, do ninja things
-				if type(deal) is levr.CustomerDeal:
-					#update deal ninjaStats
-					deal.gate_count = int(math.floor(deal.count_redeemed / deal.gate_requirement))
-					if deal.gate_count > deal.gate_max:
-						#reset if over
-						deal.gate_count = deal.gate_max
-					#update deal.earned_total
-					deal.update_earned_total()
-					#put deal
-					deal.put()
-					#get the ninja
-					ninjaKey = deal.key().parent()
-					ninja = levr.Customer.get(ninjaKey)
-					ninja.echo_stats()
-					#update the ninja's earned amount
-					ninja.update_money_earned()
+
+			#Is this a deal uploaded by a ninja? If so, do ninja things
+			if type(deal) is levr.CustomerDeal:
+				#update deal ninjaStats
+				deal.gate_count = int(math.floor(deal.count_redeemed / deal.gate_requirement))
+				if deal.gate_count > deal.gate_max:
+					#reset if over
+					deal.gate_count = deal.gate_max
+				#update deal.earned_total
+				difference = deal.update_earned_total()
+				#put deal
+				deal.put()
+				#get the ninja
+				ninjaKey = deal.key().parent()
+				ninja = levr.Customer.get(ninjaKey)
+				#update the ninja's earned amount
+				ninja.update_money_earned(difference)
 				
-					#update the ninja's available amount
-					ninja.update_money_available()
+				#update the ninja's available amount
+				ninja.update_money_available(difference)
 				
 					#echo stats
 					ninja.echo_stats()

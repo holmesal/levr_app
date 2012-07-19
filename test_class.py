@@ -48,7 +48,7 @@ class MainPage(webapp2.RequestHandler):
         d.discount_value 	= 50.2
         d.rating 			= 50
         d.count_end 		= 101
-        d.count_redeemed 	= 42
+        d.count_redeemed 	= 0
         d.count_seen 		= 43
         d.img_path 			= './img/bobs-discount-furniture.png'
         d.city 				= 'Qatar'
@@ -67,7 +67,7 @@ class MainPage(webapp2.RequestHandler):
         cd.discount_value 	= 50.2
         cd.rating 			= 50
         cd.count_end 		= 101
-        cd.count_redeemed 	= 42
+        cd.count_redeemed 	= 0
         cd.count_seen 		= 43
         cd.img_path 		= './img/bobs-discount-furniture.png'
         cd.city 			= 'Qatar'

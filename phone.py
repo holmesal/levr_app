@@ -27,7 +27,7 @@ class phone(webapp2.RequestHandler):
 				pw = decoded["in"]["pw"]
 				toEcho = levr_utils.signupCustomer(email,alias,pw)
 		
-			#***************login************************************************
+			#***************login*************************************************
 			elif action == "login":
 			#grab email/password from request body
 				email_or_owner = decoded["in"]["email_or_owner"]
@@ -221,6 +221,10 @@ class phone(webapp2.RequestHandler):
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
+				customer.redemptions.append(dealID)
+				#update customer
+				customer.put()
+				
 				#Is this a deal uploaded by a ninja? If so, do ninja things
 				if type(deal) is levr.CustomerDeal:
 					#update deal ninjaStats
@@ -235,26 +239,27 @@ class phone(webapp2.RequestHandler):
 					#get the ninja
 					ninjaKey = deal.key().parent()
 					ninja = levr.Customer.get(ninjaKey)
+					
 					#update the ninja's earned amount
 					ninja.update_money_earned(difference)
 					
 					#update the ninja's available amount
 					ninja.update_money_available(difference)
 					
+					#notify the ninja of new redemptions
+					ninja.increment_new_redeem_count()
+					
 					#echo stats
 					ninja.echo_stats()
 					deal.echo_stats()
-				
+
 					#update ninja
 					ninja.put()
 				else:
 					#deal is owned by a business - FOR THE FUTURE!
 					logging.info('Business!')
 					pass	
-				#add to customer's redemption list
-				customer.redemptions.append(dealID)
-				#update customer
-				customer.put()
+				
 			
 				toEcho = {"success":True}
 			elif action == "cashOut":

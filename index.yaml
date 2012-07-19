@@ -15,3 +15,10 @@ indexes:
   - name: status
   - name: amount
     direction: desc
+
+- kind: Deal
+  ancestor: yes
+  properties:
+  - name: class
+  - name: date_uploaded
+    direction: desc

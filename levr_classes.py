@@ -17,13 +17,13 @@ class Customer(db.Model):
 	money_available = db.FloatProperty(default = 0.0) #aka payment pending
 	money_paid		= db.FloatProperty(default = 0.0) #amount we have transfered
 	redemptions		= db.StringListProperty()	#id's of all of their redeemed deals
-	redemptions_count= db.IntegerProperty(default = 0) #number of unseen redemptions
+	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
 	
-	def increment_redemptions_count(self):
-		self.redemptions_count += 1
+	def increment_new_redeem_count(self):
+		self.new_redeem_count += 1
 		return
-	def flush_redemptions_count(self):
-		del self.redemptions_count[:]
+	def flush_new_redeem_count(self):
+		self.new_redeem_count = 0
 		return
 
 	def get_stats(self):
@@ -33,7 +33,7 @@ class Customer(db.Model):
 			"numRedemptions": self.redemptions.__len__(),
 			"moneyAvailable": self.money_available,
 			"moneyEarned"	: self.money_earned,
-			"redemptions_count": self.redemptions_count
+			"new_redeem_count": self.new_redeem_count
 		}
 		return data
 

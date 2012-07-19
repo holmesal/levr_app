@@ -277,8 +277,7 @@ class phone(webapp2.RequestHandler):
 				cor.put()
 				toEcho = {"success":True}
 			else:
-				logging.error("Unrecognized action. Input passed: " + action)
-				sys.exit()
+				raise Exception('Unrecognized action')
 		except:
 			levr.log_error(self.request.body)
 			toEcho = {"success":False}

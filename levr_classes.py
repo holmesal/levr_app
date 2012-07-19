@@ -341,12 +341,11 @@ def geo_converter(geo_str):
 		return db.GeoPt(lat=float(lat), lon=float(lng))
 	return None
 
-def log_error(phone_input=''):
+def log_error(message=''):
 	#called by: levr.log_error(*self.request.body)
 	exc_type,exc_value,exc_trace = sys.exc_info()
 	logging.error(exc_type)
 	logging.error(exc_value)
-	logging.error(phone_input)
 	logging.error(traceback.format_exc(exc_trace))
-
+	logging.error(message)
 

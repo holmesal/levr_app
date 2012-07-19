@@ -220,6 +220,8 @@ class phone(webapp2.RequestHandler):
 					#raise Exception('')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
+				#increment new_redeem_count
+				deal.increment_new_redeem_count
 				#add deal to "redeemed" for the customer
 				#Is this a deal uploaded by a ninja? If so, do ninja things
 				if type(deal) is levr.CustomerDeal:

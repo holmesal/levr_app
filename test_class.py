@@ -69,6 +69,7 @@ class MainPage(webapp2.RequestHandler):
         cd.count_end 		= 101
         cd.count_redeemed 	= 0
         cd.count_seen 		= 43
+        cd.new_redeem_count	= 0
         cd.img_path 		= './img/bobs-discount-furniture.png'
         cd.city 			= 'Qatar'
         cd.deal_status		= 'active'

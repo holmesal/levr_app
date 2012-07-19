@@ -188,8 +188,7 @@ class phone(webapp2.RequestHandler):
 			'''
 			uid = decoded["in"]["uid"]
 			dealID = decoded["in"]["dealID"]
-			primary_cat = decoded["in"]["primaryCat"]
-			q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2 and primary_cat=:3",uid, dealID, primary_cat)
+			q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
 			#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
 			
 			for fav in q:

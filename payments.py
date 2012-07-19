@@ -106,8 +106,8 @@ class post(webapp2.RequestHandler):
 		
 		if response['paymentExecStatus'] == 'COMPLETED':
 			#set cor to "paid"
-			#cor.status = "paid"
-			#cor.put()
+			cor.status = "paid"
+			cor.put()
 			
 			#for each deal, make paid_out == earned_total
 			q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())

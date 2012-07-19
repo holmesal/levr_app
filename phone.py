@@ -1,6 +1,5 @@
 import webapp2
 import json
-import sys
 import math
 from datetime import datetime
 from datetime import timedelta
@@ -14,8 +13,6 @@ from google.appengine.api import mail
 
 class phone(webapp2.RequestHandler):
 	def post(self):
-		#init toEcho to be success:False
-		toEcho = {"success":False}
 		#decode the input JSON and pull out the action parameter
 		try:
 			decoded = json.loads(self.request.body)
@@ -220,7 +217,7 @@ class phone(webapp2.RequestHandler):
 			
 				#don't try and redeem the same deal twice. . .
 				#if dealID in customer.redemptions:
-					#sys.exit()
+					#raise Exception('')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer

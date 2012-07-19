@@ -1,13 +1,15 @@
 <html>
 	<body>
-	<form method="post" action="/payments/post">
+	<form method="post" action="/payments/post?corID={{corID}}">
 		<p>Amount: {{amount}}</p>
 		<p>User total to date: {{life_paid}}</p>
 		<p>Number of deals added: {{numDeals}}</p>
 		<input type="submit" value="Confirm">
 	</form>
-	
-	
+	<form method="post" action="/payments/reject">
+		<p>Danger! The people won't like this...</p>
+		<input type="submit" value="Reject">
+	</form>
 	</body>
 </html>
 

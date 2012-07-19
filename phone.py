@@ -274,9 +274,14 @@ class phone(webapp2.RequestHandler):
 				#create a new cashOut request
 				cor = levr.CashOutRequest(parent=ninja)
 				cor.amount = ninja.money_available
-				cor.status = 'pending'
-				cor.put()
-				toEcho = {"success":True}
+				if cor.amount == 0:
+					toEcho = {"success":False}
+				else:
+					cor.status = 'pending'
+					cor.put()
+					toEcho = {"success":True}
+				
+				
 			else:
 				raise Exception('Unrecognized action')
 		except:

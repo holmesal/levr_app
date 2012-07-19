@@ -259,7 +259,7 @@ class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
 	date			= db.DateTimeProperty()
-	status			= db.StringProperty()
+	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):

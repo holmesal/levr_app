@@ -268,15 +268,21 @@ class phone(webapp2.RequestHandler):
 				#grab the ninja
 				ninja = levr.Customer.get(uid)
 				#delete any current cashOutRequests
-				q = levr.CashOutRequest.gql('WHERE ANCESTOR IS :1',ninja.key())
+				q = levr.CashOutRequest.gql('WHERE ANCESTOR IS :1 AND status=:2',ninja.key(),'pending')
 				for result in q:
 					result.delete()
 				#create a new cashOut request
 				cor = levr.CashOutRequest(parent=ninja)
 				cor.amount = ninja.money_available
-				cor.status = 'pending'
-				cor.put()
-				toEcho = {"success":True}
+				if cor.amount == 0:
+					toEcho = {"success":False}
+				else:
+					cor.status = 'pending'
+					cor.date_created = datetime.now()
+					cor.put()
+					toEcho = {"success":True}
+				
+				
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!

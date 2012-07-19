@@ -258,8 +258,10 @@ class EmptySetResponse(db.Model):
 class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
-	date			= db.DateTimeProperty()
-	status			= db.StringProperty()
+	date_created	= db.DateTimeProperty()
+	date_paid		= db.DateTimeProperty()
+	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
+	payKey			= db.StringProperty()
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):

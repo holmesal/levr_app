@@ -2,15 +2,12 @@ import os, sys
 import webapp2
 import json
 import levr_classes as levr
+from datetime import datetime
 import levr_utils
 from google.appengine.ext import db
 import logging
 import jinja2
 import urllib,urllib2
-from google.appengine.api import urlfetch
-
-#change this later
-log = logging.getLogger(__name__)
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -32,7 +29,6 @@ class PaypalAdaptivePayment:
 			self.paypal_secure_user_id = "alonso_1342706801_biz_api1.getlevr.com"
 			self.paypal_secure_password = "1342706820"
 			self.paypal_api_signature = "Ahg-X6mZSS2MSKURJRVuRWFSIDuxAANmXWOAcd2gn4N1rF0KQmzwCfUt"
-			self.receiver_email = "alonso_1342706914_per@getlevr.com"
 			self.sender_email = "alonso_1342706801_biz@getlevr.com"
 			self.request_url =	"https://svcs.sandbox.paypal.com/AdaptivePayments/Pay"
 		else:
@@ -42,7 +38,7 @@ class PaypalAdaptivePayment:
 			self.receiver_email = "Your Live Receiver Email"
 			self.request_url =	"https://paypal.com/AdaptivePayments/Pay"
 	
-	def initialize_payment(self,amount,cancel_url,return_url):
+	def initialize_payment(self,amount,receiver_email,cancel_url,return_url):
 		try:
 			header_data = {}
 			header_data["X-PAYPAL-SECURITY-USERID"] = self.paypal_secure_user_id
@@ -54,7 +50,7 @@ class PaypalAdaptivePayment:
 				header_data["X-PAYPAL-APPLICATION-ID"] = "APP-80W284485P519543T"
 			else:
 				header_data["X-PAYPAL-APPLICATION-ID"] = "Your Live Paypal Application ID"
-			params = {'actionType':'PAY', 'receiverList':{'receiver':[{'email':self.receiver_email,'amount':amount}]}, 'cancelUrl':cancel_url,'requestEnvelope':'', 'errorLanguage':'en_US', 'currencyCode':'USD', 'returnUrl':return_url,'senderEmail':self.sender_email}
+			params = {'actionType':'PAY', 'receiverList':{'receiver':[{'email':receiver_email,'amount':amount}]}, 'cancelUrl':cancel_url,'requestEnvelope':'', 'errorLanguage':'en_US', 'currencyCode':'USD', 'returnUrl':return_url,'senderEmail':self.sender_email}
 			paypal_request_data = json.dumps(params)
 			req = urllib2.Request(self.request_url,paypal_request_data,header_data)
 			response = urllib2.urlopen(req)
@@ -76,6 +72,7 @@ class view(webapp2.RequestHandler):
 			
 			
 			template_values = {
+				"corID"						: cor.key().__str__(),
 				"amount"					: cor.amount,
 				"life_paid"					: ninja.money_paid,
 				"numDeals"					: numDeals
@@ -88,22 +85,50 @@ class view(webapp2.RequestHandler):
 			self.response.out.write('No cash-out-requests')
 
 class post(webapp2.RequestHandler):
-	def get(self):
-
+	def post(self):
+		#to deploy: change paypaladaptivepayment argument to False (takes out of sandbox)
+		#remove email override
+	
+		#get corID
+		corID = self.request.get('corID')
+		#get cor
+		cor = levr.CashOutRequest.get(corID)
+		#get amount
+		amount = cor.amount
+		#get ninja
+		ninja = levr.Customer.get(cor.key().parent())
+		#get payment email
+		receiver_email = ninja.payment_email
+		receiver_email = "alonso_1342706914_per@getlevr.com"
 		#Change to false and enter information in above class to deploy
 		paypal_init = PaypalAdaptivePayment(True)
-		response = paypal_init.initialize_payment("10","http://cancel_url.com","http://return_url.com")
+		response = paypal_init.initialize_payment(amount,receiver_email,"http://cancel_url.com","http://return_url.com")
+		logging.info(response)
 		
 		if response['paymentExecStatus'] == 'COMPLETED':
-			#increment paid_out for the deal
+			#set cor to "paid"
+			cor.status = "paid"
+			cor.date_paid = datetime.now()
+			cor.payKey = response['payKey']
+			cor.put()
+			
+			#for each deal, make paid_out == earned_total
+			q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
+			for deal in q:
+				deal.paid_out = deal.earned_total
+				deal.put()
+			
+			#set ninja money_available back to 0
+			ninja.money_available = 0.0
+			
 			#increment money_paid for the customer
+			ninja.money_paid += amount
+			
+			#update ninja
+			ninja.put()
 			logging.info('Payment completed!')
-		# + '</strong></p><p><a href="/payments/view">Next Request</a></p>
-		self.response.out.write('<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
-		self.response.out.write('<p>Danger, will robinson. . .</p>')
-		
-		
-		
+
+		self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
 		
 		#attempt payment
 		

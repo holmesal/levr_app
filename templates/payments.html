@@ -1,7 +1,8 @@
 <html>
 	<body>
 	<form method="post" action="/payments/post?corID={{corID}}">
-		<p>Amount: {{amount}}</p>
+		<p>Amount: ${{amount}}</p>
+		<p>(money available paytime: ${{money_available_paytime}})</p>
 		<p>User total to date: {{life_paid}}</p>
 		<p>Number of deals added: {{numDeals}}</p>
 		<input type="submit" value="Confirm">

@@ -70,10 +70,13 @@ class view(webapp2.RequestHandler):
 			q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
 			numDeals = q.count()
 			
+			cor.money_available_paytime = ninja.money_available
+			cor.put()
 			
 			template_values = {
 				"corID"						: cor.key().__str__(),
 				"amount"					: cor.amount,
+				"money_available_paytime"	: cor.money_available_paytime,
 				"life_paid"					: ninja.money_paid,
 				"numDeals"					: numDeals
 			}
@@ -110,7 +113,7 @@ class post(webapp2.RequestHandler):
 			cor.status = "paid"
 			cor.date_paid = datetime.now()
 			cor.payKey = response['payKey']
-			cor.money_available_paytime = ninja.money_available
+			
 			cor.put()
 			
 			#for each deal, make paid_out == earned_total

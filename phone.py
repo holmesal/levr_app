@@ -44,74 +44,64 @@ class phone(webapp2.RequestHandler):
 					toEcho = levr_utils.loginCustomer(email_or_owner,pw)
 				except:
 					levr.log_error()
-			
-			#***************autoCompleteList************************************************
-#			elif action == "autoCompleteList":
-#				cats = ['shirt','coat','bonobos','apples']
-#				toEcho = {"success":True,"data":cats}
-#		
-#			#***************dealResults************************************************
+#***************dealResults************************************************
 			elif action == "dealResults":
-			
 				#grab primaryCat from the request body
 				try:
 					primaryCat = decoded["in"]["primaryCat"]
 					start = decoded["in"]["start"]
 					numResults = decoded["in"]["size"]
+					
+					#query the database for all deals with a matching primaryCat
+					q = levr.Category.gql("WHERE primary_cat=:1",primaryCat).fetch(int(numResults),offset=int(start))
+		#			logging.info(q.count())
+					#define an empty "dealResults" LIST, and initialize the counter to 0
+					dealResults = []
+					resultsPushed = 0
+					#initialize isEmpty to 1
+					isEmpty = True
+					#iterate over the results
+					#Want to grab deal information for each category
+					for category in q:
+						#set isEmpty to 1
+			
+						#break if results limit is hit
+						if resultsPushed == numResults:
+							break
+						#grab the parent deal key so we can grab the info from it
+						d = category.key().parent()
+						#grab the appropriate deal parent
+						result = levr.Deal.get(d)
+						if result.deal_status == 'active':
+							isEmpty = False
+							#trade an object for a phone-formatted dictionary
+							deal = levr.phoneFormat(result,'list',primaryCat)
+							#push the primary onto the dictionary
+							deal['primaryCat'] = category.primary_cat
+							#push the whole dictionary onto a list
+							dealResults.append(deal)
+							#increment the counter
+							resultsPushed += 1
+						else:
+							pass
+					#if isempty is true, send back suggested searches instead
+					if isEmpty == False:
+						dealResults.append(None)
+			
+					#go get (all) suggested searches
+					q = levr.EmptySetResponse.all()
+					#sory by index
+					q.order('index')
+					#loop through and append to data
+					for result in q:
+						searchObj = {"primaryCat":result.primary_cat,
+										"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key='+result.key().__str__()}
+						#push to stack
+						dealResults.append(searchObj)
+					#echo back success!
+					toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}
 				except:
 					levr.log_error(self.request.body)
-				else:
-					try:
-						#query the database for all deals with a matching primaryCat
-						q = levr.Category.gql("WHERE primary_cat=:1",primaryCat).fetch(int(numResults),offset=int(start))
-			#			logging.info(q.count())
-						#define an empty "dealResults" LIST, and initialize the counter to 0
-						dealResults = []
-						resultsPushed = 0
-						#initialize isEmpty to 1
-						isEmpty = True
-						#iterate over the results
-						#Want to grab deal information for each category
-						for category in q:
-							#set isEmpty to 1
-				
-							#break if results limit is hit
-							if resultsPushed == numResults:
-								break
-							#grab the parent deal key so we can grab the info from it
-							d = category.key().parent()
-							#grab the appropriate deal parent
-							result = levr.Deal.get(d)
-							if result.deal_status == 'active':
-								isEmpty = False
-								#trade an object for a phone-formatted dictionary
-								deal = levr.phoneFormat(result,'list',primaryCat)
-								#push the primary onto the dictionary
-								deal['primaryCat'] = category.primary_cat
-								#push the whole dictionary onto a list
-								dealResults.append(deal)
-								#increment the counter
-								resultsPushed += 1
-							else:
-								pass
-						#if isempty is true, send back suggested searches instead
-						if isEmpty == False:
-							dealResults.append(None)
-				
-						#go get (all) suggested searches
-						q = levr.EmptySetResponse.all()
-						#sory by index
-						q.order('index')
-						#loop through and append to data
-						for result in q:
-							searchObj = {"primaryCat":result.primary_cat,
-											"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key='+result.key().__str__()}
-							#push to stack
-							dealResults.append(searchObj)
-						#echo back success!
-						toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}
-					except:
-						levr.log_error()
 			#***************getUserFavs************************************************
 			elif action == "getUserFavs":
 				'''

@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 #At first I was afraid
 #I was petrified
 #I kept thinking I could never live without you by my side
+=======
+#this is a comment that will break everything!!!!!!!!
+>>>>>>> comments are terrible
 import webapp2
 import json
 import math

@@ -112,39 +112,35 @@ class phone(webapp2.RequestHandler):
 			
 				try:
 					uid = decoded["in"]["uid"]
+				
+					#grabs the deal key name and primary category from table
+					q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
+		#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
+					#init key,cats list
+					logging.info(q1)
+					deal_keys,cats = [],[]
+					#grab deal keys from each favorite
+					for fav in q1:
+		#				logging.info(fav)
+						deal_keys.append(fav.dealID)
+						cats.append(fav.primary_cat)
+	
+					#grab all the deal data with the keys
+					deals = levr.Deal.get(deal_keys)
+	
+					#data is deal obj array
+					data = []
+					#grab data from each deal
+					for idx,deal in enumerate(deals):
+						#send to format function - package for phone
+						deal_stack = levr.phoneFormat(deal,'list',cats[idx])
+						deal_stack.update({"primaryCat":cats[idx]})
+						data.append(deal_stack)
+		#				data[idx]['primaryCat'] = cats[idx]
+		#			self.response.out.write(data)
+					toEcho = {"success":True,"data":data}
 				except:
 					levr.log_error(self.request.body)
-				else:
-					#only runs of no exception is thrown
-					try:
-						#grabs the deal key name and primary category from table
-						q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
-			#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
-						#init key,cats list
-						logging.info(q1)
-						deal_keys,cats = [],[]
-						#grab deal keys from each favorite
-						for fav in q1:
-			#				logging.info(fav)
-							deal_keys.append(fav.dealID)
-							cats.append(fav.primary_cat)
-		
-						#grab all the deal data with the keys
-						deals = levr.Deal.get(deal_keys)
-		
-						#data is deal obj array
-						data = []
-						#grab data from each deal
-						for idx,deal in enumerate(deals):
-							#send to format function - package for phone
-							deal_stack = levr.phoneFormat(deal,'list',cats[idx])
-							deal_stack.update({"primaryCat":cats[idx]})
-							data.append(deal_stack)
-			#				data[idx]['primaryCat'] = cats[idx]
-			#			self.response.out.write(data)
-						toEcho = {"success":True,"data":data}
-					except:
-						levr.log_error()
 			#ADD FAVORITE***********************************************************
 			elif action == "addFav":
 				'''
@@ -156,22 +152,19 @@ class phone(webapp2.RequestHandler):
 					uid = decoded["in"]["uid"]
 					dealID = decoded["in"]["dealID"]
 					primary_cat = decoded["in"]["primaryCat"]
+
+					#create new Favorite instance
+					fav = levr.Favorite(parent=db.Key(uid))
+					#populate data in new favorite
+		#			fav.uid 		= uid
+					fav.dealID 		= dealID
+					fav.primary_cat = primary_cat
+					#place in database
+					fav.put()
+		
+					toEcho = {"success":True}
 				except:
 					levr.log_error(self.request.body)
-				else:
-					try:
-						#create new Favorite instance
-						fav = levr.Favorite(parent=db.Key(uid))
-						#populate data in new favorite
-			#			fav.uid 		= uid
-						fav.dealID 		= dealID
-						fav.primary_cat = primary_cat
-						#place in database
-						fav.put()
-			
-						toEcho = {"success":True}
-					except:
-						levr.log_error()
 			#DELETE FAVORITE********************************************************
 			elif action == "delFav":
 				'''

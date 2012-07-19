@@ -181,7 +181,7 @@ class phone(webapp2.RequestHandler):
 					dealID = decoded["in"]["dealID"]
 					primary_cat = decoded["in"]["primaryCat"]
 				except:
-					levr.log_error(sys.exc_info)
+					levr.log_error(self.request.body)
 				else:
 					try:
 						#create new Favorite instance
@@ -194,8 +194,8 @@ class phone(webapp2.RequestHandler):
 						fav.put()
 			
 						toEcho = {"success":True}
-					except Exception as e:
-						levr.log_error(sys.exc_info)
+					except:
+						levr.log_error()
 			#DELETE FAVORITE********************************************************
 			elif action == "delFav":
 				'''
@@ -207,17 +207,15 @@ class phone(webapp2.RequestHandler):
 					uid = decoded["in"]["uid"]
 					dealID = decoded["in"]["dealID"]
 				except:
-					levr.log_error(sys.exc_info)
+					levr.log_error(self.response.body)
 				else:
 					try:
 						q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
-						#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
-			
 						for fav in q:
 							fav.delete()
 						toEcho = {"success":True}
-					except Exception as e:
-						levr.log_error(sys.exc_info)
+					except:
+						levr.log_error()
 					
 			#***************getOneDeal************************************************
 			elif action == "getOneDeal":
@@ -353,7 +351,7 @@ class phone(webapp2.RequestHandler):
 			else:
 				logging.error("Unrecognized action. Input passed: " + action)
 				sys.exit()
-		
+		finally:
 			############ END OF ACTION FILE PART THING!!! RESPOND!
 			self.response.out.write(json.dumps(toEcho))
 		

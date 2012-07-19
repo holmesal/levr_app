@@ -31,14 +31,9 @@ class phone(webapp2.RequestHandler):
 					email = decoded["in"]["email"]
 					alias = decoded["in"]["alias"]
 					pw = decoded["in"]["pw"]
+					toEcho = levr_utils.signupCustomer(email,alias,pw)
 				except:
 					levr.log_error(self.request.body)
-				else:
-					#attempt signup
-					try:
-						toEcho = levr_utils.signupCustomer(email,alias,pw)
-					except:
-						levr.log_error(sys.exc_info)
 		
 			#***************login************************************************
 			elif action == "login":
@@ -46,18 +41,9 @@ class phone(webapp2.RequestHandler):
 				try:
 					email_or_owner = decoded["in"]["email_or_owner"]
 					pw = decoded["in"]["pw"]
+					toEcho = levr_utils.loginCustomer(email_or_owner,pw)
 				except:
-					levr.log_error(self.request.body)
-				else:
-					try:
-						#check for matches
-						toEcho = levr_utils.loginCustomer(email_or_owner,pw)
-					except:
-						levr.log_error()
-				'''toEcho = {"success":False,"error":"Incorrect email or password"}
-				q = levr.Customer.gql("WHERE email = :email AND pw = :pw",email = email,pw=pw)
-				for result in q:
-					toEcho = {"success":True,"uid":result.key().__str__()}'''
+					levr.log_error()
 			
 			#***************autoCompleteList************************************************
 #			elif action == "autoCompleteList":

@@ -229,9 +229,9 @@ class phone(webapp2.RequestHandler):
 				logging.error("could not grab uid. Input passed: "+self.request.body)
 			
 			#grab all deal children of the user
-			deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1",uid)
+			deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
 			#format CUSTOMER deals
-			data = [x.dictify() for x in deals]
+			data = [phoneDealFormat(x,'myDeals') for x in deals]
 			#I believe this will just return data:None if deals is empty
 			toEcho = {"success":True,"data":data}
 		elif action == "getMyStats":
@@ -306,7 +306,7 @@ class phone(webapp2.RequestHandler):
 			#update customer
 			customer.put()
 			
-			toEcho = {"success":True,"data":"some data!"}
+			toEcho = {"success":True}
 		elif action == "cashOut":
 			try:
 				uid = decoded['in']['uid']
@@ -444,6 +444,7 @@ class img(webapp2.RequestHandler):
 #			self.response.out.write(deal.img)
 		
 		else:
+			##set this to some default for production
 			logging.error("invalid size parameter. input: "+self.request.body)
 			sys.exit()
 		

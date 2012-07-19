@@ -255,13 +255,23 @@ def phoneFormat(deal,use,primary_cat=None):
 	else:
 		dealTextExtra = ''
 		
-	if use == 'list':
+	if use == 'list' or use == 'myDeals':
 		data = {"dealID"		: str(deal.key()),
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'&size=list',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
 				"primaryCat"	: primary_cat}
+		if use == 'myDeals':
+			#shows list deal information AND statistics
+			data.update({
+				"gateRequirement"	: deal.gate_requirement,
+				"gatePaymentPer"	: deal.gate_payment_per,
+				"earnedTotal"		: deal.earned_total,
+				"paidOut"			: deal.paid_out,
+				"dealStatus"		: deal.deal_status,
+				"dateEnd"			: deal.date_end
+			})
 	elif use == 'deal':
 	
 		#grab business

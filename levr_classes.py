@@ -20,6 +20,7 @@ class Customer(db.Model):
 	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
 	
 	def increment_new_redeem_count(self):
+		logging.info('incrementing!')
 		self.new_redeem_count += 1
 		return
 	def flush_new_redeem_count(self):
@@ -38,7 +39,7 @@ class Customer(db.Model):
 		return data
 
 	def update_money_earned(self,difference):
-		self.money_earned = self.money_earned + difference
+		self.money_earned += difference
 		
 		'''Updates the total amount that the user has earned'''
 		'''#grab all deals that are children, add payment_total from each
@@ -55,7 +56,7 @@ class Customer(db.Model):
 			logging.info('Total earned: ' + str(self.money_earned))'''
 	
 	def update_money_available(self,difference):
-		self.money_available = self.money_available + difference
+		self.money_available += difference
 		
 		'''#grab all child deals, sum (total_earned - paid_out)
 		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())

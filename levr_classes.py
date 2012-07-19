@@ -3,7 +3,7 @@
 from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
 import logging
-import traceback
+import sys, traceback
 
 class Customer(db.Model):
 #root class
@@ -341,10 +341,12 @@ def geo_converter(geo_str):
 		return db.GeoPt(lat=float(lat), lon=float(lng))
 	return None
 
-def log_error(err):
-	exc_type,exc_value,exc_trace = err()
+def log_error(phone_input=''):
+	#called by: levr.log_error(*self.request.body)
+	exc_type,exc_value,exc_trace = sys.exc_info()
 	logging.error(exc_type)
 	logging.error(exc_value)
+	logging.error(phone_input)
 	logging.error(traceback.format_exc(exc_trace))
 
 

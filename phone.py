@@ -399,9 +399,8 @@ class img(webapp2.RequestHandler):
 	#			self.response.out.write(deal.img)
 		
 			else:
+				raise Exception('invalid size parameter')
 				##set this to some default for production
-				logging.error("invalid size parameter. input: "+self.request.body)
-				sys.exit()
 		
 			##get crop dimensions
 			if img_width > img_height*aspect_ratio:

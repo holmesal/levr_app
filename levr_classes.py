@@ -294,7 +294,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"paymentMax"		: deal.gate_max*deal.gate_payment_per,
 				"paidOut"			: deal.paid_out,
 				"dealStatus"		: deal.deal_status,
-				"dateEnd"			: deal.date_end,
+				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement
 			})

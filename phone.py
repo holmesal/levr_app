@@ -151,7 +151,6 @@ class phone(webapp2.RequestHandler):
 			data = []
 			#grab data from each deal
 			for idx,deal in enumerate(deals):
-				self.response.out.write(deal.__dict__)
 				#send to format function - package for phone
 				deal_stack = levr.phoneFormat(deal,'list',cats[idx])
 				deal_stack.update({"primaryCat":cats[idx]})

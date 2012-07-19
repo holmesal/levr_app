@@ -14,7 +14,8 @@ from google.appengine.api import mail
 
 class phone(webapp2.RequestHandler):
 	def post(self):
-		
+		#init toEcho to be success:False
+		toEcho = {"success":False}
 		#decode the input JSON and pull out the action parameter
 		try:
 			decoded = json.loads(self.request.body)
@@ -131,33 +132,43 @@ class phone(webapp2.RequestHandler):
 			input : uid
 			output: name, description, dealValue, dealType, imgPath, businessName, primaryCat
 			'''
-			uid = decoded["in"]["uid"]
-			#grabs the deal key name and primary category from table
-			q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
-#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
-			#init key,cats list
-			logging.info(q1)
-			deal_keys,cats = [],[]
-			#grab deal keys from each favorite
-			for fav in q1:
-#				logging.info(fav)
-				deal_keys.append(fav.dealID)
-				cats.append(fav.primary_cat)
 			
-			#grab all the deal data with the keys
-			deals = levr.Deal.get(deal_keys)
-			
-			#data is deal obj array
-			data = []
-			#grab data from each deal
-			for idx,deal in enumerate(deals):
-				#send to format function - package for phone
-				deal_stack = levr.phoneFormat(deal,'list',cats[idx])
-				deal_stack.update({"primaryCat":cats[idx]})
-				data.append(deal_stack)
-#				data[idx]['primaryCat'] = cats[idx]
-#			self.response.out.write(data)
-			toEcho = {"success":True,"data":data}
+			try:
+				uid = decoded["in"]["uid"]
+				raise KeyError
+			except KeyError as e:
+				logging.error("in: uid not passed to action:getUserFavs; "+self.request.body + " error: " + e.__str__())
+			else:
+				#only runs of no exception is thrown
+				try:
+					#grabs the deal key name and primary category from table
+					q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
+		#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
+					#init key,cats list
+					logging.info(q1)
+					deal_keys,cats = [],[]
+					#grab deal keys from each favorite
+					for fav in q1:
+		#				logging.info(fav)
+						deal_keys.append(fav.dealID)
+						cats.append(fav.primary_cat)
+		
+					#grab all the deal data with the keys
+					deals = levr.Deal.get(deal_keys)
+		
+					#data is deal obj array
+					data = []
+					#grab data from each deal
+					for idx,deal in enumerate(deals):
+						#send to format function - package for phone
+						deal_stack = levr.phoneFormat(deal,'list',cats[idx])
+						deal_stack.update({"primaryCat":cats[idx]})
+						data.append(deal_stack)
+		#				data[idx]['primaryCat'] = cats[idx]
+		#			self.response.out.write(data)
+					toEcho = {"success":True,"data":data}
+				except Exception, e:
+					logging.error(e.__str__())
 		#ADD FAVORITE***********************************************************
 		elif action == "addFav":
 			'''
@@ -165,20 +176,26 @@ class phone(webapp2.RequestHandler):
 			input: dealID,uid,primaryCat
 			output: success = bool
 			'''
-			uid = decoded["in"]["uid"]
-			dealID = decoded["in"]["dealID"]
-			primary_cat = decoded["in"]["primaryCat"]
+			try:
+				uid = decoded["in"]["uid"]
+				dealID = decoded["in"]["dealID"]
+				primary_cat = decoded["in"]["primaryCat"]
+			except:
+				levr.log_error(sys.exc_info)
+			else:
+				try:
+					#create new Favorite instance
+					fav = levr.Favorite(parent=db.Key(uid))
+					#populate data in new favorite
+		#			fav.uid 		= uid
+					fav.dealID 		= dealID
+					fav.primary_cat = primary_cat
+					#place in database
+					fav.put()
 			
-			#create new Favorite instance
-			fav = levr.Favorite(parent=db.Key(uid))
-			#populate data in new favorite
-#			fav.uid 		= uid
-			fav.dealID 		= dealID
-			fav.primary_cat = primary_cat
-			#place in database
-			fav.put()
-			
-			toEcho = {"success":True}
+					toEcho = {"success":True}
+				except Exception as e:
+					levr.log_error(sys.exc_info)
 		#DELETE FAVORITE********************************************************
 		elif action == "delFav":
 			'''
@@ -186,14 +203,20 @@ class phone(webapp2.RequestHandler):
 			input: dealID,uid,primaryCat
 			output: success = bool
 			'''
-			uid = decoded["in"]["uid"]
-			dealID = decoded["in"]["dealID"]
-			q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
-			#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
+			try:
+				uid = decoded["in"]["uid"]
+				dealID = decoded["in"]["dealID"]
+			except KeyError as e:
+				logging.error("in: uid or dealID not passed to action:getUserFavs; "+self.request.body + " error: " + e.__str__())
+			else:
+				try:
+					q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
+					#fav_to_delete = levr.Favorite.gql("WHERE uid=:u,dealID=:d, primary_cat=:p",u=uid,d=dealID,p=primary_cat)
 			
-			for fav in q:
-				fav.delete()
-			
+					for fav in q:
+						fav.delete()
+				except Exception as e:
+					logging.error(e.__str__())
 			toEcho = {"success":True}
 		#***************getOneDeal************************************************
 		elif action == "getOneDeal":

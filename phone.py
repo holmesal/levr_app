@@ -231,7 +231,7 @@ class phone(webapp2.RequestHandler):
 			#grab all deal children of the user
 			deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
 			#format CUSTOMER deals
-			data = [phoneDealFormat(x,'myDeals') for x in deals]
+			data = [levr.phoneFormat(x,'myDeals') for x in deals]
 			#I believe this will just return data:None if deals is empty
 			toEcho = {"success":True,"data":data}
 		elif action == "getMyStats":
@@ -247,7 +247,7 @@ class phone(webapp2.RequestHandler):
 			#get user information
 			user = db.get(uid)
 			#format user information
-			data = user.dictify()
+			data = user.get_stats()
 			
 			toEcho = {"success":False,"data":data}
 		elif action == "redeem":
@@ -375,6 +375,7 @@ class uploadDeal(webapp2.RequestHandler):
 		deal.secondary_name	= inputs('name') #### check name!!!
 		deal.deal_status	= 'pending'
 		deal.geo_point		= geo_point
+		deal.description	= inputs('description')
 		#set expiration date to one week from now
 		#only need date, not time for this
 		deal.date_end		= datetime.now() + timedelta(days=7)

@@ -12,19 +12,19 @@ class Customer(db.Model):
 	pw 				= db.StringProperty()
 	alias			= db.StringProperty()
 	#stats
-	money_earned	= db.FloatProperty(default = 0.0)
-	money_available = db.FloatProperty(default = 0.0)
-	money_paid		= db.FloatProperty(default = 0.0)
-	redemptions		= db.StringListProperty()
+	money_earned	= db.FloatProperty(default = 0.0) #new earning for all deals
+	money_available = db.FloatProperty(default = 0.0) #aka payment pending
+	money_paid		= db.FloatProperty(default = 0.0) #amount we have transfered
+	redemptions		= db.StringListProperty()	#id's of all of their redeemed deals
 	
 
-	def dictify(self):
+	def get_stats(self):
 		data = {
 			"alias"			: self.alias,
-			"moneyEarned"	: self.money_earned,
 			"numUploads"	: self.get_num_uploads(),
 			"numRedemptions": self.redemptions.__len__(),
-			"paymentPending": self.get_pending_payment()
+			"moneyAvailable": self.money_available,
+			"moneyEarned"	: self.money_earned
 		}
 		return data
 
@@ -59,7 +59,8 @@ class Customer(db.Model):
 		'''Returns the number of deal children of user i.e. num they have uploaded'''
 		uploads = CustomerDeal.gql("WHERE ANCESTOR IS :1",self.key())
 		count = uploads.count()
-		return count		
+		return count
+
 	def update_total_paid(self):
 		'''Updates the total amount that the user has cashed out'''
 

@@ -13,14 +13,16 @@ class MainPage(webapp2.RequestHandler):
 		# The method must be "POST" and enctype must be set to "multipart/form-data".
 		self.response.out.write('<html><body>')
 		self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % upload_url)
-		self.response.out.write('''Upload File: <input type="file" name="file"><br> <input type="submit"
+		self.response.out.write('''Upload File: <input type="file" name="img"><br> <input type="submit"
 		name="submit" value="Create!"> </form></body></html>''')
 
 class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
-		self.response.out.write('upload...')
 		#get uploaded image
-		upload = self.get_uploads()[0]
+#		upload = self.get_uploads()[0]
+		upload = self.request.get('img')
+		upload = blobstore.Blob(upload)
+		logging.info(upload)
 		
 		# new customer
 		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEgw')
@@ -112,7 +114,9 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
 		self.response.headers['Content-Type'] = 'text/plain'
 		self.response.out.write('/phone/img?dealID='+str(cd.key())+"&size=dealDetail")
-		self.response.out.write('I think this means it was a success')
+		self.response.out.write('     I think this means it was a success')
+		self.redirect('/phone/img?dealID='+str(cd.key())+"&size=dealDetail")
+		
 
 app = webapp2.WSGIApplication([('/new', MainPage),
 								('/new/upload', DatabaseUploadHandler)

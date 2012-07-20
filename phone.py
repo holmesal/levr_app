@@ -10,7 +10,7 @@ import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
 from google.appengine.api import mail
-from google.appengine.ext import blobstore
+#from google.appengine.ext import blobstore
 #from google.appengine.ext.webapp import blobstore_handlers
 
 class phone(webapp2.RequestHandler):
@@ -316,7 +316,7 @@ class uploadDeal(webapp2.RequestHandler):
 		try:
 			logging.info(self.request.headers)
 			logging.info('Body is next!')
-	#		logging.info(self.request.body)
+			logging.info(self.request.body)
 		
 			#create alias for self.request.get
 			inputs			= self.request.get
@@ -348,7 +348,6 @@ class uploadDeal(webapp2.RequestHandler):
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
 			deal 				= levr.CustomerDeal(parent=db.Key(uid))
-			deal.img			= inputs('img')			#D
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.secondary_name	= inputs('name') #### check name!!!
@@ -359,7 +358,15 @@ class uploadDeal(webapp2.RequestHandler):
 			#only need date, not time for this
 			deal.date_end		= datetime.now() + timedelta(days=7)
 	#		date_uploaded		= automatic
-		
+			
+			#########
+			#BLOBSTORE STUFF - look here first if upload fails
+			#########
+			deal.img			= inputs('img')
+			#=======
+#			upload = self.get_uploads()[0]
+			
+			#########
 			#put in DB
 			deal.put()
 		
@@ -369,7 +376,7 @@ class uploadDeal(webapp2.RequestHandler):
 		
 		
 			#send mail to the admins to notify of new pending deal
-			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
+			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
 							to="Patrick Walsh <patrick@getlevr.com>",
 							subject="New pending deal",
 							body="""
@@ -387,30 +394,21 @@ class phone_log(webapp2.RequestHandler):
 		pass
 
 
-class UserPhoto(db.Model):
-	#this is for debugging. remove once blobstore handling is complete
-	user = db.StringProperty()
-	blob_key = blobstore.BlobReferenceProperty()
 class img(webapp2.RequestHandler):
 	def get(self):
 		try:
-#			dealID 	= 'agtkZXZ-Z2V0bGV2cnIQCxIJVXNlclBob3RvGLgCDA' 
 			dealID	= self.request.get('dealID')
-#			size 	= 'dealDetail'
 			size	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
-#			logging.info(blob_key)
 			
 			#get deal object
-#			deal = db.get(dealID)
 			deal = levr.Deal.get(dealID)
 
 			#get the blob
-#			blob_key = deal.blob_key
 			blob_key = deal.img
 			
-			logging.info(dir(blob_key.properties))
+#			logging.info(dir(blob_key.properties))
 			#read the blob data into a string !!!! important !!!!
 			blob_data = blob_key.open().read()
 			

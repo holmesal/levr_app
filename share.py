@@ -21,25 +21,39 @@ class share(webapp2.RequestHandler):
 			sys.exit()
 		
 		if deal:
-			logging.info('found!')
+			#check loginstate
+			headerData = levr_utils.loginCheck(self,False)
+			
+			#get alias from parent (ninja)
+			ninja = levr.Customer.get(deal.key().parent())
+			alias = ninja.alias
+			
+			#format deal
+			dealFormatted = levr.phoneFormat(deal,'list')
+			
+			template_values = {
+				'headerData' : headerData,
+				'title' : 'Share',
+				'deal'	: deal,
+				'dealID': dealID,
+				'alias'	: alias,
+				'dealText'	: dealFormatted['dealText'],
+				'dealTextExtra'	: dealFormatted['dealTextExtra'],
+				'description'	: deal.description
+			}
+			
+			#jinja2
+			template = jinja_environment.get_template('templates/share.html')
+			self.response.out.write(template.render(template_values))
+
+			
+			
+			
 		else:
-			logging.info('empty!')
+			self.redirect('/error')
 		logging.info(deal.__dict__)
 		
-		#check loginstate
-		headerData = levr_utils.loginCheck(self,False)
 		
-		template_values = {
-			'headerData' : headerData,
-			'title' : 'Share',
-			'deal'	: deal,
-			'dealID': dealID
-		}
-		
-		#jinja2
-		template = jinja_environment.get_template('templates/share.html')
-		self.response.out.write(template.render(template_values))
-
 class loginFav(webapp2.RequestHandler):
 	def post(self):
 		#login, then add

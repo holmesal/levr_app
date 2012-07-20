@@ -1,22 +1,43 @@
 <html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{{alias}} shared their deal with you.</title>
+		<link href="../css/share.css" rel="stylesheet">
+		<link rel="icon" type="image/png" href="img/favicon.png">
+	</head>
 	<body>
-		<p>Key: {{ refKey }}</p>	
-		{% if headerData.loggedIn == True %}
-		<h3>This header displays when logged in</h3>
-		<h4>Your name is {{ headerData.contact_owner }}</h4>
-		{% else %}
-		<form method="post" action="/share/loginFav">
-			Email orUsername: <input type="text" name="owner_name">
-			Password: <input type="password" name="pw">
-			<input type="submit" value="Signup">
-		</form>
-		<h2>Signup:</h2>
-		<form method="post" action="/share/signupFav">
-			Username: <input type="text" name="owner_name">
-			Email: <input type="text" name="email">
-			Password: <input type="password" name="pw">
-			<input type="submit" value="Signup">
-		</form>
-		{% endif %}
+		<p id="shareText">{{alias}} wants to share their deal with you.</p>
+		<div id="container">
+			<!--img src="http://getlevr.appspot.com/phone/img?size=dealDetail&dealID={{dealID}}"-->
+			<div id="dealImg" style="background-color: black;"></div>
+			<p id='dealText'>{{dealText}}</p>
+			<p id='dealTextExtra'>(extra text here){{dealTextExtra}}</p>
+			<p id="description">(description here) {{description}}</p>	
+			
+			{% if headerData.loggedIn == True %}
+			<h3>This header displays when logged in</h3>
+			<h4>Your name is {{ headerData.alias }}</h4>
+			{% else %}
+			<img src="../img/divider_faded.png">
+			<p id="loginorsignup">Login or sign up below to send this deal to your phone.</p>
+			<div id="forms">
+				<form id="login" method="post" action="/share/loginFav?dealID={{dealID}}">
+					<p class="colHead">Log In</p>
+					<input class="textIn" type="text" name="owner_name" placeholder="Email or Username">
+					<input class="textIn" type="password" name="pw" placeholder="Password">
+					</br><input id="btnLogin" class="button green" type="submit" value="Log In">
+				</form>
+				<form id="signUp" method="post" action="/share/signupFav?dealID={{dealID}}">
+					<p class="colHead">Sign Up</p>
+					<input class="textIn" type="text" name="owner_name" placeholder="Username">
+					<input class="textIn" type="text" name="email" placeholder="Email">
+					<input class="textIn" type="password" name="pw" placeholder="Password">
+					</br><input class="button green" type="submit" value="Sign Up">
+				</form>
+			</div>
+			<div id="tos">By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</div>
+			
+			{% endif %}
+		</div>
 	</body>
 </html>

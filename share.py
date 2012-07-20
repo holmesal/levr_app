@@ -6,6 +6,8 @@ from google.appengine.ext import db
 import logging
 import jinja2
 
+from gaesessions import get_current_session
+
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class share(webapp2.RequestHandler):
@@ -13,13 +15,15 @@ class share(webapp2.RequestHandler):
 		#grab refKey
 		dealID = self.request.get('id')
 		logging.info(dealID)
+		error = self.request.get('error')
+		success = self.request.get('success')
 		#grab deal from datastore
 		try:
 			deal = levr.Deal.get(dealID)
 		except:
 			logging.error('Could not grab deal. id passed: ' + dealID)
 			sys.exit()
-		
+			
 		if deal:
 			#check loginstate
 			headerData = levr_utils.loginCheck(self,False)
@@ -39,7 +43,9 @@ class share(webapp2.RequestHandler):
 				'alias'	: alias,
 				'dealText'	: dealFormatted['dealText'],
 				'dealTextExtra'	: dealFormatted['dealTextExtra'],
-				'description'	: deal.description
+				'description'	: deal.description,
+				'error'			: error,
+				'success'		: success
 			}
 			
 			#jinja2
@@ -57,33 +63,32 @@ class share(webapp2.RequestHandler):
 class loginFav(webapp2.RequestHandler):
 	def post(self):
 		#login, then add
-		email = self.request.get('email_or_owner')
+		email_or_owner = self.request.get('email_or_owner')
 		pw = self.request.get('pw')
-		
-		logging.info(self.request.headers)
 		
 		session = get_current_session()
 		
+		dealID = self.request.get('id')
+		
 		#attempt login
-		response = levr_utils.loginCustomer()
-		#query database for matching email and pw
-		q = levr.Customer.gql("WHERE email = :email and pw = :pw",email=email,pw=pw)
-		customer = q.get()
-		logging.info(customer)
-		if customer != None:
+		response = levr_utils.loginCustomer(email_or_owner,pw)
+		logging.info(response)
+		if response['success'] == True:
+			#grab customer
+			customer = levr.Customer.get(response['uid'])
 			#if matched, pull properties and set loginstate to true
 			session['uid'] = customer.key()
 			session['alias'] = customer.alias
 			session['loggedIn'] = True
 			#add deal to fav
-			fav = levr.Favorite()
-			fav.uid = customer.key().__str__()
-			
+			fav = levr.Favorite(parent=customer.key())
+			fav.dealID = dealID
+			fav.put()
 			#redirect to success page
-			self.redirect('/share/success')
+			self.redirect('/share/deal?id=' + dealID + '&success=1')
 		else:
-			#show login page again
-			pass
+			#show login page again, with login error
+			self.redirect('/share/deal?id='+dealID+'&error=login')
 			
 	
 class signupFav(webapp2.RequestHandler):
@@ -93,19 +98,45 @@ class signupFav(webapp2.RequestHandler):
 		alias = self.request.get('alias')
 		pw = self.request.get('pw')
 		
+		dealID = self.request.get('id')
+		
+		session = get_current_session()
+		
 		response = levr_utils.signupCustomer(email,alias,pw)
 		
 		if response['success']:
-			self.response.out.write(response)
-			self.redirect('/share/success')
-		else:
-			self.response.out.write('Not okay!')
-			self.response.out.write(response)
+			#add to favorites
+			customer = levr.Customer.get(response['uid'])
+			fav = levr.Favorite(parent=customer.key())
+			fav.dealID = dealID
+			fav.put()
+			#login user
+			session['uid'] = customer.key()
+			session['alias'] = customer.alias
+			session['loggedIn'] = True
 			
+			self.redirect('/share/deal?id=' + dealID + '&success=1')
+		else:
+			self.response.out.write('/share/deal?id='+dealID+'&error='+response['field'])
+
+class loggedInFav(webapp2.RequestHandler):
+	def get(self):
+		dealID = self.request.get('id')
 		
+		session = get_current_session()
+		
+		customerKey = session['uid']
+		
+		customer = levr.Customer.get(customerKey)
+		
+		fav = levr.Favorite(parent=customer.key())
+		fav.dealID = dealID
+		fav.put()
+		
+		self.redirect('/share/deal?id=' + dealID + '&success=1')
 	
 class success(webapp2.RequestHandler):
 	def get(self):
 		print('success!')
 
-app = webapp2.WSGIApplication([('/share/deal.*', share),('/share/success', success),('/share/signupFav', signupFav)],debug=True)
+app = webapp2.WSGIApplication([('/share/deal.*', share),('/share/success', success),('/share/signupFav', signupFav),('/share/loginFav', loginFav), ('/share/loggedInFav', loggedInFav)],debug=True)

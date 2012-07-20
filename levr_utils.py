@@ -25,11 +25,17 @@ def loginCheck(self,strict):
 			return headerData
 	elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 		#logged in, grab the useful bits
+		#this is a hack. . . forgive meeee
+		try:
+			uid = session['businessID']
+		except:
+			uid = session['uid']
+		
 		headerData = {
 			'loggedIn'		: session['loggedIn'],
 			'alias' : session['alias'],
-			'businessID'	: session['businessID']
-		}
+			'businessID'	: uid 
+			}
 		#return user metadata.
 		return headerData
 		#return session['businessID']

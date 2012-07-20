@@ -13,30 +13,44 @@
 			<p id='dealText'>{{dealText}}</p>
 			<p id='dealTextExtra'>(extra text here){{dealTextExtra}}</p>
 			<p id="description">(description here) {{description}}</p>	
-			
-			{% if headerData.loggedIn == True %}
-			<h3>This header displays when logged in</h3>
-			<h4>Your name is {{ headerData.alias }}</h4>
-			{% else %}
 			<img src="../img/divider_faded.png">
-			<p id="loginorsignup">Login or sign up below to send this deal to your phone.</p>
+			{% if success=='1' %}
+			<p id="success">Great! We've added this deal to your favorites:</p>
+			
+			<p id="loginorsignup">Don't have Levr yet?</p>
+			<div id="downloadButtons">
+						<!--img id="helptext" src="./img/helptext.png" /-->
+						<img class="store-icon" href="#" src="../img/get_it_on_play_logo_large.png" />
+						<img class="store-icon" href="#" src="../img/App_Store_badge_small1.png" />
+					</div>
+			{% else %}
+			<p id="loginorsignup">
+				{% if headerData.loggedIn == True %}
+				Click below to send this deal to your phone.</p>
+				<p><a class='button green' href="/share/loggedInFav?id={{dealID}}">Add to favorites</a></p>
+				{% else %}
+				Login or sign up below to send this deal to your phone.</p>
 			<div id="forms">
-				<form id="login" method="post" action="/share/loginFav?dealID={{dealID}}">
+				<form id="login" method="post" action="/share/loginFav?id={{dealID}}">
 					<p class="colHead">Log In</p>
-					<input class="textIn" type="text" name="owner_name" placeholder="Email or Username">
+					
+					<input class="textIn" type="text" name="email_or_owner" placeholder="Email or Username">
 					<input class="textIn" type="password" name="pw" placeholder="Password">
 					</br><input id="btnLogin" class="button green" type="submit" value="Log In">
+					
 				</form>
-				<form id="signUp" method="post" action="/share/signupFav?dealID={{dealID}}">
+				<form id="signUp" method="post" action="/share/signupFav?id={{dealID}}">
 					<p class="colHead">Sign Up</p>
-					<input class="textIn" type="text" name="owner_name" placeholder="Username">
+					<input class="textIn" type="text" name="alias" placeholder="Username">
 					<input class="textIn" type="text" name="email" placeholder="Email">
 					<input class="textIn" type="password" name="pw" placeholder="Password">
 					</br><input class="button green" type="submit" value="Sign Up">
 				</form>
 			</div>
+			{% if error=='login' %} <p class="error">Couldn't log you in. Give it another shot!</p> {% endif %}
 			<div id="tos">By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</div>
 			
+			{% endif %}
 			{% endif %}
 		</div>
 	</body>

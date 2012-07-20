@@ -96,8 +96,12 @@ class post(webapp2.RequestHandler):
 		corID = self.request.get('corID')
 		#get cor
 		cor = levr.CashOutRequest.get(corID)
-		#get amount
-		amount = cor.amount
+		#get the larger amount if money available at paytime is different
+		if cor.amount != cor.money_available_paytime:
+			amount = cor.money_available_paytime
+			cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
+		else:
+			amount = cor.amount
 		#get ninja
 		ninja = levr.Customer.get(cor.key().parent())
 		#get payment email
@@ -123,7 +127,7 @@ class post(webapp2.RequestHandler):
 				deal.put()
 			
 			#are number consistent?
-			if cor.amount != cor.money_available_paytime
+			if cor.amount != cor.money_available_paytime:
 				logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
 				#send email here later
 			
@@ -139,5 +143,17 @@ class post(webapp2.RequestHandler):
 
 		self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
 
+class reject(webapp2.RequestHandler):
+	def post(self):
+		#get corID
+		corID = self.request.get('corID')
+		#grab cor
+		cor = levr.CashOutRequest.get(corID)
+		#add note
+		cor.note = self.request.get('note')
+		#change status to rejected
+		cor.status = 'rejected'
+		#update cor
+		cor.put()
 
-app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post)],debug=True)
+app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post), ('/payments/reject',reject)],debug=True)

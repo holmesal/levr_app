@@ -263,6 +263,7 @@ class CashOutRequest(db.Model):
 	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
 	payKey			= db.StringProperty()
 	money_available_paytime	= db.FloatProperty()
+	note			= db.StringProperty()
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):

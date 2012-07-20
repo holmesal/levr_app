@@ -291,8 +291,12 @@ class phone(webapp2.RequestHandler):
 			toEcho = {"success":False}
 		finally:
 			logging.info(json.dumps(toEcho))
-			self.response.out.write(json.dumps(toEcho))
-		
+			try:
+				self.response.out.write(json.dumps(toEcho))
+			except:
+				#catches the case where toEcho cannot be parsed as json
+				self.response.out.write(json.dumps({"success":False}))
+				levr.log_error()
 class uploadDeal(webapp2.RequestHandler):
 	def post(self):
 		toEcho = {"success":False}

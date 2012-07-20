@@ -27,7 +27,7 @@ def set_action(action):
 		'dealResults':{
 						'action': 'dealResults',
 						'in'	: {
-							'primaryCat': 'Socks',
+							'primaryCat': 'pat',
 							'start'		: '0',
 							'size'		: '20'
 						}
@@ -92,9 +92,8 @@ def set_action(action):
 class LoadTest(webapp2.RequestHandler):
 	def get(self):
 		try:
-#			url 	= "http://getlevr.appspot.com/phone"
-#			url		= "http://8080:/phone"
-			url		= "http://0.0.0.0:8080/phone"
+			url 	= "http://getlevr.appspot.com/phone"
+#			url		= "http://0.0.0.0:8080/phone"
 			actions = [ 'dealResults',	#0
 						'getUserFavs',	#1
 						'addFav',		#2
@@ -103,20 +102,27 @@ class LoadTest(webapp2.RequestHandler):
 						'getMyDeals',	#5
 						'getMyStats',	#6
 						'redeem']		#7
+			primary_cat = self.request.get('primary_cat')
 			action = actions[0]
 			data = set_action(action)
 			
+			code = 200
+			count = 0
+			while code == 200
+				count += 1
+				self.response.out.write(data)
+				data = json.dumps(data)
+				result = urlfetch.fetch(url=url,
+										payload=data,
+										method=urlfetch.POST,
+										headers={'Content-Type':'application/json'})
+				logging.info(dir(result))
+				logging.info(result.status_code)
+				logging.info(result.content)
+				code = result.status_code
+				logging.info(count)
+				self.response.out.write(count)
 			
-			self.response.out.write(data)
-			data = json.dumps(data)
-			result = urlfetch.fetch(url=url,
-									payload=data,
-									method=urlfetch.POST,
-									headers={'Content-Type':'application/json'})
-			logging.info(dir(result))
-			logging.info(result.status_code)
-			logging.info(result.content)
-			self.response.out.write(result)
 									
 		except:
 			levr.log_error()

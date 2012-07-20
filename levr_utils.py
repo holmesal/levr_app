@@ -67,7 +67,7 @@ def signupCustomer(email,alias,pw):
 		return {
 			'success': False,
 			'field': 'alias',
-			'error': 'That nickname is already registered. Try again!'
+			'error': 'That username is already registered. Try again!'
 		}
 		
 def loginCustomer(email_or_owner,pw):

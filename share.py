@@ -17,6 +17,12 @@ class share(webapp2.RequestHandler):
 		logging.info(dealID)
 		error = self.request.get('error')
 		success = self.request.get('success')
+		
+		#propogate user-entered values
+		email_or_owner = self.request.get('email_or_owner')
+		email = self.request.get('email')
+		username = self.request.get('username')
+		
 		#grab deal from datastore
 		try:
 			deal = levr.Deal.get(dealID)
@@ -45,7 +51,10 @@ class share(webapp2.RequestHandler):
 				'dealTextExtra'	: dealFormatted['dealTextExtra'],
 				'description'	: deal.description,
 				'error'			: error,
-				'success'		: success
+				'success'		: success,
+				'email_or_owner'	: email_or_owner,
+				'email'	: email,
+				'username'	: username
 			}
 			
 			#jinja2
@@ -88,7 +97,7 @@ class loginFav(webapp2.RequestHandler):
 			self.redirect('/share/deal?id=' + dealID + '&success=1')
 		else:
 			#show login page again, with login error
-			self.redirect('/share/deal?id='+dealID+'&error=login')
+			self.redirect('/share/deal?id='+dealID+'&error=login&email_or_owner='+email_or_owner)
 			
 	
 class signupFav(webapp2.RequestHandler):
@@ -100,24 +109,31 @@ class signupFav(webapp2.RequestHandler):
 		
 		dealID = self.request.get('id')
 		
-		session = get_current_session()
+		logging.info(len(pw))
+		logging.info(type(len(pw)))
 		
-		response = levr_utils.signupCustomer(email,alias,pw)
-		
-		if response['success']:
-			#add to favorites
-			customer = levr.Customer.get(response['uid'])
-			fav = levr.Favorite(parent=customer.key())
-			fav.dealID = dealID
-			fav.put()
-			#login user
-			session['uid'] = customer.key()
-			session['alias'] = customer.alias
-			session['loggedIn'] = True
-			
-			self.redirect('/share/deal?id=' + dealID + '&success=1')
+		if len(pw) < 6:
+			self.redirect('/share/deal?id='+dealID+'&error=password'+'&email='+email+'&username='+alias)
 		else:
-			self.response.out.write('/share/deal?id='+dealID+'&error='+response['field'])
+
+			session = get_current_session()
+			
+			response = levr_utils.signupCustomer(email,alias,pw)
+			
+			if response['success']:
+				#add to favorites
+				customer = levr.Customer.get(response['uid'])
+				fav = levr.Favorite(parent=customer.key())
+				fav.dealID = dealID
+				fav.put()
+				#login user
+				session['uid'] = customer.key()
+				session['alias'] = customer.alias
+				session['loggedIn'] = True
+				
+				self.redirect('/share/deal?id=' + dealID + '&success=1')
+			else:
+				self.redirect('/share/deal?id='+dealID+'&error='+response['field']+'&email='+email+'&username='+alias)
 
 class loggedInFav(webapp2.RequestHandler):
 	def get(self):

@@ -9,7 +9,7 @@ import levr_classes as levr
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-from google.appengine.api import mail
+#from google.appengine.api import mail
 #from google.appengine.ext import blobstore
 #from google.appengine.ext.webapp import blobstore_handlers
 
@@ -316,7 +316,7 @@ class uploadDeal(webapp2.RequestHandler):
 		try:
 			logging.info(self.request.headers)
 			logging.info('Body is next!')
-			logging.info(self.request.body)
+#			logging.info(self.request.body)
 		
 			#create alias for self.request.get
 			inputs			= self.request.get
@@ -363,6 +363,7 @@ class uploadDeal(webapp2.RequestHandler):
 			#BLOBSTORE STUFF - look here first if upload fails
 			#########
 			deal.img			= inputs('img')
+			logging.info(deal.img)
 			#=======
 #			upload = self.get_uploads()[0]
 			
@@ -376,14 +377,14 @@ class uploadDeal(webapp2.RequestHandler):
 		
 		
 			#send mail to the admins to notify of new pending deal
-			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
-							to="Patrick Walsh <patrick@getlevr.com>",
-							subject="New pending deal",
-							body="""
-							Another dealdebeast has been caught by one of your
-							faithful ninjas! Heed your call to arms and approve the 
-							dealdebeast before it gets away!
-							""").send()
+#			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
+#							to="Patrick Walsh <patrick@getlevr.com>",
+#							subject="New pending deal",
+#							body="""
+#							Another dealdebeast has been caught by one of your
+#							faithful ninjas! Heed your call to arms and approve the 
+#							dealdebeast before it gets away!
+#							""").send()
 		except:
 			levr.log_error(self.request.body)
 		finally:

@@ -410,8 +410,6 @@ class img(webapp2.RequestHandler):
 				#view for top of deal screen
 				aspect_ratio 	= 3. 	#width/height
 				output_width 	= 640.	#arbitrary standard
-		
-		
 			elif size == 'list':
 				#view for in deal or favorites list
 				aspect_ratio	= 1.	#width/height
@@ -420,11 +418,15 @@ class img(webapp2.RequestHandler):
 				aspect_ratio	= float(img_width)/float(img_height)
 				output_width	= float(img_width)
 	#			self.response.out.write(deal.img)
-		
+			elif size == 'shareScreen':
+				aspect_ratio	= 4.
+				output_width	= 600.
 			else:
 				raise Exception('invalid size parameter')
 				##set this to some default for production
-		
+			#calculate output_height from output_width
+			output_height	= output_width/aspect_ratio
+			
 			##get crop dimensions
 			if img_width > img_height*aspect_ratio:
 				#width must be cropped
@@ -446,8 +448,7 @@ class img(webapp2.RequestHandler):
 			#crop image to aspect ratio
 			img.crop(left_x,top_y,right_x,bot_y)
 			logging.info(img)
-			#calculate output_height from output_width
-			output_height	= output_width/aspect_ratio
+			
 			#resize cropped image
 			img.resize(width=int(output_width),height=int(output_height))
 			logging.info(img)

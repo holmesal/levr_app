@@ -40,6 +40,9 @@ handlers:
 - url: /tasks/cleanDeals
   script: cleanDeals.py
   login: admin
+- url: /sandbox
+  script: test.app
+  login: admin
 
 
 

@@ -388,6 +388,7 @@ class phone_log(webapp2.RequestHandler):
 
 
 class UserPhoto(db.Model):
+	#this is for debugging. remove once blobstore handling is complete
 	user = db.StringProperty()
 	blob_key = blobstore.BlobReferenceProperty()
 class img(webapp2.RequestHandler):

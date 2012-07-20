@@ -23,6 +23,7 @@ class Customer(db.Model):
 		logging.info('incrementing!')
 		self.new_redeem_count += 1
 		return
+	
 	def flush_new_redeem_count(self):
 		self.new_redeem_count = 0
 		return
@@ -41,33 +42,11 @@ class Customer(db.Model):
 	def update_money_earned(self,difference):
 		self.money_earned += difference
 		
-		'''Updates the total amount that the user has earned'''
-		'''#grab all deals that are children, add payment_total from each
-		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())
-		cashmoneys = 0
-		for deal in q:
-			logging.info(deal.__dict__)
-			cashmoneys = cashmoneys + deal.earned_total
-			
-		if cashmoneys < self.money_earned:
-			logging.error('Something strange is happening with the payment total calculation. Money is going down. Its a recession! MY GOD.')
-		else:
-			self.money_earned = cashmoneys
-			logging.info('Total earned: ' + str(self.money_earned))'''
 	
 	def update_money_available(self,difference):
 		self.money_available += difference
 		
-		'''#grab all child deals, sum (total_earned - paid_out)
-		q = CustomerDeal.gql('WHERE ANCESTOR IS :1',self.key())
-		available = 0
-		for deal in q:
-			available = available + (deal.earned_total-deal.paid_out)
-		if available < self.money_available:
-			logging.info('The amount of available money has somehow decreased. Has the user cashed out?')
-		self.money_available = available
-		logging.info('Money available: ' + str(self.money_available))'''
-	
+		
 	def get_num_uploads(self):
 		'''Returns the number of deal children of user i.e. num they have uploaded'''
 		uploads = CustomerDeal.gql("WHERE ANCESTOR IS :1",self.key())

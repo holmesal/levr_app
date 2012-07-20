@@ -286,13 +286,12 @@ class phone(webapp2.RequestHandler):
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!
-			toEchoJson = json.dumps(toEcho)
 		except:
 			levr.log_error(self.request.body)
 			toEcho = {"success":False}
 		finally:
-			
-			self.response.out.write(toEchoJson)
+			logging.info(json.dumps(toEcho))
+			self.response.out.write(json.dumps(toEcho))
 		
 class uploadDeal(webapp2.RequestHandler):
 	def post(self):

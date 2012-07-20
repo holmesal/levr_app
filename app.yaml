@@ -35,11 +35,12 @@ handlers:
   login: admin
   secure: always
 - url: /test.*
-  script: test.app
+  script: load_test.app
   login: admin
 - url: /tasks/cleanDeals
   script: cleanDeals.app
   login: admin
+
 
 
 - url: /img

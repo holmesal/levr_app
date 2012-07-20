@@ -1,18 +1,19 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>{{alias}} shared their deal with you.</title>
+		<meta property="og:image" content="getlevr.appspot.com/phone/img?size=facebook&dealID={{dealID}})"/> 
+		<title>{{alias}} wants to share a deal with you.</title>
 		<link href="../css/share.css" rel="stylesheet">
 		<link rel="icon" type="image/png" href="img/favicon.png">
 	</head>
 	<body>
-		<p id="shareText">{{alias}} wants to share their deal with you.</p>
+		<p id="shareText">{{alias}} wants to share a deal with you.</p>
 		<div id="container">
 			<!--img src="http://getlevr.appspot.com/phone/img?size=dealDetail&dealID={{dealID}}"-->
-			<div id="dealImg" style="background-color: black;"></div>
+			<div id="dealImg" style="background-image: url(/phone/img?size=dealDetail&dealID={{dealID}});"></div>
 			<p id='dealText'>{{dealText}}</p>
-			<p id='dealTextExtra'>(extra text here){{dealTextExtra}}</p>
-			<p id="description">(description here) {{description}}</p>	
+			<p id='dealTextExtra'>{{dealTextExtra}}</p>
+			<p id="description">{{description}}</p>	
 			<img src="../img/divider_faded.png">
 			{% if success=='1' %}
 			<p id="success">Great! We've added this deal to your favorites:</p>

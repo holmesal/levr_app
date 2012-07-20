@@ -1,14 +1,18 @@
 <html>
 	<body>
 	<form method="post" action="/payments/post?corID={{corID}}">
-		<p>Amount: {{amount}}</p>
+		<p>Amount: ${{amount}}</p>
+		<p>(money available paytime: ${{money_available_paytime}})</p>
 		<p>User total to date: {{life_paid}}</p>
 		<p>Number of deals added: {{numDeals}}</p>
-		<input type="submit" value="Confirm">
+		<input type="submit" value="PAY THE PEOPLE (will pay the larger of the two amounts)">
 	</form>
-	<form method="post" action="/payments/reject">
-		<p>Danger! The people won't like this...</p>
+	<hr>
+	<form method="post" action="/payments/reject?corID={{corID}}">
+		<p>Be careful! If in doubt about a deal, phone a friend, maybe do some research in the datastore...</p>
+		Why? <input type="text" name="note"></br>
 		<input type="submit" value="Reject">
+		
 	</form>
 	</body>
 </html>

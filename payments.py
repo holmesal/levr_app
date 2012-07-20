@@ -70,10 +70,13 @@ class view(webapp2.RequestHandler):
 			q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
 			numDeals = q.count()
 			
+			cor.money_available_paytime = ninja.money_available
+			cor.put()
 			
 			template_values = {
 				"corID"						: cor.key().__str__(),
 				"amount"					: cor.amount,
+				"money_available_paytime"	: cor.money_available_paytime,
 				"life_paid"					: ninja.money_paid,
 				"numDeals"					: numDeals
 			}
@@ -93,8 +96,12 @@ class post(webapp2.RequestHandler):
 		corID = self.request.get('corID')
 		#get cor
 		cor = levr.CashOutRequest.get(corID)
-		#get amount
-		amount = cor.amount
+		#get the larger amount if money available at paytime is different
+		if cor.amount != cor.money_available_paytime:
+			amount = cor.money_available_paytime
+			cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
+		else:
+			amount = cor.amount
 		#get ninja
 		ninja = levr.Customer.get(cor.key().parent())
 		#get payment email
@@ -110,6 +117,7 @@ class post(webapp2.RequestHandler):
 			cor.status = "paid"
 			cor.date_paid = datetime.now()
 			cor.payKey = response['payKey']
+			
 			cor.put()
 			
 			#for each deal, make paid_out == earned_total
@@ -117,6 +125,11 @@ class post(webapp2.RequestHandler):
 			for deal in q:
 				deal.paid_out = deal.earned_total
 				deal.put()
+			
+			#are number consistent?
+			if cor.amount != cor.money_available_paytime:
+				logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
+				#send email here later
 			
 			#set ninja money_available back to 0
 			ninja.money_available = 0.0
@@ -129,11 +142,18 @@ class post(webapp2.RequestHandler):
 			logging.info('Payment completed!')
 
 		self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
-		
-		#attempt payment
-		
-		#on success, decrement customer.money_available
-		
-		
 
-app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post)],debug=True)
+class reject(webapp2.RequestHandler):
+	def post(self):
+		#get corID
+		corID = self.request.get('corID')
+		#grab cor
+		cor = levr.CashOutRequest.get(corID)
+		#add note
+		cor.note = self.request.get('note')
+		#change status to rejected
+		cor.status = 'rejected'
+		#update cor
+		cor.put()
+
+app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post), ('/payments/reject',reject)],debug=True)

@@ -56,7 +56,8 @@ class PaypalAdaptivePayment:
 			response = urllib2.urlopen(req)
 			return json.loads(response.read())
 		except:
-			log.exception("Unable to initialize the payment flow...")
+			levr.log_error("Unable to initialize the payment flow")
+#			log.exception("Unable to initialize the payment flow...")
 	
 	
 class view(webapp2.RequestHandler):
@@ -89,59 +90,62 @@ class view(webapp2.RequestHandler):
 
 class post(webapp2.RequestHandler):
 	def post(self):
-		#to deploy: change paypaladaptivepayment argument to False (takes out of sandbox)
-		#remove email override
+		try:
+			#to deploy: change paypaladaptivepayment argument to False (takes out of sandbox)
+			#remove email override
 	
-		#get corID
-		corID = self.request.get('corID')
-		#get cor
-		cor = levr.CashOutRequest.get(corID)
-		#get the larger amount if money available at paytime is different
-		if cor.amount != cor.money_available_paytime:
-			amount = cor.money_available_paytime
-			cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
-		else:
-			amount = cor.amount
-		#get ninja
-		ninja = levr.Customer.get(cor.key().parent())
-		#get payment email
-		receiver_email = ninja.payment_email
-		receiver_email = "alonso_1342706914_per@getlevr.com"
-		#Change to false and enter information in above class to deploy
-		paypal_init = PaypalAdaptivePayment(True)
-		response = paypal_init.initialize_payment(amount,receiver_email,"http://cancel_url.com","http://return_url.com")
-		logging.info(response)
-		
-		if response['paymentExecStatus'] == 'COMPLETED':
-			#set cor to "paid"
-			cor.status = "paid"
-			cor.date_paid = datetime.now()
-			cor.payKey = response['payKey']
-			
-			cor.put()
-			
-			#for each deal, make paid_out == earned_total
-			q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
-			for deal in q:
-				deal.paid_out = deal.earned_total
-				deal.put()
-			
-			#are number consistent?
+			#get corID
+			corID = self.request.get('corID')
+			#get cor
+			cor = levr.CashOutRequest.get(corID)
+			#get the larger amount if money available at paytime is different
 			if cor.amount != cor.money_available_paytime:
-				logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
-				#send email here later
+				amount = cor.money_available_paytime
+				cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
+			else:
+				amount = cor.amount
+			#get ninja
+			ninja = levr.Customer.get(cor.key().parent())
+			#get payment email
+			receiver_email = ninja.payment_email
+			receiver_email = "alonso_1342706914_per@getlevr.com"
+			#Change to false and enter information in above class to deploy
+			paypal_init = PaypalAdaptivePayment(True)
+			response = paypal_init.initialize_payment(amount,receiver_email,"http://cancel_url.com","http://return_url.com")
+			logging.info(response)
+		
+			if response['paymentExecStatus'] == 'COMPLETED':
+				#set cor to "paid"
+				cor.status = "paid"
+				cor.date_paid = datetime.now()
+				cor.payKey = response['payKey']
 			
-			#set ninja money_available back to 0
-			ninja.money_available = 0.0
+				cor.put()
 			
-			#increment money_paid for the customer
-			ninja.money_paid += amount
+				#for each deal, make paid_out == earned_total
+				q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
+				for deal in q:
+					deal.paid_out = deal.earned_total
+					deal.put()
 			
-			#update ninja
-			ninja.put()
-			logging.info('Payment completed!')
+				#are number consistent?
+				if cor.amount != cor.money_available_paytime:
+					logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
+					#send email here later
+			
+				#set ninja money_available back to 0
+				ninja.money_available = 0.0
+			
+				#increment money_paid for the customer
+				ninja.money_paid += amount
+			
+				#update ninja
+				ninja.put()
+				logging.info('Payment completed!')
 
-		self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
+			self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
+		except:
+			levr.log_error()
 
 class reject(webapp2.RequestHandler):
 	def post(self):
@@ -156,4 +160,7 @@ class reject(webapp2.RequestHandler):
 		#update cor
 		cor.put()
 
-app = webapp2.WSGIApplication([('/payments/view', view), ('/payments/post', post), ('/payments/reject',reject)],debug=True)
+app = webapp2.WSGIApplication([('/payments/view', view),
+								('/payments/post', post),
+								('/payments/reject',reject)],
+								debug=True)

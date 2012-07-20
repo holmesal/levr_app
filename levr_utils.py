@@ -73,14 +73,16 @@ def loginCustomer(email_or_owner,pw):
 	if r_email != None:
 		#found user on the basis of email
 		return {
-			'success'	: True,
-			'uid'		: r_email.key().__str__()
+			'success'		: True,
+			'uid'			: r_email.key().__str__(),
+			'notifications'	: r_email.get_notifications()
 		}
 	elif r_owner != None:
 		#found user on the basis of username
 		return {
-			'success'	: True,
-			'uid'		: r_owner.key().__str__()
+			'success'		: True,
+			'uid'			: r_owner.key().__str__(),
+			'notifications'	: r_owner.get_notifications()
 		}
 	else:
 		return {

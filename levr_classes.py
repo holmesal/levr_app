@@ -27,7 +27,12 @@ class Customer(db.Model):
 	def flush_new_redeem_count(self):
 		self.new_redeem_count = 0
 		return
-
+		
+	def get_notifications(self):
+		return {
+			"newRedemption"	: self.new_redeem_count
+		}
+		
 	def get_stats(self):
 		data = {
 			"alias"			: self.alias,
@@ -237,7 +242,7 @@ class EmptySetResponse(db.Model):
 class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
-	date_created	= db.DateTimeProperty()
+	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_paid		= db.DateTimeProperty()
 	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
 	payKey			= db.StringProperty()

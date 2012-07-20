@@ -143,8 +143,8 @@ class phone(webapp2.RequestHandler):
 				fav.primary_cat = primary_cat
 				#place in database
 				fav.put()
-	
-				toEcho = {"success":True}
+				
+				toEcho = {"success":True,}
 			#DELETE FAVORITE********************************************************
 			elif action == "delFav":
 				'''
@@ -190,7 +190,14 @@ class phone(webapp2.RequestHandler):
 				#format CUSTOMER deals
 				data = [levr.phoneFormat(x,'myDeals') for x in deals]
 				#I believe this will just return data:None if deals is empty
-				toEcho = {"success":True,"data":data}
+				
+				#flush their notifications
+				ninja = levr.Customer.get(uid)
+				ninja.flush_new_redeem_count()
+				ninja.put()
+				#get new notifications
+				notifications = ninja.get_notifications
+				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "getMyStats":
 				'''
@@ -203,8 +210,10 @@ class phone(webapp2.RequestHandler):
 				user = db.get(uid)
 				#format user information
 				data = user.get_stats()
-		
-				toEcho = {"success":True,"data":data}
+				
+				#get new notifications
+				notifications = user.get_notifications
+				toEcho = {"success":True,"data":data,"notifications":notifications}
 			elif action == "redeem":
 				#grab corresponding deal
 				uid = decoded['in']['uid']
@@ -222,6 +231,8 @@ class phone(webapp2.RequestHandler):
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
 				customer.redemptions.append(dealID)
+				###get customer new_redemptions if they are a ninja
+				notifications = customer.get_notifications()
 				#update customer
 				customer.put()
 				
@@ -261,7 +272,7 @@ class phone(webapp2.RequestHandler):
 					pass	
 				
 			
-				toEcho = {"success":True}
+				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
 				uid = decoded['in']['uid']
 			

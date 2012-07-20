@@ -284,7 +284,8 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealStatus"		: deal.deal_status,
 				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
-				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement
+				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
+				"shareURL"			: 'http://getlevr.com/share/deal?id='+deal.key()
 			})
 	elif use == 'deal':
 	

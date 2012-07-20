@@ -9,7 +9,7 @@ import levr_classes as levr
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-from google.appengine.api import mail
+#from google.appengine.api import mail
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -367,14 +367,14 @@ class uploadDeal(webapp2.RequestHandler):
 		
 		
 			#send mail to the admins to notify of new pending deal
-			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
-							to="Patrick Walsh <patrick@getlevr.com>",
-							subject="New pending deal",
-							body="""
-							Another dealdebeast has been caught by one of your
-							faithful ninjas! Heed your call to arms and approve the 
-							dealdebeast before it gets away!
-							""").send()
+#			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
+#							to="Patrick Walsh <patrick@getlevr.com>",
+#							subject="New pending deal",
+#							body="""
+#							Another dealdebeast has been caught by one of your
+#							faithful ninjas! Heed your call to arms and approve the 
+#							dealdebeast before it gets away!
+#							""").send()
 		except:
 			levr.log_error(self.request.body)
 		finally:

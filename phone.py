@@ -418,9 +418,12 @@ class img(webapp2.RequestHandler):
 				aspect_ratio	= float(img_width)/float(img_height)
 				output_width	= float(img_width)
 	#			self.response.out.write(deal.img)
-			elif size == 'shareScreen':
+			elif size == 'webShare':
 				aspect_ratio	= 4.
 				output_width	= 600.
+			elif size == 'facebook':
+				aspect_ratio 	= 1.
+				output_width	= 250.
 			else:
 				raise Exception('invalid size parameter')
 				##set this to some default for production

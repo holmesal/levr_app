@@ -8,17 +8,22 @@ from google.appengine.ext.webapp import blobstore_handlers
 class MainPage(webapp2.RequestHandler):
 	def get(self):
 		logging.info('!!!')
-		upload_url = blobstore.create_upload_url('/new')
+		upload_url = blobstore.create_upload_url('/new/upload')
 		logging.info(upload_url)
 		# The method must be "POST" and enctype must be set to "multipart/form-data".
 		self.response.out.write('<html><body>')
 		self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % upload_url)
 		self.response.out.write('''Upload File: <input type="file" name="file"><br> <input type="submit"
-		name="submit" value="Submit"> </form></body></html>''')
+		name="submit" value="Create!"> </form></body></html>''')
 
+class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
+		self.response.out.write('upload...')
+		#get uploaded image
+		upload = self.get_uploads()[0]
+		
 		# new customer
-		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM')
+		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEgw')
 		c.email	= 'ethan@getlevr.com'
 		c.payment_email = c.email
 		c.pw 	= 'ethan'
@@ -26,7 +31,7 @@ class MainPage(webapp2.RequestHandler):
 		c.put()
 
 		#new ninja
-		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYAQw')
+		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYCww')
 		ninja.email	= 'santa@getlevr.com'
 		ninja.payment_email = c.email
 		ninja.pw 	= 'ethan'
@@ -36,23 +41,28 @@ class MainPage(webapp2.RequestHandler):
 		ninja.put()
 
 		#new business
-		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYNQw')
+		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYBAw')
+		b.email 		= 'alonso@getlevr.com'
+		b.pw 			= 'alonso'
 		b.business_name = 'Shaws'
 		b.address_line1 = '1 white house road'
 		b.address_line2 = 'box 10'
 		b.city 			= 'washington'
 		b.state 		= 'DC'
 		b.zip_code 		= '10000'
-		b.alias = 'Joe'
-		b.email 		= 'alonso@getlevr.com'
+		b.alias 		= 'Joe'
 		b.contact_phone = '603-603-6003'
-		b.pw 			= 'alonso'
+		b.geo_point		= levr_classes.geo_converter("15.23213,60.2342")
 		b.put()
 
 		#new deal
 		d = levr_classes.Deal(parent=b)
+		d.img				= upload.key()
+		d.businessID		= str(b.key())
 		d.business_name 	= 'Shaws'
-		d.name_type			= 'specific'
+		d.secondary_name	= 'second name'
+		d.deal_type			= 'single'
+		d.deal_item			= 'Coat'
 		d.description 		= 'describe me, hun.'
 		d.discount_type 	= 'monetary'
 		d.discount_value 	= 50.2
@@ -62,13 +72,13 @@ class MainPage(webapp2.RequestHandler):
 		d.count_seen 		= 43
 		d.img_path 			= './img/bobs-discount-furniture.png'
 		d.city 				= 'Qatar'
-		d.deal_item			= 'Coat'
 		d.deal_status		= 'active'
 		d.address_string	= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
 		d.put()
 
 		#new customer deal
 		cd = levr_classes.CustomerDeal(parent=ninja)
+		cd.img				= upload.key()
 		cd.business_name 	= 'Shaws'
 		cd.deal_item 		= 'socks'
 		cd.name_type		= 'specific'
@@ -100,11 +110,11 @@ class MainPage(webapp2.RequestHandler):
 		f.primary_cat	 	= 'Shoes'
 		f.put()
 
-
-
 		self.response.headers['Content-Type'] = 'text/plain'
+		self.response.out.write('/phone/img?dealID='+str(cd.key())+"&size=dealDetail")
 		self.response.out.write('I think this means it was a success')
 
-app = webapp2.WSGIApplication([('/new', MainPage)],
-                              debug=True)
+app = webapp2.WSGIApplication([('/new', MainPage),
+								('/new/upload', DatabaseUploadHandler)
+								],debug=True)
 

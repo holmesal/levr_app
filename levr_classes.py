@@ -2,6 +2,7 @@
 #import datetime
 from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
+from google.appengine.ext import blobstore
 import logging
 import sys, traceback
 
@@ -109,7 +110,7 @@ class Deal(polymodel.PolyModel):
 #Child of business OR customer ninja
 	#key name is deal id
 	#deal information
-	img				= db.BlobReferenceProperty()
+	img				= blobstore.BlobReferenceProperty()
 	businessID 		= db.StringProperty(default = '') #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty(default = '') #name of business
 	secondary_name 	= db.StringProperty(default = '') #secondary category

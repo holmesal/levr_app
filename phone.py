@@ -11,7 +11,7 @@ from google.appengine.ext import db
 from google.appengine.api import images
 from google.appengine.api import mail
 from google.appengine.ext import blobstore
-from google.appengine.ext.webapp import blobstore_handlers
+#from google.appengine.ext.webapp import blobstore_handlers
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -394,21 +394,21 @@ class UserPhoto(db.Model):
 class img(webapp2.RequestHandler):
 	def get(self):
 		try:
-			dealID 	= 'agtkZXZ-Z2V0bGV2cnIQCxIJVXNlclBob3RvGLgCDA' 
-#			dealID	= self.request.get('dealID')
-			size 	= 'dealDetail'
-#			size	= self.request.get('size')
+#			dealID 	= 'agtkZXZ-Z2V0bGV2cnIQCxIJVXNlclBob3RvGLgCDA' 
+			dealID	= self.request.get('dealID')
+#			size 	= 'dealDetail'
+			size	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
 #			logging.info(blob_key)
 			
 			#get deal object
-			deal = db.get(dealID)
-#			deal = levr.Deal.get(dealID)
+#			deal = db.get(dealID)
+			deal = levr.Deal.get(dealID)
 
 			#get the blob
-			blob_key = deal.blob_key
-#			blob_key = deal.img
+#			blob_key = deal.blob_key
+			blob_key = deal.img
 			
 			logging.info(dir(blob_key.properties))
 			#read the blob data into a string !!!! important !!!!

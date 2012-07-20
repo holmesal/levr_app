@@ -11,7 +11,7 @@ handlers:
   script: phone.app
 - url: /merchants.*
   script: merchants.app
-- url: /new
+- url: /new.*
   script: test_class.app
   login: admin
 - url: /login

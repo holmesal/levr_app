@@ -6,6 +6,7 @@ from datetime import timedelta
 #from dateutil.relativedelta import relativedelta
 import logging
 import levr_classes as levr
+import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
@@ -96,7 +97,7 @@ class phone(webapp2.RequestHandler):
 				input : uid
 				output: name, description, dealValue, dealType, imgPath, businessName, primaryCat
 				'''
-				uid = decoded["in"]["uid"]
+				uid = enc.decrypt_key(decoded["in"]["uid"])
 			
 				#grabs the deal key name and primary category from table
 				q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
@@ -131,9 +132,9 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
-				uid = decoded["in"]["uid"]
-				dealID = decoded["in"]["dealID"]
-				primary_cat = decoded["in"]["primaryCat"]
+				uid 		= enc.decrypt_key(decoded["in"]["uid"])
+				dealID 		= enc.decrypt(decoded["in"]["dealID"])
+				primary_cat	= decoded["in"]["primaryCat"]
 
 				#create new Favorite instance
 				fav = levr.Favorite(parent=db.Key(uid))
@@ -152,8 +153,8 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
-				uid = decoded["in"]["uid"]
-				dealID = decoded["in"]["dealID"]
+				uid 	= enc.decrypt_key(decoded["in"]["uid"])
+				dealID 	= enc.decrypt_key(decoded["in"]["dealID"])
 				q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
 				for fav in q:
 					fav.delete()
@@ -167,8 +168,8 @@ class phone(webapp2.RequestHandler):
 				output	: json object of all information necessary to describe deal
 				'''
 				#grab input dealID
-				dealID 		= decoded["in"]["dealID"]
-				primary_cat = decoded["in"]["primaryCat"]
+				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
+				primary_cat = enc.decrypt_key(decoded["in"]["primaryCat"])
 				#fetch deal
 				result = levr.Deal.get(dealID)
 				#convert fetched deal into dictionary
@@ -184,7 +185,7 @@ class phone(webapp2.RequestHandler):
 				input	: uid
 				output	: list of deal objects
 				'''
-				uid	= decoded["in"]["uid"]
+				uid	= enc.decrypt_key(decoded["in"]["uid"])
 				#grab all deal children of the user
 				deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
 				#format CUSTOMER deals
@@ -205,7 +206,7 @@ class phone(webapp2.RequestHandler):
 				input	: uid
 				output	: 
 				'''
-				uid = decoded['in']['uid']
+				uid = enc.decrypt_key(decoded['in']['uid'])
 				#get user information
 				user = db.get(uid)
 				#format user information
@@ -216,8 +217,8 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 			elif action == "redeem":
 				#grab corresponding deal
-				uid = decoded['in']['uid']
-				dealID = decoded['in']['dealID']
+				uid 	= enc.decrypt_key(decoded['in']['uid'])
+				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
 				
 				#grab the deal
 				deal = levr.Deal.get(dealID)
@@ -274,7 +275,7 @@ class phone(webapp2.RequestHandler):
 			
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
-				uid = decoded['in']['uid']
+				uid = enc.decrypt_key(decoded['in']['uid'])
 			
 				#grab the ninja
 				ninja = levr.Customer.get(uid)
@@ -342,7 +343,7 @@ class uploadDeal(webapp2.RequestHandler):
 			logging.info(business)
 		
 		
-			uid = inputs('uid')
+			uid = enc.decrypt_key(inputs('uid'))
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
 			deal 				= levr.CustomerDeal(parent=db.Key(uid))
@@ -363,7 +364,7 @@ class uploadDeal(webapp2.RequestHandler):
 			deal.put()
 		
 			#return deal id and shareURL
-			dealID = deal.key().__str__()
+			dealID = enc.decrypt_key(deal.key().__str__())
 			toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
 		
 		
@@ -390,8 +391,8 @@ class img(webapp2.RequestHandler):
 		#get inputs
 		
 		try:
-			dealID = self.request.get('dealID')
-			size = self.request.get('size')
+			dealID 	= enc.decrypt_key(self.request.get('dealID'))
+			size 	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
 			self.response.headers['Content-Type'] = 'image/jpeg'

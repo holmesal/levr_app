@@ -349,7 +349,7 @@ class uploadDeal(webapp2.RequestHandler):
 			deal.img			= inputs('img')			#D
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
-			deal.secondary_name	= inputs('dealText') #### check name!!!
+			deal.deal_text		= inputs('dealText') #### check name!!!
 			deal.deal_status	= 'pending'
 			deal.geo_point		= geo_point
 #			deal.deal_text		= inputs('dealText')

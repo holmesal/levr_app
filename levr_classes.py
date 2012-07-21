@@ -112,7 +112,7 @@ class Deal(polymodel.PolyModel):
 	img				= db.BlobProperty()
 	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty() #name of business
-	secondary_name 	= db.StringProperty() #secondary category
+	secondary_name 	= db.StringProperty(default='') #secondary category
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_item		= db.StringProperty() #the item the deal is on - could be primary, secondary, ternery, whattt?
 	description 	= db.StringProperty(multiline=True,default='') #description of deal

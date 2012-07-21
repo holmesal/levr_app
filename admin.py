@@ -1,6 +1,7 @@
 import os
 import webapp2
 import levr_classes as levr
+import levr_encrypt	as enc
 from google.appengine.ext import db
 #from google.appengine.api import images
 import logging
@@ -41,11 +42,11 @@ class Approve(webapp2.RequestHandler):
 		#create alias for self.request.get
 		inputs = self.request.get
 		#dealID is pulled from admin/approve?dealID=dealID
-		dealID = inputs('dealID')
+		dealID = enc.decrypt_key(inputs('dealID'))
 		#grabs deal object from database and updates information
 		deal 					= db.get(dealID)
-		deal.businessID			= inputs('businessID')
-		deal.business_name		= inputs('businessName')
+		deal.businessID			= enc.decrypt_key(inputs('businessID'))
+		deal.business_name		= enc.decrypt_key(inputs('businessName'))
 		deal.deal_status		= 'active'
 		deal.gate_requirement	= int(inputs('gateRequirement'))
 		deal.gate_payment_per	= int(inputs('gatePaymentPer'))

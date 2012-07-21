@@ -3,6 +3,7 @@
 import logging
 #import jinja2
 import levr_classes as levr
+import levr_encrypt as enc
 
 from gaesessions import get_current_session
 
@@ -33,8 +34,8 @@ def loginCheck(self,strict):
 		
 		headerData = {
 			'loggedIn'		: session['loggedIn'],
-			'alias' : session['alias'],
-			'businessID'	: uid 
+			'alias' 		: session['alias'],
+			'businessID'	: enc.encrypt_key(uid)
 			}
 		#return user metadata.
 		return headerData
@@ -56,7 +57,7 @@ def signupCustomer(email,alias,pw):
 		c.alias = alias
 		#put
 		c.put()
-		return {'success':True,'uid':c.key().__str__()}
+		return {'success':True,'uid':enc.encrypt_key(c.key().__str__())}
 	elif r_email != None:
 		return {
 			'success': False,
@@ -80,14 +81,14 @@ def loginCustomer(email_or_owner,pw):
 		#found user on the basis of email
 		return {
 			'success'		: True,
-			'uid'			: r_email.key().__str__(),
+			'uid'			: enc.encrypt_key(r_email.key().__str__()),
 			'notifications'	: r_email.get_notifications()
 		}
 	elif r_owner != None:
 		#found user on the basis of username
 		return {
 			'success'		: True,
-			'uid'			: r_owner.key().__str__(),
+			'uid'			: enc.encrypt_key(r_owner.key().__str__()),
 			'notifications'	: r_owner.get_notifications()
 		}
 	else:

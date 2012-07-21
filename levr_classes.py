@@ -4,6 +4,7 @@ from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
 import logging
 import sys, traceback
+import levr_encrypt as enc
 
 class Customer(db.Model):
 #root class

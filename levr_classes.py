@@ -259,6 +259,9 @@ def phoneFormat(deal,use,primary_cat=None):
 		dealText = '%(discount_value)d%% Off %(deal_item)s' % {"discount_value":deal.discount_value,"deal_item":deal.deal_item}
 	elif deal.discount_type == 'monetary':
 		dealText = '$%(discount_value)d Off %(deal_item)s' % {"discount_value":deal.discount_value,"deal_item":deal.deal_item}
+	else:
+		#can assume that deal is still pending because discount_type is undefined
+		dealText = deal.deal_text
 		
 	#dealTextExtra
 	if deal.deal_type == 'bundle':

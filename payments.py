@@ -76,7 +76,7 @@ class view(webapp2.RequestHandler):
 			cor.put()
 			
 			template_values = {
-				"corID"						: enc.decrypt_key(cor.key().__str__()),
+				"corID"						: enc.encrypt_key(cor.key().__str__()),
 				"amount"					: cor.amount,
 				"money_available_paytime"	: cor.money_available_paytime,
 				"life_paid"					: ninja.money_paid,
@@ -144,7 +144,7 @@ class post(webapp2.RequestHandler):
 				ninja.put()
 				logging.info('Payment completed!')
 
-			self.response.out.write(enc.decrypt_key(self.request.get(corID)) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
+			self.response.out.write(self.request.get(corID) + '<p>Payment status: <strong>' + response['paymentExecStatus'] + '</strong></p><p><a href="/payments/view">Next Request</a></p>')
 		except:
 			levr.log_error()
 

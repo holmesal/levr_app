@@ -96,7 +96,7 @@ class Business(db.Model):
     def dictify(self):
 		'''Formats the object into dictionary for review before release'''
 		data = {
-			"businessID"	: self.key().__str__(),
+			"businessID"	: enc.encrypt_key(self.key().__str__()),
 			"addressLine1"	: self.address_line1,
 			"addressLine2"	: self.address_line2,
 			"city"			: self.city,
@@ -134,9 +134,9 @@ class Deal(polymodel.PolyModel):
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"dealID"		: self.key().__str__(),
+			"dealID"		: enc.encrypt_key(self.key().__str__()),
 			"img"			: self.img,
-			"businessID"	: self.businessID.__str__(),
+			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
 			"businessName"	: self.business_name,
 			"secondaryName"	: self.secondary_name,
 			"deal_type"  	: self.deal_type,
@@ -194,9 +194,9 @@ class CustomerDeal(Deal):
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"dealID"		: self.key().__str__(),
+			"dealID"		: enc.encrypt_key(self.key().__str__()),
 			"img"			: self.img,
-			"businessID"	: self.businessID.__str__(),
+			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
 			"businessName"	: self.business_name,
 			"secondaryName"	: self.secondary_name,
 			"deal_type"  	: self.deal_type,
@@ -252,7 +252,10 @@ class CashOutRequest(db.Model):
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):
+	#dealID is used in a number of places
+	dealID = enc.encrypt_key(str(deal.key()))
 	logging.info(deal.key())
+	logging.info(dealID)
 	#dealText
 	if deal.discount_type == 'free':
 		dealText = 'Free ' + deal.deal_item
@@ -268,8 +271,9 @@ def phoneFormat(deal,use,primary_cat=None):
 		dealTextExtra = ''
 		
 	if use == 'list' or use == 'myDeals':
-		data = {"dealID"		: str(deal.key()),
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'&size=list',
+		
+		data = {"dealID"		: dealID,
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
@@ -286,7 +290,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
-				"shareURL"			: 'http://getlevr.com/share/deal?id='+deal.key()
+				"shareURL"			: 'http://getlevr.com/share/deal?id='+dealID
 			})
 	elif use == 'deal':
 	
@@ -301,8 +305,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		#b = Business.get(businessID)
 		#displayAddress = b.address_line1 + ', ' + b.address_line2
 		#businessAddress = '%(:1)s %(:2)s %(:3)s %(:4)s, %(:5)s %(:6)s' % {deal.business_name, b.address_line1, b.address_line2, b.city, b.state, b.zip_code}
-		data = {"dealID"		: str(deal.key()),
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'&size=dealDetail',
+		data = {"dealID"		: dealID,
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,

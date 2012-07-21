@@ -59,7 +59,7 @@ class Approve(webapp2.RequestHandler):
 		deal.deal_type		= inputs('deal_type')
 		deal.deal_item		= inputs('deal_item')
 		deal.city			= inputs('city')
-		deal.secondary_name	= inputs('name') #### check name!!!
+		deal.secondary_name	= inputs('secondaryName') #### check name!!!
 		deal.date_start		= datetime.now()
 		deal.date_end		= datetime.strptime(inputs('dateEnd'),'%Y-%m-%d %H:%M:%S.%f')
 		

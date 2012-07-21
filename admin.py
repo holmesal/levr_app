@@ -13,7 +13,6 @@ from datetime import datetime
 
 class Pending(webapp2.RequestHandler):
 	def get(self):
-		
 		#grab all the deals with current status == pending
 		deal = levr.CustomerDeal.gql('WHERE deal_status=:1','pending').get()
 		#dictify deal
@@ -46,7 +45,7 @@ class Approve(webapp2.RequestHandler):
 		#grabs deal object from database and updates information
 		deal 					= db.get(dealID)
 		deal.businessID			= enc.decrypt_key(inputs('businessID'))
-		deal.business_name		= enc.decrypt_key(inputs('businessName'))
+		deal.business_name		= inputs('businessName')
 		deal.deal_status		= 'active'
 		deal.gate_requirement	= int(inputs('gateRequirement'))
 		deal.gate_payment_per	= int(inputs('gatePaymentPer'))
@@ -81,7 +80,7 @@ class Approve(webapp2.RequestHandler):
 class Reject(webapp2.RequestHandler):
 	def post(self):
 		inputs = self.request.get
-		dealID = inputs('dealID')
+		dealID = enc.decrypt_key(inputs('dealID'))
 		deal = levr.CustomerDeal.get(dealID)
 		deal.deal_status = 'rejected'
 		deal.put()
@@ -89,7 +88,7 @@ class Reject(webapp2.RequestHandler):
 		
 class PendingImage(webapp2.RequestHandler):
 	def get(self):
-		dealID = self.request.get('dealID')
+		dealID = enc.decrypt_key(self.request.get('dealID'))
 		deal = db.get(dealID)
 		self.response.headers['Content-Type'] = 'image/jpeg'
 		self.response.out.write(deal.img)

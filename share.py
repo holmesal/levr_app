@@ -1,4 +1,4 @@
-import os, sys
+import os
 import webapp2
 import levr_classes as levr
 import levr_encrypt as enc
@@ -15,8 +15,9 @@ class share(webapp2.RequestHandler):
 	def get(self):
 		try:
 			#grab refKey
-			dealID = enc.decrypt_key(self.request.get('id'))
-			logging.info(dealID)
+			logging.info(self.request.get('id'))
+			dealID = enc.decrypt_key(str(self.request.get('id')))
+			logging.info(str(dealID))
 			error = self.request.get('error')
 			success = self.request.get('success')
 		
@@ -117,7 +118,7 @@ class signupFav(webapp2.RequestHandler):
 			logging.info(len(pw))
 			logging.info(type(len(pw)))
 		
-			if len(pw) < 6:
+			if len(pw) < 5:
 				dealID = enc.encrypt_key(dealID)
 				self.redirect('/share/deal?id='+dealID+'&error=password'+'&email='+email+'&username='+alias)
 			else:

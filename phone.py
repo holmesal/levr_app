@@ -130,7 +130,7 @@ class phone(webapp2.RequestHandler):
 				output: success = bool
 				'''
 				uid 		= enc.decrypt_key(decoded["in"]["uid"])
-				dealID 		= enc.decrypt(decoded["in"]["dealID"])
+				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
 				primary_cat	= decoded["in"]["primaryCat"]
 
 				#create new Favorite instance
@@ -166,7 +166,7 @@ class phone(webapp2.RequestHandler):
 				'''
 				#grab input dealID
 				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
-				primary_cat = enc.decrypt_key(decoded["in"]["primaryCat"])
+				primary_cat = decoded["in"]["primaryCat"]
 				#fetch deal
 				result = levr.Deal.get(dealID)
 				#convert fetched deal into dictionary

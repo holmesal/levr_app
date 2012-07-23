@@ -295,6 +295,7 @@ def phoneFormat(deal,use,primary_cat=None):
 	elif use == 'deal':
 	
 		#grab business
+		logging.info(deal.businessID)
 		b = db.get(deal.businessID)
 		#view deal information screen
 		#uploaded by a user

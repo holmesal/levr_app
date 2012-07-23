@@ -41,6 +41,7 @@ class MainPage(webapp2.RequestHandler):
         
     	#new deal
         d = levr_classes.Deal(parent=b)
+        d.businessID		= str(b.key())
         d.business_name 	= 'Shaws'
         d.name_type			= 'specific'
         d.description 		= 'describe me, hun.'
@@ -59,6 +60,7 @@ class MainPage(webapp2.RequestHandler):
         
         #new customer deal
         cd = levr_classes.CustomerDeal(parent=ninja)
+        cd.businessID		= str(b.key())
         cd.business_name 	= 'Shaws'
         cd.deal_item 		= 'socks'
         cd.name_type		= 'specific'

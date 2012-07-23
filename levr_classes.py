@@ -4,6 +4,7 @@ from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
 import logging
 import sys, traceback
+import levr_encrypt as enc
 
 class Customer(db.Model):
 #root class
@@ -16,7 +17,7 @@ class Customer(db.Model):
 	money_earned	= db.FloatProperty(default = 0.0) #new earning for all deals
 	money_available = db.FloatProperty(default = 0.0) #aka payment pending
 	money_paid		= db.FloatProperty(default = 0.0) #amount we have transfered
-	redemptions		= db.StringListProperty(default=[])	#id's of all of their redeemed deals
+	redemptions		= db.StringListProperty()	#id's of all of their redeemed deals
 	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
 	
 	def increment_new_redeem_count(self):
@@ -77,16 +78,16 @@ class Customer(db.Model):
 class Business(db.Model):
 #root class
     email 			= db.EmailProperty()
-    pw 				= db.StringProperty(default='')
-    signup_date 	= db.DateTimeProperty(default='')	#when signed up for our service $$$
+    pw 				= db.StringProperty()
+    signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
     creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
-    business_name 	= db.StringProperty(default='')
+    business_name 	= db.StringProperty()
     
-    address_line1 	= db.StringProperty(default='')
-    address_line2 	= db.StringProperty(default='')
-    city			= db.StringProperty(default='')
-    state 			= db.StringProperty(default='')
-    zip_code		= db.StringProperty(default='')
+    address_line1 	= db.StringProperty()
+    address_line2 	= db.StringProperty()
+    city			= db.StringProperty()
+    state 			= db.StringProperty()
+    zip_code		= db.StringProperty()
     
     alias 			= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
@@ -95,7 +96,7 @@ class Business(db.Model):
     def dictify(self):
 		'''Formats the object into dictionary for review before release'''
 		data = {
-			"businessID"	: self.key().__str__(),
+			"businessID"	: enc.encrypt_key(self.key().__str__()),
 			"addressLine1"	: self.address_line1,
 			"addressLine2"	: self.address_line2,
 			"city"			: self.city,
@@ -134,9 +135,9 @@ class Deal(polymodel.PolyModel):
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"dealID"		: self.key().__str__(),
+			"dealID"		: enc.encrypt_key(self.key().__str__()),
 			"img"			: self.img,
-			"businessID"	: self.businessID.__str__(),
+			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
 			"businessName"	: self.business_name,
 			"secondaryName"	: self.secondary_name,
 			"deal_type"  	: self.deal_type,
@@ -194,9 +195,9 @@ class CustomerDeal(Deal):
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
-			"dealID"		: self.key().__str__(),
+			"dealID"		: enc.encrypt_key(self.key().__str__()),
 			"img"			: self.img,
-			"businessID"	: self.businessID.__str__(),
+			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
 			"businessName"	: self.business_name,
 			"secondaryName"	: self.secondary_name,
 			"deal_type"  	: self.deal_type,
@@ -252,7 +253,10 @@ class CashOutRequest(db.Model):
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):
+	#dealID is used in a number of places
+	dealID = enc.encrypt_key(str(deal.key()))
 	logging.info(deal.key())
+	logging.info(dealID)
 	#dealText
 	if deal.discount_type == 'free':
 		dealText = 'Free ' + deal.deal_item
@@ -271,8 +275,9 @@ def phoneFormat(deal,use,primary_cat=None):
 		dealTextExtra = ''
 		
 	if use == 'list' or use == 'myDeals':
-		data = {"dealID"		: str(deal.key()),
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'&size=list',
+		
+		data = {"dealID"		: dealID,
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
@@ -289,11 +294,12 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
-				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+deal.key().__str__()
+				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+dealID
 			})
 	elif use == 'deal':
 	
 		#grab business
+		logging.info(deal.businessID)
 		b = db.get(deal.businessID)
 		#view deal information screen
 		#uploaded by a user
@@ -304,8 +310,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		#b = Business.get(businessID)
 		#displayAddress = b.address_line1 + ', ' + b.address_line2
 		#businessAddress = '%(:1)s %(:2)s %(:3)s %(:4)s, %(:5)s %(:6)s' % {deal.business_name, b.address_line1, b.address_line2, b.city, b.state, b.zip_code}
-		data = {"dealID"		: str(deal.key()),
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+str(deal.key())+'&size=dealDetail',
+		data = {"dealID"		: dealID,
+				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,

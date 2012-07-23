@@ -10,3 +10,10 @@ url, query parameter gives back small or large image
 (cron job)
 
 payment queue checking and smart stuff
+
+ISSUES
+========
+merchants.py does not have encryption handling
+
+As is, sharing will not work if the deal is not uploaded by a customer.
+	- It only pulls CustomerDeals

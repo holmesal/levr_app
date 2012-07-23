@@ -6,6 +6,7 @@ from datetime import timedelta
 #from dateutil.relativedelta import relativedelta
 import logging
 import levr_classes as levr
+import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
@@ -84,7 +85,7 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key='+result.key().__str__()}
+									"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key=' + enc.encrypt_key(result.key().__str__())}
 					#push to stack
 					dealResults.append(searchObj)
 				#echo back success!
@@ -96,11 +97,10 @@ class phone(webapp2.RequestHandler):
 				input : uid
 				output: name, description, dealValue, dealType, imgPath, businessName, primaryCat
 				'''
-				uid = decoded["in"]["uid"]
+				uid = enc.decrypt_key(decoded["in"]["uid"])
 			
 				#grabs the deal key name and primary category from table
 				q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
-	#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
 				#init key,cats list
 				logging.info(q1)
 				deal_keys,cats = [],[]
@@ -119,10 +119,8 @@ class phone(webapp2.RequestHandler):
 				for idx,deal in enumerate(deals):
 					#send to format function - package for phone
 					deal_stack = levr.phoneFormat(deal,'list',cats[idx])
-					deal_stack.update({"primaryCat":cats[idx]})
+#					deal_stack.update({"primaryCat":cats[idx]})
 					data.append(deal_stack)
-	#				data[idx]['primaryCat'] = cats[idx]
-	#			self.response.out.write(data)
 				toEcho = {"success":True,"data":data}
 			#ADD FAVORITE***********************************************************
 			elif action == "addFav":
@@ -131,9 +129,9 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
-				uid = decoded["in"]["uid"]
-				dealID = decoded["in"]["dealID"]
-				primary_cat = decoded["in"]["primaryCat"]
+				uid 		= enc.decrypt_key(decoded["in"]["uid"])
+				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
+				primary_cat	= decoded["in"]["primaryCat"]
 
 				#create new Favorite instance
 				fav = levr.Favorite(parent=db.Key(uid))
@@ -152,8 +150,8 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
-				uid = decoded["in"]["uid"]
-				dealID = decoded["in"]["dealID"]
+				uid 	= enc.decrypt_key(decoded["in"]["uid"])
+				dealID 	= enc.decrypt_key(decoded["in"]["dealID"])
 				q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
 				for fav in q:
 					fav.delete()
@@ -167,7 +165,7 @@ class phone(webapp2.RequestHandler):
 				output	: json object of all information necessary to describe deal
 				'''
 				#grab input dealID
-				dealID 		= decoded["in"]["dealID"]
+				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
 				primary_cat = decoded["in"]["primaryCat"]
 				#fetch deal
 				result = levr.Deal.get(dealID)
@@ -184,7 +182,8 @@ class phone(webapp2.RequestHandler):
 				input	: uid
 				output	: list of deal objects
 				'''
-				uid	= decoded["in"]["uid"]
+				uid	= enc.decrypt_key(decoded["in"]["uid"])
+				logging.info(uid)
 				#grab all deal children of the user
 				deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
 				#format CUSTOMER deals
@@ -205,7 +204,7 @@ class phone(webapp2.RequestHandler):
 				input	: uid
 				output	: 
 				'''
-				uid = decoded['in']['uid']
+				uid = enc.decrypt_key(decoded['in']['uid'])
 				#get user information
 				user = db.get(uid)
 				#format user information
@@ -216,8 +215,8 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 			elif action == "redeem":
 				#grab corresponding deal
-				uid = decoded['in']['uid']
-				dealID = decoded['in']['dealID']
+				uid 	= enc.decrypt_key(decoded['in']['uid'])
+				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
 				
 				#grab the deal
 				deal = levr.Deal.get(dealID)
@@ -274,7 +273,7 @@ class phone(webapp2.RequestHandler):
 			
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
-				uid = decoded['in']['uid']
+				uid = enc.decrypt_key(decoded['in']['uid'])
 			
 				#grab the ninja
 				ninja = levr.Customer.get(uid)
@@ -301,8 +300,8 @@ class phone(webapp2.RequestHandler):
 			levr.log_error(self.request.body)
 			toEcho = {"success":False}
 		finally:
-			logging.info(json.dumps(toEcho))
 			try:
+				logging.info(json.dumps(toEcho))
 				self.response.out.write(json.dumps(toEcho))
 			except:
 				#catches the case where toEcho cannot be parsed as json
@@ -342,7 +341,7 @@ class uploadDeal(webapp2.RequestHandler):
 			logging.info(business)
 		
 		
-			uid = inputs('uid')
+			uid = enc.decrypt_key(inputs('uid'))
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
 			deal 				= levr.CustomerDeal(parent=db.Key(uid))
@@ -363,7 +362,7 @@ class uploadDeal(webapp2.RequestHandler):
 			deal.put()
 		
 			#return deal id and shareURL
-			dealID = deal.key().__str__()
+			dealID = enc.decrypt_key(deal.key().__str__())
 			toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
 		
 		
@@ -390,8 +389,8 @@ class img(webapp2.RequestHandler):
 		#get inputs
 		
 		try:
-			dealID = self.request.get('dealID')
-			size = self.request.get('size')
+			dealID 	= enc.decrypt_key(self.request.get('dealID'))
+			size 	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
 			self.response.headers['Content-Type'] = 'image/jpeg'
@@ -427,6 +426,7 @@ class img(webapp2.RequestHandler):
 				output_width	= 250.
 			else:
 				raise Exception('invalid size parameter')
+				
 				##set this to some default for production
 			#calculate output_height from output_width
 			output_height	= output_width/aspect_ratio

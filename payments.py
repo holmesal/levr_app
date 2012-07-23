@@ -1,13 +1,14 @@
-import os, sys
+import os
 import webapp2
 import json
 import levr_classes as levr
+import levr_encrypt as enc
 from datetime import datetime
-import levr_utils
-from google.appengine.ext import db
+#import levr_utils
+#from google.appengine.ext import db
 import logging
 import jinja2
-import urllib,urllib2
+import urllib2
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -75,7 +76,7 @@ class view(webapp2.RequestHandler):
 			cor.put()
 			
 			template_values = {
-				"corID"						: cor.key().__str__(),
+				"corID"						: enc.encrypt_key(cor.key().__str__()),
 				"amount"					: cor.amount,
 				"money_available_paytime"	: cor.money_available_paytime,
 				"life_paid"					: ninja.money_paid,
@@ -95,7 +96,7 @@ class post(webapp2.RequestHandler):
 			#remove email override
 	
 			#get corID
-			corID = self.request.get('corID')
+			corID = enc.decrypt_key(self.request.get('corID'))
 			#get cor
 			cor = levr.CashOutRequest.get(corID)
 			#get the larger amount if money available at paytime is different
@@ -130,6 +131,8 @@ class post(webapp2.RequestHandler):
 			
 				#are number consistent?
 				if cor.amount != cor.money_available_paytime:
+					#remember to encrypt the key if this is being used for anything
+					#other than just error logging
 					logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
 					#send email here later
 			
@@ -150,7 +153,7 @@ class post(webapp2.RequestHandler):
 class reject(webapp2.RequestHandler):
 	def post(self):
 		#get corID
-		corID = self.request.get('corID')
+		corID = enc.decrypt_key(self.request.get('corID'))
 		#grab cor
 		cor = levr.CashOutRequest.get(corID)
 		#add note

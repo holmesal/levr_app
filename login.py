@@ -3,6 +3,7 @@ import webapp2
 import jinja2
 import logging
 import levr_classes as levr
+import levr_encrypt as enc
 
 from gaesessions import get_current_session
 
@@ -16,7 +17,7 @@ class login(webapp2.RequestHandler):
 		
 	def post(self):
 		email = self.request.get('email')
-		pw = self.request.get('password')
+		pw = enc.encrypt_password(self.request.get('password'))
 		
 		session = get_current_session()
 		
@@ -26,7 +27,7 @@ class login(webapp2.RequestHandler):
 		logging.info(business)
 		if business != None:
 			#if matched, pull properties and set loginstate to true
-			session['businessID'] = business.key()
+			session['businessID'] = enc.encrypt_key(business.key())
 			session['alias'] = business.alias
 			session['loggedIn'] = True
 			self.redirect('/merchants/manage')

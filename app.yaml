@@ -11,7 +11,7 @@ handlers:
   script: phone.app
 - url: /merchants.*
   script: merchants.app
-- url: /new
+- url: /new.*
   script: test_class.app
   login: admin
 - url: /login
@@ -35,14 +35,13 @@ handlers:
   login: admin
   secure: always
 - url: /test.*
-  script: load_test.py
+  script: test.py
   login: admin
 - url: /tasks/cleanDeals
   script: cleanDeals.py
   login: admin
-- url: /sandbox
-  script: test.app
-  login: admin
+- url: /sandbox/.*
+  script: sandbox.app
 
 
 

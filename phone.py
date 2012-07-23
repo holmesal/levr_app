@@ -11,6 +11,8 @@ import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
 #from google.appengine.api import mail
+#from google.appengine.ext import blobstore
+#from google.appengine.ext.webapp import blobstore_handlers
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -313,7 +315,7 @@ class uploadDeal(webapp2.RequestHandler):
 		try:
 			logging.info(self.request.headers)
 			logging.info('Body is next!')
-	#		logging.info(self.request.body)
+#			logging.info(self.request.body)
 		
 			#create alias for self.request.get
 			inputs			= self.request.get
@@ -326,7 +328,7 @@ class uploadDeal(webapp2.RequestHandler):
 			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 			#if a business doesn't exist in db, then create a new one
 			if not business:
-				business = levr.Business(email='email@getlevr.com')
+				business = levr.Business()
 		
 			#populate entity
 		
@@ -345,19 +347,27 @@ class uploadDeal(webapp2.RequestHandler):
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
 			deal 				= levr.CustomerDeal(parent=db.Key(uid))
-			deal.img			= inputs('img')			#D
+##			deal.img			= inputs('img')			#D
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.deal_text		= inputs('dealText') #### check name!!!
 			deal.deal_status	= 'pending'
 			deal.geo_point		= geo_point
-#			deal.deal_text		= inputs('dealText')
 			deal.description	= inputs('description')
 			#set expiration date to one week from now
 			#only need date, not time for this
 			deal.date_end		= datetime.now() + timedelta(days=7)
 	#		date_uploaded		= automatic
-		
+			
+			#########
+			#BLOBSTORE STUFF - look here first if upload fails
+			#########
+			deal.img			= inputs('img')
+			logging.info(deal.img)
+			#=======
+#			upload = self.get_uploads()[0]
+			
+			#########
 			#put in DB
 			deal.put()
 		
@@ -367,7 +377,7 @@ class uploadDeal(webapp2.RequestHandler):
 		
 		
 			#send mail to the admins to notify of new pending deal
-#			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
+#			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
 #							to="Patrick Walsh <patrick@getlevr.com>",
 #							subject="New pending deal",
 #							body="""
@@ -383,7 +393,8 @@ class uploadDeal(webapp2.RequestHandler):
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass
-		
+
+
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
@@ -393,18 +404,25 @@ class img(webapp2.RequestHandler):
 			size 	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
-			self.response.headers['Content-Type'] = 'image/jpeg'
-			#grab deal
-			deal = db.get(dealID)
-			#convert deal img to PIL object
-			img = images.Image(deal.img)
-			logging.info(img)
-		
-			#calculate height of output
+			
+			#get deal object
+			deal = levr.Deal.get(dealID)
 
-			img_width		= img.width
-			img_height		= img.height
-		
+			#get the blob
+			blob_key = deal.img
+			
+#			logging.info(dir(blob_key.properties))
+			#read the blob data into a string !!!! important !!!!
+			blob_data = blob_key.open().read()
+			
+			#pass blob data to the image handler
+			img			= images.Image(blob_data)
+			#get img dimensions
+			img_width	= img.width
+			img_height	= img.height
+			logging.info(img_width)
+			logging.info(img_height)
+			
 			#define output parameters
 			if size == 'dealDetail':
 				#view for top of deal screen
@@ -415,6 +433,7 @@ class img(webapp2.RequestHandler):
 				aspect_ratio	= 1.	#width/height
 				output_width	= 200.	#arbitrary standard
 			elif size == 'fullSize':
+				#full size image
 				aspect_ratio	= float(img_width)/float(img_height)
 				output_width	= float(img_width)
 	#			self.response.out.write(deal.img)
@@ -426,14 +445,13 @@ class img(webapp2.RequestHandler):
 				output_width	= 250.
 			else:
 				raise Exception('invalid size parameter')
-				
 				##set this to some default for production
 			#calculate output_height from output_width
 			output_height	= output_width/aspect_ratio
 			
 			##get crop dimensions
 			if img_width > img_height*aspect_ratio:
-				#width must be cropped
+				#width is proportionally larger than height
 				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
 				w_crop 	= float(w_crop_unscaled/img_width)
 				left_x 	= w_crop
@@ -441,7 +459,7 @@ class img(webapp2.RequestHandler):
 				top_y	= 0.
 				bot_y	= 1.
 			else:
-				#height must be cropped
+				#height is proportionally larger than width
 				h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
 				h_crop	= float(h_crop_unscaled/img_height)
 				left_x	= 0.
@@ -456,12 +474,14 @@ class img(webapp2.RequestHandler):
 			#resize cropped image
 			img.resize(width=int(output_width),height=int(output_height))
 			logging.info(img)
+			#effect changed on image
 			output_img = img.execute_transforms(output_encoding=images.JPEG)
-			logging.info(output_img)
+			
 		except:
 			levr.log_error(self.request.body)
 			output_img = None
 		finally:
+			self.response.headers['Content-Type'] = 'image/jpeg'
 			self.response.out.write(output_img)
 		
 app = webapp2.WSGIApplication([('/phone', phone),

@@ -74,14 +74,17 @@ class share(webapp2.RequestHandler):
 class loginFav(webapp2.RequestHandler):
 	def post(self):
 		try:
+			logging.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 			#login, then add
 			email_or_owner = self.request.get('email_or_owner')
+			logging.info(email_or_owner)
 			pw = self.request.get('pw')
-		
+			logging.info(pw)
+			logging.info(enc.encrypt_password(pw))
 			session = get_current_session()
 		
 			dealID = enc.decrypt_key(self.request.get('id'))
-		
+			logging.info(dealID)
 			#attempt login
 			response = levr_utils.loginCustomer(email_or_owner,pw)
 			logging.info(response)
@@ -97,6 +100,7 @@ class loginFav(webapp2.RequestHandler):
 				fav.dealID = dealID
 				fav.put()
 				#redirect to success page
+				dealID = enc.encrypt_key(dealID)
 				self.redirect('/share/deal?id=' + dealID + '&success=1')
 			else:
 				dealID = enc.encrypt_key(dealID)

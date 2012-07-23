@@ -11,7 +11,7 @@ class Customer(db.Model):
 	email 			= db.EmailProperty(required=True)
 	payment_email	= db.EmailProperty(required=True)
 	pw 				= db.StringProperty(required=True)
-	alias			= db.StringProperty(defualt='')
+	alias			= db.StringProperty(default='')
 	#stats
 	money_earned	= db.FloatProperty(default = 0.0) #new earning for all deals
 	money_available = db.FloatProperty(default = 0.0) #aka payment pending
@@ -35,12 +35,12 @@ class Customer(db.Model):
 		
 	def get_stats(self):
 		data = {
-			"alias"			: self.alias,
-			"numUploads"	: self.get_num_uploads(),
-			"numRedemptions": self.redemptions.__len__(),
-			"moneyAvailable": self.money_available,
-			"moneyEarned"	: self.money_earned,
-			"new_redeem_count": self.new_redeem_count
+			"alias"				: self.alias,
+			"numUploads"		: self.get_num_uploads(),
+			"numRedemptions"	: self.redemptions.__len__(),
+			"moneyAvailable"	: self.money_available,
+			"moneyEarned"		: self.money_earned,
+			"new_redeem_count"	: self.new_redeem_count
 		}
 		return data
 
@@ -60,9 +60,9 @@ class Customer(db.Model):
 
 
 	def echo_stats(self):
-		logging.info('Customer money earned: ' + str(self.money_earned))
-		logging.info('Customer money available: ' + str(self.money_available))
-		logging.info('Customer money paid: ' + str(self.money_paid))
+		logging.info('Customer money earned: ' 		+ str(self.money_earned))
+		logging.info('Customer money available: ' 	+ str(self.money_available))
+		logging.info('Customer money paid: ' 		+ str(self.money_paid))
 		
 	
 #class Redemption(db.Model):

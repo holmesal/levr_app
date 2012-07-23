@@ -196,7 +196,7 @@ class phone(webapp2.RequestHandler):
 				ninja.flush_new_redeem_count()
 				ninja.put()
 				#get new notifications
-				notifications = ninja.get_notifications
+				notifications = ninja.get_notifications()
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "getMyStats":
@@ -212,7 +212,7 @@ class phone(webapp2.RequestHandler):
 				data = user.get_stats()
 				
 				#get new notifications
-				notifications = user.get_notifications
+				notifications = user.get_notifications()
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 			elif action == "redeem":
 				#grab corresponding deal
@@ -327,7 +327,7 @@ class uploadDeal(webapp2.RequestHandler):
 			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 			#if a business doesn't exist in db, then create a new one
 			if not business:
-				business = levr.Business()
+				business = levr.Business(email='email@getlevr.com')
 		
 			#populate entity
 		

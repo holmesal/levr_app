@@ -8,9 +8,9 @@ import sys, traceback
 class Customer(db.Model):
 #root class
 	#key_name is uid
-	email 			= db.EmailProperty(required=True)
-	payment_email	= db.EmailProperty(required=True)
-	pw 				= db.StringProperty(required=True)
+	email 			= db.EmailProperty()
+	payment_email	= db.EmailProperty()
+	pw 				= db.StringProperty()
 	alias			= db.StringProperty(default='')
 	#stats
 	money_earned	= db.FloatProperty(default = 0.0) #new earning for all deals
@@ -76,7 +76,7 @@ class Customer(db.Model):
 
 class Business(db.Model):
 #root class
-    email 			= db.EmailProperty(default='')
+    email 			= db.EmailProperty()
     pw 				= db.StringProperty(default='')
     signup_date 	= db.DateTimeProperty(default='')	#when signed up for our service $$$
     creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
@@ -88,7 +88,7 @@ class Business(db.Model):
     state 			= db.StringProperty(default='')
     zip_code		= db.StringProperty(default='')
     
-    alias 	= db.StringProperty()
+    alias 			= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
     geo_point		= db.GeoPtProperty() #latitude the longitude
     
@@ -115,9 +115,9 @@ class Deal(polymodel.PolyModel):
 	secondary_name 	= db.StringProperty(default='') #secondary category
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
-	deal_text		= db.StringProperty(required=True)
+	deal_text		= db.StringProperty()
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
-	discount_value 	= db.FloatProperty(default='') #number, -1 if free
+	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
@@ -128,7 +128,7 @@ class Deal(polymodel.PolyModel):
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
-	deal_status		= db.StringProperty(required=True,choices=set(["pending","active","rejected","expired"]))
+	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 	address_string	= db.StringProperty()
 	
 	def dictify(self):
@@ -226,26 +226,26 @@ class CustomerDeal(Deal):
 class Category(db.Model):
 #Child of deal
 #Maps primary categories to deals
-	primary_cat		= db.StringProperty(required=True)
+	primary_cat		= db.StringProperty()
 
 class Favorite(db.Model):
 #child of user
-	dealID			= db.StringProperty(required=True) #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
-	primary_cat		= db.StringProperty(required=True)
+	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
+	primary_cat		= db.StringProperty()
 
 
 class EmptySetResponse(db.Model):
 #root class
-	primary_cat		= db.StringProperty(required=True)
-	img				= db.BlobProperty(required=True)
-	index			= db.IntegerProperty(required=True)
+	primary_cat		= db.StringProperty()
+	img				= db.BlobProperty()
+	index			= db.IntegerProperty()
 	
 class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_paid		= db.DateTimeProperty()
-	status			= db.StringProperty(required=True,choices=set(['pending','paid','rejected']))
+	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
 	payKey			= db.StringProperty()
 	money_available_paytime	= db.FloatProperty()
 	note			= db.StringProperty()
@@ -289,7 +289,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
-				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+deal.key()
+				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+deal.key().__str__()
 			})
 	elif use == 'deal':
 	

@@ -24,19 +24,21 @@ class share(webapp2.RequestHandler):
 			email_or_owner = self.request.get('email_or_owner')
 			email = self.request.get('email')
 			username = self.request.get('username')
-		
-			#grab deal from datastore
-			try:
-				deal = levr.Deal.get(dealID)
-			except:
-				logging.error('Could not grab deal. id passed: ' + dealID)
-				sys.exit()
 			
+			deal = levr.Deal.get(dealID)
+			#grab deal from datastore
+#			try:
+#				
+#			except:
+#				logging.error('Could not grab deal. id passed: ' + dealID)
+#				sys.exit()
+#			
 			if deal:
 				#check loginstate
 				headerData = levr_utils.loginCheck(self,False)
 			
 				#get alias from parent (ninja)
+				###!!!! This is only valid if dealis a customer deal
 				ninja = levr.Customer.get(deal.key().parent())
 				alias = ninja.alias
 			

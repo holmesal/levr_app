@@ -73,8 +73,11 @@ def signupCustomer(email,alias,pw):
 		}
 		
 def loginCustomer(email_or_owner,pw):
-	pw = enc.encrypt_password(pw)
 	'''This is passed either an email or a username, so check both'''
+	logging.info(pw)
+	pw = enc.encrypt_password(pw)
+	logging.info(pw)
+	logging.info(email_or_owner)
 	q_email = levr.Customer.gql('WHERE email = :1 AND pw=:2',email_or_owner,pw)
 	q_owner  = levr.Customer.gql('WHERE alias = :1 AND pw=:2',email_or_owner,pw)
 	r_email = q_email.get()

@@ -131,6 +131,8 @@ class post(webapp2.RequestHandler):
 			
 				#are number consistent?
 				if cor.amount != cor.money_available_paytime:
+					#remember to encrypt the key if this is being used for anything
+					#other than just error logging
 					logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
 					#send email here later
 			

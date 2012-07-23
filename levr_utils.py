@@ -35,7 +35,7 @@ def loginCheck(self,strict):
 		headerData = {
 			'loggedIn'		: session['loggedIn'],
 			'alias' 		: session['alias'],
-			'businessID'	: enc.encrypt_key(uid)
+			'businessID'	: uid
 			}
 		#return user metadata.
 		return headerData

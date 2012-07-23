@@ -425,6 +425,7 @@ class img(webapp2.RequestHandler):
 				output_width	= 250.
 			else:
 				raise Exception('invalid size parameter')
+				
 				##set this to some default for production
 			#calculate output_height from output_width
 			output_height	= output_width/aspect_ratio

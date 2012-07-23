@@ -1,8 +1,9 @@
 import os, sys
 import webapp2
 import levr_classes as levr
+import levr_encrypt as enc
 import levr_utils
-from google.appengine.ext import db
+#from google.appengine.ext import db
 import logging
 import jinja2
 
@@ -12,8 +13,9 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 
 class share(webapp2.RequestHandler):
 	def get(self):
+
 		#grab refKey
-		dealID = self.request.get('id')
+		dealID = enc.decrypt_key(self.request.get('id'))
 		logging.info(dealID)
 		error = self.request.get('error')
 		success = self.request.get('success')
@@ -42,19 +44,19 @@ class share(webapp2.RequestHandler):
 			dealFormatted = levr.phoneFormat(deal,'list')
 			
 			template_values = {
-				'headerData' : headerData,
-				'title' : 'Share',
-				'deal'	: deal,
-				'dealID': dealID,
-				'alias'	: alias,
-				'dealText'	: dealFormatted['dealText'],
+				'headerData' 	: headerData,
+				'title' 		: 'Share',
+				'deal'			: deal,
+				'dealID'		: enc.encrypt_key(dealID),
+				'alias'			: alias,
+				'dealText'		: dealFormatted['dealText'],
 				'dealTextExtra'	: dealFormatted['dealTextExtra'],
 				'description'	: deal.description,
 				'error'			: error,
 				'success'		: success,
-				'email_or_owner'	: email_or_owner,
-				'email'	: email,
-				'username'	: username
+				'email_or_owner': email_or_owner,
+				'email'			: email,
+				'username'		: username
 			}
 			
 			#jinja2

@@ -82,7 +82,7 @@ body{
 	border: none;
 	background-image: url(../img/text_cradle.png);
 	background-repeat: no-repeat;
-	background-position-y: 100%;
+	background-position: center bottom;
 	padding-left: 12px;
 	padding-right: 5px;
 }
@@ -152,11 +152,11 @@ body{
 
 #tos{
 	display: block;
-	text-align: center;
+	text-align: left;
 	width: 100%;
 	font-size: 10pt;
 	font-weight: 200;
-	margin-top: 20px;
+	margin-top: 50px;
 	margin-bottom: 10px;
 }
 

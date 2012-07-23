@@ -43,6 +43,7 @@ def loginCheck(self,strict):
 	return
 
 def signupCustomer(email,alias,pw):
+	pw = enc.encrypt_password(pw)
 	'''Check availability of username+pass, create and login if not taken'''
 	#check availabilities
 	q_email = levr.Customer.gql('WHERE email = :1',email)
@@ -72,6 +73,7 @@ def signupCustomer(email,alias,pw):
 		}
 		
 def loginCustomer(email_or_owner,pw):
+	pw = enc.encrypt_password(pw)
 	'''This is passed either an email or a username, so check both'''
 	q_email = levr.Customer.gql('WHERE email = :1 AND pw=:2',email_or_owner,pw)
 	q_owner  = levr.Customer.gql('WHERE alias = :1 AND pw=:2',email_or_owner,pw)

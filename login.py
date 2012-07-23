@@ -17,7 +17,7 @@ class login(webapp2.RequestHandler):
 		
 	def post(self):
 		email = self.request.get('email')
-		pw = self.request.get('password')
+		pw = enc.encrypt_password(self.request.get('password'))
 		
 		session = get_current_session()
 		

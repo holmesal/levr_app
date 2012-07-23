@@ -49,11 +49,17 @@
 					</br><input class="button green" type="submit" value="Sign Up">
 				</form>
 			</div>
-			{% if error=='login' %} <p class="error">Couldn't log you in. Give it another shot!</p> {% endif %}
-			{% if error=='email' %} <p class="error">That email is already in use.</p> {% endif %}
-			{% if error=='alias' %} <p class="error">That username is already in use.</p> {% endif %}
-			{% if error=='password' %} <p class="error">That password's pretty weak. Please make it a little stronger.</p> {% endif %}
-			<p>By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</p>
+			<div>
+				{% if error=='login' %} <p class="error">Couldn't log you in. Give it another shot!</p> {% endif %}
+				{% if error=='email' %} <p class="error">That email is already in use.</p> {% endif %}
+				{% if error=='alias' %} <p class="error">That username is already in use.</p> {% endif %}
+				{% if error=='password' %} <p class="error">That password's pretty weak. Please make it a little stronger.</p> {% endif %}
+			</div>
+			<div>
+				<p>&nbsp;</p>
+				<p id="tos">By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</p>
+			</div>
+			
 			{% endif %}
 			{% endif %}
 		</div>

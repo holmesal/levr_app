@@ -79,16 +79,16 @@ class loginFav(webapp2.RequestHandler):
 		
 		session = get_current_session()
 		
-		dealID = self.request.get('id')
+		dealID = enc.decrypt_key(self.request.get('id'))
 		
 		#attempt login
 		response = levr_utils.loginCustomer(email_or_owner,pw)
 		logging.info(response)
 		if response['success'] == True:
 			#grab customer
-			customer = levr.Customer.get(response['uid'])
+			customer = levr.Customer.get(enc.decrypt_key(response['uid']))
 			#if matched, pull properties and set loginstate to true
-			session['uid'] = customer.key()
+			session['uid'] = enc.encrypt_key(customer.key())
 			session['alias'] = customer.alias
 			session['loggedIn'] = True
 			#add deal to fav
@@ -98,6 +98,7 @@ class loginFav(webapp2.RequestHandler):
 			#redirect to success page
 			self.redirect('/share/deal?id=' + dealID + '&success=1')
 		else:
+			dealID = enc.encrypt_key(dealID)
 			#show login page again, with login error
 			self.redirect('/share/deal?id='+dealID+'&error=login&email_or_owner='+email_or_owner)
 			
@@ -109,12 +110,13 @@ class signupFav(webapp2.RequestHandler):
 		alias = self.request.get('alias')
 		pw = self.request.get('pw')
 		
-		dealID = self.request.get('id')
+		dealID = enc.decrypt_key(self.request.get('id'))
 		
 		logging.info(len(pw))
 		logging.info(type(len(pw)))
 		
 		if len(pw) < 6:
+			dealID = enc.encrypt_key(dealID)
 			self.redirect('/share/deal?id='+dealID+'&error=password'+'&email='+email+'&username='+alias)
 		else:
 
@@ -129,21 +131,22 @@ class signupFav(webapp2.RequestHandler):
 				fav.dealID = dealID
 				fav.put()
 				#login user
-				session['uid'] = customer.key()
+				session['uid'] = enc.encrypt_key(customer.key())
 				session['alias'] = customer.alias
 				session['loggedIn'] = True
-				
+				dealID = enc.encrypt_key(dealID)
 				self.redirect('/share/deal?id=' + dealID + '&success=1')
 			else:
+				dealID = enc.encrypt_key(dealID)
 				self.redirect('/share/deal?id='+dealID+'&error='+response['field']+'&email='+email+'&username='+alias)
 
 class loggedInFav(webapp2.RequestHandler):
 	def get(self):
-		dealID = self.request.get('id')
+		dealID = enc.decrypt_key(self.request.get('id'))
 		
 		session = get_current_session()
 		
-		customerKey = session['uid']
+		customerKey = enc.decrypt_key(session['uid'])
 		
 		customer = levr.Customer.get(customerKey)
 		
@@ -151,10 +154,16 @@ class loggedInFav(webapp2.RequestHandler):
 		fav.dealID = dealID
 		fav.put()
 		
+		dealID = enc.encrypt_key(dealID)
 		self.redirect('/share/deal?id=' + dealID + '&success=1')
 	
 class success(webapp2.RequestHandler):
 	def get(self):
 		print('success!')
 
-app = webapp2.WSGIApplication([('/share/deal.*', share),('/share/success', success),('/share/signupFav', signupFav),('/share/loginFav', loginFav), ('/share/loggedInFav', loggedInFav)],debug=True)
+app = webapp2.WSGIApplication([('/share/deal.*', share),
+								('/share/success', success),
+								('/share/signupFav', signupFav),
+								('/share/loginFav', loginFav), 
+								('/share/loggedInFav', loggedInFav)],
+								debug=True)

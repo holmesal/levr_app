@@ -8,15 +8,15 @@ import sys, traceback
 class Customer(db.Model):
 #root class
 	#key_name is uid
-	email 			= db.EmailProperty()
-	payment_email	= db.EmailProperty()
-	pw 				= db.StringProperty()
-	alias			= db.StringProperty()
+	email 			= db.EmailProperty(required=True)
+	payment_email	= db.EmailProperty(required=True)
+	pw 				= db.StringProperty(required=True)
+	alias			= db.StringProperty(defualt='')
 	#stats
 	money_earned	= db.FloatProperty(default = 0.0) #new earning for all deals
 	money_available = db.FloatProperty(default = 0.0) #aka payment pending
 	money_paid		= db.FloatProperty(default = 0.0) #amount we have transfered
-	redemptions		= db.StringListProperty()	#id's of all of their redeemed deals
+	redemptions		= db.StringListProperty(default=[])	#id's of all of their redeemed deals
 	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
 	
 	def increment_new_redeem_count(self):
@@ -76,17 +76,17 @@ class Customer(db.Model):
 
 class Business(db.Model):
 #root class
-    email 			= db.EmailProperty()
-    pw 				= db.StringProperty()
-    signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
+    email 			= db.EmailProperty(default='')
+    pw 				= db.StringProperty(default='')
+    signup_date 	= db.DateTimeProperty(default='')	#when signed up for our service $$$
     creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
-    business_name 	= db.StringProperty()
+    business_name 	= db.StringProperty(default='')
     
-    address_line1 	= db.StringProperty()
-    address_line2 	= db.StringProperty()
-    city			= db.StringProperty()
-    state 			= db.StringProperty()
-    zip_code		= db.StringProperty()
+    address_line1 	= db.StringProperty(default='')
+    address_line2 	= db.StringProperty(default='')
+    city			= db.StringProperty(default='')
+    state 			= db.StringProperty(default='')
+    zip_code		= db.StringProperty(default='')
     
     alias 	= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
@@ -110,13 +110,13 @@ class Deal(polymodel.PolyModel):
 	#key name is deal id
 	#deal information
 	img				= db.BlobProperty()
-	businessID 		= db.StringProperty() #CHANGE TO REFERENCEPROPERTY
-	business_name 	= db.StringProperty() #name of business
+	businessID 		= db.StringProperty(default='') #CHANGE TO REFERENCEPROPERTY
+	business_name 	= db.StringProperty(default='') #name of business
 	secondary_name 	= db.StringProperty(default='') #secondary category
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
-	deal_item		= db.StringProperty() #the item the deal is on - could be primary, secondary, ternery, whattt?
+	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
-	discount_value 	= db.FloatProperty() #number, -1 if free
+	discount_value 	= db.FloatProperty(default='') #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
@@ -127,7 +127,7 @@ class Deal(polymodel.PolyModel):
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
-	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
+	deal_status		= db.StringProperty(required=True,choices=set(["pending","active","rejected","expired"]))
 	address_string	= db.StringProperty()
 	
 	def dictify(self):
@@ -225,26 +225,26 @@ class CustomerDeal(Deal):
 class Category(db.Model):
 #Child of deal
 #Maps primary categories to deals
-	primary_cat		= db.StringProperty()
+	primary_cat		= db.StringProperty(required=True)
 
 class Favorite(db.Model):
 #child of user
-	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
-	primary_cat		= db.StringProperty()
+	dealID			= db.StringProperty(required=True) #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
+	primary_cat		= db.StringProperty(required=True)
 
 
 class EmptySetResponse(db.Model):
 #root class
-	primary_cat		= db.StringProperty()
-	img				= db.BlobProperty()
-	index			= db.IntegerProperty()
+	primary_cat		= db.StringProperty(required=True)
+	img				= db.BlobProperty(required=True)
+	index			= db.IntegerProperty(required=True)
 	
 class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_paid		= db.DateTimeProperty()
-	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
+	status			= db.StringProperty(required=True,choices=set(['pending','paid','rejected']))
 	payKey			= db.StringProperty()
 	money_available_paytime	= db.FloatProperty()
 	note			= db.StringProperty()

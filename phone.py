@@ -85,7 +85,7 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key='+result.key().__str__()}
+									"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key=' + enc.encrypt_key(result.key().__str__())}
 					#push to stack
 					dealResults.append(searchObj)
 				#echo back success!
@@ -101,7 +101,6 @@ class phone(webapp2.RequestHandler):
 			
 				#grabs the deal key name and primary category from table
 				q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
-	#			q1 = levr.Favorite.gql("WHERE uid=:1",uid)
 				#init key,cats list
 				logging.info(q1)
 				deal_keys,cats = [],[]
@@ -120,10 +119,8 @@ class phone(webapp2.RequestHandler):
 				for idx,deal in enumerate(deals):
 					#send to format function - package for phone
 					deal_stack = levr.phoneFormat(deal,'list',cats[idx])
-					deal_stack.update({"primaryCat":cats[idx]})
+#					deal_stack.update({"primaryCat":cats[idx]})
 					data.append(deal_stack)
-	#				data[idx]['primaryCat'] = cats[idx]
-	#			self.response.out.write(data)
 				toEcho = {"success":True,"data":data}
 			#ADD FAVORITE***********************************************************
 			elif action == "addFav":

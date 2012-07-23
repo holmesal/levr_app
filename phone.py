@@ -183,6 +183,7 @@ class phone(webapp2.RequestHandler):
 				output	: list of deal objects
 				'''
 				uid	= enc.decrypt_key(decoded["in"]["uid"])
+				logging.info(uid)
 				#grab all deal children of the user
 				deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
 				#format CUSTOMER deals
@@ -194,7 +195,7 @@ class phone(webapp2.RequestHandler):
 				ninja.flush_new_redeem_count()
 				ninja.put()
 				#get new notifications
-				notifications = ninja.get_notifications
+				notifications = ninja.get_notifications()
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "getMyStats":
@@ -210,7 +211,7 @@ class phone(webapp2.RequestHandler):
 				data = user.get_stats()
 				
 				#get new notifications
-				notifications = user.get_notifications
+				notifications = user.get_notifications()
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 			elif action == "redeem":
 				#grab corresponding deal
@@ -299,8 +300,8 @@ class phone(webapp2.RequestHandler):
 			levr.log_error(self.request.body)
 			toEcho = {"success":False}
 		finally:
-			logging.info(json.dumps(toEcho))
 			try:
+				logging.info(json.dumps(toEcho))
 				self.response.out.write(json.dumps(toEcho))
 			except:
 				#catches the case where toEcho cannot be parsed as json

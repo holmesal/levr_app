@@ -4,7 +4,7 @@
 		<meta property="og:image" content="http://getlevr.appspot.com/phone/img?size=facebook&dealID={{dealID}}"/> 
 		<meta property="og:title" content="{{alias}} wants to get you: {{dealText}} {{dealTextExtra}}"/>
 		<title>{{alias}} wants to share a deal with you.</title>
-		<link href="../css/share.css" rel="stylesheet">
+		<link href="../../css/share.css" rel="stylesheet">
 		<link rel="icon" type="image/png" href="img/favicon.png">
 	</head>
 	<body>
@@ -15,7 +15,7 @@
 			<p id='dealText'>{{dealText}}</p>
 			<p id='dealTextExtra'>{{dealTextExtra}}</p>
 			<p id="description">{{description}}</p>	
-			<img src="../img/divider_faded.png">
+			<img src="../../img/divider_faded.png">
 			{% if success=='1' %}
 			<p id="success">Great! We've added this deal to your favorites:</p>
 			
@@ -49,11 +49,17 @@
 					</br><input class="button green" type="submit" value="Sign Up">
 				</form>
 			</div>
-			{% if error=='login' %} <p class="error">Couldn't log you in. Give it another shot!</p> {% endif %}
-			{% if error=='email' %} <p class="error">That email is already in use.</p> {% endif %}
-			{% if error=='alias' %} <p class="error">That username is already in use.</p> {% endif %}
-			{% if error=='password' %} <p class="error">That password's pretty weak. Please make it a little stronger.</p> {% endif %}
-			<p>By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</p>
+			<div>
+				{% if error=='login' %} <p class="error">Couldn't log you in. Give it another shot!</p> {% endif %}
+				{% if error=='email' %} <p class="error">That email is already in use.</p> {% endif %}
+				{% if error=='alias' %} <p class="error">That username is already in use.</p> {% endif %}
+				{% if error=='password' %} <p class="error">That password's pretty weak. Please make it a little stronger.</p> {% endif %}
+			</div>
+			<div>
+				<p>&nbsp;</p>
+				<p id="tos">By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</p>
+			</div>
+			
 			{% endif %}
 			{% endif %}
 		</div>

@@ -400,17 +400,25 @@ class img(webapp2.RequestHandler):
 			size 	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
-			self.response.headers['Content-Type'] = 'image/jpeg'
-			#grab deal
-			deal = db.get(dealID)
-			#convert deal img to PIL object
-			img = images.Image(deal.img)
-			logging.info(img)
-		
-			#calculate height of output
+			
+			#get deal object
+			deal = levr.Deal.get(dealID)
 
-			img_width		= img.width
-			img_height		= img.height
+			#get the blob
+			blob_key = deal.img
+			
+			logging.debug(dir(blob_key.properties))
+			#read the blob data into a string !!!! important !!!!
+			blob_data = blob_key.open().read()
+			
+			#pass blob data to the image handler
+			img			= images.Image(blob_data)
+			#get img dimensions
+			img_width	= img.width
+			img_height	= img.height
+			logging.info(img_width)
+			logging.info(img_height)
+			#calculate height of output
 		
 			#define output parameters
 			if size == 'dealDetail':

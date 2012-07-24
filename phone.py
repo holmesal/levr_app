@@ -375,7 +375,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			deal.put()
 		
 			#return deal id and shareURL
-			dealID = enc.decrypt_key(deal.key().__str__())
+			dealID = enc.encrypt_key(deal.key())
 			toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
 		
 		

@@ -85,7 +85,7 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key=' + enc.encrypt_key(result.key().__str__())}
+									"imgURL":'http://getlevr.appspot.com/phone/EmptySetImg?img_key=' + enc.encrypt_key(result.key().__str__())}
 					#push to stack
 					dealResults.append(searchObj)
 				#echo back success!
@@ -463,9 +463,21 @@ class img(webapp2.RequestHandler):
 			output_img = None
 		finally:
 			self.response.out.write(output_img)
+			
+class EmptySetImg(webapp2.RequestHandler):
+	def get(self):
+		#grab input data
+		img_key = self.request.get("img_key")
+		
+		#grab image from datastore
+		result = levr.EmptySetResponse.get(img_key)
+		
+		self.response.headers['Content-Type'] = 'image/png'
+		self.response.out.write(result.img)
 		
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),
-								('/phone/img.*', img)],
+								('/phone/img.*', img),
+								('/phone/emptySetImg.*', EmptySetImg)],
 								debug=True)

@@ -11,8 +11,10 @@ import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
 #from google.appengine.api import mail
-#from google.appengine.ext import blobstore
-#from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
+#import urllib
+from google.appengine.api import urlfetch
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -341,13 +343,30 @@ class uploadDeal(webapp2.RequestHandler):
 	#		put business in db
 			business.put()
 			logging.info(business)
-		
-		
+			
 			uid = enc.decrypt_key(inputs('uid'))
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
-			deal 				= levr.CustomerDeal(parent=db.Key(uid))
-##			deal.img			= inputs('img')			#D
+			
+			deal 		= levr.CustomerDeal(parent=db.Key(uid))
+			upload_url 	= blobstore.create_upload_url('/phone/uploadImg')
+			logging.info(upload_url)
+			#########
+			#BLOBSTORE STUFF - look here first if upload fails
+			#########
+			
+			img			= inputs('img')
+			logging.info(deal.img)
+			#=======
+#			upload = self.get_uploads()[0]
+			
+			#########
+			result = urlfetch.fetch(url=upload_url,
+					payload	= img,
+					method	= urlfetch.POST,
+					headers	= {'Content-Type': 'multipart/form-data'})
+			logging.info(result)
+#			deal.img			= 			#D
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.deal_text		= inputs('dealText') #### check name!!!
@@ -359,15 +378,7 @@ class uploadDeal(webapp2.RequestHandler):
 			deal.date_end		= datetime.now() + timedelta(days=7)
 	#		date_uploaded		= automatic
 			
-			#########
-			#BLOBSTORE STUFF - look here first if upload fails
-			#########
-			deal.img			= inputs('img')
-			logging.info(deal.img)
-			#=======
-#			upload = self.get_uploads()[0]
 			
-			#########
 			#put in DB
 			deal.put()
 		
@@ -389,6 +400,13 @@ class uploadDeal(webapp2.RequestHandler):
 			levr.log_error(self.request.body)
 		finally:
 			self.response.out.write(json.dumps(toEcho))
+
+class uploadImg(blobstore_handlers.BlobstoreUploadHandler):
+	def post(self):
+		logging.info(self.get_uploads()[0])
+		upload = self.get_uploads()[0]
+		self.response.out.write(upload.key())
+		
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):
@@ -487,5 +505,6 @@ class img(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),
-								('/phone/img.*', img)],
+								('/phone/img.*', img),
+								('/phone/uploadImg', uploadImg)],
 								debug=True)

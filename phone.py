@@ -65,7 +65,9 @@ class phone(webapp2.RequestHandler):
 					#grab the parent deal key so we can grab the info from it
 					d = category.key().parent()
 					#grab the appropriate deal parent
-					result = levr.Deal.get(d)
+					logging.info(d)
+					logging.info(enc.encrypt_key(d))
+					result = levr.Deal.get(enc.decode_key(d))
 					if result.deal_status == 'active':
 						isEmpty = False
 						#trade an object for a phone-formatted dictionary
@@ -365,6 +367,8 @@ class uploadDeal(webapp2.RequestHandler):
 					payload	= img,
 					method	= urlfetch.POST,
 					headers	= {'Content-Type': 'multipart/form-data'})
+			logging.info(dir(result))
+			logging.info(dir(result.content))
 			logging.info(result)
 #			deal.img			= 			#D
 			deal.businessID		= business.key().__str__()
@@ -383,7 +387,7 @@ class uploadDeal(webapp2.RequestHandler):
 			deal.put()
 		
 			#return deal id and shareURL
-			dealID = enc.decrypt_key(deal.key().__str__())
+			dealID = enc.encrypt_key(deal.key().__str__())
 			toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
 		
 		
@@ -403,8 +407,10 @@ class uploadDeal(webapp2.RequestHandler):
 
 class uploadImg(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
+		logging.info("self.get_uploads()[0]")
 		logging.info(self.get_uploads()[0])
 		upload = self.get_uploads()[0]
+		logging.info("upload.key()")
 		self.response.out.write(upload.key())
 		
 		

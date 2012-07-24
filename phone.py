@@ -56,15 +56,16 @@ class phone(webapp2.RequestHandler):
 				#Want to grab deal information for each category
 				for category in q:
 					#set isEmpty to 1
-		
+					logging.debug(category)
+					logging.debug(dir(category))
 					#break if results limit is hit
 					if resultsPushed == numResults:
 						break
 					#grab the parent deal key so we can grab the info from it
 					d = category.key().parent()
-					logging.debug(d)
+					logging.debug("Key: %s",str(d))
 					#grab the appropriate deal parent
-					result = levr.Deal.get(d)
+					result = levr.Deal.get(str(d))
 					logging.debug(result)
 					if result.deal_status == 'active':
 						isEmpty = False

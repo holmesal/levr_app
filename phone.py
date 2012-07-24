@@ -11,6 +11,10 @@ import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
 #from google.appengine.api import mail
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
+#import urllib
+from google.appengine.api import urlfetch
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -61,7 +65,9 @@ class phone(webapp2.RequestHandler):
 					#grab the parent deal key so we can grab the info from it
 					d = category.key().parent()
 					#grab the appropriate deal parent
-					result = levr.Deal.get(d)
+					logging.debug(d)
+					logging.debug(enc.encrypt_key(d))
+					result = levr.Deal.get(enc.decode_key(d))
 					if result.deal_status == 'active':
 						isEmpty = False
 						#trade an object for a phone-formatted dictionary
@@ -313,7 +319,7 @@ class uploadDeal(webapp2.RequestHandler):
 		try:
 			logging.info(self.request.headers)
 			logging.info('Body is next!')
-	#		logging.info(self.request.body)
+#			logging.info(self.request.body)
 		
 			#create alias for self.request.get
 			inputs			= self.request.get
@@ -327,7 +333,7 @@ class uploadDeal(webapp2.RequestHandler):
 			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 			#if a business doesn't exist in db, then create a new one
 			if not business:
-				business = levr.Business(email='email@getlevr.com')
+				business = levr.Business()
 		
 			#populate entity
 		
@@ -340,8 +346,7 @@ class uploadDeal(webapp2.RequestHandler):
 	#		put business in db
 			business.put()
 			logging.info(business)
-		
-		
+			
 			uid = enc.decrypt_key(inputs('uid'))
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
@@ -363,12 +368,12 @@ class uploadDeal(webapp2.RequestHandler):
 			deal.put()
 		
 			#return deal id and shareURL
-			dealID = enc.decrypt_key(deal.key().__str__())
+			dealID = enc.encrypt_key(deal.key().__str__())
 			toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
 		
 		
 			#send mail to the admins to notify of new pending deal
-#			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
+#			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
 #							to="Patrick Walsh <patrick@getlevr.com>",
 #							subject="New pending deal",
 #							body="""
@@ -384,7 +389,8 @@ class uploadDeal(webapp2.RequestHandler):
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass
-		
+
+
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
@@ -416,6 +422,7 @@ class img(webapp2.RequestHandler):
 				aspect_ratio	= 1.	#width/height
 				output_width	= 200.	#arbitrary standard
 			elif size == 'fullSize':
+				#full size image
 				aspect_ratio	= float(img_width)/float(img_height)
 				output_width	= float(img_width)
 	#			self.response.out.write(deal.img)
@@ -427,14 +434,13 @@ class img(webapp2.RequestHandler):
 				output_width	= 250.
 			else:
 				raise Exception('invalid size parameter')
-				
 				##set this to some default for production
 			#calculate output_height from output_width
 			output_height	= output_width/aspect_ratio
 			
 			##get crop dimensions
 			if img_width > img_height*aspect_ratio:
-				#width must be cropped
+				#width is proportionally larger than height
 				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
 				w_crop 	= float(w_crop_unscaled/img_width)
 				left_x 	= w_crop
@@ -442,7 +448,7 @@ class img(webapp2.RequestHandler):
 				top_y	= 0.
 				bot_y	= 1.
 			else:
-				#height must be cropped
+				#height is proportionally larger than width
 				h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
 				h_crop	= float(h_crop_unscaled/img_height)
 				left_x	= 0.
@@ -457,28 +463,18 @@ class img(webapp2.RequestHandler):
 			#resize cropped image
 			img.resize(width=int(output_width),height=int(output_height))
 			logging.info(img)
+			#effect changed on image
 			output_img = img.execute_transforms(output_encoding=images.JPEG)
-			logging.info(output_img)
 		except:
 			levr.log_error(self.request.body)
 			output_img = None
 		finally:
+			self.response.headers['Content-Type'] = 'image/jpeg'
 			self.response.out.write(output_img)
-			
-class EmptySetImg(webapp2.RequestHandler):
-	def get(self):
-		#grab input data
-		img_key = enc.decrypt_key(self.request.get("img_key"))
-		
-		#grab image from datastore
-		result = levr.EmptySetResponse.get(img_key)
-		
-		self.response.headers['Content-Type'] = 'image/png'
-		self.response.out.write(result.img)
 		
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),
 								('/phone/img.*', img),
-								('/phone/emptySetImg.*', EmptySetImg)],
+								('/phone/uploadImg', uploadImg)],
 								debug=True)

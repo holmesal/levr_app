@@ -2,9 +2,9 @@
 #import datetime
 from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
+from google.appengine.ext import blobstore
 import logging
 import sys, traceback
-import levr_encrypt as enc
 
 class Customer(db.Model):
 #root class
@@ -110,7 +110,8 @@ class Deal(polymodel.PolyModel):
 #Child of business OR customer ninja
 	#key name is deal id
 	#deal information
-	img				= db.BlobProperty()
+	img				= blobstore.BlobReferenceProperty()
+
 	businessID 		= db.StringProperty(default='') #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty(default='') #name of business
 	secondary_name 	= db.StringProperty(default='') #secondary category

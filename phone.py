@@ -313,7 +313,7 @@ class phone(webapp2.RequestHandler):
 class FetchUploadURL(webapp2.RequestHandler):
 	'''Returns a url for image upload to blobstore'''
 	def get(self):
-		upload_url = blobstore.create_upload_url('/sandbox/upload_photo')
+		upload_url = blobstore.create_upload_url('/phone/uploadDeal')
 		logging.debug(upload_url)
 		self.response.out.write(upload_url)
 
@@ -321,8 +321,8 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		toEcho = {"success":False}
 		try:
-			logging.info(self.request.headers)
-			logging.info('Body is next!')
+			logging.debug(self.request.headers)
+			logging.debug('Body is next!')
 	#		logging.info(self.request.body)
 		
 			#create alias for self.request.get
@@ -330,9 +330,9 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#grab existing business
 			business_name	= inputs('businessName')
 			geo_point		= inputs('geoPoint')
-			logging.info(geo_point)
+			logging.debug(geo_point)
 			geo_point		= levr.geo_converter(geo_point)
-			logging.info(geo_point)
+			logging.debug(geo_point)
 			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 			#if a business doesn't exist in db, then create a new one
 			if not business:
@@ -360,7 +360,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(upload)
 			blob_key			= upload.key()
 			#rest of the stuff stuff
-			deal.img			= blob_key 
+			deal.img			= blob_key
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.deal_text		= inputs('dealText') #### check name!!!

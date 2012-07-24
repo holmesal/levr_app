@@ -85,7 +85,7 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/phone/EmptySetImg?img_key=' + enc.encrypt_key(result.key().__str__())}
+									"imgURL":'http://getlevr.appspot.com/phone/emptySetImg?img_key=' + enc.encrypt_key(result.key().__str__())}
 					#push to stack
 					dealResults.append(searchObj)
 				#echo back success!
@@ -467,7 +467,7 @@ class img(webapp2.RequestHandler):
 class EmptySetImg(webapp2.RequestHandler):
 	def get(self):
 		#grab input data
-		img_key = self.request.get("img_key")
+		img_key = enc.decrypt_key(self.request.get("img_key"))
 		
 		#grab image from datastore
 		result = levr.EmptySetResponse.get(img_key)

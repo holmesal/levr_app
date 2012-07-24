@@ -50,18 +50,6 @@ class edit(webapp2.RequestHandler):
 		self.response.out.write(obj.img)
 		logging.info(self.request.headers)
 		logging.info(self.request.body)
-		
-class getImg(webapp2.RequestHandler):
-	def get(self):
-		#grab input data
-		img_key = self.request.get("img_key")
-		
-		#grab image from datastore
-		result = levr.EmptySetResponse.get(img_key)
-		
-		self.response.headers['Content-Type'] = 'image/png'
-		self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/emptySet/edit', edit),
-								('/emptySet/getImg', getImg)],
+app = webapp2.WSGIApplication([('/emptySet/edit', edit)],
 								debug=True)

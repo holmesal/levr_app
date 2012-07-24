@@ -293,7 +293,11 @@ class phone(webapp2.RequestHandler):
 					cor.date_created = datetime.now()
 					cor.put()
 					toEcho = {"success":True}
-				
+			
+			elif action == "fetchUploadURL":
+				upload_url = blobstore.create_upload_url('/phone/uploadDeal')
+				logging.debug(upload_url)
+				toEcho = {"success":True, "data":{"url":upload_url}}
 				
 			else:
 				raise Exception('Unrecognized action')
@@ -308,14 +312,8 @@ class phone(webapp2.RequestHandler):
 			except:
 				#catches the case where toEcho cannot be parsed as json
 				self.response.out.write(json.dumps({"success":False}))
-				levr.log_error()
+				levr.log_error('json is not parseable')
 
-class FetchUploadURL(webapp2.RequestHandler):
-	'''Returns a url for image upload to blobstore'''
-	def get(self):
-		upload_url = blobstore.create_upload_url('/phone/uploadDeal')
-		logging.debug(upload_url)
-		self.response.out.write(upload_url)
 
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
@@ -323,7 +321,6 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		try:
 			logging.debug(self.request.headers)
 			logging.debug('Body is next!')
-	#		logging.info(self.request.body)
 		
 			#create alias for self.request.get
 			inputs			= self.request.get
@@ -356,6 +353,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#create new deal object as child of the uploader Customer
 			deal				= levr.CustomerDeal(parent=db.Key(uid))
 			#fetch blobstore_info object of the uploaded image
+			logging.debug(self.get_uploads())
 			upload				= self.get_uploads()[0]
 			logging.debug(upload)
 			blob_key			= upload.key()
@@ -506,6 +504,5 @@ app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),
 								('/phone/img.*', img),
-								('/phone/emptySetImg.*', EmptySetImg),
-								('/phone/fetchUploadURL.*', FetchUploadURL)],
+								('/phone/emptySetImg.*', EmptySetImg)],
 								debug=True)

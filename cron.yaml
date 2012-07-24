@@ -1,9 +1,9 @@
 cron:
-- description: set status of expired deals from active to expired
-  url: /tasks/cleanDeals
-  schedule: every day 18:23
-  timezone: America/New_York
-- description: flood the server with requests
-  url: /test/run_load_test
-  schedule: every 1 minutes from 02:00 to 03:55
-  timezone: America/New_York
+#- description: set status of expired deals from active to expired
+#  url: /tasks/cleanDeals
+#  schedule: every day 18:23
+#  timezone: America/New_York
+#- description: flood the server with requests
+#  url: /test/run_load_test
+#  schedule: every 1 minutes from 02:00 to 03:55
+#  timezone: America/New_York

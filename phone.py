@@ -62,8 +62,11 @@ class phone(webapp2.RequestHandler):
 						break
 					#grab the parent deal key so we can grab the info from it
 					d = category.key().parent()
+					logging.debug(d)
+					d = d.key()
 					#grab the appropriate deal parent
 					result = levr.Deal.get(d)
+					logging.debug(result)
 					if result.deal_status == 'active':
 						isEmpty = False
 						#trade an object for a phone-formatted dictionary

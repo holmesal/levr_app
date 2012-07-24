@@ -17,13 +17,13 @@ class Pending(webapp2.RequestHandler):
 		deal = levr.CustomerDeal.gql('WHERE deal_status=:1','pending').get()
 		#dictify deal
 		if deal:
-			deal = deal.dictify()
-			logging.info(deal['dateEnd'])
+			#logging.info(deal['dateEnd'])
 			#get the first matching entity and parse into template values
 			self.response.headers['Content-Type'] = 'text/html'	
 			
-			business = levr.Business.get(deal['businessID'])
+			business = levr.Business.get(deal.businessID)
 			business = business.dictify()
+			deal = deal.dictify()
 			template_values = {
 				"deal"		: deal,
 				"business"	: business
@@ -86,15 +86,6 @@ class Reject(webapp2.RequestHandler):
 		deal.put()
 		self.redirect('/admin/pending')
 		
-class PendingImage(webapp2.RequestHandler):
-	def get(self):
-		dealID = enc.decrypt_key(self.request.get('dealID'))
-		deal = db.get(dealID)
-		self.response.headers['Content-Type'] = 'image/jpeg'
-		self.response.out.write(deal.img)
-#		key = self.request.get('key')
-#		img = levr.CustomerDeal.get(key)
-		
 class AllImages(webapp2.RequestHandler):
 	def get(self):
 		q = levr.Deal.gql('WHERE deal_status=:1','pending')
@@ -103,8 +94,7 @@ class AllImages(webapp2.RequestHandler):
 			self.response.headers['Content-Type'] = 'image/jpeg'
 			self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/admin/pending', Pending),
-								('/admin/pendingImage', PendingImage),
+app = webapp2.WSGIApplication([('/admin/pending', Pending),,
 								('/admin/allImages', AllImages),
 								('/admin/approve', Approve),
 								('/admin/reject',Reject)],

@@ -65,8 +65,8 @@ class phone(webapp2.RequestHandler):
 					#grab the parent deal key so we can grab the info from it
 					d = category.key().parent()
 					#grab the appropriate deal parent
-					logging.info(d)
-					logging.info(enc.encrypt_key(d))
+					logging.debug(d)
+					logging.debug(enc.encrypt_key(d))
 					result = levr.Deal.get(enc.decode_key(d))
 					if result.deal_status == 'active':
 						isEmpty = False
@@ -91,7 +91,7 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/emptySet/getImg?img_key=' + enc.encrypt_key(result.key().__str__())}
+									"imgURL":'http://getlevr.appspot.com/phone/emptySetImg?img_key=' + enc.encrypt_key(result.key().__str__())}
 					#push to stack
 					dealResults.append(searchObj)
 				#echo back success!
@@ -349,40 +349,20 @@ class uploadDeal(webapp2.RequestHandler):
 			uid = enc.decrypt_key(inputs('uid'))
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
-			
-			deal 		= levr.CustomerDeal(parent=db.Key(uid))
-			upload_url 	= blobstore.create_upload_url('/phone/uploadImg')
-			logging.info(upload_url)
-			#########
-			#BLOBSTORE STUFF - look here first if upload fails
-			#########
-			
-			img			= inputs('img')
-			logging.info(deal.img)
-			#=======
-#			upload = self.get_uploads()[0]
-			
-			#########
-			result = urlfetch.fetch(url=upload_url,
-					payload	= img,
-					method	= urlfetch.POST,
-					headers	= {'Content-Type': 'multipart/form-data'})
-			logging.info(dir(result))
-			logging.info(dir(result.content))
-			logging.info(result)
-#			deal.img			= 			#D
+			deal 				= levr.CustomerDeal(parent=db.Key(uid))
+			deal.img			= inputs('img')			#D
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.deal_text		= inputs('dealText') #### check name!!!
 			deal.deal_status	= 'pending'
 			deal.geo_point		= geo_point
+#			deal.deal_text		= inputs('dealText')
 			deal.description	= inputs('description')
 			#set expiration date to one week from now
 			#only need date, not time for this
 			deal.date_end		= datetime.now() + timedelta(days=7)
 	#		date_uploaded		= automatic
-			
-			
+		
 			#put in DB
 			deal.put()
 		
@@ -404,15 +384,6 @@ class uploadDeal(webapp2.RequestHandler):
 			levr.log_error(self.request.body)
 		finally:
 			self.response.out.write(json.dumps(toEcho))
-
-class uploadImg(blobstore_handlers.BlobstoreUploadHandler):
-	def post(self):
-		logging.info("self.get_uploads()[0]")
-		logging.info(self.get_uploads()[0])
-		upload = self.get_uploads()[0]
-		logging.info("upload.key()")
-		self.response.out.write(upload.key())
-		
 		
 class phone_log(webapp2.RequestHandler):
 	def post(self):
@@ -428,25 +399,18 @@ class img(webapp2.RequestHandler):
 			size 	= self.request.get('size')
 			logging.info(dealID)
 			logging.info(size)
-			
-			#get deal object
-			deal = levr.Deal.get(dealID)
+			self.response.headers['Content-Type'] = 'image/jpeg'
+			#grab deal
+			deal = db.get(dealID)
+			#convert deal img to PIL object
+			img = images.Image(deal.img)
+			logging.info(img)
+		
+			#calculate height of output
 
-			#get the blob
-			blob_key = deal.img
-			
-#			logging.info(dir(blob_key.properties))
-			#read the blob data into a string !!!! important !!!!
-			blob_data = blob_key.open().read()
-			
-			#pass blob data to the image handler
-			img			= images.Image(blob_data)
-			#get img dimensions
-			img_width	= img.width
-			img_height	= img.height
-			logging.info(img_width)
-			logging.info(img_height)
-			
+			img_width		= img.width
+			img_height		= img.height
+		
 			#define output parameters
 			if size == 'dealDetail':
 				#view for top of deal screen
@@ -500,7 +464,6 @@ class img(webapp2.RequestHandler):
 			logging.info(img)
 			#effect changed on image
 			output_img = img.execute_transforms(output_encoding=images.JPEG)
-			
 		except:
 			levr.log_error(self.request.body)
 			output_img = None

@@ -507,5 +507,5 @@ app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/uploadDeal', uploadDeal),
 								('/phone/img.*', img),
 								('/phone/emptySetImg.*', EmptySetImg),
-								('/phone/fetchUploadURL', FetchUploadURL)],
+								('/phone/fetchUploadURL.*', FetchUploadURL)],
 								debug=True)

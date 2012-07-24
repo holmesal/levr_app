@@ -351,16 +351,14 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			logging.info(business)
 		
 		
-			uid = enc.decrypt_key(inputs('uid'))
-			logging.info(uid)
+			uid 				= enc.decrypt_key(inputs('uid'))
+			logging.debug(uid)
 			#create new deal object as child of the uploader Customer
-			deal 				= levr.CustomerDeal(parent=db.Key(uid))
-			
-			####blobstore stuff
+			deal				= levr.CustomerDeal(parent=db.Key(uid))
 			#fetch blobstore_info object of the uploaded image
-			upload = self.get_uploads()[0]
+			upload				= self.get_uploads()[0]
 			logging.debug(upload)
-			blob_key = upload.key()
+			blob_key			= upload.key()
 			#rest of the stuff stuff
 			deal.img			= blob_key 
 			deal.businessID		= business.key().__str__()
@@ -409,20 +407,27 @@ class img(webapp2.RequestHandler):
 		try:
 			dealID 	= enc.decrypt_key(self.request.get('dealID'))
 			size 	= self.request.get('size')
-			logging.info(dealID)
-			logging.info(size)
-			self.response.headers['Content-Type'] = 'image/jpeg'
-			#grab deal
-			deal = db.get(dealID)
-			#convert deal img to PIL object
-			img = images.Image(deal.img)
-			logging.info(img)
-		
-			#calculate height of output
+			logging.debug(dealID)
+			logging.debug(size)
+			
+			#get deal object
+			deal = levr.Deal.get(dealID)
 
-			img_width		= img.width
-			img_height		= img.height
-		
+			#get the blob
+			blob_key = deal.img
+			
+			logging.debug(dir(blob_key.properties))
+			#read the blob data into a string !!!! important !!!!
+			blob_data = blob_key.open().read()
+			
+			#pass blob data to the image handler
+			img			= images.Image(blob_data)
+			#get img dimensions
+			img_width	= img.width
+			img_height	= img.height
+			logging.debug(img_width)
+			logging.debug(img_height)
+			
 			#define output parameters
 			if size == 'dealDetail':
 				#view for top of deal screen
@@ -469,18 +474,22 @@ class img(webapp2.RequestHandler):
 		
 			#crop image to aspect ratio
 			img.crop(left_x,top_y,right_x,bot_y)
-			logging.info(img)
+			logging.debug(img)
 			
 			#resize cropped image
 			img.resize(width=int(output_width),height=int(output_height))
-			logging.info(img)
+			logging.debug(img)
 			output_img = img.execute_transforms(output_encoding=images.JPEG)
-			logging.info(output_img)
+			logging.debug(output_img)
 		except:
 			levr.log_error(self.request.body)
 			output_img = None
 		finally:
-			self.response.out.write(output_img)
+			try:
+				self.response.headers['Content-Type'] = 'image/jpeg'
+				self.response.out.write(output_img)
+			except:
+				levr.log_error()
 			
 class EmptySetImg(webapp2.RequestHandler):
 	def get(self):

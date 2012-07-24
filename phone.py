@@ -11,6 +11,8 @@ import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
 #from google.appengine.api import mail
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 class phone(webapp2.RequestHandler):
 	def post(self):
@@ -307,7 +309,15 @@ class phone(webapp2.RequestHandler):
 				#catches the case where toEcho cannot be parsed as json
 				self.response.out.write(json.dumps({"success":False}))
 				levr.log_error()
-class uploadDeal(webapp2.RequestHandler):
+
+class FetchUploadURL(webapp2.RequestHandler):
+	'''Returns a url for image upload to blobstore'''
+	def get(self):
+		upload_url = blobstore.create_upload_url('/sandbox/upload_photo')
+		logging.debug(upload_url)
+		self.response.out.write(upload_url)
+
+class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		toEcho = {"success":False}
 		try:
@@ -345,7 +355,14 @@ class uploadDeal(webapp2.RequestHandler):
 			logging.info(uid)
 			#create new deal object as child of the uploader Customer
 			deal 				= levr.CustomerDeal(parent=db.Key(uid))
-			deal.img			= inputs('img')			#D
+			
+			####blobstore stuff
+			#fetch blobstore_info object of the uploaded image
+			upload = self.get_uploads()[0]
+			logging.debug(upload)
+			blob_key = upload.key()
+			#rest of the stuff stuff
+			deal.img			= blob_key 
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.deal_text		= inputs('dealText') #### check name!!!
@@ -387,7 +404,8 @@ class phone_log(webapp2.RequestHandler):
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
-		
+		'''Returns ONLY an image for a deal specified by dealID
+		Gets the image from the blobstoreReferenceProperty deal.img'''
 		try:
 			dealID 	= enc.decrypt_key(self.request.get('dealID'))
 			size 	= self.request.get('size')
@@ -479,5 +497,6 @@ app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),
 								('/phone/img.*', img),
-								('/phone/emptySetImg.*', EmptySetImg)],
+								('/phone/emptySetImg.*', EmptySetImg),
+								('/phone/fetchUploadURL', FetchUploadURL)],
 								debug=True)

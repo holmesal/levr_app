@@ -31,8 +31,13 @@ class Customer(db.Model):
 		return
 		
 	def get_notifications(self):
+		#grab new notifications
+		new_redemption = self.new_redeem_count
+		#flush notifications
+		self.flush_new_redeem_count()
+		#return new notification information
 		return {
-			"newRedemption"	: self.new_redeem_count
+			"newRedemption"	: new_redemption
 		}
 		
 	def get_stats(self):

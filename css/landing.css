@@ -5,6 +5,17 @@ body{
 	margin: 0;
 }
 
+#pageHead{
+	height: 30px;
+	border-bottom: black;
+	border-style: solid;
+	border-bottom-width: thin;
+}
+
+.pageHeadText{
+	margin-left: 100px;
+}
+
 #header{
 	
 	margin-top: 0px;

@@ -12,7 +12,7 @@ class edit(webapp2.RequestHandler):
 		self.response.out.write("""
 			<html>
 			<body>
-			<form action="/phone/uploadDealImage" enctype="multipart/form-data" method="post">
+			<form action="/emptySet/edit" enctype="multipart/form-data" method="post">
 				<div><label>Index (1-10):</label></div>
 				<div><input type="text" name="index"></input></div>
 

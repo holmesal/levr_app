@@ -9,11 +9,21 @@ url, query parameter gives back small or large image
 
 (cron job)
 
-payment queue checking and smart stuff
+flurry including logging search queries
+Landing page - sketch out phone shots
+aesthetics
+terms of service
+
+Empty set response to blobstore - phone response handler and upload
+email updates for pending deals
+apartment applications
+
+
+later...
+start thinking about async methods
+
+
 
 ISSUES
-========
-merchants.py does not have encryption handling
-
-As is, sharing will not work if the deal is not uploaded by a customer.
-	- It only pulls CustomerDeals
+=======
+None

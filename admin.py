@@ -94,7 +94,7 @@ class AllImages(webapp2.RequestHandler):
 			self.response.headers['Content-Type'] = 'image/jpeg'
 			self.response.out.write(result.img)
 
-app = webapp2.WSGIApplication([('/admin/pending', Pending),,
+app = webapp2.WSGIApplication([('/admin/pending', Pending),
 								('/admin/allImages', AllImages),
 								('/admin/approve', Approve),
 								('/admin/reject',Reject)],

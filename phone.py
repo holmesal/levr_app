@@ -319,8 +319,9 @@ class uploadDeal(webapp2.RequestHandler):
 			inputs			= self.request.get
 			#grab existing business
 			business_name	= inputs('businessName')
+#			!!!!!CHANGE
 			geo_point		= inputs('geoPoint')
-			logging.info(geo_point)
+			logging.debug(geo_point)
 			geo_point		= levr.geo_converter(geo_point)
 			logging.info(geo_point)
 			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()

@@ -63,7 +63,6 @@ class phone(webapp2.RequestHandler):
 					#grab the parent deal key so we can grab the info from it
 					d = category.key().parent()
 					logging.debug(d)
-					d = d.key()
 					#grab the appropriate deal parent
 					result = levr.Deal.get(d)
 					logging.debug(result)

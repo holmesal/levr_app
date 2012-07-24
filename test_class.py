@@ -152,7 +152,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		
 
 app = webapp2.WSGIApplication([('/new', MainPage),
-								('/new/upload', DatabaseUploadHandler)
+								('/new/upload.*', DatabaseUploadHandler)
 								],debug=True)
 
 

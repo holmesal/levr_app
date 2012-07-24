@@ -57,7 +57,7 @@ libraries:
 - name: jinja2
   version: latest
 - name: pycrypto
-  version: latest
+  version: 2.3
 
 builtins:
 - appstats: on

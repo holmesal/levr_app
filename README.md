@@ -1,13 +1,7 @@
-levr_app
+levr_app to launchable state:
 ========
 
 Things to do:
-
-url, query parameter gives back small or large image
-		-jpeg compression should yield smaller images
-		-width of returned image should be based on largest phone designing for
-
-(cron job)
 
 flurry including logging search queries
 Landing page - sketch out phone shots
@@ -21,6 +15,14 @@ apartment applications
 
 later...
 start thinking about async methods
+
+
+post-launchable state:
+=======
+restart merchants page
+	very very very slim feature set
+embeddable widget
+
 
 
 

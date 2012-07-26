@@ -1,5 +1,5 @@
 from __future__ import with_statement
-from google.appengine.api import files
+#from google.appengine.api import files
 import webapp2
 import levr_classes
 import logging
@@ -17,7 +17,7 @@ class MainPage(webapp2.RequestHandler):
 		logging.info(upload_url)
 		# The method must be "POST" and enctype must be set to "multipart/form-data".
 		self.response.out.write('<html><body>')
-		self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % '/new/upload') #upload_url)
+		self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % upload_url)
 		self.response.out.write('''Upload File: <input type="file" name="img"><br> <input type="submit"
 		name="submit" value="Create!"> </form></body></html>''')
 
@@ -28,26 +28,26 @@ class MainPage(webapp2.RequestHandler):
 class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		#get uploaded image
-#		logging.info(self.get_uploads()[0])
-#		upload = self.get_uploads()[0]
-#		logging.info(upload)
-		#		upload = self.request.get('img')
+		logging.info(self.get_uploads()[0])
+		upload = self.get_uploads()[0]
+		logging.info(upload)
+#		upload = self.request.get('img')
 #		upload = blobstore.Blob(upload)
 #		logging.info(upload)
 		
 		# Create the file
-		file_name = files.blobstore.create(mime_type='image/jpeg')
-		logging.info(file_name)
-		# Open the file and write to it
-		with files.open(file_name, 'a') as f:
-		  f.write('data')
+#		file_name = files.blobstore.create(mime_type='image/jpeg')
+#		logging.info(file_name)
+#		# Open the file and write to it
+#		with files.open(file_name, 'a') as f:
+#		  f.write('data')
 
-		# Finalize the file. Do this before attempting to read it.
-		files.finalize(file_name)
+#		# Finalize the file. Do this before attempting to read it.
+#		files.finalize(file_name)
 
 		# Get the file's blob key
-		blob_key = files.blobstore.get_blob_key(file_name)
-		logging.info(blob_key)
+#		blob_key = files.blobstore.get_blob_key(file_name)
+#		logging.info(blob_key)
 
 		# new customer
 		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM')

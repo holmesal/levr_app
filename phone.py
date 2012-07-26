@@ -90,7 +90,8 @@ class phone(webapp2.RequestHandler):
 				#loop through and append to data
 				for result in q:
 					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":'http://getlevr.appspot.com/phone/emptySetImg?img_key=' + enc.encrypt_key(result.key().__str__())}
+									"imgURL":"http://getlevr.appspot.com/phone?size=emptySet&dealID=" + enc.encrypt_key(result.key())
+					} 
 					#push to stack
 					dealResults.append(searchObj)
 				#echo back success!
@@ -412,7 +413,7 @@ class img(webapp2.RequestHandler):
 			logging.debug(size)
 			
 			#get deal object
-			deal = levr.Deal.get(dealID)
+			deal = db.get(dealID)
 
 			#get the blob
 			blob_key = deal.img
@@ -448,6 +449,9 @@ class img(webapp2.RequestHandler):
 			elif size == 'facebook':
 				aspect_ratio 	= 1.
 				output_width	= 250.
+			elif size == 'emptySet':
+				aspect_ratio	= 3.
+				output_width	= 640.
 			else:
 				raise Exception('invalid size parameter')
 				

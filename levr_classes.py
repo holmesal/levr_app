@@ -244,7 +244,7 @@ class Favorite(db.Model):
 class EmptySetResponse(db.Model):
 #root class
 	primary_cat		= db.StringProperty()
-	img				= db.BlobProperty()
+	img				= blobstore.BlobReferenceProperty()
 	index			= db.IntegerProperty()
 	
 class CashOutRequest(db.Model):

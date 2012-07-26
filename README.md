@@ -13,6 +13,8 @@ Empty set response to blobstore - phone response handler and upload
 email updates for pending deals
 apartment applications
 
+lost password recovery - decrypt and email
+
 
 later...
 start thinking about async methods

@@ -18,7 +18,7 @@ apartment applications
 
 later...
 start thinking about async methods
-
+lower-casify each search 
 
 post-launchable state:
 =======
@@ -52,9 +52,11 @@ Analytics - App
 What we want to measure
 -----------------------
 Search or browse or add deal the first time
-search vs browse frequency 
+search vs browse vs add deal frequency
 search queries
 frequency of each search query
+number of results per query
+number of results per browse query
 number of redemptions per search query/deal
 number of addfavs per query/deal
 number of deals viewed in between action (add fav/ redeem)
@@ -66,14 +68,18 @@ number of signups on phone
 frequency of being search for each browse category
 number of people viewing help screen from inside app
 	- what screen they were on
-
+number of favorites/redemptions through browse vs search
 number of cashout requests
 number of shares for each deal
 	- frequency of sharing for newly created deals
 location of users
+location of redemptions/addfav in relation to location of deal
 log uid for each action - native in flurry
 uncaught exeptions
 
+redemptions/addfavs per business/deal
+redemptions/addfavs per user
+frequency of sessions/favorite/redemption per user
 
 
 funnels

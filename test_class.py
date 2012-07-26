@@ -8,6 +8,8 @@ import levr_encrypt as enc
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
+
+
 class MainPage(webapp2.RequestHandler):
 	def get(self):
 		logging.info('!!!')
@@ -19,31 +21,56 @@ class MainPage(webapp2.RequestHandler):
 		self.response.out.write('''Upload File: <input type="file" name="img"><br> <input type="submit"
 		name="submit" value="Create!"> </form></body></html>''')
 
+
+
+
+
 class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		#get uploaded image
-#		upload = self.get_uploads()[0]
-		upload = self.request.get('img')
-		upload = blobstore.Blob(upload)
+		logging.info(self.get_uploads()[0])
+		upload = self.get_uploads()[0]
 		logging.info(upload)
+#		upload = self.request.get('img')
+#		upload = blobstore.Blob(upload)
+#		logging.info(upload)
 		
+		# Create the file
+#		file_name = files.blobstore.create(mime_type='image/jpeg')
+#		logging.info(file_name)
+#		# Open the file and write to it
+#		with files.open(file_name, 'a') as f:
+#		  f.write('data')
+
+#		# Finalize the file. Do this before attempting to read it.
+#		files.finalize(file_name)
+
+		# Get the file's blob key
+#		blob_key = files.blobstore.get_blob_key(file_name)
+#		logging.info(blob_key)
+
 		# new customer
-		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEgw')
+		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIPCxIIQ3VzdG9tZXIYtQIM')
+		c.alias	= 'alonso'
 		c.email	= 'ethan@getlevr.com'
 		c.payment_email = c.email
 		c.pw 	= 'ethan'
-		c.alias	= 'alonso'
+		c.money_earned = 0.0
+		c.money_paid = 0.0
 		c.put()
 
 		#new ninja
-		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYCww')
+		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYAQw')
+		ninja.alias	= 'ninja'
 		ninja.email	= 'santa@getlevr.com'
 		ninja.payment_email = c.email
 		ninja.pw 	= 'ethan'
-		ninja.alias	= 'ninja'
 		ninja.money_earned = 0.0
 		ninja.money_paid = 0.0
 		ninja.put()
+
+
+
 
 		#new business
 		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYBAw')
@@ -63,7 +90,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
 		#new deal
 		d = levr_classes.Deal(parent=b)
-		d.img				= upload.key()
+#		d.img				= upload.key()
 		d.businessID		= str(b.key())
 		d.business_name 	= 'Shaws'
 		d.secondary_name	= 'second name'
@@ -84,8 +111,8 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
 		#new customer deal
 		cd = levr_classes.CustomerDeal(parent=ninja)
+#		cd.img				= upload.key()
 		cd.businessID		= str(b.key())
-		cd.img				= upload.key()
 		cd.business_name 	= 'Shaws'
 		cd.deal_item 		= 'socks'
 		cd.name_type		= 'specific'
@@ -104,6 +131,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.address_string	= '1234 Cherry Lane, Boston, MA 02134, USA'
 		cd.put()
 
+
 		#new Category
 		cat = levr_classes.Category(parent=d)
 		cat.primary_cat 	= 'Socks'
@@ -112,6 +140,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
 		#new favorite
 		f = levr_classes.Favorite(parent=c)
+		#       f.uid				= str(c.key())
 		f.dealID			= str(d.key())
 		f.primary_cat	 	= 'Shoes'
 		f.put()

@@ -35,16 +35,21 @@ handlers:
   login: admin
   secure: always
 - url: /test.*
-  script: load_test.py
+  script: test.py
   login: admin
 - url: /tasks/cleanDeals
   script: cleanDeals.py
   login: admin
+<<<<<<< HEAD
 - url: /sandbox
   script: test.app
   login: admin
 - url: /password.*
   script: password.app
+=======
+- url: /sandbox/.*
+  script: sandbox.app
+>>>>>>> blob
 
 
 

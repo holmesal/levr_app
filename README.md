@@ -13,7 +13,7 @@ barcode for redeem screen
 email updates for pending deals
 apartment applications
 
-<!--lost password recovery - decrypt and email-->
+lost password recovery - decrypt and email
 
 
 later...

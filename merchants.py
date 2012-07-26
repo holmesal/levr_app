@@ -4,7 +4,7 @@ import os
 import levr_utils
 import logging
 import levr_classes as levr
-##!!!! DOESNT HAVE ENCRYPTION HANDLING !!!! ##
+##!!!! DOESNT HAVE ENCRYPTION HANDLING !!!! ####
 from gaesessions import get_current_session
 from google.appengine.ext import db
 

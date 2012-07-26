@@ -25,7 +25,7 @@ post-launchable state:
 restart merchants page
 	very very very slim feature set
 embeddable widget
-
+auto remove deal from favorite post redeeem?
 
 
 

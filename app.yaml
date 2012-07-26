@@ -43,6 +43,8 @@ handlers:
 - url: /sandbox
   script: test.app
   login: admin
+- url: /password.*
+  script: password.app
 
 
 

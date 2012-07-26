@@ -9,7 +9,7 @@ aesthetics
 terms of service
 barcode for redeem screen
 
-Empty set response to blobstore - phone response handler and upload
+<!--Empty set response to blobstore - phone response handler and upload-->
 email updates for pending deals
 apartment applications
 

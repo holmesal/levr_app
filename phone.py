@@ -495,21 +495,9 @@ class img(webapp2.RequestHandler):
 				self.response.out.write(output_img)
 			except:
 				levr.log_error()
-			
-class EmptySetImg(webapp2.RequestHandler):
-	def get(self):
-		#grab input data
-		img_key = enc.decrypt_key(self.request.get("img_key"))
-		
-		#grab image from datastore
-		result = levr.EmptySetResponse.get(img_key)
-		
-		self.response.headers['Content-Type'] = 'image/png'
-		self.response.out.write(result.img)
-		
+
 app = webapp2.WSGIApplication([('/phone', phone),
 								('/phone/log', phone_log),
 								('/phone/uploadDeal', uploadDeal),
-								('/phone/img.*', img),
-								('/phone/emptySetImg.*', EmptySetImg)],
-								debug=True)
+								('/phone/img.*', img)
+								],debug=True)

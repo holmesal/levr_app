@@ -374,7 +374,16 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#only need date, not time for this
 			deal.date_end		= datetime.now() + timedelta(days=7)
 	#		date_uploaded		= automatic
-		
+			
+			#########
+			#BLOBSTORE STUFF - look here first if upload fails
+			#########
+			deal.img			= inputs('img')
+			logging.info(deal.img)
+			#=======
+#			upload = self.get_uploads()[0]
+			
+			#########
 			#put in DB
 			deal.put()
 		
@@ -384,7 +393,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		
 		
 			#send mail to the admins to notify of new pending deal
-#			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
+#			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
 #							to="Patrick Walsh <patrick@getlevr.com>",
 #							subject="New pending deal",
 #							body="""
@@ -400,7 +409,8 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass
-		
+
+
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
@@ -419,6 +429,7 @@ class img(webapp2.RequestHandler):
 			blob_key = deal.img
 			
 			logging.debug(dir(blob_key.properties))
+
 			#read the blob data into a string !!!! important !!!!
 			blob_data = blob_key.open().read()
 			
@@ -440,6 +451,7 @@ class img(webapp2.RequestHandler):
 				aspect_ratio	= 1.	#width/height
 				output_width	= 200.	#arbitrary standard
 			elif size == 'fullSize':
+				#full size image
 				aspect_ratio	= float(img_width)/float(img_height)
 				output_width	= float(img_width)
 	#			self.response.out.write(deal.img)
@@ -461,7 +473,7 @@ class img(webapp2.RequestHandler):
 			
 			##get crop dimensions
 			if img_width > img_height*aspect_ratio:
-				#width must be cropped
+				#width is proportionally larger than height
 				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
 				w_crop 	= float(w_crop_unscaled/img_width)
 				left_x 	= w_crop
@@ -469,7 +481,7 @@ class img(webapp2.RequestHandler):
 				top_y	= 0.
 				bot_y	= 1.
 			else:
-				#height must be cropped
+				#height is proportionally larger than width
 				h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
 				h_crop	= float(h_crop_unscaled/img_height)
 				left_x	= 0.

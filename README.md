@@ -44,3 +44,74 @@ change "Add" text to "Favorite"
 Change homescreen add deal camera icon
 change add deal textboxes
 First page aesthetics
+
+
+Analytics - App
+===============
+
+What we want to measure
+-----------------------
+Search or browse or add deal the first time
+search vs browse frequency 
+search queries
+frequency of each search query
+number of redemptions per search query/deal
+number of addfavs per query/deal
+number of deals viewed in between action (add fav/ redeem)
+number of repeat users
+number of downloads (know from app store)
+number of first time users with favorite - i.e. got there through share
+	- should log on web side
+number of signups on phone
+frequency of being search for each browse category
+number of people viewing help screen from inside app
+	- what screen they were on
+
+number of cashout requests
+number of shares for each deal
+	- frequency of sharing for newly created deals
+location of users
+log uid for each action - native in flurry
+uncaught exeptions
+
+
+
+funnels
+-------
+home > search/browse + query > deal > redeem/addfav
+favorite > deal screen > delete/redeem
+home > add deal > take picture > upload deal
+
+
+
+Screen breakdown
+----------------
+login screen
+
+home screen
+- screen: search
+	- search query
+	- search results
+	- selection of deal
+	- return to search after viewing a deal and select another one
+
+- browse
+	- what do they select
+	- 
+- upload
+	- user
+	- 
+- screen: deal view
+	- redemption vs favorite vs back
+	- search query
+	- deal id
+- screen: my favorites
+	- 
+- screen: my deals
+	- histogram of number of times viewing this screen vs % of users
+	- 
+
+- screen: my stats
+	- histogram of number of times viewing this screen vs % of users
+
+

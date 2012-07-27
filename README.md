@@ -15,6 +15,8 @@ apartment applications
 
 lost password recovery - decrypt and email
 
+remember to change back url in phoneformat from localhost to real server
+
 
 later...
 start thinking about async methods

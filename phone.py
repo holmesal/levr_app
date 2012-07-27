@@ -232,7 +232,7 @@ class phone(webapp2.RequestHandler):
 				notifications = customer.get_notifications()
 				
 				#data
-				data = ["message":"You have already redeemed this deal."]
+				data = [{"message":"You have already redeemed this deal."}]
 				
 				#don't try and redeem the same deal twice. . .
 				if dealID in customer.redemptions:
@@ -523,7 +523,7 @@ class img(webapp2.RequestHandler):
 			img.resize(width=int(output_width),height=int(output_height))
 			logging.debug(img)
 			output_img = img.execute_transforms(output_encoding=images.JPEG)
-			logging.debug(output_img)
+#			logging.debug(output_img)
 		except:
 			levr.log_error(self.request.body)
 			output_img = None

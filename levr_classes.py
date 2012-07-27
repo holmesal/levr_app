@@ -284,7 +284,7 @@ def phoneFormat(deal,use,primary_cat=None):
 	if use == 'list' or use == 'myDeals' or use == 'widget':
 		
 		data = {"dealID"		: dealID,
-				"imgURL"	  	: 'http://0.0.0.0:8080/phone/img?dealID='+dealID+'&size=list',
+				"imgURL"	  	: 'http://0.0.0.0:8080/phone/img?dealID='+dealID+'&size=widget',
 #				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,

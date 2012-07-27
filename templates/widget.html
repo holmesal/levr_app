@@ -21,10 +21,10 @@
 							{% if headerData.loggedIn == True %}
 								<button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
 							{% else %}
-								<a href="http://google.com">Get this deal</a>
+								<a href="http://0.0.0.0:8080/widget/welcome?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
 							{% endif %}
 						</div>
-						<img src="../../img/divider_faded.png">
+						<!--img src="../../img/divider_faded.png"-->
 					</div>
 				{% endfor %}
 			{% elif action == 'success' %}

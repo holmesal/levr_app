@@ -10,7 +10,7 @@ import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-from google.appengine.api import mail
+#from google.appengine.api import mail
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
@@ -490,6 +490,9 @@ class img(webapp2.RequestHandler):
 			elif size == 'emptySet':
 				aspect_ratio	= 3.
 				output_width	= 640.
+			elif size == 'widget':
+				aspect_ratio	= 1.
+				output_width	= 150.
 			else:
 				raise Exception('invalid size parameter')
 				

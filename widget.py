@@ -39,7 +39,7 @@ class RemoteHandler(webapp2.RequestHandler):
 				plugs = []		
 			#check loginstate of user viewing the deal
 			headerData = levr_utils.loginCheck(self,False)
-#				headerData['loggedIn'] = False
+			headerData['loggedIn'] = False
 #			self.response.out.write(headerData)
 			template_values = {
 				'headerData'	: headerData,
@@ -59,16 +59,38 @@ class RemoteHandler(webapp2.RequestHandler):
 
 class LoggedInFavHandler(webapp2.RequestHandler):
 	def get(self):
-		dealID		= enc.decrypt_key(self.request.get('deal'))
-		businessID	= self.request.get('id') #do not decrypt
-		session		= get_current_session()
-		customer_key= enc.decrypt_key(session['uid'])
-		customer	= levr.Customer.get(customer_key)
-		fav			= levr.Favorite(parent=customer.key())
-		fav.dealID	= dealID
-		fav.put()
-		self.redirect('/widget/remote?action=success')
-
+		try:
+			dealID		= enc.decrypt_key(self.request.get('deal'))
+			businessID	= self.request.get('id') #do not decrypt
+			session		= get_current_session()
+			customer_key= enc.decrypt_key(session['uid'])
+			customer	= levr.Customer.get(customer_key)
+			fav			= levr.Favorite(parent=customer.key())
+			fav.dealID	= dealID
+			fav.put()
+			self.redirect('/widget/remote?action=success')
+		except:
+			levr.log_error()
+			self.redirect('/widget/remote?success=False')
+class LocalPageHandler(webapp2.RequestHandler):
+	def get(self):
+		dealID 	= enc.decrypt_key(self.request.get('id'))
+		deal	= levr.Deal.get(dealID)
+		business= levr.Business.get(deal.businessID)
+		deal	= levr.phoneFormat(deal,'list')
+		headerData = levr_utils.loginCheck(self,False)
+		headerData['loggedIn'] = False
+		template_values = {
+			'headerData': headerData,
+			'deal'		: deal,
+			'business'	: business
+		}
+		jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+		template = jinja_environment.get_template('templates/widget-welcome.html')
+		self.response.out.write(template.render(template_values))
+		
+		
 app = webapp2.WSGIApplication([('/widget/remote', RemoteHandler),
-								('/widget/add', LoggedInFavHandler)
+								('/widget/add', LoggedInFavHandler),
+								('.widget/welcome', LocalPageHandler)
 								], debug=True)

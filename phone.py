@@ -242,8 +242,8 @@ class phone(webapp2.RequestHandler):
 				
 				#don't try and redeem the same deal twice. . .
 				if dealID in customer.redemptions:
-					toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
-				else:
+					#toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
+				#else:
 					toEcho = {"success":True,"notifications":notifications}
 			
 			elif action == "redeem":
@@ -257,8 +257,8 @@ class phone(webapp2.RequestHandler):
 				customer = levr.Customer.get(uid)
 			
 				#don't try and redeem the same deal twice. . .
-				if dealID in customer.redemptions:
-					raise Exception('Cannot redeem a deal more than once')
+				#if dealID in customer.redemptions:
+					#raise Exception('Cannot redeem a deal more than once')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer

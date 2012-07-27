@@ -202,6 +202,15 @@ class phone(webapp2.RequestHandler):
 				ninja.put()
 				#get new notifications
 				notifications = ninja.get_notifications()
+				
+				#Grab their cash out requests, if they exist
+				cor_q = levr.CashOutRequest.gql("WHERE ANCESTOR IS :1 AND status=:2",uid,'active')
+				cor = cor_q.get()
+				if cor != None:
+					notifications["isPendingCashOut"] = True
+				else:
+					notifications["isPendingCashOut"] = False
+				notifications["pendingCashOutAmount"] = ninja.money_available
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "getMyStats":
@@ -231,16 +240,12 @@ class phone(webapp2.RequestHandler):
 				#new notifications?
 				notifications = customer.get_notifications()
 				
-				#data
-				data = ["message":"You have already redeemed this deal."]
-				
 				#don't try and redeem the same deal twice. . .
 				if dealID in customer.redemptions:
-					toEcho = {"success":False,"data":data,"notifications":notifications}
-				else:
+					#toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
+				#else:
 					toEcho = {"success":True,"notifications":notifications}
-					
-					
+			
 			elif action == "redeem":
 				#grab corresponding deal
 				uid 	= enc.decrypt_key(decoded['in']['uid'])
@@ -252,9 +257,8 @@ class phone(webapp2.RequestHandler):
 				customer = levr.Customer.get(uid)
 			
 				#don't try and redeem the same deal twice. . .
-				if dealID in customer.redemptions:
-					toEcho = {"success":False,"message":"You have already redeemed this deal.","notifications":notifications}
-					#raise Exception('')
+				#if dealID in customer.redemptions:
+					#raise Exception('Cannot redeem a deal more than once')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
@@ -314,7 +318,7 @@ class phone(webapp2.RequestHandler):
 				cor = levr.CashOutRequest(parent=ninja)
 				cor.amount = ninja.money_available
 				if cor.amount == 0:
-					toEcho = {"success":False}
+					toEcho = {"success":False,"data":{"message":"You need to earn something before you can cash out!"}}
 				else:
 					cor.status = 'pending'
 					cor.date_created = datetime.now()
@@ -397,16 +401,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#only need date, not time for this
 			deal.date_end		= datetime.now() + timedelta(days=7)
 	#		date_uploaded		= automatic
-			
-			#########
-			#BLOBSTORE STUFF - look here first if upload fails
-			#########
-			deal.img			= inputs('img')
-			logging.info(deal.img)
-			#=======
-#			upload = self.get_uploads()[0]
-			
-			#########
+		
 			#put in DB
 			deal.put()
 		
@@ -416,7 +411,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		
 		
 			#send mail to the admins to notify of new pending deal
-#			mail.send_mail(sender="Pending Deal <patrick@getlevr.com>",
+#			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
 #							to="Patrick Walsh <patrick@getlevr.com>",
 #							subject="New pending deal",
 #							body="""
@@ -435,8 +430,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass
-
-
+		
 class img(webapp2.RequestHandler):
 	def get(self):
 		#get inputs
@@ -455,7 +449,6 @@ class img(webapp2.RequestHandler):
 			blob_key = deal.img
 			
 			logging.debug(dir(blob_key.properties))
-
 			#read the blob data into a string !!!! important !!!!
 			blob_data = blob_key.open().read()
 			
@@ -499,7 +492,7 @@ class img(webapp2.RequestHandler):
 			
 			##get crop dimensions
 			if img_width > img_height*aspect_ratio:
-				#width is proportionally larger than height
+				#width must be cropped
 				w_crop_unscaled = (img_width-img_height*aspect_ratio)/2
 				w_crop 	= float(w_crop_unscaled/img_width)
 				left_x 	= w_crop
@@ -507,7 +500,7 @@ class img(webapp2.RequestHandler):
 				top_y	= 0.
 				bot_y	= 1.
 			else:
-				#height is proportionally larger than width
+				#height must be cropped
 				h_crop_unscaled = (img_height-img_width/aspect_ratio)/2
 				h_crop	= float(h_crop_unscaled/img_height)
 				left_x	= 0.

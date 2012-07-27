@@ -1,8 +1,41 @@
-.hidden{
-	display: none;
+body{
+	background-color: white;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: 0;
 }
 
-#dealForm{
-	background-color: white;
-	border: none;
+#header{
+	background-color: #313131;
+	height: 20px;
+}
+
+#container{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	text-align: center;
+	width: 940px;
+}
+
+#left{
+	border: 1px solid black;
+	width: 460px;
+	height: 100px;
+	float: left;
+}	
+	
+#right{
+	border: 1px solid black;
+	width: 460px;
+	height: 100px;
+	float: left;
+}	
+
+/* !Text styles */
+#headerText{
+	margin-top: 100px;
+	text-align: center;
+	font-size: 20pt;
+	font-weight: 200;
+	margin-bottom: 50px;
 }

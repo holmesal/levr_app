@@ -202,6 +202,15 @@ class phone(webapp2.RequestHandler):
 				ninja.put()
 				#get new notifications
 				notifications = ninja.get_notifications()
+				
+				#Grab their cash out requests, if they exist
+				cor_q = levr.CashOutRequest.gql("WHERE ANCESTOR IS :1",uid)
+				cor = cor_q.get()
+				if cor != None:
+					notifications.append({"isPendingCashout":True})
+				else:
+					notifications.append({"isPendingCashout":False})
+				
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "getMyStats":
@@ -248,8 +257,8 @@ class phone(webapp2.RequestHandler):
 				customer = levr.Customer.get(uid)
 			
 				#don't try and redeem the same deal twice. . .
-				#if dealID in customer.redemptions:
-					#raise Exception('')
+				if dealID in customer.redemptions:
+					raise Exception('Cannot redeem a deal more than once')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
@@ -309,7 +318,7 @@ class phone(webapp2.RequestHandler):
 				cor = levr.CashOutRequest(parent=ninja)
 				cor.amount = ninja.money_available
 				if cor.amount == 0:
-					toEcho = {"success":False}
+					toEcho = {"success":False,"data":{"message":"You need to earn something before you can cash out!"}}
 				else:
 					cor.status = 'pending'
 					cor.date_created = datetime.now()

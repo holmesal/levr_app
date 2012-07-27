@@ -117,20 +117,13 @@ class Deal(polymodel.PolyModel):
 	#key name is deal id
 	#deal information
 	img				= blobstore.BlobReferenceProperty()
-<<<<<<< HEAD
 	businessID 		= db.StringProperty(default='') #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty(default='') #name of business
 	secondary_name 	= db.StringProperty(default='') #secondary category
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	deal_text		= db.StringProperty()
-=======
-	businessID 		= db.StringProperty(default = '') #CHANGE TO REFERENCEPROPERTY
-	business_name 	= db.StringProperty(default = '') #name of business
-	secondary_name 	= db.StringProperty(default = '') #secondary category
-	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
-	deal_item		= db.StringProperty(default = '') #the item the deal is on - could be primary, secondary, ternery, whattt?
->>>>>>> blob
+
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
 	discount_value 	= db.FloatProperty() #number, -1 if free
 	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))

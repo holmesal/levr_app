@@ -2,6 +2,7 @@ import os
 import webapp2
 import levr_classes as levr
 import levr_encrypt	as enc
+import levr_utils
 #from google.appengine.ext import db
 #from google.appengine.api import images
 import logging
@@ -24,19 +25,38 @@ class PopulateHandler(webapp2.RequestHandler):
 			success = self.request.get('success')
 			logging.debug(success)
 			
+			#propogate user-entered values
+			email_or_owner = self.request.get('email_or_owner')
+			email = self.request.get('email')
+			username = self.request.get('username')
 			
 			#check loginstate of user viewing the deal
 			headerData = levr_utils.loginCheck(self,False)
 			
 			#grab the deals for the business
 			deals = levr.Deal.gql("WHERE ANCESTOR IS :1", businessID)
-			#grab the necessary information for each deal
-			#can I send a list? or does it have to be an object?
-			template_values = [levr.phoneFormat(deal,'plug') for deal in deals]
+			if not deals:
+				#business does not have any deals
+				self.response.out.write('No deals!')
+			else:
+				#grab/format the necessary information for each deal
+				plugs = [levr.phoneFormat(deal,'plug') for deal in deals]
+				template_values = {
+					'headerData'	: headerData,
+					'title'			: 'Plug',
+					'deals'			: plugs,
+					'error'			: error,
+					'success'		: success,
+					'email_or_owner': email_or_owner,
+					'email'			: email,
+					'username'		: username
+				}
+				logging.debug(template_values)
 			
-			jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-			template = jinja_environment.get_template('templates/lostPassword.html')
-			self.response.out.write(template.render(template_values))
+				jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+				template = jinja_environment.get_template('templates/plug.html')
+				self.response.out.write(template.render(template_values))
+			
 		except:
 			levr.log_error()
 
@@ -46,6 +66,7 @@ class ClickHandler(webapp2.RequestHandler):
 		try:
 			dealID = self.request.get('id')
 			uid = self.request.get('ref')
+			logging.debud(uid+" "+dealID)
 			# or...
 		except:
 			levr.log_error()

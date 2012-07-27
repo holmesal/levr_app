@@ -281,7 +281,7 @@ def phoneFormat(deal,use,primary_cat=None):
 	else:
 		dealTextExtra = ''
 		
-	if use == 'list' or use == 'myDeals' or use == 'plug':
+	if use == 'list' or use == 'myDeals' or use == 'widget':
 		
 		data = {"dealID"		: dealID,
 				"imgURL"	  	: 'http://0.0.0.0:8080/phone/img?dealID='+dealID+'&size=list',
@@ -304,7 +304,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
 				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+dealID
 			})
-		if use == 'plug':
+		if use == 'widget':
 			data.update({
 				"description"	: deal.description,
 			})

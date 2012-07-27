@@ -22,22 +22,7 @@ class RemoteHandler(webapp2.RequestHandler):
 			logging.debug(businessID)
 			action		= self.request.get('action')
 			
-			if action == 'success':
-				'''Action is login. only grab a single deal'''
-				dealID 		= self.request.get('deal')
-				businessID	= self.request.get('businessID') #do not decrypt
-				username	= self.request.get('username')
-				email		= self.request.get('email')
-				error		= self.request.get('error')
-				template_values = {
-					"dealID"	: dealID,
-					"businessID": businessID, #not encrypted
-					"username"	: username,
-					"email"		: email,
-					"error"		: error,
-					"action"	: action
-				}
-			else:
+			if action != 'success':
 				'''Action is to show list of deals'''
 				action = 'show'
 				#grab the deals for the business
@@ -49,7 +34,7 @@ class RemoteHandler(webapp2.RequestHandler):
 					plugs = []
 				else:
 					#grab/format the necessary information for each deal
-					plugs = [levr.phoneFormat(deal,'plug') for deal in deals]
+					plugs = [levr.phoneFormat(deal,'widget') for deal in deals]
 						
 				#check loginstate of user viewing the deal
 				headerData = levr_utils.loginCheck(self,False)

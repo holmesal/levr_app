@@ -133,7 +133,8 @@ class signupFav(webapp2.RequestHandler):
 			
 				if response['success']:
 					#add to favorites
-					customer = levr.Customer.get(response['uid'])
+					uid = enc.decrypt_key(response['uid'])
+					customer = levr.Customer.get(uid)
 					fav = levr.Favorite(parent=customer.key())
 					fav.dealID = dealID
 					fav.put()

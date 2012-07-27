@@ -90,7 +90,7 @@ class Business(db.Model):
     business_name 	= db.StringProperty()
     
     address_line1 	= db.StringProperty()
-    address_line2 	= db.StringProperty()
+    address_line2 	= db.StringProperty(default='')
     city			= db.StringProperty()
     state 			= db.StringProperty()
     zip_code		= db.StringProperty()

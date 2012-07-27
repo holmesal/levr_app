@@ -207,10 +207,10 @@ class phone(webapp2.RequestHandler):
 				cor_q = levr.CashOutRequest.gql("WHERE ANCESTOR IS :1",uid)
 				cor = cor_q.get()
 				if cor != None:
-					notifications.append({"isPendingCashout":True})
+					notifications["isPendingCashOut"] = True
 				else:
-					notifications.append({"isPendingCashout":False})
-				
+					notifications["isPendingCashOut"] = False
+				notifications["pendingCashOutAmount"] = ninja.money_available
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "getMyStats":

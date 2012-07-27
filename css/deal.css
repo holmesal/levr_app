@@ -6,7 +6,7 @@ body{
 
 #header{
 	background-color: #313131;
-	height: 20px;
+	height: 40px;
 }
 
 #container{
@@ -18,18 +18,66 @@ body{
 }
 
 #left{
-	border: 1px solid black;
 	width: 460px;
 	height: 100px;
 	float: left;
 }	
 	
 #right{
-	border: 1px solid black;
 	width: 460px;
 	height: 100px;
 	float: left;
 }	
+
+/* !iPhone Inner */
+#iphone_outer{
+	width: 300px;
+	height: 800px;
+	background-image: url(../img/create_iphone_blank.png);
+	background-origin: 0px,0px;
+	background-position: top left;
+	background-repeat: no-repeat;
+	padding-top: 170.6px;
+	padding-left:59.5px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#iphone_inner{
+	background-color: rgba(0,0,0,0);
+	width: 279px;
+	height: 335px;
+}
+
+#uploaded_img{
+	width: 100%;
+	height: 98px;
+}
+
+/* !Input styles */
+#deal_form{
+	text-align: left;
+}
+
+.textIn{
+	font-size: 16pt;
+	font-weight: 200;
+	margin-bottom: 20px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	display: block;
+	width: 350px;
+	border: none;
+	background-image: url(../img/text_cradle.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center bottom;
+	padding-left: 12px;
+	padding-right: 5px;
+}
+
+.textIn:focus{
+	outline: none;
+}
 
 /* !Text styles */
 #headerText{
@@ -38,4 +86,40 @@ body{
 	font-size: 20pt;
 	font-weight: 200;
 	margin-bottom: 50px;
+}
+
+.pane_header{
+	font-size: 14pt;
+	font-weight: 200;
+}
+
+#deal_line1{
+	font-family: Century;
+	font-weight: 100;
+	font-size: 14pt;
+	margin-top: 5px;
+	margin-bottom: 0px;
+}
+
+#deal_line2{
+	margin-top: 0px;
+	font-family: Century;
+	font-size: 10pt;
+	color: gray;
+}
+
+.dealText{
+	font-family: Century;
+	font-size: 10pt;
+	text-align: left;
+	margin: 0px 8px 0px 8px;
+	overflow: hidden;
+}
+
+#deal_description{
+	height: 50px;
+}
+
+#deal_business{
+	margin-top: 8px;
 }

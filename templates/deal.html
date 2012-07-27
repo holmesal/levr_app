@@ -8,15 +8,39 @@
 		</div>
 		<div id="container">
 			<div id="top">
-				<p id="headerText">Create and deploy a promotion in seconds.</p>
+				<p id="headerText">Create and launch a promotion in seconds.</p>
 			</div>
 			<div id="left">
-				
+				<p class="pane_header">Start typing here</p>
+				<form id="deal_form" method="post" action="">
+						<p>Tell us about your offer</p>
+						<input class="textIn" type="text" name="deal_line1" placeholder="What's the deal?">
+						<p>Bundled offer?</p>
+						<input class="textIn" type="text" name="deal_line2" placeholder="With purchase of...">
+						<p>Describe it</p>
+						<input class="textIn" type="text" name="deal_description" placeholder="Clever is good...">
+						<p>Who are you?</p>
+						<input class="textIn" type="text" name="deal_business" placeholder="Start typing your business name...">
+				</form>
 			</div>
 			
 			<div id="right">
-				<img src="../img/create_iphone_blank.png" alt="create_iphone_blank"/>
+				<p class="pane_header">See what customers will see here.</p>
+				<div id="iphone_outer">
+					<div id="iphone_inner">
+						<div id="uploaded_img"></div>
+						<p id="deal_line1"></p>
+						<p id="deal_line2"></p>
+						<p id="deal_description" class="dealText"></p>
+						<p id="deal_business" class="dealText"></p>
+						<p id="deal_address" class="dealText"></p>
+						<p id="deal_city" class="dealText"></p>
+					</div>
+				</div>
+				
 			</div>
 		</div>
+	<script src="../js/jquery-1.7.1.js"></script>
+	<script src="../js/deal.js"></script>
 	</body>
 </html>

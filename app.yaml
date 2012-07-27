@@ -46,7 +46,7 @@ handlers:
 - url: /password.*
   script: password.app
 - url: /widget.*
-  script: plug.app
+  script: widget.app
 
 
 - url: /img

@@ -11,7 +11,7 @@ from gaesessions import get_current_session
 #dealtype - bundle or 
 #dealitem -
 
-class MainHandler(webapp2.RequestHandler):
+class RemoteHandler(webapp2.RequestHandler):
 	def get(self):
 		'''Creates a list of deal objects to put plugged into an iframe'''
 		try:
@@ -22,7 +22,7 @@ class MainHandler(webapp2.RequestHandler):
 			logging.debug(businessID)
 			action		= self.request.get('action')
 			
-			if action == 'login':
+			if action == 'success':
 				'''Action is login. only grab a single deal'''
 				dealID 		= self.request.get('deal')
 				businessID	= self.request.get('businessID') #do not decrypt
@@ -54,7 +54,9 @@ class MainHandler(webapp2.RequestHandler):
 				#check loginstate of user viewing the deal
 				headerData = levr_utils.loginCheck(self,False)
 				self.response.out.write(headerData)
+				logging.debug(headerData)
 				headerData['loggedIn'] = False
+				logging.debug(headerData)
 				template_values = {
 					'headerData'	: headerData,
 					'businessID'	: enc.encrypt_key(businessID),
@@ -154,7 +156,7 @@ class SignupFavHandler(webapp2.RequestHandler):
 					self.redirect('/widget/show?deal='+dealID+'&id='+businessID+'&error='+response['field']+'&email='+email+'&username='+alias+'&action=login')
 		except:
 			levr.log_error()
-app = webapp2.WSGIApplication([('/widget/show', MainHandler),
+app = webapp2.WSGIApplication([('/widget/show', RemoteHandler),
 								('/widget/add', LoggedInFavHandler),
 								('/widget/login', LoginFavHandler),
 								('/widget/signup', SignupFavHandler)

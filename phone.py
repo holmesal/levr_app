@@ -395,6 +395,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		except:
 			levr.log_error(self.request.body)
 		finally:
+		
 			self.response.out.write(json.dumps(toEcho))
 		
 class phone_log(webapp2.RequestHandler):

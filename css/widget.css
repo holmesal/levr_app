@@ -1,0 +1,11 @@
+body{
+	background-color: white;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#dealImg{
+	width: 200px;
+	height: 200px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}

@@ -1,7 +1,9 @@
 <html>
 	<head>
-<!--		<meta charset="UTF-8">-->
-<!--		<link rel="icon" type="image/png" href="img/favicon.png" />-->
+		
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/png" href="img/favicon.png" />
+		<link href="../css/widget.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<div id="body">
@@ -9,7 +11,7 @@
 				<!--The user hasnt clicked a deal yet-->
 				{% for deal in deals %}
 					<div class='deal'>
-						<img id="dealImg" src="{{ deal.imgURL }}" />
+						<div id="dealImg" style="background-image: url('{{ deal.imgURL }}');"></div>
 						<p id='dealText'>{{deal.dealText}}</p>
 						<p id='dealTextExtra'>{{deal.dealTextExtra}}</p>
 						<p id="description">{{deal.description}}</p>	

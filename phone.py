@@ -427,8 +427,11 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		except:
 			levr.log_error(self.request.body)
 		finally:
-			self.response.out.write(json.dumps(toEcho))
-		
+			try:
+				self.response.out.write(json.dumps(toEcho))
+			except:
+				self.response.out.write({'success':False})
+				levr.log_error('toEcho could not be parsed into json')
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass

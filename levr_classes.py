@@ -288,7 +288,7 @@ def phoneFormat(deal,use,primary_cat=None):
 	else:
 		dealTextExtra = ''
 		
-	if use == 'list' or use == 'myDeals':
+	if use == 'list' or use == 'myDeals' or use == 'plug':
 		
 		data = {"dealID"		: dealID,
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
@@ -309,6 +309,10 @@ def phoneFormat(deal,use,primary_cat=None):
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
 				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+dealID
+			})
+		if use == 'plug':
+			data.update({
+				"description"	: deal.description,
 			})
 	elif use == 'deal':
 	

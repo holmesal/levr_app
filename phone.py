@@ -219,6 +219,24 @@ class phone(webapp2.RequestHandler):
 				#get new notifications
 				notifications = user.get_notifications()
 				toEcho = {"success":True,"data":data,"notifications":notifications}
+				
+			elif action == "checkRedeem":
+				#grab corresponding deal
+				uid 	= enc.decrypt_key(decoded['in']['uid'])
+				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
+				
+				#grab the customer
+				customer = levr.Customer.get(uid)
+				
+				#new notifications?
+				notifications = customer.get_notifications()
+				
+				#don't try and redeem the same deal twice. . .
+				if dealID in customer.redemptions:
+					toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
+				else:
+					toEcho = {"success":True,"notifications":notifications}
+			
 			elif action == "redeem":
 				#grab corresponding deal
 				uid 	= enc.decrypt_key(decoded['in']['uid'])

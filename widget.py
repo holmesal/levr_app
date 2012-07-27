@@ -40,7 +40,7 @@ class RemoteHandler(webapp2.RequestHandler):
 			#check loginstate of user viewing the deal
 			headerData = levr_utils.loginCheck(self,False)
 #				headerData['loggedIn'] = False
-			self.response.out.write(headerData)
+#			self.response.out.write(headerData)
 			template_values = {
 				'headerData'	: headerData,
 				'businessID'	: enc.encrypt_key(businessID),

@@ -6,22 +6,24 @@
 		<link href="../css/widget.css" rel="stylesheet"/>
 	</head>
 	<body>
-		<div id="body">
+		<div id="container">
 			{% if action == 'show' %}
 				<!--The user hasnt clicked a deal yet-->
 				{% for deal in deals %}
 					<div class='deal'>
 						<div id="dealImg" style="background-image: url('{{ deal.imgURL }}');"></div>
-						<p id='dealText'>{{deal.dealText}}</p>
-						<p id='dealTextExtra'>{{deal.dealTextExtra}}</p>
-						<p id="description">{{deal.description}}</p>	
-						<p>
-						{% if headerData.loggedIn == True %}
-							<button onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
-						{% else %}
-							<a href="http://google.com">Get this deal</a>
-						{% endif %}
-						</p>
+						<div id="dealBody">
+							<p id='dealText'>{{deal.dealText}}</p>
+							<p id='dealTextExtra'>{{deal.dealTextExtra}}</p>
+							<p id="description">{{deal.description}}</p>	
+						</div>
+						<div id="redeemButton">
+							{% if headerData.loggedIn == True %}
+								<button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
+							{% else %}
+								<a href="http://google.com">Get this deal</a>
+							{% endif %}
+						</div>
 						<img src="../../img/divider_faded.png">
 					</div>
 				{% endfor %}

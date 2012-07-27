@@ -1,0 +1,36 @@
+<html>
+	<head>
+<!--		<meta charset="UTF-8">-->
+<!--		<link rel="icon" type="image/png" href="img/favicon.png" />-->
+	</head>
+	<body>
+		<div id="body">
+			{% if action == 'show' %}
+				<!--The user hasnt clicked a deal yet-->
+				{% for deal in deals %}
+					<div class='deal'>
+						<img id="dealImg" src="{{ deal.imgURL }}" />
+						<p id='dealText'>{{deal.dealText}}</p>
+						<p id='dealTextExtra'>{{deal.dealTextExtra}}</p>
+						<p id="description">{{deal.description}}</p>	
+						<p>
+						{% if headerData.loggedIn == True %}
+							<button onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
+						{% else %}
+							<a href="http://google.com">Get this deal</a>
+						{% endif %}
+						</p>
+						<img src="../../img/divider_faded.png">
+					</div>
+				{% endfor %}
+			{% elif action == 'success' %}
+				<p>Success!</p>
+			{% endif %}
+		</div>
+	</body>
+	<script>
+		function changeSource(newSource){
+			parent.levrWidget.document.location=newSource;
+		}
+	</script>
+</html>

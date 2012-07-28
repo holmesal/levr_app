@@ -204,7 +204,7 @@ class phone(webapp2.RequestHandler):
 				notifications = ninja.get_notifications()
 				
 				#Grab their cash out requests, if they exist
-				cor_q = levr.CashOutRequest.gql("WHERE ANCESTOR IS :1 AND status=:2",uid,'active')
+				cor_q = levr.CashOutRequest.gql("WHERE ANCESTOR IS :1 AND status=:2",uid,'pending')
 				cor = cor_q.get()
 				if cor != None:
 					notifications["isPendingCashOut"] = True

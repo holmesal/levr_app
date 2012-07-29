@@ -21,7 +21,7 @@
 							{% if headerData.loggedIn == True %}
 								<button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
 							{% else %}
-								<a href="http://0.0.0.0:8080/widget/welcome?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
+								<a href="http://getlevr.appspot.com/widget/welcome?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
 							{% endif %}
 						</div>
 						<!--img src="../../img/divider_faded.png"-->

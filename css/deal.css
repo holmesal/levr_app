@@ -37,15 +37,25 @@ body{
 
 #results{
 	width:342px;
-	margin-left: 3px;
-	background-color: white;
-	border: thin solid #c6c6c6;
+	
 	border-top: none;
 	overflow: scroll;
 	visibility: hidden;
 }
 
 .result{
+	padding: 5px 5px 5px 10px;
+}
+
+.pac-container{
+	width:359px !important;
+	margin-left: 3px;
+	background-color: white;
+	border: thin solid #c6c6c6;
+	border-top: none;
+}
+
+.pac-item{
 	padding: 5px 5px 5px 10px;
 }
 

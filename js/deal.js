@@ -1,8 +1,38 @@
+function validateAllFields(){
+	var pass = true;
+	
+	$('.textIn').each(function(){
+		if ($(this).val().length < 1){
+			$(this).prev().addClass('input_error');
+			pass=false;
+		}
+	});
+	if (!$('#img_upload').val()){
+		$('#img_upload').prev().addClass('input_error');
+		pass=false;
+	}
+	
+	return pass;
+	
+}
+
+function previewImage(input){
+	if (input.files && input.files[0]) {
+		$('#img_upload').prev().removeClass('input_error');
+        var reader = new FileReader();
+        reader.onload = function (e) {
+        	
+        	$('#uploaded_img').css('background-image','url('+e.target.result+')');
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $(document).ready(function() {
 	
 	//register typing listeners
 	$('.textIn').keyup(function() {
-		console.log(this)
 		//if it's deal line2, add inputted text to the middle of a parenthetical
 		if (this.name=='deal_line2' && $(this).val().length > 0) {
 			$('#deal_line2').text('(with purchase of '+$(this).val()+')')
@@ -10,6 +40,15 @@ $(document).ready(function() {
 			$('#'+this.name).html('&nbsp;')
 		} else{
 			$('#'+this.name).text($(this).val())
+		}
+	})
+	
+	//register lostfocus listeners
+	$('.textIn,#deal_submit').blur(function(){
+		if ($(this).val().length < 1){
+			$(this).prev().addClass('input_error');
+		} else{
+			$(this).prev().removeClass('input_error');
 		}
 	})
 	
@@ -26,9 +65,16 @@ $(document).ready(function() {
 		$('#deal_address').text(place.vicinity);
 	});
 	
+	//register submit button listener
+	$('#deal_submit').click(function(e) { 
+		if (!validateAllFields()) {
+			e.preventDefault()
+		}	
+	 })
+	
 	//listen for a change in the file button, use that to upload images
-	$('#img_upload').change(function(){
+	/*$('#img_upload').change(function(){
 		$('#uploaded_img').css('background-image','url(../img/landing_background.jpeg)')
-	})
+	})*/
 	
 });

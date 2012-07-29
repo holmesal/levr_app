@@ -29,10 +29,11 @@
 						<input class="textIn" type="text" id="business_select" name="business_select" placeholder="Search for your business...">
 						<div id="results"></div>
 						<p class="prompt">Upload a picture:</p>
-						<input type="file" id="img_upload" value="Upload">
+						<input type="file" id="img_upload" value="Upload" onchange="previewImage(this);">
+						<!--button type="button" id="fake_upload_button" >Choose a file...</button-->
+						<button id="deal_submit">Launch this offer!</button>
 				</form>
 			</div>
-			
 			<div id="right">
 				<p class="pane_header">See what customers will see here.</p>
 				<div id="iphone_outer">

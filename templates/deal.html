@@ -1,10 +1,15 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<link rel="stylesheet" href="../css/deal.css">
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script>
+      
 	</head>
 	<body>
 		<div id="header">
-			
+			<img id="header_logo" src="../img/levr_logo.png" alt="levr_logo"/>
 		</div>
 		<div id="container">
 			<div id="top">
@@ -13,14 +18,18 @@
 			<div id="left">
 				<p class="pane_header">Start typing here</p>
 				<form id="deal_form" method="post" action="">
-						<p>Tell us about your offer</p>
-						<input class="textIn" type="text" name="deal_line1" placeholder="What's the deal?">
-						<p>Bundled offer?</p>
+						<p class="prompt">What's the offer?</p>
+						<input class="textIn" type="text" name="deal_line1" placeholder="Your discount...">
+						<p class="aide">Ex: 50% Off Jeans</p>
+						<p class="prompt">Is this a bundled offer?</p>
 						<input class="textIn" type="text" name="deal_line2" placeholder="With purchase of...">
-						<p>Describe it</p>
-						<input class="textIn" type="text" name="deal_description" placeholder="Clever is good...">
-						<p>Who are you?</p>
-						<input class="textIn" type="text" name="deal_business" placeholder="Start typing your business name...">
+						<p class="prompt">Why is this a great offer?</p>
+						<input class="textIn" type="text" name="deal_description" placeholder="A short description...">
+						<p class="prompt">How will customers find you?</p>
+						<input class="textIn" type="text" id="business_select" name="business_select" placeholder="Search for your business...">
+						<div id="results"></div>
+						<p class="prompt">Upload a picture:</p>
+						<input type="file" id="img_upload" value="Upload">
 				</form>
 			</div>
 			
@@ -29,18 +38,20 @@
 				<div id="iphone_outer">
 					<div id="iphone_inner">
 						<div id="uploaded_img"></div>
-						<p id="deal_line1"></p>
-						<p id="deal_line2"></p>
-						<p id="deal_description" class="dealText"></p>
-						<p id="deal_business" class="dealText"></p>
-						<p id="deal_address" class="dealText"></p>
-						<p id="deal_city" class="dealText"></p>
+						<p id="deal_line1">&nbsp;</p>
+						<p id="deal_line2">&nbsp;</p>
+						<p id="deal_description" class="dealText">&nbsp;</p>
+						<p id="deal_business" class="dealText">&nbsp;</p>
+						<p id="deal_address" class="dealText">&nbsp;</p>
 					</div>
 				</div>
 				
 			</div>
 		</div>
-	<script src="../js/jquery-1.7.1.js"></script>
+	<script type="text/javascript">
+		google.load("jquery", "1.4.2");
+	</script>
+	<!--script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script-->
 	<script src="../js/deal.js"></script>
 	</body>
 </html>

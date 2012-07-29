@@ -17,7 +17,7 @@
 			</div>
 			<div id="left">
 				<p class="pane_header">Start typing here</p>
-				<form id="deal_form" method="post" action="{{ upload_url }}">
+				<form id="deal_form" action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
 						<p class="prompt">What's the offer?</p>
 						<input class="textIn" type="text" name="deal_line1" placeholder="Your discount...">
 						<p class="aide">Ex: 50% Off Jeans</p>
@@ -31,7 +31,7 @@
 						<p class="prompt">Upload a picture:</p>
 						<input type="file" id="img_upload" value="Upload" onchange="previewImage(this);">
 						<!--button type="button" id="fake_upload_button" >Choose a file...</button-->
-						<button id="deal_submit">Launch this offer!</button>
+						<button type="submit" id="deal_submit">Launch this offer!</button>
 				</form>
 			</div>
 			<div id="right">

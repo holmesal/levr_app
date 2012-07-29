@@ -25,9 +25,12 @@ class NewDealHandler(webapp2.RequestHandler):
 class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
+			logging.debug(self.request.headers)
 			logging.debug(self.request.body)
-		
-		
+			logging.debug(self)
+			logging.debug(dir(self))
+			logging.debug(self.get_uploads())
+			
 			full_address = self.request.get('business_select')
 			#split address by commas
 			split_address = full_address.split(',')
@@ -74,6 +77,7 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			else:
 				deal.deal_type = "single"
 			
+			deal.businessID		= business.key()
 			deal.business_name 	= business_name
 			deal.date_start		= datetime.now()
 			deal.deal_status	= "active"
@@ -93,7 +97,7 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	#		deal_description
 	#		business_select
 		except:
-			levr.log_error(self.request.body)
+			levr.log_error()
 			self.response.set_status(500)
 			self.response.out.write('exception')
 			

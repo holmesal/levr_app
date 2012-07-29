@@ -3,6 +3,9 @@ levr_app to launchable state:
 
 Things to do:
 
+Turn off ability to redeem a deal more than once - this is only there for our testing ability
+	This lives in two places - one in redeem, and one in checkRedeem
+
 flurry including logging search queries
 Landing page - sketch out phone shots
 aesthetics

@@ -3,7 +3,8 @@
 		
 		<meta charset="UTF-8">
 		<link rel="icon" type="image/png" href="img/favicon.png" />
-		<link href="../css/widget.css" rel="stylesheet"/>
+		<!--link href="../css/widget.css" rel="stylesheet"/-->
+		<link href="http://localhost:8080/css/widget.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<div id="container">
@@ -19,9 +20,9 @@
 						</div>
 						<div id="redeemButton">
 							{% if headerData.loggedIn == True %}
-								<button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
+								<a id="btnGet"><button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button></a>
 							{% else %}
-								<a href="http://getlevr.appspot.com/widget/welcome?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
+								<a id="btnGet" href="http://getlevr.appspot.com/share/deal?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
 							{% endif %}
 						</div>
 						<!--img src="../../img/divider_faded.png"-->

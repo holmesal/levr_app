@@ -22,9 +22,9 @@ class MainPage(webapp2.RequestHandler):
 class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		#get uploaded image
-#		upload = self.get_uploads()[0]
-		upload = self.request.get('img')
-		upload = blobstore.Blob(upload)
+		upload = self.get_uploads()[0]
+#		upload = self.request.get('img')
+#		upload = blobstore.Blob(upload)
 		logging.info(upload)
 		
 		# new customer

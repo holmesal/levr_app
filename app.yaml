@@ -45,8 +45,8 @@ handlers:
   login: admin
 - url: /password.*
   script: password.app
-- url: /plug.*
-  script: plug.app
+- url: /widget.*
+  script: widget.app
 
 
 - url: /img

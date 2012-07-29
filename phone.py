@@ -239,7 +239,6 @@ class phone(webapp2.RequestHandler):
 				
 				#new notifications?
 				notifications = customer.get_notifications()
-				
 				#don't try and redeem the same deal twice. . .
 				if dealID in customer.redemptions:
 					#toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
@@ -483,6 +482,9 @@ class img(webapp2.RequestHandler):
 			elif size == 'emptySet':
 				aspect_ratio	= 3.
 				output_width	= 640.
+			elif size == 'widget':
+				aspect_ratio	= 1.
+				output_width	= 150.
 			else:
 				raise Exception('invalid size parameter')
 				
@@ -516,7 +518,7 @@ class img(webapp2.RequestHandler):
 			img.resize(width=int(output_width),height=int(output_height))
 			logging.debug(img)
 			output_img = img.execute_transforms(output_encoding=images.JPEG)
-			logging.debug(output_img)
+#			logging.debug(output_img)
 		except:
 			levr.log_error(self.request.body)
 			output_img = None

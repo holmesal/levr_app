@@ -82,20 +82,23 @@ body{
 	background-position: top left;
 	background-repeat: no-repeat;
 	padding-top: 170.6px;
-	padding-left:59.5px;
+	padding-left:60.5px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 #iphone_inner{
 	background-color: rgba(0,0,0,0);
-	width: 279px;
+	width: 278px;
 	height: 335px;
 }
 
 #uploaded_img{
 	width: 100%;
 	height: 98px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
 }
 
 /*
@@ -111,6 +114,45 @@ body{
 
 input {
 	text-decoration: none;
+}
+
+input[type=file]{
+	font-size: 12pt;
+	font-family: Helvetica;
+	font-weight: 200;
+}
+
+.input_error{
+	color: red;
+}
+
+/*
+input[type=file]{
+	font: 40px monospace;
+	width: 200px;
+	opacity:0;
+    filter: alpha(opacity=0);
+    position: absolute;
+    z-index: 1;
+    padding:0;
+    margin: 0;
+}
+input[type=file]:hover{
+	cursor: pointer;
+}
+
+
+#fake_upload_button{
+	width: 100px;
+	height: 20px;
+	background-color: white;
+	
+}*/
+
+#deal_submit{
+	display: block;
+	margin-top: 50px;
+	margin-left: 150px;
 }
 
 .textIn{

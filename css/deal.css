@@ -99,6 +99,10 @@ body{
 	text-align: left;
 }
 
+input {
+	text-decoration: none;
+}
+
 .textIn{
 	font-size: 16pt;
 	font-weight: 200;

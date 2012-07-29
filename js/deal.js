@@ -55,7 +55,7 @@ $(document).ready(function() {
 	//typing listeners for business selector
 	$('#business_select').keyup(function() {
 		if ($(this).val().length > 2){
-			url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + $(this).val() + '&sensor=false&types=establishment&key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074';
+			url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + $(this).val() + '&sensor=false&types=establishment&key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F007';
 			
 			$.ajax({
 				url: url,

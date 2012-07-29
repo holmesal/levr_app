@@ -60,6 +60,9 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			
 			#create the deal entity
 			deal = levr.Deal()#parent=businessID)
+			upload	= self.get_uploads()[0]
+			blob_key= upload.key()
+			deal.img= blob_key
 			deal.description= self.request.get('deal_description')
 			
 			deal.deal_text	= self.request.get('deal_line1')
@@ -81,7 +84,8 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(business)
 			deal.put()
 			business.put()
-			
+			self.response.set_status(200)
+			self.response.out.write('we good.')
 		
 	#		
 	#		deal. deal_line1

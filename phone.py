@@ -328,7 +328,15 @@ class phone(webapp2.RequestHandler):
 				upload_url = blobstore.create_upload_url('/phone/uploadDeal')
 				logging.debug(upload_url)
 				toEcho = {"success":True, "data":{"url":upload_url}}
-				
+			elif action == "longOperation":
+				start	= datetime.now()
+				count 	= 10**6
+				nums	= []
+				for i in range(count):
+					nums.insert(0,i)
+				finish	= datetime.now()
+				difference = finish-start
+				toEcho = {"success":True,"secondsDelay":difference.seconds}
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!

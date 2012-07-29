@@ -8,6 +8,7 @@ body{
 	width: 600px;
 	margin-left: 0px;
 	margin-right: 0px;
+	position: relative;
 	/*border-color: #666666;
 	border-width: thin;
 	border-style: solid;
@@ -33,6 +34,7 @@ body{
 #dealImg{
 	width: 150px;
 	height: 150px;
+	position: absolute;
 	border-top-left-radius: 30px;
 	border-bottom-left-radius: 30px;
 	float: left;
@@ -40,16 +42,15 @@ body{
 	border-radius: 8px;*/
 }
 #dealBody{
+	position: absolute;
 	float:left;
-	margin-left: 100px;
-	margin-right: auto;
-	
+	left: 175px;
 	
 }
 #redeemButton{
 	position:absolute;
-	bottom:5;
-	right: 50px;
+	bottom:5px;
+	right: 30px;
 }
 #dealText{
 	font-weight: 300;

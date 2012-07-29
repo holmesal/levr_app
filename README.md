@@ -7,6 +7,7 @@ flurry including logging search queries
 Landing page - sketch out phone shots
 aesthetics
 terms of service
+Privacyy policy!
 barcode for redeem screen
 
 <!--Empty set response to blobstore - phone response handler and upload-->

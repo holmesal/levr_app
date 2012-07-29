@@ -68,16 +68,17 @@ class LoggedInFavHandler(webapp2.RequestHandler):
 			fav			= levr.Favorite(parent=customer.key())
 			fav.dealID	= dealID
 			fav.put()
-			self.redirect('/widget/remote?action=success')
+			self.redirect('/widget/remote?id='+businessID+'action=success')
 		except:
 			levr.log_error()
-			self.redirect('/widget/remote?success=False')
+			self.redirect('/widget/remote?id='+businessID+'&success=False')
 class LocalPageHandler(webapp2.RequestHandler):
 	def get(self):
 		dealID 	= enc.decrypt_key(self.request.get('id'))
 		deal	= levr.Deal.get(dealID)
 		business= levr.Business.get(deal.businessID)
-		deal	= levr.phoneFormat(deal,'list')
+		deal	= levr.phoneFormat(deal,'widget')
+		logging.debug(deal)
 		headerData = levr_utils.loginCheck(self,False)
 		headerData['loggedIn'] = False
 		template_values = {
@@ -92,5 +93,5 @@ class LocalPageHandler(webapp2.RequestHandler):
 		
 app = webapp2.WSGIApplication([('/widget/remote', RemoteHandler),
 								('/widget/add', LoggedInFavHandler),
-								('.widget/welcome', LocalPageHandler)
+								('/widget/welcome', LocalPageHandler)
 								], debug=True)

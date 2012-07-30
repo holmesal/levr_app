@@ -121,12 +121,12 @@ class Deal(polymodel.PolyModel):
 	business_name 	= db.StringProperty(default='') #name of business
 	secondary_name 	= db.StringProperty(default='') #== with purchase of
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
-	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
+#	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	deal_text		= db.StringProperty()
 
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
-	discount_value 	= db.FloatProperty() #number, -1 if free
-	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
+#	discount_value 	= db.FloatProperty() #number, -1 if free
+#	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_end 		= db.DateTimeProperty(auto_now_add=False)
@@ -150,10 +150,10 @@ class Deal(polymodel.PolyModel):
 			"secondaryName"	: self.secondary_name,
 			"deal_text"		: self.deal_text,
 			"deal_type"  	: self.deal_type,
-			"deal_item"		: self.deal_item,
+#			"deal_item"		: self.deal_item,
 			"description"   : self.description,
-			"discountValue" : self.discount_value,
-			"discountType"  : self.discount_type,
+#			"discountValue" : self.discount_value,
+#			"discountType"  : self.discount_type,
 #			"dealOrigin"	: self.deal_origin,
 #			"dateStart"		: self.date_start,
 			"dateEnd"		: self.date_end,
@@ -213,10 +213,10 @@ class CustomerDeal(Deal):
 			"secondaryName"	: self.secondary_name,
 			"deal_text"		: self.deal_text,
 			"deal_type"  	: self.deal_type,
-			"deal_item"		: self.deal_item,
+#			"deal_item"		: self.deal_item,
 			"description"   : self.description,
-			"discountValue" : self.discount_value,
-			"discountType"  : self.discount_type,
+#			"discountValue" : self.discount_value,
+#			"discountType"  : self.discount_type,
 #			"dealOrigin"	: self.deal_origin,
 #			"dateStart"		: self.date_start,
 			"dateEnd"		: self.date_end,

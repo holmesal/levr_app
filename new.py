@@ -30,12 +30,14 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(self)
 			logging.debug(dir(self))
 			logging.debug(self.get_uploads())
+			logging.debug(self.request.get('image'))
 			
 			full_address = self.request.get('business_select')
 			#split address by commas
 			split_address = full_address.split(',')
 			#remove whitespace on beginning and end of each element
 			split_address 	= [x.strip() for x in split_address]
+			logging.debug(split_address)
 			business_name 	= split_address[0]
 			address_line1 	= split_address[1]
 			city			= split_address[2]
@@ -58,7 +60,7 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			business.state			= state
 			business.zip_code		= zip_code
 			#need geo point and zip code
-			
+			business.put()
 			
 			
 			#create the deal entity
@@ -77,7 +79,7 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			else:
 				deal.deal_type = "single"
 			
-			deal.businessID		= business.key()
+			deal.businessID		= business.key().__str__()
 			deal.business_name 	= business_name
 			deal.date_start		= datetime.now()
 			deal.deal_status	= "active"

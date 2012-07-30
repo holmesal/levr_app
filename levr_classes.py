@@ -378,6 +378,11 @@ def geo_converter(geo_str):
 		return db.GeoPt(lat=float(lat), lon=float(lng))
 	return None
 
+def tagger(text):
+#	parsing function for creating tags from description, etc
+	list = [w for w in re.split('\W', text) if w]
+	return list
+
 def log_error(message=''):
 	#called by: levr.log_error(*self.request.body)
 	exc_type,exc_value,exc_trace = sys.exc_info()

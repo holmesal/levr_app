@@ -356,71 +356,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		toEcho = {"success":False}
 		try:
-			logging.debug(self.request.headers)
-			logging.debug('Body is next!')
-		
-			#create alias for self.request.get
-			inputs			= self.request.get
-			#grab existing business
-			business_name	= inputs('businessName')
-			geo_point		= inputs('geoPoint')
-			geo_point		= levr.geo_converter(geo_point)
-			#check if business exists
-			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
-			#if a business doesn't exist in db, then create a new one
-			if not business:
-				business = levr.Business()
-			
-			#populate entity
-			
-			business.geo_point		= geo_point
-			business.business_name	= business_name
-			business.vicinity	 	= inputs('vicinity')
-	#		put business in db
-			business.put()
-			logging.info(business)
-		
-		
-			uid 				= enc.decrypt_key(inputs('uid'))
-			logging.debug(uid)
-			
-			
-			#create new deal object as child of the uploader Customer
-			deal				= levr.CustomerDeal(parent=db.Key(uid))
-			#fetch blobstore_info object of the uploaded image
-			logging.debug(self.get_uploads())
-			upload				= self.get_uploads()[0]
-			logging.debug(upload)
-			blob_key			= upload.key()
-			#rest of the stuff stuff
-			deal.img			= blob_key #blob reference
-			deal.businessID		= business.key().__str__()
-			deal.business_name	= business_name
-			deal.deal_text		= inputs('dealText') #### check name!!!
-			deal.deal_status	= 'pending'
-			deal.geo_point		= geo_point
-			deal.description	= inputs('description')
-			deal.vicinity		= inputs('vicinity')
-			#set expiration date to one week from now
-			deal.date_end		= datetime.now() + timedelta(days=7)
-		
-			#put in DB
-			deal.put()
-		
-			#return deal id and shareURL
-			dealID = enc.encrypt_key(deal.key())
-			toEcho = {"success":True,"dealID":dealID,"shareURL":'http://getlevr.com/share/deal?id='+dealID}
-		
-		
-			#send mail to the admins to notify of new pending deal
-#			mail.send_mail(sender="Pending Deal <feedback@getlevr.com>",
-#							to="Patrick Walsh <patrick@getlevr.com>",
-#							subject="New pending deal",
-#							body="""
-#							Another dealdebeast has been caught by one of your
-#							faithful ninjas! Heed your call to arms and approve the 
-#							dealdebeast before it gets away!
-#							""").send()
+			levr_utils.dealCreate(self,'phone')
 		except:
 			levr.log_error(self.request.body)
 		finally:

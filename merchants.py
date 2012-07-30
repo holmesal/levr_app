@@ -32,6 +32,14 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			#init tags list
 			tags = []
 			
+			#vicinity
+			vicinity = self.request.get('vicinity')
+			logging.info(vicinity)
+			#types
+			types = self.request.get('types')
+			logging.info(types)
+			
+			'''
 			full_address = self.request.get('business_select')
 			#split address by commas
 			split_address = full_address.split(',')
@@ -40,7 +48,13 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(split_address)
 			business_name 	= split_address[0]
 			tags.extend(levr.tagger(business_name))
-
+			address_line1 	= split_address[1]
+			city			= split_address[2]
+			tags.extend(levr.tagger(city))
+			state			= split_address[3]
+			zip_code		= ''
+			
+		
 			#will have the businessID upon login
 			##### spoof value
 			businessID = ''
@@ -86,7 +100,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			deal.business_name 	= business_name
 			deal.date_start		= datetime.now()
 			deal.deal_status	= "active"
-			deal.vicinity = full_address
+			deal.vicinity = vicinity
 			deal.tags			= tags
 			
 			logging.debug(tags)

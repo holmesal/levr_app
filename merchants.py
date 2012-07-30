@@ -34,10 +34,11 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			
 			#vicinity
 			vicinity = self.request.get('vicinity')
-			logging.info(vicinity)
+			logging.debug(vicinity)
 			#types
 			types = self.request.get('types')
-			logging.info(types)
+			tags.extend(levr.tagger(types))
+			logging.debug(types)
 			
 			'''
 			full_address = self.request.get('business_select')
@@ -54,7 +55,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			state			= split_address[3]
 			zip_code		= ''
 			
-		
+			
 			#will have the businessID upon login
 			##### spoof value
 			businessID = ''

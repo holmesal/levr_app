@@ -91,11 +91,12 @@ class Business(db.Model):
     creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
     business_name 	= db.StringProperty()
     
-    address_line1 	= db.StringProperty()
-    address_line2 	= db.StringProperty(default='')
-    city			= db.StringProperty()
-    state 			= db.StringProperty()
-    zip_code		= db.StringProperty()
+#    address_line1 	= db.StringProperty()
+#    address_line2 	= db.StringProperty(default='')
+#    city			= db.StringProperty()
+#    state 			= db.StringProperty()
+#    zip_code		= db.StringProperty()
+    address_string	= db.StringProperty()
     
     alias 			= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
@@ -105,11 +106,12 @@ class Business(db.Model):
 		'''Formats the object into dictionary for review before release'''
 		data = {
 			"businessID"	: enc.encrypt_key(self.key().__str__()),
-			"addressLine1"	: self.address_line1,
-			"addressLine2"	: self.address_line2,
-			"city"			: self.city,
-			"state"			: self.state,
-			"zip"			: self.zip_code,
+#			"addressLine1"	: self.address_line1,
+#			"addressLine2"	: self.address_line2,
+#			"city"			: self.city,
+#			"state"			: self.state,
+#			"zip"			: self.zip_code,
+			"address_string": self.address_string,
 			"businessName"	: self.business_name,
 			"geoPoint"		: self.geo_point,
 		}

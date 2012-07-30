@@ -40,13 +40,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(split_address)
 			business_name 	= split_address[0]
 			tags.extend(levr.tagger(business_name))
-			address_line1 	= split_address[1]
-			city			= split_address[2]
-			tags.extend(levr.tagger(city))
-			state			= split_address[3]
-			zip_code		= ''
-		
-		
+
 			#will have the businessID upon login
 			##### spoof value
 			businessID = ''
@@ -56,11 +50,6 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			if not business:
 				business = levr.Business()
 			#give the business its address values
-			business.business_name 	= business_name
-			business.address_line1	= address_line1
-			business.city			= city
-			business.state			= state
-			business.zip_code		= zip_code
 			#need geo point and zip code
 			business.put()
 			

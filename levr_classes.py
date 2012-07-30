@@ -311,8 +311,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
 				"gmapsAddress"	: deal.vicinity,
-				"description"	: deal.description,
-				"city"			: deal.city}
+				"description"	: deal.description}
 	logging.info(data)
 	return data
 

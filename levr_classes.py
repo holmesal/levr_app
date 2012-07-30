@@ -148,6 +148,7 @@ class Deal(polymodel.PolyModel):
 			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
 			"businessName"	: self.business_name,
 			"secondaryName"	: self.secondary_name,
+			"deal_text"		: self.deal_text,
 			"deal_type"  	: self.deal_type,
 			"deal_item"		: self.deal_item,
 			"description"   : self.description,
@@ -168,6 +169,8 @@ class Deal(polymodel.PolyModel):
 #			"paymentTotal"	: self.payment_total(),
 			"geoPoint"		: str(self.geo_point),
 			"dealStatus"	: self.deal_status,
+			"tags"			: self.tags,
+			"rank"			: self.rank
 		}
 		return data
 
@@ -208,6 +211,7 @@ class CustomerDeal(Deal):
 			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
 			"businessName"	: self.business_name,
 			"secondaryName"	: self.secondary_name,
+			"deal_text"		: self.deal_text,
 			"deal_type"  	: self.deal_type,
 			"deal_item"		: self.deal_item,
 			"description"   : self.description,
@@ -228,6 +232,8 @@ class CustomerDeal(Deal):
 			"paid_out"		: self.paid_out,
 			"geoPoint"		: str(self.geo_point),
 			"dealStatus"	: self.deal_status,
+			"tags"			: self.tags,
+			"rank"			: self.rank
 		}
 		return data
 

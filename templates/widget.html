@@ -7,6 +7,7 @@
 		<link href="http://getlevr.com/widget.css" rel="stylesheet" />
 	</head>
 	<body>
+		<div id="powered_by_levr">Powered by <a id="powered_by_levr_link" href="http://www.levr.com">Levr</a></div>
 		<div id="container">
 			{% if action == 'show' %}
 				<!--The user hasnt clicked a deal yet-->
@@ -20,9 +21,9 @@
 						</div>
 						<div id="redeemButton">
 							{% if headerData.loggedIn == True %}
-								<button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button>
+								<a id="btnGet"><button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button></a>
 							{% else %}
-								<a href="http://getlevr.appspot.com/widget/welcome?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
+								<a id="btnGet" href="http://getlevr.appspot.com/share/deal?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
 							{% endif %}
 						</div>
 						<!--img src="../../img/divider_faded.png"-->

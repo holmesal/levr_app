@@ -199,10 +199,10 @@ def dealCreate(self,origin):
 		#put the deal
 		deal.put()
 		
-		self.response.set_status(200)
-		self.response.out.write('we good.')
-		self.redirect('/new')
+		#self.response.set_status(200)
+		#self.response.out.write('we good.')
+		#self.redirect('/new')
 	except:
-		levr.log_error()
-		self.response.set_status(500)
-		self.response.out.write('exception')
+		#levr.log_error()
+		#self.response.set_status(500)
+		#self.response.out.write('exception')

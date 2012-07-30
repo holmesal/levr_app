@@ -46,6 +46,7 @@ class Approve(webapp2.RequestHandler):
 		deal 					= db.get(dealID)
 		deal.businessID			= enc.decrypt_key(inputs('businessID'))
 		deal.business_name		= inputs('businessName')
+		deal.vicinity			= inputs('vicinity')
 		deal.deal_status		= 'active'
 		deal.gate_requirement	= int(inputs('gateRequirement'))
 		deal.gate_payment_per	= int(inputs('gatePaymentPer'))
@@ -65,7 +66,6 @@ class Approve(webapp2.RequestHandler):
 		tags = []
 		tags.extend(levr.tagger(deal.business_name))
 		tags.extend(levr.tagger(deal.description))
-		tags.extend(levr.tagger(deal.city))
 		tags.extend(levr.tagger(deal.secondary_name))
 		tags.extend(levr.tagger(inputs('tags')))
 		
@@ -85,16 +85,8 @@ class Reject(webapp2.RequestHandler):
 		deal.put()
 		self.redirect('/admin/pending')
 		
-class AllImages(webapp2.RequestHandler):
-	def get(self):
-		q = levr.Deal.gql('WHERE deal_status=:1','pending')
-		for result in q:
-			logging.info(result.img)
-			self.response.headers['Content-Type'] = 'image/jpeg'
-			self.response.out.write(result.img)
 
 app = webapp2.WSGIApplication([('/admin/pending', Pending),
-								('/admin/allImages', AllImages),
 								('/admin/approve', Approve),
 								('/admin/reject',Reject)],
 								debug=True)

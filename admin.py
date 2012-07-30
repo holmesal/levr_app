@@ -44,12 +44,8 @@ class Approve(webapp2.RequestHandler):
 			self.redirect('/admin/pending')
 		except:
 			levr.log_error(self.request.body)
-		finally:
-			try:
-				self.response.out.write(json.dumps(toEcho))
-			except:
-				self.response.out.write({'success':False})
-				levr.log_error('toEcho could not be parsed into json')
+			self.response.out.write('unsuccessful')
+			
 #		#create alias for self.request.get
 #		inputs = self.request.get
 #		#dealID is pulled from admin/approve?dealID=dealID

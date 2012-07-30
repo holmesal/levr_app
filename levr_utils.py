@@ -193,6 +193,11 @@ def dealCreate(self,origin):
 		#set status
 		if origin=='web':
 			deal.deal_status		= "active"
+		elif origin=='pending':
+			deal.deal_status		= "active"
+			deal.gate_requirement	= self.request.get('gate_requirement')
+			deal.gate_payment_per	= self.request.get('gate_payment_per')
+			deal.gate_max			= self.request.get('gate_max')
 		else:
 			deal.deal_status		= "pending"
 		

@@ -9,20 +9,19 @@
 				
 		<h2>Deal Information</h2>
 		<p>Deal Text: 		<br /><input type="text" name="deal_line1" value="{{ deal.deal_text }}" /></p>
-		<p>	<input type="radio" name="deal_type" value="single" />Single
-			<input type="radio" name="deal_type" value="bundle" />Bundle (BOGO)</p>
 		<p>With purchase of:<br /><input type="text" name="deal_line2" value="{{deal.secondaryName}}"></p>
 		<p>Description:		<br /><textarea rows="3" name="deal_description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
 		<p>Tags: 			<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
-		<p>Gate Requirement:<br /><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
-		<p>Gate Payment Per:<br /><input type="text" name="gatePaymentPer" value="{{ deal.gatePaymentPer }}"></p>
-		<p>Gate Max Count: 	<br /><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>
+		<p>Gate Requirement:<br /><input type="text" name="gate_requirement" value="{{ deal.gateRequirement }}"></p>
+		<p>Gate Payment Per:<br /><input type="text" name="gate_payment_per" value="{{ deal.gatePaymentPer }}"></p>
+		<p>Gate Max Count: 	<br /><input type="text" name="gate_max" value="{{ deal.gateMax }}"></p>
 		
 		<h2>Business Information</h2>
 		<p>Business Name: 	<br/><input type="text" id="business_name"name="business_name" value="{{ business.businessName }}"></p>
 		<p>Vicinity:		<br/><input type="text" id="vicinity" name="vicinity" value="{{ business.vicinity }}"></p>
-		<p>Or...New Location<br/><input type="text" id="business_select" name="business_select" ></p>
 		<p>Types:			<br/><input type="text" id="types" name="types" value=""></p>
+		<p>Geo Code			<br/><input type="text" id="geo_point" name="geo_point" ></p>
+		<p>Or...New Location<br/><input type="text" id="business_select" name="business_select" ></p>
 		
 		<input type="submit" value="Enter">
 	</form>
@@ -59,15 +58,15 @@
         // vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
         // $('#deal_form').append(vicinity_input);
         //add business_name as a hidden field
-        $('#businessName').val(place.name)
+        $('#business_name').val(place.name)
         // business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
         // $('#deal_form').append(business_name_input);
         //add geo_point as a hidden field
         lat = place.geometry.location.lat()
         lng = place.geometry.location.lng()
         
-        ('#geoPoint').val(lat+", "+lng)
-        console.log(place.geometry.location.lat())
+        ('#geoPoint').val(place.geometry.location())
+        console.log(('#geoPoint').val())
         geo_point_input = "<input type='hidden' name='geo_point' value='"+place.name+"'>"
         
 	});

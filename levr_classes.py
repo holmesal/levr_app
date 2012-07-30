@@ -230,11 +230,6 @@ class CustomerDeal(Deal):
 		return data
 
 
-class Category(db.Model):
-#Child of deal
-#Maps primary categories to deals
-	primary_cat		= db.StringProperty()
-
 class Favorite(db.Model):
 #child of user
 	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
@@ -323,7 +318,7 @@ def geo_converter(geo_str):
 
 def tagger(text):
 #	parsing function for creating tags from description, etc
-	list = [w.lower() for w in re.split('\W', text) if w]
+	list = [w.lower() for w in re.split('\'\W', text) if w]
 	return list
 
 def log_error(message=''):

@@ -8,22 +8,6 @@ indexes:
   - name: rank
     direction: desc
 
-- kind: Deal
-  properties:
-  - name: deal_status
-  - name: tags
-  - name: tags
-  - name: rank
-    direction: desc
-
-- kind: Deal
-  properties:
-  - name: deal_status
-  - name: tags
-  - name: tags
-  - name: tags
-  - name: rank
-    direction: desc
 
 
 

@@ -65,18 +65,13 @@ $(document).ready(function() {
 		$('#deal_address').text(place.vicinity);
 		console.log(place)
 		//add types as a hidden field
-		var types = document.createElement("input");
-        types.setAttribute("type", "hidden");
-        types.setAttribute("name", types);
-        types.setAttribute("value", place.types);
-        $('#deal_form').append(types);
+		types_input = "<input type='hidden' name='types' value='"+place.types+"'>"
+		console.log(types_input)
+        $('#deal_form').append(types_input);
         //add vicinity as a hidden field
-        var vicinity = document.createElement("input");
-        types.setAttribute("type", "hidden");
-        types.setAttribute("name", vicinity);
-        types.setAttribute("value", place.vicinity);
-        $('#deal_form').append(vicinity);
-        console.log(vicinity)
+        vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
+        $('#deal_form').append(vicinity_input);
+        console.log(vicinity_input)
         
 	});
 	

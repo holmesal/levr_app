@@ -63,6 +63,13 @@ $(document).ready(function() {
 		var place = autocomplete.getPlace();
 		$('#deal_business').text(place.name);
 		$('#deal_address').text(place.vicinity);
+		console.log(place)
+		//add types as a hidden field
+		var types = document.createElement("input");
+        types.setAttribute("type", "hidden");
+        types.setAttribute("name", types);
+        types.setAttribute("value", place.types);
+        form.appendChild(hiddenField);
 	});
 	
 	//register submit button listener

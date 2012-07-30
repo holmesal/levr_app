@@ -76,6 +76,7 @@ $(document).ready(function() {
         types.setAttribute("name", vicinity);
         types.setAttribute("value", place.vicinity);
         $('#deal_form').append(vicinity);
+        console.log(vicinity)
         
 	});
 	

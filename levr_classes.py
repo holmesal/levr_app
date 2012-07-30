@@ -90,9 +90,7 @@ class Business(db.Model):
     signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
     creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
     business_name 	= db.StringProperty()
-    
     vicinity		= db.StringProperty()
-    
     alias 			= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
     geo_point		= db.GeoPtProperty() #latitude the longitude
@@ -101,7 +99,7 @@ class Business(db.Model):
 		'''Formats the object into dictionary for review before release'''
 		data = {
 			"businessID"	: enc.encrypt_key(self.key().__str__()),
-			"vicinity": self.vicinity,
+			"vicinity"		: self.vicinity,
 			"businessName"	: self.business_name,
 			"geoPoint"		: self.geo_point,
 		}

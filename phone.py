@@ -352,23 +352,18 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#grab existing business
 			business_name	= inputs('businessName')
 			geo_point		= inputs('geoPoint')
-			logging.debug(geo_point)
 			geo_point		= levr.geo_converter(geo_point)
-			logging.debug(geo_point)
+			#check if business exists
 			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 			#if a business doesn't exist in db, then create a new one
 			if not business:
-				business = levr.Business(email='email@getlevr.com')
+				business = levr.Business()
 		
 			#populate entity
 		
 			business.geo_point		= geo_point
 			business.business_name	= business_name
 			business.vicinity	 	= inputs('vicinity')
-#			business.address_line1	= inputs('addressLine1')
-#			business.city			= inputs('city')
-#			business.state			= inputs('state')
-#			business.zip_code		= inputs('zip')
 	#		put business in db
 			business.put()
 			logging.info(business)
@@ -376,6 +371,8 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		
 			uid 				= enc.decrypt_key(inputs('uid'))
 			logging.debug(uid)
+			
+			
 			#create new deal object as child of the uploader Customer
 			deal				= levr.CustomerDeal(parent=db.Key(uid))
 			#fetch blobstore_info object of the uploaded image
@@ -390,12 +387,9 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			deal.deal_text		= inputs('dealText') #### check name!!!
 			deal.deal_status	= 'pending'
 			deal.geo_point		= geo_point
-#			deal.deal_text		= inputs('dealText')
 			deal.description	= inputs('description')
 			#set expiration date to one week from now
-			#only need date, not time for this
 			deal.date_end		= datetime.now() + timedelta(days=7)
-	#		date_uploaded		= automatic
 		
 			#put in DB
 			deal.put()

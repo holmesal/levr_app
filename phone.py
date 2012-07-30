@@ -358,9 +358,9 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#if a business doesn't exist in db, then create a new one
 			if not business:
 				business = levr.Business()
-		
+			
 			#populate entity
-		
+			
 			business.geo_point		= geo_point
 			business.business_name	= business_name
 			business.vicinity	 	= inputs('vicinity')
@@ -381,7 +381,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(upload)
 			blob_key			= upload.key()
 			#rest of the stuff stuff
-			deal.img			= blob_key
+			deal.img			= blob_key #blob reference
 			deal.businessID		= business.key().__str__()
 			deal.business_name	= business_name
 			deal.deal_text		= inputs('dealText') #### check name!!!

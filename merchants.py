@@ -86,7 +86,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			deal.business_name 	= business_name
 			deal.date_start		= datetime.now()
 			deal.deal_status	= "active"
-			deal.address_string = full_address
+			deal.vicinity = full_address
 			deal.tags			= tags
 			
 			logging.debug(tags)

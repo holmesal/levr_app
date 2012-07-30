@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta property="og:image" content="http://getlevr.appspot.com/phone/img?size=facebook&dealID={{dealID}}"/> 
+		<link href="../../css/share.css" rel="stylesheet">
+		<link rel="icon" type="image/png" href="img/favicon.png">
+	</head>
+	<body>
+		<p id="shareText">Welcome to Levr.</p>
+		<div id="container">
+			<!--img src="http://getlevr.appspot.com/phone/img?size=dealDetail&dealID={{dealID}}"-->
+			<div id="dealImg" style="background-image: url({{ deal.imgURL }});"></div>
+			<p id='dealText'>{{ deal.dealText }}</p>
+			<p id='dealTextExtra'>{{ deal.dealTextExtra }}</p>
+			<p id="description">{{ deal.description }}</p>	
+			<img src="../../img/divider_faded.png">
+			{% if success=='1' %}
+			<p id="success">Great! We've added this deal to your favorites:</p>
+			
+			<p id="loginorsignup">Don't have Levr yet?</p>
+			<div id="downloadButtons">
+						<!--img id="helptext" src="./img/helptext.png" /-->
+						<img class="store-icon" href="#" src="../img/get_it_on_play_logo_large.png" />
+						<img class="store-icon" href="#" src="../img/App_Store_badge_small1.png" />
+					</div>
+			{% else %}
+			<p id="loginorsignup">
+				{% if headerData.loggedIn == True %}
+				Click below to send this deal to your phone.</p>
+				<p><a class='button green' href="/share/loggedInFav?id={{dealID}}">Add to favorites</a></p>
+				{% else %}
+				Login or sign up below to send this deal to your phone.</p>
+			<div id="forms">
+				<form id="login" method="post" action="/share/loginFav?id={{dealID}}">
+					<p class="colHead">Log In</p>
+					
+					<input class="textIn" type="text" name="email_or_owner" placeholder="Email or Username" value="{{email_or_owner}}">
+					<input class="textIn" type="password" name="pw" placeholder="Password">
+					</br><input id="btnLogin" class="button green" type="submit" value="Log In">
+					
+				</form>
+				<form id="signUp" method="post" action="/share/signupFav?id={{dealID}}">
+					<p class="colHead">Sign Up</p>
+					<input class="textIn" type="text" name="alias" placeholder="Username" value="{{username}}">
+					<input class="textIn" type="text" name="email" placeholder="Email" value="{{email}}">
+					<input class="textIn" type="password" name="pw" placeholder="Password">
+					</br><input class="button green" type="submit" value="Sign Up">
+				</form>
+			</div>
+			<div>
+				{% if error=='login' %} <p class="error">Couldn't log you in. Give it another shot!</p> {% endif %}
+				{% if error=='email' %} <p class="error">That email is already in use.</p> {% endif %}
+				{% if error=='alias' %} <p class="error">That username is already in use.</p> {% endif %}
+				{% if error=='password' %} <p class="error">That password's pretty weak. Please make it a little stronger.</p> {% endif %}
+			</div>
+			<div>
+				<p>&nbsp;</p>
+				<p id="tos">By signing up you are agreeing to the Levr <a href="#">Terms of Service</a>.</p>
+			</div>
+			
+			{% endif %}
+			{% endif %}
+		</div>
+	</body>
+</html>

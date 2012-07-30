@@ -318,10 +318,12 @@ class phone(webapp2.RequestHandler):
 				upload_url = blobstore.create_upload_url('/phone/uploadDeal')
 				logging.debug(upload_url)
 				toEcho = {"success":True, "data":{"url":upload_url}}
+
 			elif action == "checkBounty":
 				where = "College campuses in Boston, MA"
 				what = "Offers on food, drink, clothing, and entertainment"
 				toEcho = {"success":True,"data":{"where":where,"what":what}}
+
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!

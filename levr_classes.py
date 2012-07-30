@@ -119,7 +119,7 @@ class Deal(polymodel.PolyModel):
 	img				= blobstore.BlobReferenceProperty()
 	businessID 		= db.StringProperty(default='') #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty(default='') #name of business
-	secondary_name 	= db.StringProperty(default='') #secondary category
+	secondary_name 	= db.StringProperty(default='') #== with purchase of
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	deal_text		= db.StringProperty()
@@ -140,7 +140,6 @@ class Deal(polymodel.PolyModel):
 	address_string	= db.StringProperty()
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
-	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {

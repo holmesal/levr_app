@@ -66,12 +66,13 @@ $(document).ready(function() {
 	});
 	
 	//register submit button listener
+	/*
 	$('#deal_submit').click(function(e) { 
 		if (!validateAllFields()) {
 			e.preventDefault()
 		}	
 	 })
-	
+	*/
 	//listen for a change in the file button, use that to upload images
 	/*$('#img_upload').change(function(){
 		$('#uploaded_img').css('background-image','url(../img/landing_background.jpeg)')

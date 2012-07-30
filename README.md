@@ -15,16 +15,16 @@ barcode for redeem screen
 
 <!--Empty set response to blobstore - phone response handler and upload-->
 email updates for pending deals
-apartment applications
+<!--apartment applications-->
 
-lost password recovery - decrypt and email
+<!--lost password recovery - decrypt and email-->
 
 remember to change back url in phoneformat from localhost to real server
-
-
+remember to change css stylesheet reference back to relative link instead of on getlevr.com
+	^^^ same thing with the widget.html reference in widget.py
 later...
 start thinking about async methods
-lower-casify each search 
+lower-casify each search
 
 post-launchable state:
 =======

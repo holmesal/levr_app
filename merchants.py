@@ -70,7 +70,6 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			business.put()
 			'''
 			businessID=''
->>>>>>> appendChild is actually append…
 			
 			#create the deal entity
 			deal 	= levr.Deal(parent=business.key())

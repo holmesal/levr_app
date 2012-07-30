@@ -17,17 +17,16 @@
 		<p-->
 		<input type="radio" name="deal_type" value="single" />Single
 		<input type="radio" name="deal_type" value="bundle" />Bundle (BOGO)
-		</p>
-		<p>Deal Item: The item that the deal is on 		<br/><input type="text" name="deal_item" value=""></p> 
+		<!--p>Deal Item: The item that the deal is on 		<br/><input type="text" name="deal_item" value=""></p--> 
 		<p>Tags: 			<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
 		
 		<h2>Confirm Deal Information</h2>
 		<p>Deal Text: 		<br /><input type="text" name="dealText" value="{{ deal.deal_text }}" /></p>
 		<p>With purchase of:<br /><input type="text" name="secondaryName" value="{{deal.secondaryName}}"></p>
 		<p>Description:		<br /><textarea rows="3" name="description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
-		<p>Gate Requirement:<br/><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
-		<p>Gate Payment Per:<br/><input type="text" name="gatePaymentPer" value="{{ deal.gatePaymentPer }}"></p>
-		<p>Gate Max Count: 	<br/><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>
+		<p>Gate Requirement:<br /><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
+		<p>Gate Payment Per:<br /><input type="text" name="gatePaymentPer" value="{{ deal.gatePaymentPer }}"></p>
+		<p>Gate Max Count: 	<br /><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>
 		
 		<h2>Business Information</h2>
 		<p>Business Name: 	<br/><input type="text" name="businessName" value="{{ business.businessName }}"></p>

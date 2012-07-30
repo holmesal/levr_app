@@ -52,18 +52,26 @@ class Approve(webapp2.RequestHandler):
 		deal.gate_max			= int(inputs('gateMax'))
 		deal.geo_point			= levr.geo_converter(inputs('geoPoint'))
 		deal.description		= inputs('description')
-		
 		##new properties
-		deal.discount_type	= inputs('discountType')
-		deal.discount_value	= float(inputs('discountValue'))
-		deal.deal_type		= inputs('deal_type')
-		deal.deal_item		= inputs('deal_item')
+		deal.deal_text		= inputs('deal_text')
+		deal.deal_type		= inputs('deal_type') #single or bundle
 		deal.city			= inputs('city')
 		deal.secondary_name	= inputs('secondaryName') #### check name!!!
 		deal.date_start		= datetime.now()
 		deal.date_end		= datetime.strptime(inputs('dateEnd'),'%Y-%m-%d %H:%M:%S.%f')
 		
 		logging.info(deal.__dict__)
+		
+		#parse tags from all the inputs
+		tags = []
+		tags.extend(levr.tagger(deal.business_name))
+		tags.extend(levr.tagger(deal.description))
+		tags.extend(levr.tagger(deal.city))
+		tags.extend(levr.tagger(deal.secondary_name))
+		tags.extend(levr.tagger(inputs('tags')))
+		
+		#set tags list to the deal object
+		deal.tags = tags
 		deal.put()
 		
 		#grab all of the primary cats and put

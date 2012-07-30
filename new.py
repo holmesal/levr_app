@@ -13,16 +13,16 @@ from google.appengine.ext.webapp import blobstore_handlers
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-class NewDealHandler(webapp2.RequestHandler):
+class DealHandler(webapp2.RequestHandler):
 	def get(self):
-		upload_url = blobstore.create_upload_url('/new/upload')
+		upload_url = blobstore.create_upload_url('/merchants/deal/upload')
 		template_values = {
 			"upload_url"	: upload_url,
 		}
 		template = jinja_environment.get_template('templates/deal.html')
 		self.response.out.write(template.render(template_values))
 	
-class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			logging.debug(self.request.headers)
@@ -112,6 +112,6 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			self.response.set_status(500)
 			self.response.out.write('exception')
 
-app = webapp2.WSGIApplication([('/new', NewDealHandler),
-								('/new/upload', NewDealUploadHandler)
+app = webapp2.WSGIApplication([('/merchants/deal', DealHandler),
+								('/merchants/deal/upload', DealUploadHandler)
 								],debug=True)

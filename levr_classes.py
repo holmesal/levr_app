@@ -138,7 +138,9 @@ class Deal(polymodel.PolyModel):
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 	address_string	= db.StringProperty()
-	tags			= db.StringListProperty()
+	tags			= db.ListProperty(str)
+	rank			= db.IntegerProperty(default = 0)
+	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {

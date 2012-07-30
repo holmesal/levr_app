@@ -388,6 +388,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			deal.deal_status	= 'pending'
 			deal.geo_point		= geo_point
 			deal.description	= inputs('description')
+			deal.vicinity		= inputs('vicinity')
 			#set expiration date to one week from now
 			deal.date_end		= datetime.now() + timedelta(days=7)
 		

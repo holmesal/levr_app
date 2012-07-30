@@ -1,6 +1,18 @@
 body{
 	background-color: white;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: 0;
+}
+
+#header{
+	background-color: #313131;
+	height: 40px;
+}
+
+#header_logo{
+	width: 80px;
+	margin-left: 20px;
+	margin-top: 3px;
 }
 
 #container{

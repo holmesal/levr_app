@@ -42,6 +42,18 @@ body{
 	height: 100%;
 }
 
+#powered_by_levr{
+	display: block;
+	text-align: right;
+	width: 100%;
+	font-size: 10pt;
+}
+
+#powered_by_levr_link{
+	text-decoration: none;
+	color: #6985ff;
+}
+
 #btnGet{
 	display: block;
 	float: left;

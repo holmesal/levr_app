@@ -35,32 +35,36 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			#vicinity
 			vicinity = self.request.get('vicinity')
 			tags.extend(levr.tagger(vicinity))
-			logging.debug(tags)
+			logging.info(tags)
 			
 			#types
 			types = self.request.get('types')
 			tags.extend(levr.tagger(types))
-			logging.debug(tags)
+			logging.info(tags)
 			
 			#deal line 1
 			deal_text	= self.request.get('deal_line1')
 			tags.extend(levr.tagger(deal_text))
-			logging.debug(tags)
+			logging.info(tags)
 			
 			#deal line 2
 			secondary_name = self.request.get('deal_line2')
-			tags.extend(levr.tagger(deal_line2))
-			logging.debug(tags)
+			tags.extend(levr.tagger(secondary_name))
+			logging.info(tags)
 			
 			#description
 			description = self.request.get('deal_description')
 			tags.extend(levr.tagger(description))
-			logging.debug(tags)
+			logging.info(tags)
 			
 			#business name
 			business_name = self.request.get('business_name')
-			tags.extend(levr.tagger(description))
-			logging.debug(tags)
+			tags.extend(levr.tagger(business_name))
+			logging.info(tags)
+			
+			#geo point
+			geo_point = self.request.get('geo_point')
+			logging.info(geo_point)
 			
 			
 			#check if business exists

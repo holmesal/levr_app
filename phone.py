@@ -44,6 +44,10 @@ class phone(webapp2.RequestHandler):
 				start = decoded["in"]["start"]
 				numResults = decoded["in"]["size"]
 				
+				#grab all deals where primary_cat is in tags and the status is active
+				1 = levr.Deal.gql("WHERE tags=:1 AND status=active",primary_cat)
+				
+				
 				#query the database for all deals with a matching primaryCat
 				q = levr.Category.gql("WHERE primary_cat=:1",primaryCat).fetch(int(numResults),offset=int(start))
 	#			logging.info(q.count())

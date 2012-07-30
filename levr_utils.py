@@ -199,10 +199,15 @@ def dealCreate(self,origin):
 		#put the deal
 		deal.put()
 		
+		
+		#return share url
+		share_url = 'http://getlevr.appspot.com/share/deal?id='+enc.encrypt_key(deal.key())
+		return share_url
 		#self.response.set_status(200)
 		#self.response.out.write('we good.')
 		#self.redirect('/new')
 	except:
+		pass
 		#levr.log_error()
 		#self.response.set_status(500)
 		#self.response.out.write('exception')

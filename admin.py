@@ -55,7 +55,6 @@ class Approve(webapp2.RequestHandler):
 		##new properties
 		deal.deal_text		= inputs('deal_text')
 		deal.deal_type		= inputs('deal_type') #single or bundle
-		deal.city			= inputs('city')
 		deal.secondary_name	= inputs('secondaryName') #### check name!!!
 		deal.date_start		= datetime.now()
 		deal.date_end		= datetime.strptime(inputs('dateEnd'),'%Y-%m-%d %H:%M:%S.%f')
@@ -74,14 +73,6 @@ class Approve(webapp2.RequestHandler):
 		deal.tags = tags
 		deal.put()
 		
-		#grab all of the primary cats and put
-		tags = inputs('tags')
-		tags = tags.split(',')
-		tags = [tag.strip() for tag in tags]
-		for tag in tags:
-			category 			 = levr.Category(parent=db.Key(dealID))
-			category.primary_cat = tag
-			category.put()
 #		self.response.out.write('<a href="/admin/pending">Success</a>')
 		self.redirect('/admin/pending')
 		

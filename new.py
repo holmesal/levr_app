@@ -2,8 +2,6 @@ import webapp2
 #import json
 import logging
 import os
-import re
-import string
 import jinja2
 import levr_classes as levr
 #from google.appengine.ext import db
@@ -34,22 +32,19 @@ class NewDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			#init tags list
 			tags = []
 			
-			try:
-				full_address = self.request.get('business_select')
-				#split address by commas
-				split_address = full_address.split(',')
-				#remove whitespace on beginning and end of each element
-				split_address 	= [x.strip() for x in split_address]
-				logging.debug(split_address)
-				business_name 	= split_address[0]
-				tags.extend(levr.tagger(business_name))
-				address_line1 	= split_address[1]
-				city			= split_address[2]
-				tags.extend(levr.tagger(city))
-				state			= split_address[3]
-				zip_code		= ''
-			except:
-				pass
+			full_address = self.request.get('business_select')
+			#split address by commas
+			split_address = full_address.split(',')
+			#remove whitespace on beginning and end of each element
+			split_address 	= [x.strip() for x in split_address]
+			logging.debug(split_address)
+			business_name 	= split_address[0]
+			tags.extend(levr.tagger(business_name))
+			address_line1 	= split_address[1]
+			city			= split_address[2]
+			tags.extend(levr.tagger(city))
+			state			= split_address[3]
+			zip_code		= ''
 		
 		
 			#will have the businessID upon login

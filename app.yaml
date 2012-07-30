@@ -1,4 +1,4 @@
-application: getlevr-sandbox
+application: getlevr
 version: 1
 runtime: python27
 api_version: 1
@@ -12,7 +12,7 @@ handlers:
 - url: /merchants.*
   script: merchants.app
 - url: /new.*
-  script: test_class.app
+  script: new.app
   login: admin
 - url: /login
   script: login.app

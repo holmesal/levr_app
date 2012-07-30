@@ -3,6 +3,8 @@
 from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
 from google.appengine.ext import blobstore
+import re
+import string
 import logging
 import sys, traceback
 import levr_encrypt as enc

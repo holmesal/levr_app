@@ -139,6 +139,7 @@ class Deal(polymodel.PolyModel):
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 	address_string	= db.StringProperty()
 	tags			= db.ListProperty(str)
+	rank			= db.IntegerProperty(default = 0)
 	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''

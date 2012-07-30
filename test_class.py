@@ -83,6 +83,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.address_string	= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
 		d.tags				= ['alonso','pat','ethan']
 		d.deal_status		= 'active'
+		d.rank				= 5
 		d.put()
 
 		#new customer deal
@@ -105,8 +106,9 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.deal_status		= 'active'
 		cd.geo_point		= levr_classes.geo_converter('-80.,70.')
 		cd.address_string	= '1234 Cherry Lane, Boston, MA 02134, USA'
-		d.tags				= ['alonso','pat','ethan']
-		d.deal_status		= 'active'
+		cd.tags				= ['alonso','pat','ethan']
+		cd.deal_status		= 'active'
+		cd.rank				= 10
 		cd.put()
 
 		#new Category

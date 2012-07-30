@@ -45,7 +45,7 @@ class phone(webapp2.RequestHandler):
 				numResults = decoded["in"]["size"]
 				
 				#grab all deals where primary_cat is in tags and the status is active
-				q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2",primaryCat,'active')
+				q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY rank DESC",primaryCat,'active')
 				#q = levr.Deal.gql("WHERE tags=:1",'alonso')
 				logging.info(q.get().__str__)
 
@@ -57,7 +57,7 @@ class phone(webapp2.RequestHandler):
 				#iterate over the results
 				#Want to grab deal information for each category
 				for result in q:
-					logging.info('result found!')
+					logging.info('Rank: ' + str(result.rank))
 					#break if results limit is hit
 					if resultsPushed == numResults:
 						break

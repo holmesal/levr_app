@@ -44,6 +44,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		ninja.money_earned = 0.0
 		ninja.money_paid = 0.0
 		ninja.put()
+		
 
 		#new business
 		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYBAw')
@@ -81,6 +82,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.deal_status		= 'active'
 		d.address_string	= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
 		d.tags				= ['alonso','pat','ethan']
+		d.deal_status		= 'active'
 		d.put()
 
 		#new customer deal
@@ -104,6 +106,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.geo_point		= levr_classes.geo_converter('-80.,70.')
 		cd.address_string	= '1234 Cherry Lane, Boston, MA 02134, USA'
 		d.tags				= ['alonso','pat','ethan']
+		d.deal_status		= 'active'
 		cd.put()
 
 		#new Category

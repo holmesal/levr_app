@@ -45,12 +45,10 @@ class phone(webapp2.RequestHandler):
 				numResults = decoded["in"]["size"]
 				
 				#grab all deals where primary_cat is in tags and the status is active
-				1 = levr.Deal.gql("WHERE tags=:1 AND status=active",primary_cat)
-				
-				
-				#query the database for all deals with a matching primaryCat
-				q = levr.Category.gql("WHERE primary_cat=:1",primaryCat).fetch(int(numResults),offset=int(start))
-	#			logging.info(q.count())
+				q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2",primaryCat,'active')
+				#q = levr.Deal.gql("WHERE tags=:1",'alonso')
+				logging.info(q.get().__str__)
+
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []
 				resultsPushed = 0
@@ -58,31 +56,19 @@ class phone(webapp2.RequestHandler):
 				isEmpty = True
 				#iterate over the results
 				#Want to grab deal information for each category
-				for category in q:
-					#set isEmpty to 1
-					logging.debug(category)
-					logging.debug(dir(category))
+				for result in q:
+					logging.info('result found!')
 					#break if results limit is hit
 					if resultsPushed == numResults:
 						break
-					#grab the parent deal key so we can grab the info from it
-					d = category.key().parent()
-					#logging.debug("Key: %s",str(d))
-					#grab the appropriate deal parent
-					result = levr.Deal.get(d)
-					#logging.debug(result)
-					if result.deal_status == 'active':
-						isEmpty = False
-						#trade an object for a phone-formatted dictionary
-						deal = levr.phoneFormat(result,'list',primaryCat)
-						#push the primary onto the dictionary
-						deal['primaryCat'] = category.primary_cat
-						#push the whole dictionary onto a list
-						dealResults.append(deal)
-						#increment the counter
-						resultsPushed += 1
-					else:
-						pass
+					isEmpty = False
+					#trade an object for a phone-formatted dictionary
+					deal = levr.phoneFormat(result,'list',primaryCat)
+					#push the whole dictionary onto a list
+					dealResults.append(deal)
+					#increment the counter
+					resultsPushed += 1
+
 				#if isempty is true, send back suggested searches instead
 				if isEmpty == False:
 					dealResults.append(None)
@@ -332,7 +318,10 @@ class phone(webapp2.RequestHandler):
 				upload_url = blobstore.create_upload_url('/phone/uploadDeal')
 				logging.debug(upload_url)
 				toEcho = {"success":True, "data":{"url":upload_url}}
-				
+			elif action == "checkBounty":
+				where = "College campuses in Boston, MA"
+				what = "Offers on food, drink, clothing, and entertainment"
+				toEcho = {"success":True,"data":{"where":where,"what":what}}
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!

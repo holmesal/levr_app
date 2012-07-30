@@ -318,7 +318,14 @@ def geo_converter(geo_str):
 
 def tagger(text):
 #	parsing function for creating tags from description, etc
-	list = [w.lower() for w in re.split('\'\W', text) if w]
+	#replace underscores with spaces
+	text.replace("_"," ")
+	#remove all non text characters
+	text = re.sub(r"[^\w\s]", '', text)
+	#parse text string into a list of words if it is longer than 2 chars long
+	list = [w.lower() for w in re.findall("[\'\w]+", text) if len(w)>2]
+
+
 	return list
 
 def log_error(message=''):

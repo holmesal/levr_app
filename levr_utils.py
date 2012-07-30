@@ -105,7 +105,7 @@ def loginCustomer(email_or_owner,pw):
 			'success'	: False,
 			'error': 'Incorrect username, email, or password. Please try again!'
 		}
-	
+
 def dealCreate(self,origin):
 	'''pass in "self"'''
 	try:

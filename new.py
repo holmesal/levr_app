@@ -61,6 +61,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			business.city			= city
 			business.state			= state
 			business.zip_code		= zip_code
+			
 			#need geo point and zip code
 			business.put()
 			

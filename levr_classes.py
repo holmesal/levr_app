@@ -91,12 +91,7 @@ class Business(db.Model):
     creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
     business_name 	= db.StringProperty()
     
-#    address_line1 	= db.StringProperty()
-#    address_line2 	= db.StringProperty(default='')
-#    city			= db.StringProperty()
-#    state 			= db.StringProperty()
-#    zip_code		= db.StringProperty()
-    address_string	= db.StringProperty()
+    vicinity		= db.StringProperty()
     
     alias 			= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
@@ -106,12 +101,7 @@ class Business(db.Model):
 		'''Formats the object into dictionary for review before release'''
 		data = {
 			"businessID"	: enc.encrypt_key(self.key().__str__()),
-#			"addressLine1"	: self.address_line1,
-#			"addressLine2"	: self.address_line2,
-#			"city"			: self.city,
-#			"state"			: self.state,
-#			"zip"			: self.zip_code,
-			"address_string": self.address_string,
+			"vicinity": self.vicinity,
 			"businessName"	: self.business_name,
 			"geoPoint"		: self.geo_point,
 		}
@@ -135,13 +125,13 @@ class Deal(polymodel.PolyModel):
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_end 		= db.DateTimeProperty(auto_now_add=False)
 #	img_path		= db.StringProperty()   #string path to image
-	city 			= db.StringProperty(default='')  #optional
+#	city 			= db.StringProperty(default='')  #optional
 	count_end 		= db.IntegerProperty()  #max redemptions
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
-	address_string	= db.StringProperty()
+	vicinity		= db.StringProperty()
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
 	def dictify(self):
@@ -326,61 +316,17 @@ def phoneFormat(deal,use,primary_cat=None):
 		b = db.get(deal.businessID)
 		#view deal information screen
 		#uploaded by a user
-		#idx = deal.address_string.find(',')
-		#displayAddress = deal.address_string[0:idx]
-		#uploaded by a business
-		#businessID = deal.key().parent()
-		#b = Business.get(businessID)
-		#displayAddress = b.address_line1 + ', ' + b.address_line2
-		#businessAddress = '%(:1)s %(:2)s %(:3)s %(:4)s, %(:5)s %(:6)s' % {deal.business_name, b.address_line1, b.address_line2, b.city, b.state, b.zip_code}
 		data = {"dealID"		: dealID,
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
-				"gmapsAddress"	: '%(addy1)s %(addy2)s, %(city)s, %(state)s %(zip)s' % {"addy1":b.address_line1,"addy2":b.address_line2,"city":b.city,"state":b.state,"zip":b.zip_code},
-				"displayAddress": b.address_line1,
+				"gmapsAddress"	: deal.vicinity,
 				"description"	: deal.description,
 				"city"			: deal.city}
 	logging.info(data)
 	return data
 
-def phoneBusinessFormat(business):
-	'''Format business output from DB for phone use'''
-	#map object properties to dictionaries
-	data = {"addressLine1"	: business.address_line1,
-			"addressLine2"	: business.address_line2,
-			"city"			: business.city,
-			"state"			: business.state,
-			"zip"			: business.zip_code
-	}
-	return data
-
-def web_edit_account_format(business):
-	data = {
-		"email"			: business.email,
-		"businessName"	: business.business_name,
-		"address1"		: business.address_line1,
-		"address2"		: business.address_line2,
-		"city"			: business.city,
-		"state"			: business.state,
-		"zipCode"		: business.zip_code,
-		"ownerName"		: business.alias,
-		"phone"			: business.contact_phone
-	}
-	return data
-
-def web_edit_deal_format(deal):
-	data = {
-		"secondary_name": deal.secondary_name,
-		"deal_type"		: deal.deal_type,
-		"description"	: deal.description,
-		"end_value"		: deal.count_end,
-		"discount_type"	: deal.discount_type,
-		"deal_value"	: deal.discount_value,
-		"city"			: deal.city
-	}
-	return data
 def geo_converter(geo_str):
 	if geo_str:
 		lat, lng = geo_str.split(',')

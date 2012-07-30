@@ -51,11 +51,12 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 				business = levr.Business()
 			#give the business its address values
 			#need geo point and zip code
+			business.address_string = full_address
+			business.business_name	= business_name
 			business.put()
 			
-			
 			#create the deal entity
-			deal 	= levr.Deal()#parent=businessID)
+			deal 	= levr.Deal(parent=business.key())
 			upload	= self.get_uploads()[0]
 			blob_key= upload.key()
 			deal.img= blob_key

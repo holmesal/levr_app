@@ -364,10 +364,11 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		
 			business.geo_point		= geo_point
 			business.business_name	= business_name
-			business.address_line1	= inputs('addressLine1')
-			business.city			= inputs('city')
-			business.state			= inputs('state')
-			business.zip_code		= inputs('zip')
+			business.vicinity	 	= inputs('vicinity')
+#			business.address_line1	= inputs('addressLine1')
+#			business.city			= inputs('city')
+#			business.state			= inputs('state')
+#			business.zip_code		= inputs('zip')
 	#		put business in db
 			business.put()
 			logging.info(business)

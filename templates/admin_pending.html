@@ -22,17 +22,60 @@
 		<p>Gate Max Count: 	<br /><input type="text" name="gateMax" value="{{ deal.gateMax }}"></p>
 		
 		<h2>Business Information</h2>
-		<p>Business Name: 	<br/><input type="text" name="businessName" value="{{ business.businessName }}"></p>
-		<p>Vicinity:		<br/><input type="text" name="vicinity" value="{{ business.vicinity }}"></p>
-		<p>Location: 		<br/><input type="text" name="geoPoint" value="{{ business.geoPoint }}"></p>
+		<p>Business Name: 	<br/><input type="text" id="businessName"name="businessName" value="{{ business.businessName }}"></p>
+		<p>Vicinity:		<br/><input type="text" id="vicinity" name="vicinity" value="{{ business.vicinity }}"></p>
+		<p>Or... New Location<br/><input type="text" id="business_select" name="business_select" ></p>
+		<p>Types:			<br/><input type="text" id="types" name="types" value=""></p>
+		<p>Location: 		<br/><input type="text" id="geoPoint" name="geoPoint" value="{{ business.geoPoint }}"></p>
 		
 		<input type="submit" value="Enter">
 	</form>
 	
-	<p>Danger, Will Robinson…</p>
+	<p>Danger, Will Robinson…</p>p>
 	<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
 		<input type="submit" value="Reject">
 	</form><p>Vicinity:		<br/><input type="text" name="addressLine1" value="{{ business.addressLine1 }}"></p>
 	</body>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script>
+	<script type="text/javascript">
+		google.load("jquery", "1.4.2");
+	</script>
+	<script>
+	//initialize places service
+	var input = document.getElementById('business_select');
+	var options = {types: ['establishment']};
+	autocomplete = new google.maps.places.Autocomplete(input, options);
+	
+	//initialize place_changed listener
+	var place = {};
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		var place = autocomplete.getPlace();
+		$('#deal_business').val(place.name);
+		$('#deal_address').val(place.vicinity);
+		console.log(place)
+		//add types as a hidden field
+		types_input = "<input type='text' name='types' value='"+place.types+"'>"
+        $('#deal_form').append(types_input);
+        //add vicinity as a hidden field
+        $('#vicinity').val(place.vicinity)
+        // vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
+        // $('#deal_form').append(vicinity_input);
+        //add business_name as a hidden field
+        $('#businessName').val(place.name)
+        // business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
+        // $('#deal_form').append(business_name_input);
+        //add geo_point as a hidden field
+        lat = place.geometry.location.lat()
+        lng = place.geometry.location.lng()
+        
+        ('#geoPoint').val(lat+", "+lng)
+        console.log(place.geometry.location.lat())
+        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.name+"'>"
+        
+	});
+	
+	</script>
 </html>
 

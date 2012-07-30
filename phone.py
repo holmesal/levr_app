@@ -44,8 +44,16 @@ class phone(webapp2.RequestHandler):
 				start = decoded["in"]["start"]
 				numResults = decoded["in"]["size"]
 				
+				tags = primaryCat.split(',')
 				#grab all deals where primary_cat is in tags and the status is active
-				q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY rank DESC",primaryCat,'active')
+				if tags.__len__() == 1:
+					q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY rank DESC",tags[0],'active')
+				elif  tags.__len__() == 2:
+					q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND deal_status=:3 ORDER BY rank DESC",tags[0],tags[1],'active')
+				else:
+					q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND tags=:3 AND deal_status=:4 ORDER BY rank DESC",tags[0],tags[1],tags[2],'active')
+				
+				
 				#q = levr.Deal.gql("WHERE tags=:1",'alonso')
 				logging.info(q.get().__str__)
 

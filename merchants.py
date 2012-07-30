@@ -34,62 +34,70 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			
 			#vicinity
 			vicinity = self.request.get('vicinity')
-			logging.debug(vicinity)
+			tags.extend(levr.tagger(vicinity))
+			logging.info(tags)
+			
 			#types
 			types = self.request.get('types')
 			tags.extend(levr.tagger(types))
-			logging.debug(types)
+			logging.info(tags)
 			
-			'''
-			full_address = self.request.get('business_select')
-			#split address by commas
-			split_address = full_address.split(',')
-			#remove whitespace on beginning and end of each element
-			split_address 	= [x.strip() for x in split_address]
-			logging.debug(split_address)
-			business_name 	= split_address[0]
+			#deal line 1
+			deal_text	= self.request.get('deal_line1')
+			tags.extend(levr.tagger(deal_text))
+			logging.info(tags)
+			
+			#deal line 2
+			secondary_name = self.request.get('deal_line2')
+			tags.extend(levr.tagger(secondary_name))
+			logging.info(tags)
+			
+			#description
+			description = self.request.get('deal_description')
+			tags.extend(levr.tagger(description))
+			logging.info(tags)
+			
+			#business name
+			business_name = self.request.get('business_name')
 			tags.extend(levr.tagger(business_name))
-			address_line1 	= split_address[1]
-			city			= split_address[2]
-			tags.extend(levr.tagger(city))
-			state			= split_address[3]
-			zip_code		= ''
+			logging.info(tags)
+			
+			#geo point
+			geo_point = self.request.get('geo_point')
+			logging.info(geo_point)
 			
 			
-			#will have the businessID upon login
-			##### spoof value
-			businessID = ''
-	#		##### /spoof
-			#grab the business or create a new one
-			business = levr.Business.gql('WHERE business_name = :1',business_name).get()
+			#check if business exists
+			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+			#if a business doesn't exist in db, then create a new one
 			if not business:
 				business = levr.Business()
-			#give the business its address values
-			#need geo point and zip code
-			business.address_string = full_address
-			business.business_name	= business_name
+			#add data
+			business.business_name 	= business_name
+			business.vicinity 		= vicinity
+			#business.geo_pt			= self.request.get('geo_pt')
+			
+			#put business
 			business.put()
-			'''
-			businessID = ''
+			
+			
 			#create the deal entity
-			deal 	= levr.Deal()#parent=business.key())
+			deal 	= levr.Deal(parent=business.key())
 			upload	= self.get_uploads()[0]
 			blob_key= upload.key()
 			deal.img= blob_key
 			
-			#parse description into tags
-			desc	= self.request.get('deal_description')
-			tags.extend(levr.tagger(desc))
-			deal.description = desc
-			
-			
-			#parse deal text into tags
-			deal_text	= self.request.get('deal_line1')
-			tags.extend(levr.tagger(deal_text))
-			deal.deal_text = deal_text
-			
-			#check existence of secondary name and parse
-			secondary_name	= self.request.get('deal_line2')
+			#add the data
+			deal.deal_text 			= deal_text
+			deal.description 		= description
+			deal.business_name		= business_name
+			deal.businessID			= business.key().__str__()
+			deal.vicinity			= vicinity
+			deal.tags				= tags
+			deal.date_start			= datetime.now()
+			deal.deal_status		= "active"
+			deal.date_end			= datetime.now() + timedelta(days=7)
+			#secondary_name
 			if secondary_name:
 				deal.deal_type = "bundle"
 				tags.extend(levr.tagger(secondary_name))
@@ -97,19 +105,9 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			else:
 				deal.deal_type = "single"
 			
-			
-			deal.businessID		= business.key().__str__()
-			deal.business_name 	= business_name
-			deal.date_start		= datetime.now()
-			deal.deal_status	= "active"
-			deal.vicinity 		= vicinity
-			deal.tags			= tags
-			deal.date_end		= datetime.now() + timedelta(days=7)
-			
-			logging.debug(tags)
-			logging.debug(deal)
-#			logging.debug(business)
+			#put the deal
 			deal.put()
+			
 			self.response.set_status(200)
 			self.response.out.write('we good.')
 			self.redirect('/new')

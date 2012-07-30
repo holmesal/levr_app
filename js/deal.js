@@ -66,12 +66,13 @@ $(document).ready(function() {
 		console.log(place)
 		//add types as a hidden field
 		types_input = "<input type='hidden' name='types' value='"+place.types+"'>"
-		console.log(types_input)
         $('#deal_form').append(types_input);
         //add vicinity as a hidden field
         vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
         $('#deal_form').append(vicinity_input);
-        console.log(vicinity_input)
+        //add business_name as a hidden field
+        business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
+        $('#deal_form').append(business_name_input);
         
 	});
 	

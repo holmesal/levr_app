@@ -140,7 +140,6 @@ class Deal(polymodel.PolyModel):
 	address_string	= db.StringProperty()
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
-	
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {

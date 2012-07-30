@@ -310,7 +310,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
-				"gmapsAddress"	: deal.vicinity,
+				"vicinity"		: deal.vicinity,
 				"description"	: deal.description}
 	logging.info(data)
 	return data

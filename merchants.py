@@ -8,6 +8,7 @@ import levr_classes as levr
 #from google.appengine.api import images
 #from google.appengine.api import mail
 from datetime import datetime
+from datetime import timedelta
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
@@ -26,7 +27,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			logging.debug(self.request.headers)
-			logging.debug(self.request.body)
+			logging.info(self.request.body)
 			logging.debug(self.request.get('image'))
 			
 			#init tags list
@@ -63,12 +64,13 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			logging.info(tags)
 			
 			#geo point
-			geo_point = self.request.get('geo_point')
-			logging.info(geo_point)
+			#geo_point = self.request.get('geo_point')
+			#logging.info(geo_point)
 			
 			
 			#check if business exists
-			business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+			#business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+			business = levr.Business.gql("WHERE business_name=:1", business_name).get()
 			#if a business doesn't exist in db, then create a new one
 			if not business:
 				business = levr.Business()

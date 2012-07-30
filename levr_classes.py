@@ -325,7 +325,7 @@ def geo_converter(geo_str):
 
 def tagger(text):
 #	parsing function for creating tags from description, etc
-	list = [w for w in re.split('\W', text) if w]
+	list = [w.lower() for w in re.split('\W', text) if w]
 	return list
 
 def log_error(message=''):

@@ -358,6 +358,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		try:
 			share_url = levr_utils.dealCreate(self,'phone')
 			toEcho = {"success":True,"shareURL":share_url}
+			self.response.out.write(json.dumps(toEcho))
 		except:
 			levr.log_error(self.request.body)
 		finally:

@@ -51,11 +51,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		b.email 		= 'alonso@getlevr.com'
 		b.pw 			= 'alonso'
 		b.business_name = 'Shaws'
-		b.address_line1 = '1 white house road'
-		b.address_line2 = 'box 10'
-		b.city 			= 'washington'
-		b.state 		= 'DC'
-		b.zip_code 		= '10000'
+		b.vicinity		= 'vicinity'
 		b.alias 		= 'Joe'
 		b.contact_phone = '603-603-6003'
 		b.geo_point		= levr_classes.geo_converter("15.23213,60.2342")
@@ -68,11 +64,9 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.businessID		= str(b.key())
 		d.business_name 	= 'Shaws'
 		d.secondary_name	= 'second name'
+		d.deal_text			= '50% off booze'
 		d.deal_type			= 'single'
-		d.deal_item			= 'Coat'
 		d.description 		= 'describe me, hun.'
-		d.discount_type 	= 'monetary'
-		d.discount_value 	= 50.2
 		d.rating 			= 50
 		d.count_end 		= 101
 		d.count_redeemed 	= 0
@@ -80,9 +74,9 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.img_path 			= './img/bobs-discount-furniture.png'
 		d.city 				= 'Qatar'
 		d.deal_status		= 'active'
-		d.address_string	= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
+		d.vicinity			= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
 		d.tags				= ['alonso','pat','ethan']
-		d.deal_status		= 'active'
+		d.deal_status		= 'pending'
 		d.rank				= 5
 		d.put()
 
@@ -91,23 +85,18 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.businessID		= str(b.key())
 		cd.img				= upload.key()
 		cd.business_name 	= 'Shaws'
-		cd.deal_item 		= 'socks'
-		cd.name_type		= 'specific'
+		cd.deal_text		= '40% of sijo'
+		cd.deal_type		= 'single'
 		cd.description 		= 'describe me, hun.'
-		cd.discount_type 	= 'monetary'
-		cd.discount_value 	= 50.2
 		cd.rating 			= 50
 		cd.count_end 		= 101
 		cd.count_redeemed 	= 0
 		cd.count_seen 		= 43
 		cd.new_redeem_count	= 0
-		cd.img_path 		= './img/bobs-discount-furniture.png'
-		cd.city 			= 'Qatar'
-		cd.deal_status		= 'active'
+		cd.deal_status		= 'pending'
 		cd.geo_point		= levr_classes.geo_converter('-80.,70.')
-		cd.address_string	= '1234 Cherry Lane, Boston, MA 02134, USA'
+		cd.vicinity			= '1234 Cherry Lane, Boston, MA 02134, USA'
 		cd.tags				= ['alonso','pat','ethan']
-		cd.deal_status		= 'active'
 		cd.rank				= 10
 		cd.put()
 

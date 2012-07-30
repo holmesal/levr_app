@@ -13,7 +13,7 @@
 		<p>Tags: 			<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
 		
 		<h2>Confirm Deal Information</h2>
-		<p>Deal Text: 		<br /><input type="text" name="dealText" value="{{ deal.deal_text }}" /></p>
+		<p>Deal Text: 		<br /><input type="text" name="deal_text" value="{{ deal.deal_text }}" /></p>
 		<p>With purchase of:<br /><input type="text" name="secondaryName" value="{{deal.secondaryName}}"></p>
 		<p>Description:		<br /><textarea rows="3" name="description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
 		<p>Gate Requirement:<br /><input type="text" name="gateRequirement" value="{{ deal.gateRequirement }}"></p>
@@ -22,19 +22,16 @@
 		
 		<h2>Business Information</h2>
 		<p>Business Name: 	<br/><input type="text" name="businessName" value="{{ business.businessName }}"></p>
+		<p>Vicinity:		<br/><input type="text" name="vicinity" value="{{ business.vicinity }}"></p>
 		<p>Location: 		<br/><input type="text" name="geoPoint" value="{{ business.geoPoint }}"></p>
-		<p>Address Line1:	<br/><input type="text" name="addressLine1" value="{{ business.addressLine1 }}"></p>
-		<p>Address Line2:	<br/><input type="text" name="addressLine2" value="{{ business.addressLine2 }}"></p>
-		<p>City:			<br/><input type="text" name="city" value="{{ business.city }}"></p>
-		<p>State:			<br/><input type="text" name="state" value="{{ business.state }}"></p>
-		<p>Zip:				<br/><input type="text" name="zip" value="{{ business.zip }}"></p>
+		
 		<input type="submit" value="Enter">
 	</form>
 	
 	<p>Danger, Will Robinson…</p>
 	<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
 		<input type="submit" value="Reject">
-	</form>
+	</form><p>Vicinity:		<br/><input type="text" name="addressLine1" value="{{ business.addressLine1 }}"></p>
 	</body>
 </html>
 

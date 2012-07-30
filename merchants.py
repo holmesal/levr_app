@@ -101,8 +101,9 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			deal.business_name 	= business_name
 			deal.date_start		= datetime.now()
 			deal.deal_status	= "active"
-			deal.vicinity = vicinity
+			deal.vicinity 		= vicinity
 			deal.tags			= tags
+			deal.date_end		= datetime.now() + timedelta(days=7)
 			
 			logging.debug(tags)
 			logging.debug(deal)

@@ -147,13 +147,13 @@ def dealCreate(self,origin):
 		logging.info(tags)
 		
 		#geo point
-		#geo_point = self.request.get('geo_point')
-		#logging.info(geo_point)
+		geo_point = self.request.get('geo_point')
+		logging.info(geo_point)
 		
 		
 		#check if business exists
-		#business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
-		business = levr.Business.gql("WHERE business_name=:1", business_name).get()
+		business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+		#business = levr.Business.gql("WHERE business_name=:1", business_name).get()
 		#if a business doesn't exist in db, then create a new one
 		if not business:
 			business = levr.Business()

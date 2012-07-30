@@ -69,7 +69,14 @@ $(document).ready(function() {
         types.setAttribute("type", "hidden");
         types.setAttribute("name", types);
         types.setAttribute("value", place.types);
-        form.appendChild(hiddenField);
+        $('#deal_form').appendChild(types);
+        //add vicinity as a hidden field
+        var vicinity = document.createElement("input");
+        types.setAttribute("type", "hidden");
+        types.setAttribute("name", vicinity);
+        types.setAttribute("value", place.vicinity);
+        $('#deal_form').appendChild(vicinity);
+        
 	});
 	
 	//register submit button listener

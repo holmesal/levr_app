@@ -19,9 +19,9 @@ email updates for pending deals
 
 <!--lost password recovery - decrypt and email-->
 
-remember to change back url in phoneformat from localhost to real server
-remember to change css stylesheet reference back to relative link instead of on getlevr.com
-	^^^ same thing with the widget.html reference in widget.py
+<!-- remember to change back url in phoneformat from localhost to real server -->
+<!-- remember to change css stylesheet reference back to relative link instead of on getlevr.com -->
+<!-- 	^^^ same thing with the widget.html reference in widget.py -->
 later...
 start thinking about async methods
 lower-casify each search

@@ -45,9 +45,7 @@ class phone(webapp2.RequestHandler):
 				numResults = decoded["in"]["size"]
 				
 				#normalize search query
-				primaryCat = primaryCat.lower()
-				
-				tags = primaryCat.split(' ')
+				tags = levr_utils.tagger(primaryCat)
 				logging.debug(tags)
 				#grab all deals where primary_cat is in tags and the status is active
 				if tags.__len__() == 1:

@@ -115,6 +115,7 @@ class Deal(polymodel.PolyModel):
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 #	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	deal_text		= db.StringProperty()
+	is_exclusive	= db.BooleanProperty(default=False)
 
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
 #	discount_value 	= db.FloatProperty() #number, -1 if free
@@ -302,11 +303,20 @@ def phoneFormat(deal,use,primary_cat=None):
 		#uploaded by a user
 		data = {"dealID"		: dealID,
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"barcodeURL"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail'
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
 				"vicinity"		: deal.vicinity,
-				"description"	: deal.description}
+				"description"	: deal.description,
+				"isExclusive"	: deal.is_exclusive}
+				
+	elif use == 'dealsScreen':
+		ninja = db.get(deal.key().parent())
+		data = {"barcodeURL"	: deal.barcodeURL,
+				"ninjaName"		: ninja.alias,
+				"isExclusive"	: deal.is_exclusive}
+		
 	logging.info(data)
 	return data
 

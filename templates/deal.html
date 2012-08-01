@@ -19,14 +19,14 @@
 				<p class="pane_header">Start typing here</p>
 				<form id="deal_form" action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
 						<p class="prompt">What's the offer?</p>
-						<input class="textIn" type="text" name="deal_line1" placeholder="Your discount...">
+						<input class="textIn error_check" type="text" name="deal_line1" placeholder="Your discount...">
 						<p class="aide">Ex: 50% Off Jeans</p>
 						<p class="prompt">Is this a bundled offer?</p>
 						<input class="textIn" type="text" name="deal_line2" placeholder="With purchase of...">
 						<p class="prompt">Why is this a great offer?</p>
-						<input class="textIn" type="text" name="deal_description" placeholder="A short description...">
+						<input class="textIn error_check" type="text" name="deal_description" placeholder="A short description...">
 						<p class="prompt">How will customers find you?</p>
-						<input class="textIn" type="text" id="business_select" name="business_select" placeholder="Search for your business...">
+						<input class="textIn error_check" type="text" id="business_select" name="business_select" placeholder="Search for your business...">
 						<div id="results"></div>
 						<p class="prompt">Upload a picture:</p>
 						<input type="file" name="image" id="img_upload" value="Upload" onchange="previewImage(this);">

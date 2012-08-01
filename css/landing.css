@@ -106,13 +106,13 @@ body{
 #two{
 	display: block;
 	width: 100%;
-	background-image: url(/img/landing_background.jpeg);
+	background-image: url(../img/landing_background.jpeg);
 }
 
 #three{
 	display: block;
 	width: 100%;
-	background-image: url(/img/landing_background.jpeg);
+	background-image: url(../img/landing_background.jpeg);
 }
 
 #right{

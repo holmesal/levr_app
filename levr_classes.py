@@ -109,12 +109,14 @@ class Deal(polymodel.PolyModel):
 	#key name is deal id
 	#deal information
 	img				= blobstore.BlobReferenceProperty()
+	barcode			= blobstore.BlobReferenceProperty()
 	businessID 		= db.StringProperty(default='') #CHANGE TO REFERENCEPROPERTY
 	business_name 	= db.StringProperty(default='') #name of business
 	secondary_name 	= db.StringProperty(default='') #== with purchase of
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 #	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	deal_text		= db.StringProperty()
+	is_exclusive	= db.BooleanProperty(default=False)
 
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
 #	discount_value 	= db.FloatProperty() #number, -1 if free
@@ -306,7 +308,15 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
 				"vicinity"		: deal.vicinity,
-				"description"	: deal.description}
+				"description"	: deal.description,
+				"isExclusive"	: deal.is_exclusive}
+				
+	elif use == 'dealsScreen':
+		ninja = db.get(deal.key().parent())
+		data = {"barcodeURL"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"ninjaName"		: ninja.alias,
+				"isExclusive"	: deal.is_exclusive}
+		
 	logging.info(data)
 	return data
 

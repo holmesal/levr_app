@@ -240,10 +240,26 @@ class phone(webapp2.RequestHandler):
 				#new notifications?
 				notifications = customer.get_notifications()
 				#don't try and redeem the same deal twice. . .
-				if dealID in customer.redemptions:
+				#if dealID in customer.redemptions:
 					#toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
 				#else:
-					toEcho = {"success":True,"notifications":notifications}
+					#toEcho = {"success":True,"notifications":notifications}
+				
+				#!!!!!!!!REMOVE THIS WHEN CHECKING IS PUT BACK IN	
+				toEcho = {"success":True,"notifications":notifications}
+				
+			elif action == "getRedeemScreen":
+				#grab inputs
+				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
+				
+				#grab the deal
+				deal = levr.Deal.get(dealID)
+				
+				#format the deal
+				data = levr.phoneFormat(deal,'dealsScreen')
+				
+				#echo
+				toEcho = {"success":True,"data":data}
 			
 			elif action == "redeem":
 				#grab corresponding deal
@@ -301,7 +317,6 @@ class phone(webapp2.RequestHandler):
 					#deal is owned by a business - FOR THE FUTURE!
 					logging.info('Business!')
 					pass	
-				
 			
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
@@ -352,19 +367,9 @@ class phone(webapp2.RequestHandler):
 
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
-		toEcho = {"success":False}
-		try:
-			share_url = levr_utils.dealCreate(self,'phone')
-			toEcho = {"success":True,"shareURL":share_url}
-			self.response.out.write(json.dumps(toEcho))
-		except:
-			levr.log_error(self.request.body)
-		finally:
-			try:
-				self.response.out.write(json.dumps(toEcho))
-			except:
-				self.response.out.write({'success':False})
-				levr.log_error('toEcho could not be parsed into json')
+		share_url = levr_utils.dealCreate(self,'phone')
+		toEcho = {"success":True,"shareURL":share_url}
+		self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass

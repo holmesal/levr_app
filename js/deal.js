@@ -1,7 +1,7 @@
 function validateAllFields(){
 	var pass = true;
 	
-	$('.textIn').each(function(){
+	$('.error_check').each(function(){
 		if ($(this).val().length < 1){
 			$(this).prev().addClass('input_error');
 			pass=false;
@@ -35,7 +35,7 @@ $(document).ready(function() {
 	$('.textIn').keyup(function() {
 		//if it's deal line2, add inputted text to the middle of a parenthetical
 		if (this.name=='deal_line2' && $(this).val().length > 0) {
-			$('#deal_line2').text('(with purchase of '+$(this).val()+')')
+			$('#deal_line2_in').text('(with purchase of '+$(this).val()+')')
 		} else if ($(this).val().length == 0) {
 			$('#'+this.name).html('&nbsp;')
 		} else{
@@ -44,7 +44,7 @@ $(document).ready(function() {
 	})
 	
 	//register lostfocus listeners
-	$('.textIn,#deal_submit').blur(function(){
+	$('.error_check').blur(function(){
 		if ($(this).val().length < 1){
 			$(this).prev().addClass('input_error');
 		} else{

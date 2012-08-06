@@ -7,6 +7,7 @@ import levr_encrypt as enc
 from datetime import datetime
 from datetime import timedelta
 from google.appengine.ext import blobstore
+from google.appengine.ext import db
 from google.appengine.ext.webapp import blobstore_handlers
 
 from gaesessions import get_current_session
@@ -108,111 +109,102 @@ def loginCustomer(email_or_owner,pw):
 
 def dealCreate(self,origin):
 	'''pass in "self"'''
-	try:
-		logging.debug(self.request.headers)
-		logging.debug(self.request.body)
-		logging.debug(self.request.get('image'))
-		
-		#init tags list
-		tags = []
-		
-		#vicinity
-		vicinity = self.request.get('vicinity')
-		tags.extend(levr.tagger(vicinity))
-		logging.info(tags)
-		
-		#types
-		types = self.request.get('types')
-		tags.extend(levr.tagger(types))
-		logging.info(tags)
-		
-		#deal line 1
-		deal_text	= self.request.get('deal_line1')
-		tags.extend(levr.tagger(deal_text))
-		logging.info(tags)
-		
-		#deal line 2
-		secondary_name = self.request.get('deal_line2')
+	logging.debug(self.request.headers)
+	logging.debug(self.request.body)
+	logging.debug(self.request.get('image'))
+	
+	#init tags list
+	tags = []
+	
+	#vicinity
+	vicinity = self.request.get('vicinity')
+	tags.extend(levr.tagger(vicinity))
+	logging.info(tags)
+	
+	#types
+	types = self.request.get('types')
+	tags.extend(levr.tagger(types))
+	logging.info(tags)
+	
+	#deal line 1
+	deal_text	= self.request.get('deal_line1')
+	tags.extend(levr.tagger(deal_text))
+	logging.info(tags)
+	
+	#deal line 2
+	secondary_name = self.request.get('deal_line2')
+	tags.extend(levr.tagger(secondary_name))
+	logging.info(tags)
+	
+	#description
+	description = self.request.get('deal_description')
+	tags.extend(levr.tagger(description))
+	logging.info(tags)
+	
+	#business name
+	business_name = self.request.get('business_name')
+	tags.extend(levr.tagger(business_name))
+	logging.info(tags)
+	
+	#geo point
+	geo_point = self.request.get('geo_point')
+	logging.info(geo_point)
+	
+	
+	#check if business exists
+	business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+	#business = levr.Business.gql("WHERE business_name=:1", business_name).get()
+	#if a business doesn't exist in db, then create a new one
+	if not business:
+		business = levr.Business()
+	#add data
+	business.business_name 	= business_name
+	business.vicinity 		= vicinity
+	#business.geo_pt			= self.request.get('geo_pt')
+	
+	#put business
+	business.put()
+	
+	
+	#create the deal entity
+	#web deals get active status and are the child of a business
+	if origin=='web':
+		deal = levr.Deal(parent = business.key())
+		deal.deal_status		= "active"
+		deal.is_exclusive		= True
+		#TODO: make deal a child of the business
+	#phone deals get pending status and are the child of a ninja
+	elif origin=='phone':
+		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
+		deal.deal_status		= "pending"
+		deal.is_exclusive		= False
+	
+	upload	= self.get_uploads()[0]
+	blob_key= upload.key()
+	deal.img= blob_key
+	
+	#add the data
+	deal.deal_text 			= deal_text
+	deal.description 		= description
+	deal.business_name		= business_name
+	deal.businessID			= business.key().__str__()
+	deal.vicinity			= vicinity
+	deal.tags				= tags
+	deal.date_start			= datetime.now()
+	
+	deal.date_end			= datetime.now() + timedelta(days=7)
+	#secondary_name
+	if secondary_name:
+		deal.deal_type = "bundle"
 		tags.extend(levr.tagger(secondary_name))
-		logging.info(tags)
-		
-		#description
-		description = self.request.get('deal_description')
-		tags.extend(levr.tagger(description))
-		logging.info(tags)
-		
-		#business name
-		business_name = self.request.get('business_name')
-		tags.extend(levr.tagger(business_name))
-		logging.info(tags)
-		
-		#geo point
-		geo_point = self.request.get('geo_point')
-		logging.info(geo_point)
-		
-		
-		#check if business exists
-		business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
-		#business = levr.Business.gql("WHERE business_name=:1", business_name).get()
-		#if a business doesn't exist in db, then create a new one
-		if not business:
-			business = levr.Business()
-		#add data
-		business.business_name 	= business_name
-		business.vicinity 		= vicinity
-		#business.geo_pt			= self.request.get('geo_pt')
-		
-		#put business
-		business.put()
-		
-		
-		#create the deal entity
-		deal 	= levr.Deal(parent=business.key())
-		upload	= self.get_uploads()[0]
-		blob_key= upload.key()
-		deal.img= blob_key
-		
-		#add the data
-		deal.deal_text 			= deal_text
-		deal.description 		= description
-		deal.business_name		= business_name
-		deal.businessID			= business.key().__str__()
-		deal.vicinity			= vicinity
-		deal.tags				= tags
-		deal.date_start			= datetime.now()
-		
-		deal.date_end			= datetime.now() + timedelta(days=7)
-		#secondary_name
-		if secondary_name:
-			deal.deal_type = "bundle"
-			tags.extend(levr.tagger(secondary_name))
-			deal.secondary_name = secondary_name
-		else:
-			deal.deal_type = "single"
-		
-		#set status
-		if origin=='web':
-			deal.deal_status		= "active"
-		elif origin=='pending':
-			deal.deal_status		= "active"
-			deal.gate_requirement	= self.request.get('gate_requirement')
-			deal.gate_payment_per	= self.request.get('gate_payment_per')
-			deal.gate_max			= self.request.get('gate_max')
-		else:
-			deal.deal_status		= "pending"
-		
-		#put the deal
-		deal.put()
-		
-		
-		#return share url
-		share_url = 'http://getlevr.appspot.com/share/deal?id='+enc.encrypt_key(deal.key())
-		return share_url
-		#self.response.set_status(200)
-		#self.response.out.write('we good.')
-		#self.redirect('/new')
-	except:
-		pass
-		#levr.log_error()
-		#self.response.set_status(500)
-		#self.response.out.write('exception')
+		deal.secondary_name = secondary_name
+	else:
+		deal.deal_type = "single"
+	
+	#put the deal
+	deal.put()
+	
+	
+	#return share url
+	share_url = 'http://getlevr.appspot.com/share/deal?id='+enc.encrypt_key(deal.key())
+	return share_url

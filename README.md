@@ -5,6 +5,8 @@ Things to do:
 
 Turn off ability to redeem a deal more than once - this is only there for our testing ability
 	This lives in two places - one in redeem, and one in checkRedeem
+	
+hook up barcode url (spoofed right now) to actually point at a barcode
 
 flurry including logging search queries
 Landing page - sketch out phone shots

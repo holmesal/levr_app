@@ -14,16 +14,11 @@ aesthetics
 terms of service
 Privacyy policy!
 barcode for redeem screen
+log last login
 
-<!--Empty set response to blobstore - phone response handler and upload-->
+
+
 email updates for pending deals
-<!--apartment applications-->
-
-<!--lost password recovery - decrypt and email-->
-
-<!-- remember to change back url in phoneformat from localhost to real server -->
-<!-- remember to change css stylesheet reference back to relative link instead of on getlevr.com -->
-<!-- 	^^^ same thing with the widget.html reference in widget.py -->
 later...
 start thinking about async methods
 lower-casify each search
@@ -59,34 +54,11 @@ Analytics - App
 
 What we want to measure
 -----------------------
-Search or browse or add deal the first time
-search vs browse vs add deal frequency
-search queries
-frequency of each search query
-number of results per query
-number of results per browse query
 number of redemptions per search query/deal
 number of addfavs per query/deal
-number of deals viewed in between action (add fav/ redeem)
-number of repeat users
-number of downloads (know from app store)
-number of first time users with favorite - i.e. got there through share
-	- should log on web side
-number of signups on phone
-frequency of being search for each browse category
-number of people viewing help screen from inside app
-	- what screen they were on
-number of favorites/redemptions through browse vs search
-number of cashout requests
-number of shares for each deal
-	- frequency of sharing for newly created deals
-location of users
-location of redemptions/addfav in relation to location of deal
-log uid for each action - native in flurry
-uncaught exeptions
-
 redemptions/addfavs per business/deal
 redemptions/addfavs per user
+
 frequency of sessions/favorite/redemption per user
 
 
@@ -95,37 +67,4 @@ funnels
 home > search/browse + query > deal > redeem/addfav
 favorite > deal screen > delete/redeem
 home > add deal > take picture > upload deal
-
-
-
-Screen breakdown
-----------------
-login screen
-
-home screen
-- screen: search
-	- search query
-	- search results
-	- selection of deal
-	- return to search after viewing a deal and select another one
-
-- browse
-	- what do they select
-	- 
-- upload
-	- user
-	- 
-- screen: deal view
-	- redemption vs favorite vs back
-	- search query
-	- deal id
-- screen: my favorites
-	- 
-- screen: my deals
-	- histogram of number of times viewing this screen vs % of users
-	- 
-
-- screen: my stats
-	- histogram of number of times viewing this screen vs % of users
-
 

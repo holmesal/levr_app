@@ -1,126 +1,255 @@
 body{
-	/*background-image: url('/img/landing_background.jpeg');*/
+	/*background-image: url(../img/background_tile.jpg);*/
 	background-color: white;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
 	margin: 0;
 }
 
-#pageHead{
-	height: 30px;
-	border-bottom: black;
-	border-style: solid;
-	border-bottom-width: thin;
+#background1,#background2{
+	/* Set rules to fill background */
+	min-height: 100%;
+	min-width: 1500px;
+	
+	/* Set up proportionate scaling */
+	width: 100%;
+	height: auto;
+	
+	/* Set up positioning */
+	position: fixed;
+	top: 0;
+	left: 0;
+	
+	opacity: 0;
 }
 
-.pageHeadText{
-	margin-left: 100px;
+@media screen and (max-width: 1500px) { /* Specific to this particular image */
+	#background1,#background2 {
+		left: 50%;
+		margin-left: -750px;   /* 50% */
+	}
+}
+
+/*#background1,#background2,#bgin{
+	background-image: url(../img/cafe.jpg);
+	width: 1500px;
+	height: 1000px;
+	position: fixed;
+	background-position: center center;
+	background-repeat: repeat;
+	background-size: auto;
+	left: 50%;
+	margin-left: -750px;
+	opacity: 0;
+	margin-top: -45px;
+}*/
+
+/*#background1,#background2,#bgin{
+	background-image: url(../img/cafe.jpg);
+	width: 2000px;
+	height: 1333px;
+	position: absolute;
+	background-position: center center;
+	background-repeat: repeat;
+	background-size: auto;
+	left: 50%;
+	margin-left: -1000px;
+	opacity: 0;
+	margin-top: -45px;
+}*/
+
+
+#bgin{
+	position: absolute;
+	background: white;
+	opacity: 1 !important;
+	z-index: 0;
 }
 
 #header{
-	
-	margin-top: 0px;
-	width: 600px;
-	height: 300px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: white;
-	padding-top: 1px;
-	/*Semi-opaque background */
-	/* Fallback for web browsers that doesn't support RGBa */
-	background: rgb(255, 255, 255) transparent;
-	/* RGBa with 0.6 opacity */
-	background: rgba(255, 255, 255, 0.9);
-	/* For IE 5.5 - 7*/
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-	/* For IE 8*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+	background-color: #313131;
+	height: 40px;
+	text-align: left;
 }
 
-.headerText{
-	margin-top: 50px;
-	text-align: center;
-	font-size: 20pt;
-	font-weight: 200;
-	margin-bottom: 0px;
-	
+#header_logo{
+	width: 80px;
+	margin-left: 20px;
+	margin-top: 3px;
 }
 
-.secondaryText{
-	font-size: 19pt;
+#merchants_link{
+	float: right;
+	margin-top: 10px;
+	margin-right: 20px;
+	text-decoration: none;
+	color: #F2F2F2;
+	font-size: 11pt;
+	z-index: 100;
 }
 
-#scrollText{
-	margin-top: 200px;
-	font-size: 14pt;
-	font-weight: 200;
-}
-
-.supportingText{
-	margin-top: 30px;
-	font-size: 12pt;
-	font-weight: 300;
-}
-
-.supporting{
-	margin-top: 50px;
-}
-
-#welcome{
-	margin-top: 70px;
-	font-size: 22pt;
-	font-weight: 300;
-}
-
-#phones{
-	text-align: center;
+#biglogo{
+	width: 150px;
+	margin-top: 100px;
+	margin-left: -60px;
 }
 
 #container{
 	width: 1200px;
-	height: 900px;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: -600px;
+	margin-top: 89px;
+	/*background-image: url(../img/iphone_hollow.png);
+	background-origin: 0px,0px;
+	background-position: center center;
+	background-repeat: no-repeat;*/
+	height: 700px;
+	z-index: 20;
+	position: absolute;
+	left: 50%;
+}
+
+#containerbg1{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 5;
+	background-image: url(../img/iphone_hollow.png);
+	background-origin: 0px,0px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	opacity: 0;
+}
+
+#containerbg2{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 4;
+	background-image: url(../img/iphone_hollow_nowhite.png);
+	background-origin: 0px,0px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	visibility: hidden;
+}
+
+.download{
+	margin-top: 100px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+/*#preloader{
+	opacity: 0.5;
+	width: 50px;
+}*/
+
+/* !iPhone Inner */
+#iphone_outer{
+	width: 600px;
+	height: 800px;
+	background-image: url(../img/iphone_hollow.png);
+	background-origin: 0px,0px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding-top: 170.6px;
+	padding-left:59.5px;
+	display: inline-block;
+	position: absolute;
+	left: 50%;
+	margin-left: -300px;
+}
+
+#iphone_inner{
+	background-color: rgba(255,255,255,1);
+	width: 279.5px;
+	height: 384px;
+
+}
+
+.side{
+	width: 400px;
+	height: 600px;
+	margin-top: 50px;
 }
 
 #left{
-	margin-top: 200px;
-	float: left;
-	display: block;
-	width: 500px;
-	padding: 15px;
-	background: rgb(255, 255, 255) transparent;
-	/* RGBa with 0.6 opacity */
-	background: rgba(255, 255, 255, 0.9);
-	/* For IE 5.5 - 7*/
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-	/* For IE 8*/
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-}
-
-#one{
-	display: block;
-	width: 100%;
-}
-
-#two{
-	display: block;
-	width: 100%;
-	background-image: url(../img/landing_background.jpeg);
-}
-
-#three{
-	display: block;
-	width: 100%;
-	background-image: url(../img/landing_background.jpeg);
+	left: 0;
+	opacity: 0;
+	z-index: 42;
+	position: absolute;
 }
 
 #right{
-	float: right;
-	display: block;
-	width: 700px
+	right: 0;
+	opacity: 0;
+	z-index: 42;
+	position: absolute;
 }
 
-#peopleDollar{
-	margin-top: 20px;
+.img_slide{
+	background-position: center center;
+	background-repeat: no-repeat;
+	position: absolute;
+	width: 282px;
+	height: 385px;
+	left: 50%;
+	z-index: 12;
+	margin-left: -141px;
+	/*margin-top: 275px;*/
+	margin-top: 264px;
+}
+
+#img1{
+	background-image: url(../img/img1.png);
+	opacity: 0;
+}
+
+#img2{
+	background-image: url(../img/img2.png);
+	margin-left: 142px;
+	background-color: black;
+}
+
+#img3{
+	/*background-image: url(../img/img3.png);*/
+	background-image: url(../img/street2_low.jpg);
+	margin-left: 142px;
+	background-size: auto;
+	background-color: black;
+}
+
+#camera{
+	background-image: url(../img/camera_overlay.png);
+	width: 100%;
+	height: 100%
+}
+
+#loading{
+	background-color: black;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+#pinwheel{
+	margin-top: 300px;
+}
+
+#img4{
+	background-image: url(../img/img4.png);
+	margin-left: 142px;
+	background-color: white;
+}
+
+.headerText{
+	margin-top: 100px;
+	text-align: center;
+	font-size: 20pt;
+	font-weight: 200;
+	margin-bottom: 50px;
+}
+
+.pane_header{
+	font-size: 14pt;
+	font-weight: 200;
 }

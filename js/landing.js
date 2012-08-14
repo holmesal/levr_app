@@ -60,7 +60,7 @@ $(window).load(function() {
 	var endTime = (new Date()).getTime();
     var millisecondsLoading = endTime - startTime;
 	
-	mixpanel.track("Landing Page Loaded",{"loadTime":millisecondsLoading})
+	mixpanel.track("Desktop Landing Page Loaded",{"Load Time":millisecondsLoading})
 	
 	//set element opacities and remove hidden divs
 	$('.left1,.left2').css('opacity',0)

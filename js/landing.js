@@ -17,8 +17,6 @@ function initialize_autocomplete(){
 		
 		//set text
 		//$('#launching_soon').text('Launching soon at ' + $('#college_select').val())
-		$('#vote_confirm').text("Woohoo! One more vote for " + $('#college_select').val() + ".").show();
-		//send mixpanel an event
 		
 		
 	});

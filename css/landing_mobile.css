@@ -1,0 +1,70 @@
+body{
+	/*background-color: white;*/
+	/*background: url(../img/streetsmaller.jpeg) no-repeat top left fixed;
+	background-size: auto 100%;*/
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
+	margin: 0;
+}
+
+#header{
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/streetsmaller.jpeg);
+	background-size: auto 100%;
+	position: fixed;
+	top: 0;
+	left:0;
+	overflow: auto;
+}
+
+/*#bg{
+	position: fixed;
+	background: url(../img/streetsmaller.jpeg) no-repeat top left fixed;
+	background-size: auto 120%;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	overflow: visible;
+}*/
+
+#band{
+	background-color: rgba(0,0,0,0.8);
+	margin-top: 100px;
+}
+
+#container{
+	margin-top: 200px;
+	width: 100%;
+	background-color: rgba(255,255,255,0.8);
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-bottom: 200px;
+}
+
+#logo{
+	width: 200px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+/* Le Text Styles */
+.headerText{
+	margin-top: 50px;
+	text-align: center;
+	font-size: 22pt;
+	font-weight: 200;
+	margin-bottom: 30px;
+}
+
+.pane_header{
+	font-size: 14pt;
+	font-weight: 100;
+	margin-bottom: 100px
+}
+
+.download{
+	margin-top: 20px;
+}

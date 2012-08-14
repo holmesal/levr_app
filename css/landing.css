@@ -253,3 +253,7 @@ body{
 	font-size: 14pt;
 	font-weight: 200;
 }
+
+.download:hover{
+	cursor: not-allowed;
+}

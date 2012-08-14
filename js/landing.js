@@ -6,8 +6,6 @@ function initialize_autocomplete(){
 		autoFocus: true,
 		minLength:3,
 		select:function(){$('#vote').removeAttr('hidden')}
-		//open:function(){$('li').click(function(){$(this).trigger('click')})}
-		//open:function(){$('li').click(function(){console.log($('a',this))})}
 	});
 	
 	

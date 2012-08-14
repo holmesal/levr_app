@@ -5,11 +5,21 @@ function initialize_autocomplete(){
 	$('#vote').click(function(){
 		//hide ugly stuff
 		$('#vote_prompt,#vote,#college_select').hide();
+		//check if already voted
+		if( $.cookie(('voted')) == 'true' ){
+            $('#vote_confirm').text("Don't worry! We haven't lost your vote for " + $.cookie('campus') + ".").show();
+        } else{
+	        $('#vote_confirm').text("Woohoo! One more vote for " + $('#college_select').val() + ".").show();
+	        mixpanel.track("Vote",{"Campus":$('#college_select').val()})
+	        $.cookie(('voted'), 'true');
+	        $.cookie(('campus'), $('#college_select').val());
+        }
+		
 		//set text
 		//$('#launching_soon').text('Launching soon at ' + $('#college_select').val())
 		$('#vote_confirm').text("Woohoo! One more vote for " + $('#college_select').val() + ".").show();
 		//send mixpanel an event
-		mixpanel.track("Vote",{"Campus":$('#college_select').val()})
+		
 		
 	});
 }

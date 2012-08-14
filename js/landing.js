@@ -6,6 +6,7 @@ function slideOver(id_out,id_in,pause){
 
 function mapMouse(){
 	$(document).mousemove(function(e){
+		mixpanel.track("Interacted with a mouseover event")
 		switch (true){
 			case ((e.pageX>=0) && (e.pageX<=200)):
 				//put element one on the right
@@ -55,6 +56,11 @@ $(document).ready(function() {
 });
 
 $(window).load(function() {
+
+	var endTime = (new Date()).getTime();
+    var millisecondsLoading = endTime - startTime;
+	
+	mixpanel.track("Landing Page Loaded",{"loadTime":millisecondsLoading})
 	
 	//set element opacities and remove hidden divs
 	$('.left1,.left2').css('opacity',0)
@@ -107,6 +113,7 @@ $(window).load(function() {
 							$('#img3').css({opacity: 0})
 							$('#containerbg1').css({'visibility':'hidden'})
 							mapHover();
+							mixpanel.track("Made it through the show")
 						})
 					})
 					

@@ -86,8 +86,8 @@ $(window).load(function() {
 	initialize_autocomplete()
 	
 
-	var init_pause = 50
-	var pause = 200
+	var init_pause = 500
+	var pause = 2000
 	
 	//fade in the first image
 	$('#loading').delay(500).animate({opacity: 0},function(){

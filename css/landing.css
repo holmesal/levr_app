@@ -134,12 +134,18 @@ body{
 
 #download{
 	position: absolute;
+	width: 100%;
+	text-align: center;
 	bottom: 85px;
 }
 
 .downloadbtn{
 	margin-left: 10px;
 	margin-right: 10px;
+}
+
+#download2{
+
 }
 
 /*#preloader{
@@ -268,6 +274,7 @@ body{
 
 /* Vote stuff */
 #vote_prompt{
+	margin-top: 10px;
 	font-weight: 200;
 	font-size: 14pt;
 }
@@ -281,6 +288,7 @@ body{
 .textIn{
 	font-size: 15pt;
 	font-weight: 200;
+	font-style: normal;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	display: block;
 	width: 350px;
@@ -333,7 +341,7 @@ body{
 
 /*button class*/
 #vote {
-  margin-top: 40px;
+  margin-top: 30px;
   background-color: #ee432e;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ee432e), color-stop(50%, #c63929), color-stop(50%, #b51700), color-stop(100%, #891100));
   background-image: -webkit-linear-gradient(top, #ee432e 0%, #c63929 50%, #b51700 50%, #891100 100%);

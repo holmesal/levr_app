@@ -2,6 +2,7 @@ import os
 import webapp2
 import levr_classes as levr
 import levr_encrypt	as enc
+import levr_utils
 from google.appengine.ext import db
 #from google.appengine.api import images
 import logging
@@ -41,10 +42,10 @@ class Approve(webapp2.RequestHandler):
 		try:
 			levr_utils.dealCreate(self,'phone')
 			self.response.out.write('<a href="/admin/pending">Success</a>')
-			self.redirect('/admin/pending')
+#			self.redirect('/admin/pending')
 		except:
 			levr.log_error(self.request.body)
-			self.response.out.write('unsuccessful')
+			self.response.out.write('Upload Unsuccessful. Check error log')
 			
 #		#create alias for self.request.get
 #		inputs = self.request.get

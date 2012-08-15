@@ -1,35 +1,37 @@
 <html>
 	<body>
 	<div>
-		<img src="http://getlevr.appspot.com/phone/img?dealID={{ deal.dealID }}&size=fullSize">
+<!--		<img src="http://getlevr.appspot.com/phone/img?dealID={{ deal.dealID }}&size=fullSize" />-->
+		<img src="0.0.0.0:8080/phone/img?dealID={{ deal.dealID }}&size=fullSize" />
 	</div>
 	<form method="post" action="/admin/approve?dealID={{ deal.dealID }}&businessID={{ business.businessID }}">
-		
-		
-				
+		<div style="float:left;">
 		<h2>Deal Information</h2>
 		<p>Deal Text: 		<br /><input type="text" name="deal_line1" value="{{ deal.deal_text }}" /></p>
 		<p>With purchase of:<br /><input type="text" name="deal_line2" value="{{deal.secondaryName}}"></p>
 		<p>Description:		<br /><textarea rows="3" name="deal_description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
-		<p>Tags: 			<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
+		<p>Extra Tags: 		<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
 		<p>Gate Requirement:<br /><input type="text" name="gate_requirement" value="{{ deal.gateRequirement }}"></p>
 		<p>Gate Payment Per:<br /><input type="text" name="gate_payment_per" value="{{ deal.gatePaymentPer }}"></p>
 		<p>Gate Max Count: 	<br /><input type="text" name="gate_max" value="{{ deal.gateMax }}"></p>
-		
+		</div>
+		<div style="float:left;margin-left:25px;">
 		<h2>Business Information</h2>
 		<p>Business Name: 	<br/><input type="text" id="business_name"name="business_name" value="{{ business.businessName }}"></p>
-		<p>Vicinity:		<br/><input type="text" id="vicinity" name="vicinity" value="{{ business.vicinity }}"></p>
+		<p>Vicinity(address):<br/><input type="text" id="vicinity" name="vicinity" value="{{ business.vicinity }}"></p>
 		<p>Types:			<br/><input type="text" id="types" name="types" value=""></p>
 		<p>Geo Code			<br/><input type="text" id="geo_point" name="geo_point" ></p>
-		<p>Or...New Location<br/><input type="text" id="business_select" name="business_select" ></p>
-		
-		<input type="submit" value="Enter">
+		<p>Or...New Location<br/><input type="text" id="business_select" name="business_select" size="50"></p>
+		<input type="submit" value="Accept Deal">
+		<div>
+			<p>Danger, Will Robinson…</p>
+			<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
+			<p>Why is this rejected? <br /> <input type="text" id="rejection_message" name="rejection_message"></p>
+			<input type="submit" value="Reject Deal">
+			</form>
+		</div>
+		</div>
 	</form>
-	
-	<p>Danger, Will Robinson…</p>p>
-	<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
-		<input type="submit" value="Reject">
-	</form><p>Vicinity:		<br/><input type="text" name="addressLine1" value="{{ business.addressLine1 }}"></p>
 	</body>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript"
@@ -46,13 +48,12 @@
 	//initialize place_changed listener
 	var place = {};
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-		var place = autocomplete.getPlace();
+		place = autocomplete.getPlace();
 		$('#deal_business').val(place.name);
 		$('#deal_address').val(place.vicinity);
 		console.log(place)
-		//add types as a hidden field
-		types_input = "<input type='text' name='types' value='"+place.types+"'>"
-        $('#deal_form').append(types_input);
+		//add types
+        $('#types').val(place.types)
         //add vicinity as a hidden field
         $('#vicinity').val(place.vicinity)
         // vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
@@ -61,13 +62,15 @@
         $('#business_name').val(place.name)
         // business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
         // $('#deal_form').append(business_name_input);
-        //add geo_point as a hidden field
-        lat = place.geometry.location.lat()
-        lng = place.geometry.location.lng()
         
-        ('#geoPoint').val(place.geometry.location())
-        console.log(('#geoPoint').val())
-        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.name+"'>"
+        //add geo_point
+        geo_point = place.geometry.location.toString();
+        lat = place.geometry.location.lat();
+        lng = place.geometry.location.lng();
+        console.log(lat,lng);
+        geo_point = ""+lat+","+lng;
+        $('#geo_point').val(geo_point);
+        console.log($('#geoPoint').val());
         
 	});
 	

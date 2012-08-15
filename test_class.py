@@ -100,11 +100,6 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.rank				= 10
 		cd.put()
 
-		#new Category
-		cat = levr_classes.Category(parent=d)
-		cat.primary_cat 	= 'Socks'
-		cat.deal_status		= 'active'
-		cat.put()
 
 		#new favorite
 		f = levr_classes.Favorite(parent=c)

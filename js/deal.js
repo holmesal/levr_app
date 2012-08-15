@@ -60,6 +60,9 @@ $(document).ready(function() {
 	//initialize place_changed listener
 	var place = {};
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		//remove all hidden form fields, in case they switched
+		$(':hidden').remove();
+		//get place
 		var place = autocomplete.getPlace();
 		$('#deal_business').text(place.name);
 		$('#deal_address').text(place.vicinity);

@@ -49,8 +49,9 @@ class phone(webapp2.RequestHandler):
 				
 				#primaryCat will be mapresults to return everything
 				if primaryCat == 'mapResults':
-					q = levr.Deal.gql()
-				#otherwise, search based on the tags
+					q = levr.Deal.all()
+				else:
+					#otherwise, search based on the tags
 					tags = levr_utils.tagger(primaryCat)
 					logging.debug(tags)
 					#grab all deals where primary_cat is in tags and the status is active
@@ -63,7 +64,7 @@ class phone(webapp2.RequestHandler):
 				
 				
 				#q = levr.Deal.gql("WHERE tags=:1",'alonso')
-				logging.info(q.get().__str__)
+				logging.debug(q.get().__str__)
 
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []

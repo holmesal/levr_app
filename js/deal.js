@@ -60,6 +60,9 @@ $(document).ready(function() {
 	//initialize place_changed listener
 	var place = {};
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		//remove all hidden form fields, in case they switched
+		$(':hidden').remove();
+		//get place
 		var place = autocomplete.getPlace();
 		$('#deal_business').text(place.name);
 		$('#deal_address').text(place.vicinity);
@@ -75,8 +78,8 @@ $(document).ready(function() {
         business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
         $('#deal_form').append(business_name_input);
         //add geo_point as a hidden field
-        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.geometry.location+"'>"
-        
+        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.geometry.location.Xa + "," + place.geometry.location.Ya +"'>"
+        $('#deal_form').append(geo_point_input);
 	});
 	
 	//register submit button listener

@@ -52,7 +52,7 @@ class phone(webapp2.RequestHandler):
 					q = levr.Deal.all()
 				else:
 					#otherwise, search based on the tags
-					tags = levr_utils.tagger(primaryCat)
+					tags = levr.tagger(primaryCat)
 					logging.debug(tags)
 					#grab all deals where primary_cat is in tags and the status is active
 					if tags.__len__() == 1:

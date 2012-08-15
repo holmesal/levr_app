@@ -47,15 +47,19 @@ class phone(webapp2.RequestHandler):
 				#normalize search query
 				primaryCat = primaryCat.lower()
 				
-				tags = primaryCat.split(' ')
-				logging.debug(tags)
-				#grab all deals where primary_cat is in tags and the status is active
-				if tags.__len__() == 1:
-					q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY rank DESC",tags[0],'active')
-				elif  tags.__len__() == 2:
-					q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND deal_status=:3 ORDER BY rank DESC",tags[0],tags[1],'active')
-				else:
-					q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND tags=:3 AND deal_status=:4 ORDER BY rank DESC",tags[0],tags[1],tags[2],'active')
+				#primaryCat will be mapresults to return everything
+				if primaryCat == 'mapResults':
+					q = levr.Deal.gql()
+				#otherwise, search based on the tags
+					tags = primaryCat.split(' ')
+					logging.debug(tags)
+					#grab all deals where primary_cat is in tags and the status is active
+					if tags.__len__() == 1:
+						q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY rank DESC",tags[0],'active')
+					elif  tags.__len__() == 2:
+						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND deal_status=:3 ORDER BY rank DESC",tags[0],tags[1],'active')
+					else:
+						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND tags=:3 AND deal_status=:4 ORDER BY rank DESC",tags[0],tags[1],tags[2],'active')
 				
 				
 				#q = levr.Deal.gql("WHERE tags=:1",'alonso')

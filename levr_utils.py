@@ -6,9 +6,9 @@ import levr_classes as levr
 import levr_encrypt as enc
 from datetime import datetime
 from datetime import timedelta
-from google.appengine.ext import blobstore
+#from google.appengine.ext import blobstore
 from google.appengine.ext import db
-from google.appengine.ext.webapp import blobstore_handlers
+#from google.appengine.ext.webapp import blobstore_handlers
 
 from gaesessions import get_current_session
 
@@ -148,7 +148,10 @@ def dealCreate(self,origin):
 	
 	#geo point
 	geo_point = self.request.get('geo_point')
-	logging.info(geo_point)
+	logging.debug(geo_point)
+	geo_point = levr.geo_converter(geo_point)
+	logging.debug(geo_point)
+	
 	
 	
 	#check if business exists
@@ -160,8 +163,8 @@ def dealCreate(self,origin):
 	#add data
 	business.business_name 	= business_name
 	business.vicinity 		= vicinity
-	#business.geo_pt			= self.request.get('geo_pt')
-	
+	business.geo_point		= geo_point
+	logging.debug(dir(business))
 	#put business
 	business.put()
 	
@@ -191,7 +194,7 @@ def dealCreate(self,origin):
 	deal.vicinity			= vicinity
 	deal.tags				= tags
 	deal.date_start			= datetime.now()
-	
+	deal.geo_point			= geo_point
 	deal.date_end			= datetime.now() + timedelta(days=7)
 	#secondary_name
 	if secondary_name:

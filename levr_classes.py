@@ -4,7 +4,7 @@ from google.appengine.ext import db
 from google.appengine.ext.db import polymodel
 from google.appengine.ext import blobstore
 import re
-import string
+#import string
 import logging
 import sys, traceback
 import levr_encrypt as enc
@@ -22,6 +22,7 @@ class Customer(db.Model):
 	money_paid		= db.FloatProperty(default = 0.0) #amount we have transfered
 	redemptions		= db.StringListProperty(default = [])	#id's of all of their redeemed deals
 	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
+	vicinity		= db.StringProperty(default='') #the area of the user, probably a college campus
 	
 	def increment_new_redeem_count(self):
 		logging.info('incrementing!')
@@ -270,7 +271,9 @@ def phoneFormat(deal,use,primary_cat=None):
 		dealTextExtra = ''
 		
 	if use == 'list' or use == 'myDeals' or use == 'widget':
-		
+		#list is search results
+		#mydeals is for the list of a users uploaded deals
+		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
 				"dealText"  	: dealText,
@@ -296,11 +299,10 @@ def phoneFormat(deal,use,primary_cat=None):
 				"description"	: deal.description,
 			})
 	elif use == 'deal':
-	
-		#grab business
-		logging.info(deal.businessID)
-		b = db.get(deal.businessID)
 		#view deal information screen
+		#grab business
+#		logging.info(deal.businessID)
+#		b = db.get(deal.businessID)
 		#uploaded by a user
 		data = {"dealID"		: dealID,
 				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
@@ -316,7 +318,7 @@ def phoneFormat(deal,use,primary_cat=None):
 		data = {"barcodeURL"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"ninjaName"		: ninja.alias,
 				"isExclusive"	: deal.is_exclusive}
-		
+	data.update({'geoPoint':str(deal.geo_point)})
 	logging.info(data)
 	return data
 
@@ -326,7 +328,7 @@ def geo_converter(geo_str):
 		return db.GeoPt(lat=float(lat), lon=float(lng))
 	return None
 
-def tagger(text):
+def tagger(text): 
 #	parsing function for creating tags from description, etc
 	#replace underscores with spaces
 	text.replace("_"," ")

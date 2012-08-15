@@ -75,8 +75,8 @@ $(document).ready(function() {
         business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
         $('#deal_form').append(business_name_input);
         //add geo_point as a hidden field
-        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.geometry.location+"'>"
-        
+        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.geometry.location.Xa + "," + place.geometry.location.Ya +"'>"
+        $('#deal_form').append(geo_point_input);
 	});
 	
 	//register submit button listener

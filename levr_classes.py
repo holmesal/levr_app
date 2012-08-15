@@ -132,7 +132,7 @@ class Deal(polymodel.PolyModel):
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
-	reject_message	= db.StringProperty(default='')
+	reject_message	= db.StringProperty()
 	vicinity		= db.StringProperty()
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)

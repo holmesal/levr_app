@@ -64,6 +64,7 @@ $(document).ready(function() {
 		$('#deal_business').text(place.name);
 		$('#deal_address').text(place.vicinity);
 		console.log(place)
+		console.log(place.geometry.location)
 		//add types as a hidden field
 		types_input = "<input type='hidden' name='types' value='"+place.types+"'>"
         $('#deal_form').append(types_input);
@@ -74,7 +75,7 @@ $(document).ready(function() {
         business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
         $('#deal_form').append(business_name_input);
         //add geo_point as a hidden field
-        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.name+"'>"
+        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.geometry.location+"'>"
         
 	});
 	

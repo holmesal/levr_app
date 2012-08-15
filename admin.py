@@ -29,6 +29,7 @@ class Pending(webapp2.RequestHandler):
 				"deal"		: deal,
 				"business"	: business
 			}
+			logging.debug(template_values)
 			jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 			template = jinja_environment.get_template('templates/admin_pending.html')
 			self.response.out.write(template.render(template_values))
@@ -40,7 +41,7 @@ class Approve(webapp2.RequestHandler):
 	#insert into database and redirect to Pending for next pending deal
 	def post(self):
 		try:
-			levr_utils.dealCreate(self,'phone')
+			levr_utils.dealCreate(self,'pending')
 			self.response.out.write('<a href="/admin/pending">Success</a>')
 #			self.redirect('/admin/pending')
 		except:
@@ -90,6 +91,7 @@ class Reject(webapp2.RequestHandler):
 		dealID = enc.decrypt_key(inputs('dealID'))
 		deal = levr.CustomerDeal.get(dealID)
 		deal.deal_status = 'rejected'
+		deal.reject_message = self.request.get('reject_message')
 		deal.put()
 		self.redirect('/admin/pending')
 		

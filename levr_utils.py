@@ -181,10 +181,16 @@ def dealCreate(self,origin):
 		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
 		deal.deal_status		= "pending"
 		deal.is_exclusive		= False
+	elif origin == 'pending':
+		deal = levr.CustomerDeal.get(enc.decrypt_key(self.request.get('dealID')))
+		deal.deal_status		= "active"
+		new_tags = self.request.get('tags')
+		tags.extend(levr.tagger(new_tags))
 	
-	upload	= self.get_uploads()[0]
-	blob_key= upload.key()
-	deal.img= blob_key
+	if origin != 'pending':
+		upload	= self.get_uploads()[0]
+		blob_key= upload.key()
+		deal.img= blob_key
 	
 	#add the data
 	deal.deal_text 			= deal_text

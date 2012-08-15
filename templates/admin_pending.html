@@ -2,36 +2,37 @@
 	<body>
 	<div>
 <!--		<img src="http://getlevr.appspot.com/phone/img?dealID={{ deal.dealID }}&size=fullSize" />-->
-		<img src="0.0.0.0:8080/phone/img?dealID={{ deal.dealID }}&size=fullSize" />
+		<img src="/phone/img?dealID={{ deal.dealID }}&size=dealDetail" />
 	</div>
 	<form method="post" action="/admin/approve?dealID={{ deal.dealID }}&businessID={{ business.businessID }}">
 		<div style="float:left;">
-		<h2>Deal Information</h2>
-		<p>Deal Text: 		<br /><input type="text" name="deal_line1" value="{{ deal.deal_text }}" /></p>
-		<p>With purchase of:<br /><input type="text" name="deal_line2" value="{{deal.secondaryName}}"></p>
-		<p>Description:		<br /><textarea rows="3" name="deal_description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
-		<p>Extra Tags: 		<br /><textarea rows="3" name="tags" placeholder="separate by commas"></textarea></p>
-		<p>Gate Requirement:<br /><input type="text" name="gate_requirement" value="{{ deal.gateRequirement }}"></p>
-		<p>Gate Payment Per:<br /><input type="text" name="gate_payment_per" value="{{ deal.gatePaymentPer }}"></p>
-		<p>Gate Max Count: 	<br /><input type="text" name="gate_max" value="{{ deal.gateMax }}"></p>
+			<h2>Deal Information</h2>
+			<p>Deal Text: 		<br /><input type="text" name="deal_line1" value="{{ deal.deal_text }}" /></p>
+			<p>With purchase of:<br /><input type="text" name="deal_line2" value="{{deal.secondaryName}}"></p>
+			<p>Description:		<br /><input type="text" rows="3" name="deal_description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
+			<p>Extra Tags: 		<br /><input type="text" rows="3" name="tags" placeholder="separate by commas"></textarea></p>
+			<p>Gate Requirement:<br /><input type="text" name="gate_requirement" value="{{ deal.gateRequirement }}"></p>
+			<p>Gate Payment Per:<br /><input type="text" name="gate_payment_per" value="{{ deal.gatePaymentPer }}"></p>
+			<p>Gate Max Count: 	<br /><input type="text" name="gate_max" value="{{ deal.gateMax }}"></p>
 		</div>
 		<div style="float:left;margin-left:25px;">
-		<h2>Business Information</h2>
-		<p>Business Name: 	<br/><input type="text" id="business_name"name="business_name" value="{{ business.businessName }}"></p>
-		<p>Vicinity(address):<br/><input type="text" id="vicinity" name="vicinity" value="{{ business.vicinity }}"></p>
-		<p>Types:			<br/><input type="text" id="types" name="types" value=""></p>
-		<p>Geo Code			<br/><input type="text" id="geo_point" name="geo_point" ></p>
-		<p>Or...New Location<br/><input type="text" id="business_select" name="business_select" size="50"></p>
-		<input type="submit" value="Accept Deal">
-		<div>
-			<p>Danger, Will Robinson…</p>
-			<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
-			<p>Why is this rejected? <br /> <input type="text" id="rejection_message" name="rejection_message"></p>
-			<input type="submit" value="Reject Deal">
-			</form>
-		</div>
-		</div>
+			<h2>Business Information</h2>
+			<p>Business Name: 	<br/><input type="text" id="business_name"name="business_name" value="{{ business.businessName }}"></p>
+			<p>Vicinity(address):<br/><input type="text" id="vicinity" name="vicinity" value="{{ business.vicinity }}"></p>
+			<p>Types:			<br/><input type="text" id="types" name="types" value=""></p>
+			<p>Geo Code			<br/><input type="text" id="geo_point" name="geo_point" ></p>
+			<p>Or...New Location<br/><input type="text" id="business_select" name="business_select" size="50"></p>
+			<input type="submit" value="Accept Deal">
 	</form>
+			<div>
+				<p>Danger, Will Robinson…</p>
+				<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
+					<p>Why is this rejected? <br /> <input type="text" id="reject_message" name="rejection_message"></p>
+					<input type="submit" value="Reject Deal">
+				</form>
+			</div>
+		</div>
+	
 	</body>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript"

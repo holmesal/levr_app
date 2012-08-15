@@ -275,7 +275,9 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
+				"imgURLlist"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
+				"imgURLmap"		: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"geoPoint"		: deal.geo_point,
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,

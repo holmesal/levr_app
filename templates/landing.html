@@ -10,120 +10,67 @@
 		=======================================================-->
 		<link href="../css/landing.css" rel="stylesheet">
 		<link rel="icon" type="image/png" href="../img/favicon.png">
-		<!-- End of Google Website Optimizer Tracking Script -->
-		<!--script type="text/javascript">
-			var _gaq = _gaq || [];
-			var hasGaq = false;
-
-			// ===== GWO STUFF ==== //
-			/*
-			// gwo account
-			_gaq.push(['gwo._setAccount', 'UA-32183987-2']);
-			_gaq.push(['gwo._trackPageview', '/4203962445/test']);
-			function doGoal(that){
-			try{
-			_gaq.push(['gwo._trackPageview', '/4203962445/goal']);
-			}catch(err){}
-			}
-			hasGaq = true;
-			*/
-			// ===== END GWO STUFF ==== //
-
-			// analytics account ---- default tracker
-			_gaq.push(['_setAccount', 'UA-32183987-1']);
-
-			if(hasGaq === false) {
-				_gaq.push(['_trackPageview']);
-			} else {
-				// ===== GWO STUFF ==== //
-				if(utmx('combination') != undefined) {
-					var l = document.location, s = l.search;
-					s = s + (s.length ? '&' : '?') + 'combination=' + utmx('combination');
-					_gaq.push(['_trackPageview', s]);
-					// ===== END GWO STUFF ==== //
-				} else {
-					_gaq.push(['_trackPageview']);
-				}
-			}
-			(function() {
-				var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-			})();
-		</script-->
+		<!--start load timer -->
+		<script>var startTime = (new Date()).getTime();</script>
+		
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		
+		<!--MIXPANEL-->
+		<script type="text/javascript">(function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.0.min.js';d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?
+g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.set people.increment".split(" ");for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.1})(document,window.mixpanel||[]);
+mixpanel.init("115b36ec63eb2cb70bb9196c58046f6f");</script>
+		
 	</head>
 	<body>
-		<div id="pageHead">
-			<p class="pageHeadText">Save Money</p>
-			<p class="pageHeadText">Save Money</p>
-		</div>
-		<div id="one">
-			<div id="container">
-				<div id="left">
-					<p class="headerText">Find deals on things you buy every day.</p>
-					<p class="headerText">Earn money for adding deals you find.</p>
-					<p class="headerText" id="welcome">Welcome to Levr.</p>
-					<p id="scrollText"></p>
-					<img src="../img/down_arrow.png">
+		<!--div id="header">
+			<img id="header_logo" src="../img/levr_logo.png" alt="levr_logo"/>
+			<a id="merchants_link" href="http://getlevr.appspot.com/merchants/deal">Merchants</a>
+		</div-->
+		<div id="img1" class="img_slide"><div id="loading"><img id="pinwheel" src="../img/pinwheel.gif"></div></div>
+		<div id="bgin">&nbsp</div>
+		<img id="background1" src="../img/cafe.jpg"></img>
+		<img id="background2" src="../img/street2_low.jpg"></img>
+		<div id="img2" class="img_slide" hidden></div>
+		<div id="img3" class="img_slide" hidden><div id="camera"></div></div>
+		<div id="img4" class="img_slide" hidden></div>
+		<div id="container">
+			<div id="containerbg1" class="containerbg"></div>
+			<div id="containerbg2" class="containerbg"></div>
+			<div id="left" class="side">
+				<div id="left1">
+					<p class="headerText left1">Save money</p>
+					<p class="pane_header left1">Find discounts around your campus on food, clothing, and more.</p>
 				</div>
-				<img src="./img/iphone_home.png" style="width: 50%; float: right;">
-			</div>
-		</div>
-		<div id="two">
-			<div id="container">
-				<div id="left">
-					<p class="headerText secondaryText">Discounts that fit your lifestyle, every day.</p>
-					<img src="img/divider_faded.png" style="margin-left: auto; margin-right: auto;">
-					<div id="supporting">
-						<p class="supportingText">Levr works with a network of local merchants and consumers to bring you reasonable offers on items that you already buy.</p>
-						<p class="supportingText">These merchants get your business, and a chance to turn you into a loyal customer.</p>
-						<p class="supportingText">You get savings where you didn't know savings existed.</p>
-					</div>
-					
+				<div id="left2">
+					<p class="headerText left2">Earn money</p>
+					<p class="pane_header left2">Snap a photo of a discount you see, and make money when others redeem it.</p>
 				</div>
-				<img src="../img/iphone_results.png" style="width: 50%; float: right;">
+				
+				
 			</div>
-		</div>
-		<div id="three">
 			
-			<div id="container">
-				<img src="../img/iphone_add.png" style="width: 50%; float: left;">
-				<div id="left">
-					<p class="headerText secondaryText">Earn money for capturing wild deals.</p>
-					<img id="peopleDollar" src='img/people_dollar.png'>
-					<div id="supporting">
-						<p class="supportingText">See a deal? Snap a photo of it with your phone.</p>
-						<p class="supportingText">Earn one dollar for every five people that redeem.</p>
-					</div>
-					
-				</div>
+			<!--div id="iphone_outer"></div-->
+			<div id="right" class="side">
+				<p id="launching_soon" class="headerText">Launching soon on select college campuses.</p>
+				<p id="vote_prompt">Vote for yours, get Levr sooner: </p>
+				<input class="textIn" type="text" id="college_select" name="college_select" placeholder="Start typing the name of your college...">
+				<button id="vote" hidden>Vote</button>
+				<p id="vote_confirm"></p>
+				<!--p class="pane_header">Boston University, Harvard University</p-->
+				<!--p class="headerText">Up next: </p>
+				<p class="pane_header">(University names)</p-->
+				</br>
+				<!--div id="download">
+					<img class="downloadbtn" src="../img/google_play_soon.png">
+					<img class="downloadbtn" src="../img/app_store_soon.png">
+				</div-->
+				<div id="download"><img id="download2" src="../img/appsoon.png"></div>
 			</div>
 		</div>
-		
-		<div id="four">
-			<p class="headerText">Levr is currently in beta in Boston.</p>
-			<img src="./img/App_store_badge_small1.png">
-			<img src="./img/get_it_on_play_logo_large.png">
-		</div>
-		
-
-		<!--footer id="feet">
-			<hr class="faded">
-			<a class="footerLink" href="mailto:feedback@getlevr.com" target="_blank">Contact</a>
-			<span class="divider">&#8226</span>
-			<a class="footerLink" href="./merchants">For Businesses</a>
-			<span class="divider">&#8226</span>
-			<a class="footerLink" href="http://www.angel.co/levr" target="_blank">Investors</a>
-		</footer-->
-		
-		
-
-		<!-- scripts-->
-		<!--script src="js/jquery-1.7.1.js"></script>
-		<script src="js/launch.js"></script-->
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+		<script src="../js/jquery.cookie.js"></script>
+		 
+		<script src="../js/landing.js"></script>
 	</body>
 </html>

@@ -164,7 +164,7 @@ def dealCreate(self,origin):
 	business.business_name 	= business_name
 	business.vicinity 		= vicinity
 	business.geo_point		= geo_point
-	logging.debug(dir(business))
+#	logging.debug(dir(business))
 	#put business
 	business.put()
 	

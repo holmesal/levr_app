@@ -72,8 +72,8 @@ class phone(webapp2.RequestHandler):
 					for tag in tags:
 						q.filter('tags',tag)
 				#finally, sort the query
-				sort_property = 'rank'
-				q.order(sort_property)
+				#sort_property = 'rank'
+				#q.order(sort_property)
 					
 				
 				

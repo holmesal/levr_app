@@ -6,7 +6,6 @@ indexes:
   - name: deal_status
   - name: tags
   - name: rank
-    direction: desc
 
 
 

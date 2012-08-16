@@ -276,8 +276,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURL"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
-#				"imgURLmap"		: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"	: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=list',
+#				"imgURLmap"		: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"geoPoint"		: deal.geo_point,
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
@@ -295,7 +295,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
-				"shareURL"			: 'http://getlevr.appspot.com/share/deal?id='+dealID
+				"shareURL"			: 'http://www.www.levr.com/share/deal?id='+dealID
 			})
 		if use == 'widget':
 			data.update({
@@ -308,7 +308,7 @@ def phoneFormat(deal,use,primary_cat=None):
 #		b = db.get(deal.businessID)
 		#uploaded by a user
 		data = {"dealID"		: dealID,
-				"imgURL"	  	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"	  	: 'http://www.www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
@@ -318,7 +318,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				
 	elif use == 'dealsScreen':
 		ninja = db.get(deal.key().parent())
-		data = {"barcodeURL"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+		data = {"barcodeURL"	: 'http://www.www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"ninjaName"		: ninja.alias,
 				"isExclusive"	: deal.is_exclusive}
 	data.update({'geoPoint':str(deal.geo_point)})

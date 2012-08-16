@@ -61,7 +61,7 @@ $(document).ready(function() {
 	var place = {};
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
 		//remove all hidden form fields, in case they switched
-		$(':hidden').remove();
+		$('.form_hidden').remove();
 		//get place
 		var place = autocomplete.getPlace();
 		$('#deal_business').text(place.name);
@@ -69,16 +69,16 @@ $(document).ready(function() {
 		console.log(place)
 		console.log(place.geometry.location)
 		//add types as a hidden field
-		types_input = "<input type='hidden' name='types' value='"+place.types+"'>"
+		types_input = "<input type='hidden' class='form_hidden' name='types' value='"+place.types+"'>"
         $('#deal_form').append(types_input);
         //add vicinity as a hidden field
-        vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
+        vicinity_input = "<input type='hidden' class='form_hidden' name='vicinity' value='"+place.vicinity+"'>"
         $('#deal_form').append(vicinity_input);
         //add business_name as a hidden field
-        business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
+        business_name_input = "<input type='hidden' class='form_hidden' name='business_name' value='"+place.name+"'>"
         $('#deal_form').append(business_name_input);
         //add geo_point as a hidden field
-        geo_point_input = "<input type='hidden' name='geo_point' value='"+place.geometry.location.Xa + "," + place.geometry.location.Ya +"'>"
+        geo_point_input = "<input type='hidden' class='form_hidden' name='geo_point' value='"+place.geometry.location.Xa + "," + place.geometry.location.Ya +"'>"
         $('#deal_form').append(geo_point_input);
 	});
 	

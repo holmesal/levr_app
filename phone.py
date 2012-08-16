@@ -53,7 +53,7 @@ class phone(webapp2.RequestHandler):
 				
 				#sets the sort parameter based on the search view
 				if view == 'map':
-					sort_property = 'geo_point'
+					sort_property = '-geo_point'
 				else:
 					sort_property = 'rank'
 				
@@ -65,7 +65,8 @@ class phone(webapp2.RequestHandler):
 					q = levr.Deal.all().order(sort_property)
 					logging.debug('map results')
 				else:
-					logging.debug('not map results')
+					#normalize search query
+					primaryCat = primaryCat.lower()
 					#otherwise, search based on the tags
 					tags = levr.tagger(primaryCat)
 					logging.debug(tags)

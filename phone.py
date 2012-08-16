@@ -51,18 +51,19 @@ class phone(webapp2.RequestHandler):
 					#search in map or list view
 					#view determines how the results are sorted
 				
-				#sets the sort parameter based on the search view
-				if view == 'map':
-					sort_property = '-geo_point'
-				else:
-					sort_property = 'rank'
+				
 				
 				#normalize search query
 				primaryCat = primaryCat.lower()
 				
+				
+				#build search query
+				q = levr.Deal.all()
+				#only active deals
+				q.filter('deal_status','active')
 				#primaryCat will be mapresults to return everything
 				if primaryCat == 'all':
-					q = levr.Deal.all().order(sort_property)
+					#get all deals - no filter
 					logging.debug('map results')
 				else:
 					#normalize search query
@@ -70,17 +71,20 @@ class phone(webapp2.RequestHandler):
 					#otherwise, search based on the tags
 					tags = levr.tagger(primaryCat)
 					logging.debug(tags)
-					#grab all deals where primary_cat is in tags and the status is active
-					if tags.__len__() == 1:
-						q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY "+sort_property+" DESC",tags[0],'active')
-					elif  tags.__len__() == 2:
-						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND deal_status=:3 ORDER BY "+sort_property+" DESC",tags[0],tags[1],'active')
-					else:
-						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND tags=:3 AND deal_status=:4 ORDER BY "+sort_property+" DESC",tags[0],tags[1],tags[2],'active',sort_property)
+					#grab all deals where primary_cat is in tags
+					for tag in tags:
+						q.filter('tags',tag)
+				#finally, sort the query
+				#sets the sort parameter based on the search view
+				if view == 'map':
+					sort_property = '-geo_point'
+				else:
+					sort_property = '-rank'
+				q.order(sort_property)
+					
 				
 				
 #				logging.debug(q.__str__())
-				#q = levr.Deal.gql("WHERE tags=:1",'alonso')
 				logging.debug(q.get().__str__())
 
 				#define an empty "dealResults" LIST, and initialize the counter to 0

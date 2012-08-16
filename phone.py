@@ -64,8 +64,9 @@ class phone(webapp2.RequestHandler):
 				#primaryCat will be mapresults to return everything
 				if primaryCat == 'all':
 					#get all deals - no filter
-					logging.debug('map results')
+					logging.debug('all')
 				else:
+					logging.debug('not all')
 					#normalize search query
 					primaryCat = primaryCat.lower()
 					#otherwise, search based on the tags

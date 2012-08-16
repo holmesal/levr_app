@@ -44,13 +44,12 @@ class phone(webapp2.RequestHandler):
 				start = decoded["in"]["start"]
 				numResults = decoded["in"]["size"]
 				
-				#normalize search query
-				primaryCat = primaryCat.lower()
-				
 				#primaryCat will be mapresults to return everything
 				if primaryCat == 'mapResults':
 					q = levr.Deal.all()
 				else:
+					#normalize search query
+					primaryCat = primaryCat.lower()
 					#otherwise, search based on the tags
 					tags = levr.tagger(primaryCat)
 					logging.debug(tags)

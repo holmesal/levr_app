@@ -2,7 +2,7 @@ import webapp2
 import json
 import math
 from datetime import datetime
-from datetime import timedelta
+#from datetime import timedelta
 #from dateutil.relativedelta import relativedelta
 import logging
 import levr_classes as levr
@@ -40,31 +40,47 @@ class phone(webapp2.RequestHandler):
 #***************dealResults************************************************
 			elif action == "dealResults":
 				#grab primaryCat from the request body
-				primaryCat = decoded["in"]["primaryCat"]
-				start = decoded["in"]["start"]
-				numResults = decoded["in"]["size"]
+				primaryCat 	= decoded["in"]["primaryCat"]
+					#search term
+#				start 		= decoded["in"]["start"]
+					#starting index of search results
+					#!!!not used
+				numResults 	= decoded["in"]["size"]
+					#length of search results list
+				view 		= decoded['in']["view"]
+					#search in map or list view
+					#view determines how the results are sorted
+				
+				#sets the sort parameter based on the search view
+				if view == 'map':
+					sort_property = 'geo_point'
+				else:
+					sort_property = 'rank'
 				
 				#normalize search query
 				primaryCat = primaryCat.lower()
 				
 				#primaryCat will be mapresults to return everything
-				if primaryCat == 'mapResults':
-					q = levr.Deal.all()
+				if primaryCat == 'all':
+					q = levr.Deal.all().order(sort_property)
+					logging.debug('map results')
 				else:
+					logging.debug('not map results')
 					#otherwise, search based on the tags
 					tags = levr.tagger(primaryCat)
 					logging.debug(tags)
 					#grab all deals where primary_cat is in tags and the status is active
 					if tags.__len__() == 1:
-						q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY rank DESC",tags[0],'active')
+						q = levr.Deal.gql("WHERE tags=:1 AND deal_status=:2 ORDER BY "+sort_property+" DESC",tags[0],'active')
 					elif  tags.__len__() == 2:
-						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND deal_status=:3 ORDER BY rank DESC",tags[0],tags[1],'active')
+						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND deal_status=:3 ORDER BY "+sort_property+" DESC",tags[0],tags[1],'active')
 					else:
-						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND tags=:3 AND deal_status=:4 ORDER BY rank DESC",tags[0],tags[1],tags[2],'active')
+						q = levr.Deal.gql("WHERE tags=:1 AND tags=:2 AND tags=:3 AND deal_status=:4 ORDER BY "+sort_property+" DESC",tags[0],tags[1],tags[2],'active',sort_property)
 				
 				
+#				logging.debug(q.__str__())
 				#q = levr.Deal.gql("WHERE tags=:1",'alonso')
-				logging.debug(q.get().__str__)
+				logging.debug(q.get().__str__())
 
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []
@@ -101,8 +117,11 @@ class phone(webapp2.RequestHandler):
 					} 
 					#push to stack
 					dealResults.append(searchObj)
+				#get notifications
+#				ninja = levr.Customer.get(uid)
+#				notifications = ninja.get_notifications()
 				#echo back success!
-				toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}
+				toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}#,"notifications":notifications}
 			#***************getUserFavs************************************************
 			elif action == "getUserFavs":
 				'''
@@ -134,7 +153,10 @@ class phone(webapp2.RequestHandler):
 					deal_stack = levr.phoneFormat(deal,'list',cats[idx])
 #					deal_stack.update({"primaryCat":cats[idx]})
 					data.append(deal_stack)
-				toEcho = {"success":True,"data":data}
+				#get notifications
+				ninja = levr.Customer.get(uid)
+				notifications = ninja.get_notifications()
+				toEcho = {"success":True,"data":data,'notifications':notifications}
 			#ADD FAVORITE***********************************************************
 			elif action == "addFav":
 				'''
@@ -155,7 +177,10 @@ class phone(webapp2.RequestHandler):
 				#place in database
 				fav.put()
 				
-				toEcho = {"success":True,}
+				#get notifications
+				ninja = levr.Customer.get(uid)
+				notifications = ninja.get_notifications()
+				toEcho = {"success":True,"notifications":notifications}
 			#DELETE FAVORITE********************************************************
 			elif action == "delFav":
 				'''
@@ -168,8 +193,10 @@ class phone(webapp2.RequestHandler):
 				q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
 				for fav in q:
 					fav.delete()
-				toEcho = {"success":True}
-					
+				#get notifications
+				ninja = levr.Customer.get(uid)
+				notifications = ninja.get_notifications()
+				toEcho = {"success":True,"notificaions":notifications}
 			#***************getOneDeal************************************************
 			elif action == "getOneDeal":
 				'''
@@ -187,7 +214,11 @@ class phone(webapp2.RequestHandler):
 				#push the primary onto the dictionary
 				deal.update({"primaryCat":primary_cat})
 				#echo back success!
-				toEcho = {"success":True,"data":deal}
+				
+#				#get notifications
+#				ninja = levr.Customer.get(uid)
+#				notifications = ninja.get_notifications()
+				toEcho = {"success":True,"data":deal}#,"notificaions":notifications}
 
 			elif action == "getMyDeals":
 				'''
@@ -205,8 +236,8 @@ class phone(webapp2.RequestHandler):
 				
 				#flush their notifications
 				ninja = levr.Customer.get(uid)
-				ninja.flush_new_redeem_count()
-				ninja.put()
+#				ninja.flush_new_redeem_count()
+#				ninja.put()
 				#get new notifications
 				notifications = ninja.get_notifications()
 				
@@ -338,13 +369,15 @@ class phone(webapp2.RequestHandler):
 				#create a new cashOut request
 				cor = levr.CashOutRequest(parent=ninja)
 				cor.amount = ninja.money_available
+				#get notifications
+				notifications = ninja.get_notifications()
 				if cor.amount == 0:
-					toEcho = {"success":False,"data":{"message":"You need to earn something before you can cash out!"}}
+					toEcho = {"success":False,"data":{"message":"You need to earn something before you can cash out!","notifications":notifications}}
 				else:
 					cor.status = 'pending'
 					cor.date_created = datetime.now()
 					cor.put()
-					toEcho = {"success":True}
+					toEcho = {"success":True,"notifications":notifications}
 			
 			elif action == "fetchUploadURL":
 				upload_url = blobstore.create_upload_url('/phone/uploadDeal')

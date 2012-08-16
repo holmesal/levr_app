@@ -116,7 +116,7 @@ class Deal(polymodel.PolyModel):
 	secondary_name 	= db.StringProperty(default='') #== with purchase of
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 #	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
-	deal_text		= db.StringProperty()
+	deal_text		= db.StringProperty(default='')
 	is_exclusive	= db.BooleanProperty(default=False)
 
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
@@ -130,7 +130,7 @@ class Deal(polymodel.PolyModel):
 	count_end 		= db.IntegerProperty()  #max redemptions
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
-	geo_point		= db.GeoPtProperty() #latitude the longitude
+	geo_point		= db.GeoPtProperty(default='') #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
 	reject_message	= db.StringProperty()
 	vicinity		= db.StringProperty()
@@ -276,8 +276,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURLlist"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
-				"imgURLmap"		: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"	: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=list',
+#				"imgURLmap"		: 'http://getlevr.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"geoPoint"		: deal.geo_point,
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,

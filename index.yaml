@@ -28,6 +28,19 @@ indexes:
     direction: desc
 
 - kind: Deal
+  properties:
+  - name: deal_status
+  - name: tags
+  - name: geo_point
+
+- kind: Deal
+  properties:
+  - name: deal_status
+  - name: tags
+  - name: geo_point
+    direction: desc
+
+- kind: Deal
   ancestor: yes
   properties:
   - name: class

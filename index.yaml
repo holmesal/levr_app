@@ -30,6 +30,18 @@ indexes:
 - kind: Deal
   properties:
   - name: deal_status
+  - name: geo_point
+    direction: desc
+
+- kind: Deal
+  properties:
+  - name: deal_status
+  - name: rank
+    direction: desc
+
+- kind: Deal
+  properties:
+  - name: deal_status
   - name: tags
   - name: geo_point
 

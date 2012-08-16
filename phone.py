@@ -47,10 +47,6 @@ class phone(webapp2.RequestHandler):
 					#!!!not used
 				numResults 	= decoded["in"]["size"]
 					#length of search results list
-				view 		= decoded['in']["view"]
-					#search in map or list view
-					#view determines how the results are sorted
-				
 				
 				
 				#normalize search query
@@ -76,11 +72,7 @@ class phone(webapp2.RequestHandler):
 					for tag in tags:
 						q.filter('tags',tag)
 				#finally, sort the query
-				#sets the sort parameter based on the search view
-				if view == 'map':
-					sort_property = '-geo_point'
-				else:
-					sort_property = '-rank'
+				sort_property = '-rank'
 				q.order(sort_property)
 					
 				

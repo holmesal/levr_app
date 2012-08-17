@@ -276,12 +276,16 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURL"	: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=list',
+				"imgURL"		: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=list',
+				"imgURLlarge"	: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"geoPoint"		: deal.geo_point,
+				"vicinity"		: deal.vicinity,
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
+				"description"	: deal.description,
 				"businessName"	: deal.business_name,
-				"primaryCat"	: primary_cat}
+				"primaryCat"	: primary_cat,
+				"isExclusive"	: deal.is_exclusive}
 		if use == 'myDeals':
 			#shows list deal information AND statistics
 			data.update({

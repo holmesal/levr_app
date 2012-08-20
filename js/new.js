@@ -1,0 +1,54 @@
+var map;
+
+function initialize() {
+	var mapOptions = {
+		zoom: 8,
+		center: new google.maps.LatLng(42.349918,-71.10476),
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		disableDefaultUI: true,
+		draggable: false,
+		disableDoubleClickZoom: true,
+		zoom: 15,
+		scrollwheel: false
+	};
+	map = new google.maps.Map(document.getElementById('gmap'),mapOptions);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+  
+function showDetails(){
+	//refocus map on place
+	var place = autocomplete.getPlace();
+	console.log(place)
+	var position = new google.maps.LatLng(place.geometry.location.Xa,place.geometry.location.Ya)
+	console.log(position.toString())
+	map.panTo(position)
+	//set values from places
+	$('#icon').attr("src",place.icon)
+	$('#name,#textName').text(place.name)
+	$('#address').text(place.formatted_address)
+	$('#number').text(place.formatted_phone_number)
+	$('#website').text(place.website)
+	
+	$('#placeDetails').show()
+}
+
+function showChoices(){
+	$('#placeDetails,#whoAreYou').animate({opacity: 0}).hide()
+	$('#container').animate({'height': '430px'})
+	$('#choices').show()
+}
+//initialize places service
+var input = document.getElementById('business_select');
+var options = {types: ['establishment']};
+autocomplete = new google.maps.places.Autocomplete(input, options);
+
+//initialize place_changed listener
+var place = {};
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+	//show the details
+	$('#container').animate({'height': '550px'},function(){showDetails()});
+})
+
+//initialize confirm click listener
+$('#btnConfirm').click(function(){showChoices()})

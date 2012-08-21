@@ -4,22 +4,6 @@ body{
 	text-align: center;
 }
 
-#header{
-	background-color: #313131;
-	height: 40px;
-	width: 100%;
-	position: absolute;
-	z-index: 10;
-	opacity: 0.95;
-}
-
-#header_logo{
-	width: 80px;
-	margin-left: 20px;
-	margin-top: 3px;
-	float: left;
-}
-
 #gmap{
 	position: absolute;
 	top: 0;

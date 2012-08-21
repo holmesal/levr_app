@@ -1,3 +1,6 @@
+
+$(document).ready(function() {
+
 var map;
 
 function initialize() {
@@ -54,3 +57,5 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
 //initialize confirm click listener
 $('#btnConfirm').click(function(){showChoices()})
+
+})

@@ -1,70 +1,208 @@
-/*__________LANDING PAGE______________*/
-#landingContainer{
-	text-align: center;
-	margin:0 auto;
-	width:620px;
-	height:400px;
-	overflow:hidden;
-	position:relative;
-	background-color: rgba(0,0,0,0.8);
-	margin-top: 150px;
+body{
+	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	/*background-color: #181818;*/
+}
+
+#top{
+	height: 550px;
+	/*background-color: #e1e1e1;*/
 	
 }
 
-#whoAreYou{
-	margin-top: 30px;
-	margin-bottom: 40px;
+#bgimage{
+	background-image: url(../img/cafe_blurred.jpg);
+	/*background-color: #840000;*/
+	width: 100%;
+	height: 550px;
+	position: absolute;
+	top: 0;
+	background-position: center center;
+	z-index: 0;
 }
 
-#landingLeft{
-	float: left;
-	margin-left: 70px;
+#iphonehand{
+	left: 50%;
+	margin-left: -50px;
+	height: 600px;
+	position: absolute;
+	z-index: 123;
+	margin-bottom: 0px;
+	margin-top: -50px;
+	overflow: hidden;
 }
 
-#landingRight{
-	float: right;
-	margin-right: 70px;
+#bigText{
+	padding: 20px;
+	left: 50%;
+	margin-left: -470px;
+	margin-top: 100px;
+	position: absolute;
+	z-index: 10;
+	background-color: rgba(0,0,0,0.8);
 }
 
-.landingChoice{
+#main{
+	width: 940px;
 	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-/*__________NEW MERCHANTS_____________*/
-#contentContainer{
+/* CELLBLOCK STYLES */
+.cellblock{
+	text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 100%;
+}
+
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0
+}
+
+.cell{
+	width: 200px;
+	height: 200px;
+	display: inline-block;
+    *display: inline;
+    vertical-align: top;
+    zoom: 1;
+}
+
+.cellimg{
+	height: 70px;
+	width: 70px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#vidContainer{
+	margin-top: 70px;
+	width: 100%;
+	height: 300px;
+	overflow: hidden;
+	border-radius: 10px;
+	background-color: rgba(228,228,228,0.35);
+}
+
+#footer{
+	width: 100%;
+	height: 200px;
+	background-color: #ececec;
+	margin-top: 150px;
+}
+
+#footer-container{
+	width: 940px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: black;
+}
+
+
+/* TEXT STYLES */
+#jumbotron{
+	font-size: 55pt;
+	font-weight: 400;
+	color: white;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-bottom: 0px;
+}
+
+#mediotron{
+	font-size: 16pt;
+	font-weight: 400;
+	color: #afafaf;
+	margin-left: 20px;
+	margin-top: 20px;
+	width: 500px;
+}
+
+#pricing{
+	color: white;
+	display: block;
+	float: left;
+	font-weight: 400;
+	margin-left: 20px;
+	margin-top: 23px;
+}
+
+.red{
+	color: #EF4748;
+	font-family: Times;
+}
+
+.cellprompt{
+	font-weight: 200;
+	font-size: 14pt;
+	margin-top: 70px;
+	margin-bottom: 30px;
+}
+
+.cellhead{
+	display: block;
 	text-align: center;
-	margin:0 auto;
-	width:620px;
-	height:0px;
-	overflow:hidden;
-	position:relative;
-	background-color: rgba(0,0,0,0.8);
+	font-weight: 500;
+}
+
+.cellsupport{
+	text-align: center;
+	font-size: 11pt;
+	color: #494949;
+}
+
+#vidHeader{
+	text-align: center;
 	margin-top: 50px;
+	font-size: 16pt;
+	font-weight: 400;
+	color: #424242;
+}
+
+#vidPrompt{
+	text-align: center;
+	margin-top: 100px;
+}
+
+#vidSpoof{
+	background-color: black;
+	width: 500px;
+	height: 300px;
+	display: block;
+	float: left;
 	
 }
 
-#imageContainer{
-	position:fixed;
-	top:-50%;
-	left:-50%;
-	width:200%;
-	height:200%
+/* BUTTON STYLES */
+#topButton{
+	/*float: right;
+	margin-bottom: 10px;
+	margin-right: 20px;*/
+	font-size: 13pt;
+	margin-top: 20px;
+	border-radius: 3px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	position: absolute !important;
+	z-index: 999;
+	left: 50%;
+	top: 340px;
+	margin-left: -180px;
 }
 
-#imageContainer img{
-position:absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-margin:auto;
-min-width:50%;
-min-height:50%
-}
-
-#welcome{
-	margin-top: 10px;
-	margin-bottom: 30px;
+#bottomButton{
+	margin-bottom: 10px;
+	margin-top: 20px;
+	font-size: 13pt;
+	border-radius: 3px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .button {
@@ -72,12 +210,13 @@ min-height:50%
 	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
 	*display: inline;
 	vertical-align: baseline;
+	margin: 0 2px;
 	outline: none;
 	cursor: pointer;
 	text-align: center;
 	text-decoration: none;
-	font: 18px/100% Arial, Helvetica, sans-serif;
-	padding: 10px 40px 10px;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
 	text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	-webkit-border-radius: .5em; 
 	-moz-border-radius: .5em;
@@ -86,7 +225,6 @@ min-height:50%
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 	box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
-
 .button:hover {
 	text-decoration: none;
 }
@@ -95,394 +233,46 @@ min-height:50%
 	top: 1px;
 }
 
-.orange {
-	color: #fef4e9;
-	border: solid 1px #da7c0c;
-	background: #f78d1d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
-}
-.orange:hover {
-	background: #f47c20;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange:active {
-	color: #fcd3a5;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-
-#description{
-	margin-top: 40px;
-	margin-bottom: 30px;
-}
-
-/*------------TOUR---------------*/
-.tourContainer{
-	text-align: center;
-	margin:0 auto;
-	width:900px;
-	height:900px;
-	overflow:hidden;
-	position:relative;
-	margin-top: 50px;
-}
-
-.attract, .profit, .simple{
-	opacity: 0;
-}
-
-.symbols{
-	width: 120px;
-	opacity: 0;
-}
-
-.tourLeft{
-	width: 500px;
-	background-color: white;
-	float: left;
-}
-
-.tourRight{
-	width: 500px;
-	float: right;
-}
-
-.iphone{
-	height: 600px;
-	margin-top: -50px;
-}
-
-
-body{
-	background-image: url("../img/wood.jpg");
-}
-
-#attractBtn{
-	margin-top: 10px;
-}
-
-
-
-.brand {
-	margin-right: 60px;
-}
-
-.navbar .nav > li > a {
-	font-size: 12pt;
-	margin-top: 8px;
-	margin-right: 20px;
-}
-
-
-#angellist{
-	display: block;
-	float: right;
-	line-height: 100%;
-	padding-top: 8px;
-}
-
-#angellogo{
-	height: 30px;
-	width: 21px;
-}
-
-#navMerchants {
-	font-weight: 600;
-	margin-left: 200px;
-}
-
-.nav-right{
-	float: right !important;
-}
-
-.hidden {
-	visibility: hidden;
-}
-
-.navSelected{
-	color: #f8f8f8 !important;
-}
-
-html{
-/*-webkit-backface-visibility: hidden;*/
-}
-
-body {
-	/*background-color: #F4FAD2;*/
-	/*background-image: url("../img/wallpaper.png");
-	background-attachment:fixed;*/
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	
-}
-
-#topDiv{
-	/*background-image: url("../img/wallpaper.png");*/
-	padding-top: 100px;
-	padding-bottom: 25px;
-	/*border-bottom-color: black;
-	border-bottom-width: medium;
-	border-bottom-style: solid;*/
-}
-
-#logoTop{
-width: 600px;
-margin-top: 30px;
-}
-
-#tagline{
-	font-size: 20pt;
-	line-height: 100%;
-	font-weight: 500;
-}
-
-#description{
-	font-size: 12pt;
-	font-weight: 300;
-	line-height: 120%;
-}
-
-#startPrompt{
-	font-size: 10pt;
-	font-weight: 700;
-}
-
-#btnLearn{
-	margin-left: 20px;
-}
-
-.paneHead{
-	font-size: 18pt;
-	font-weight:500;
-	margin-bottom: 20px;
-}
-
-.paneDesc{
-	font-size: 12pt;
-	font-weight: 300;
-}
-
-#threeCols{
-	margin-top: 50px;
-}
-
-.pane{
-	background-color: #FCFCFC;
-	-webkit-border-radius: 4px;  
-	-moz-border-radius: 4px;  
-	border-radius: 4px;  
-	-webkit-box-shadow: 2px 3px 5px #292929;  
-	-moz-box-shadow: 2px 3px 5px #292929;  
-	box-shadow: 2px 2px 4px #292929;
-}
-
-.header{
-	margin-bottom: 10px;
-}
-
-
-/***********ABOUT*********************/
-#aboutDiv{
-	margin-top: 50px;
-}
-
-#aboutAlert{
-	margin-top: 20px;
-}
-
-#aboutRight{
-	margin-top: 0px;
-	text-align: right;
-}
-
-#alertStart{
-	margin-left: 120px;
-}
-
-.textBlock{
-	margin-top: 0px;
-}
-.secondary{
-	font-size: 12pt;
-	font-weight: 300;
-	line-height: 120%;
-}
-
-#images{
-	margin-top: 0px;
-	text-align: left;
-}
-
-#aboutiphone{
-	margin-left: 50px;
-}
-
-
-.footer{
-	margin-top: 150px;
-	border-top-color: gray;
-	border-top-style: solid;
-	border-top-width: thin;
-}
-
-.footer-right{
-	text-align: right;
-	margin-right: 30px;
-}
-
-.righted{
-	text-align: right;
-}
-
-/***********PRICING*********************/
-
-#pricingDiv{
-	margin-top: 50px;
-	background-color: #FCFCFC;
-	border-radius: 10px;
-	border-color: #F9F9F9;
-	border-style: solid;
-}
-
-#pricingStart{
-	display: inline;
-	float: right;
-	margin-top: -5px;
-}
-
-#pricingContent{
-	text-align: center;
-}
-
-#pricingRight{
-	margin-right: 0px;
-}
-
-#hugePrice{
-	margin-top: 100px;
-	margin-bottom: 100px;
-}
-
-.pricingLegend{
-	margin-top: 50px;
-}
-
-#pricingAlertText{
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-/***********LOGIN*********************/
-#loginForm{
-	height: 200px;
-	
-}
-
-.btnLogin{
-	text-align: right;
-}
-
-#divSignUp{
-	padding-left: 20px;
-}
-
-#divLogin{
-	border-right: double;
-}
-
-/***********NEW DEAL*********************/
-#welcomeTo{
-	margin-top: 20px;
-}
-
-#newLogo{
-	width: 300px;
-	margin-top:10px;
-	margin-bottom: 50px;
-}
-
-.newAbout{
-	width:100%;
-	text-align: center;
-}
-
-.formBtn{
-	text-align: right;
-	margin-right: 0px;
-}
-
-.colHead{
-	margin-bottom: 10px;
-}
-
-#goTo1{
-	margin-top: 40px;
-	margin-bottom: 50px;
-}
-
-.lefted{
-	text-align:left;
-}
-
-.bigForm,.bodyWell{
-	margin-top: 100px;
-	background-color: #FCFCFC;
-	-webkit-border-radius: 4px;  
-	-moz-border-radius: 4px;  
-	border-radius: 4px;  
-	-webkit-box-shadow: 2px 3px 5px #292929;  
-	-moz-box-shadow: 2px 3px 5px #292929;  
-	box-shadow: 2px 3px 5px #292929;
-}
-
-#mainForm{
-	border-right-style: double;
-	border-right-color: #999;
-}
-
-.accordion-heading{
-	text-align: center;
-}
-
-.helpText{
-	font-style: oblique;
-}
-
-.formLeft, .formRight{
-	margin-top: 10px;
-}
-
-.reviewParam{
-	font-weight: 700;
-}
-
-.reviewValue{
-	font-weight: 400;
-}
-#refURL{
-	width: 450px;
-	margin-top: 5px;
-	font-size: 12pt;
-	font-weight: 500;
-	color: #08C;
-}
-
-.finalHeader{
-	margin-top: 60px;
-}
-
-#iphoneRedemption{
-	margin-bottom: 30px;
-	width: 350px;
-	float: right;
-}
-
-/***********EDIT ACCOUNT*********************/
-#btnEditAccount{
-	display: block;
-	float: right;
+/* green */
+.green {
+	color: #e8f0de;
+	border: solid 1px #538312;
+	background: #64991e;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+	background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+}
+.green:hover {
+	background: #538018;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));
+	background: -moz-linear-gradient(top,  #6b9d28,  #436b0c);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');
+}
+.green:active {
+	color: #a9c08c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
+	background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
+}
+
+/* white */
+.white {
+	color: #606060;
+	border: solid 1px #b7b7b7;
+	background: #fff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+}
+.white:hover {
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dcdcdc));
+	background: -moz-linear-gradient(top,  #fff,  #dcdcdc);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+}
+.white:active {
+	color: #999;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+	background: -moz-linear-gradient(top,  #ededed,  #fff);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
 }

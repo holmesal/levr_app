@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../css/new.css">
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script>
+      
+	</head>
+	<body>
+		<div id="container">
+			<div id="whoAreYou">
+				<p id="headerText">Welcome! What's your name?</p>
+				<p class="prompt">Start typing the name of your business:</p>
+				<input class="textIn error_check" type="text" id="business_select" name="business_select" placeholder="Your business name...">
+			</div>
+			<div id="placeDetails" hidden>
+				<img id="icon" >
+				<p id="name" ></p>
+				<p id="address" ></p>
+				<p id="number" ></p>
+				<p id="website" ></p>
+				<div id="results"></div>
+				<a id="btnConfirm" class="button green" href="#">That's me!</a>
+			</div>
+			<div id="choices" hidden>
+				<div id="placeName"><p id="textName"></p></div>
+				<p class="description">Great! There are two ways to launch an offer on Levr.</br></br>Choose one to get started:</p>
+				<div id="left" class="choice">
+			       <div class="ribbon-wrapper-green">
+			       		<div class="ribbon-green">Powerful</div>
+			       	</div>
+					<p class="choiceHeader">Create Online</p>
+					<p class="choiceDescription">Create and launch a new offer in seconds. Get awesome insights and track redemptions.</p>
+					<a class="button white btnGo" href="../templates/deal.html">Get started</a>
+				</div>
+				<div id="right" class="choice">
+					<div class="ribbon-wrapper-green">
+			       		<div class="ribbon-green">Simple</div>
+			       	</div>
+					<p class="choiceHeader">From store</p>
+					<p class="choiceDescription">Send us an offer you're already running via email, text, or carrier pigeon.</p>
+					<a class="button white btnGo" id="btnUpload">Get started</a>
+				</div>
+			</div>
+		</div>
+	<div id="gmap"></div>
+	<script type="text/javascript">
+		google.load("jquery", "1.4.2");
+	</script>
+	<!--script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script-->
+	<script src="../js/new.js"></script>
+	</body>
+</html>

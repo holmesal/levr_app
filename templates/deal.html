@@ -1,6 +1,6 @@
 {% extends "templates/merchantsBase.html" %}
 {% block htmlhead %}
-<link rel="stylesheet" href="../css/deal.css">
+<link rel="stylesheet" href="/css/deal.css">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script>
 {% endblock %}
@@ -20,25 +20,25 @@
 			<p class="prompt">
 				What's the offer?
 			</p>
-			<input class="textIn error_check" type="text" name="deal_line1" placeholder="Your discount...">
+			<input value="{{ deal.dealText }}" class="textIn error_check" type="text" name="deal_line1" placeholder="Your discount...">
 			<p class="aide">
 				Ex: 50% Off Jeans
 			</p>
 			<p class="prompt">
-				Is this a bundled offer?
+				Is this a bundled offer?<span class=""></span>
 			</p>
-			<input class="textIn" type="text" name="deal_line2" placeholder="With purchase of...">
+			<input value="{{ deal.dealTextExtra }}" class="textIn" type="text" name="deal_line2" placeholder="With purchase of...">
 			<p class="prompt">
 				Why is this a great offer?
 			</p>
-			<input class="textIn error_check" type="text" name="deal_description" placeholder="A short description...">
-			<p class="prompt">
+			<input value="{{ deal.description }}" class="textIn error_check" type="text" name="deal_description" placeholder="A short description...">
+			<!-- <p class="prompt">
 				Where will customers find you?
 			</p>
-			<input class="textIn error_check" type="text" id="business_select" name="business_select" placeholder="Search for your business...">
+			<input class="textIn error_check" type="text" id="business_select" name="business_select" placeholder="Search for your business..."> -->
 			<div id="results"></div>
 			<p class="prompt">
-				Upload a picture:
+				Upload a{% if edit==True%} new{% endif %} picture:
 			</p>
 			<input type="file" name="image" id="img_upload" value="Upload" onchange="previewImage(this);">
 			<!--button type="button" id="fake_upload_button" >Choose a file...</button-->
@@ -55,19 +55,39 @@
 			<div id="iphone_inner">
 				<div id="uploaded_img"></div>
 				<p id="deal_line1">
+					{% if deal.dealText %}
+					{{ deal.dealText }}
+					{% else %}
 					&nbsp;
+					{% endif %}
 				</p>
 				<p id="deal_line2">
+					{% if deal.dealTextExtra %}
+					{{ deal.dealTextExtra }}
+					{% else %}
 					&nbsp;
+					{% endif %}
 				</p>
 				<p id="deal_description" class="dealText">
+					{% if deal.description %}
+					{{ deal.description }}
+					{% else %}
 					&nbsp;
+					{% endif %}
 				</p>
 				<p id="deal_business" class="dealText">
+					{% if deal.businessName %}
+					{{ deal.businessName }}
+					{% else %}
 					&nbsp;
+					{% endif %}
 				</p>
 				<p id="deal_address" class="dealText">
+					{% if deal.vicinity %}
+					{{ deal.vicinity }}
+					{% else %}
 					&nbsp;
+					{% endif %}
 				</p>
 			</div>
 		</div>
@@ -79,4 +99,14 @@
 <script type="text/javascript">google.load("jquery", "1.4.2");</script>
 <!--script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script-->
 <script src="../js/deal.js"></script>
+<script type="text/javascript">
+	{% if edit == True %}
+	$('#uploaded_img').css('background-image','url(\'{{deal.imgURLLarge}}\')');
+	
+	//this needs to be a global variable so that the form validation works correctly
+	isEditing = true;
+	{% else %}
+	isEditing = false;
+	{% endif %}
+</script>
 {% endblock %}

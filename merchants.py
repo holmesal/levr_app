@@ -29,19 +29,45 @@ class DealHandler(webapp2.RequestHandler):
 	
 class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
-		levr_utils.dealCreate(self,'web')
+		levr_utils.dealCreate(self, 'web')
 		#redirect
 class EditDealHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
-			pass
+			headerData = levr_utils.loginCheck(self, True)
+			
+			dealID = self.request.get('id')
+			#create upload url before decrypting
+			upload_url = blobstore.create_upload_url('/merchants/editDeal/upload?id='+dealID)
+			dealID = enc.decrypt_key(dealID)
+			
+			deal = levr.Deal.get(dealID)
+			deal = levr.phoneFormat(deal,'manage')
+			logging.debug(deal)
+			
+			template_values = {
+							"edit"		:True,
+							"upload_url":upload_url,
+							"deal"		:deal,
+#							"business"	:business,
+							"headerData":headerData
+			}
+			template = jinja_environment.get_template('templates/deal.html')
+			self.response.out.write(template.render(template_values))
+		except:
+			levr.log_error()
+class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+	def post(self):
+		try:
+			levr_utils.dealCreate(self,'edit')
+			
 		except:
 			levr.log_error()
 class ManageHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
 			#Bounce if user is not logged in
-			headerData = levr_utils.loginCheck(self,True)
+			headerData = levr_utils.loginCheck(self, True)
 			logging.debug(headerData)
 			#fetch business identifier
 			businessID = headerData['businessID']
@@ -50,14 +76,11 @@ class ManageHandler(webapp2.RequestHandler):
 			#get deals that are children of the business, ordered by whether or not they are exclusive or not
 			d = levr.Deal.all().ancestor(businessID).order("is_exclusive").fetch(None)
 			#get all ninja deals
-			d.extend(levr.CustomerDeal.all().filter('businessID =',businessID).fetch(None))
-			logging.debug(d)
-			
+			d.extend(levr.CustomerDeal.all().filter('businessID =', businessID).fetch(None))
 			deals = []
 			for deal in d:
-				logging.debug('aa')
-				logging.debug(levr.phoneFormat(deal,'deal'))
-				deals.append(levr.phoneFormat(deal,'deal'))
+				logging.debug('---')
+				deals.append(levr.phoneFormat(deal, 'manage'))
 			
 			logging.debug(deals)
 			business = levr.Business.get(businessID)
@@ -101,9 +124,10 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			levr.log_error()
 app = webapp2.WSGIApplication([('/merchants/deal', DealHandler),
 								('/merchants/deal/upload', DealUploadHandler),
-								('/merchants/deal/edit', EditDealHandler),
+								('/merchants/editDeal', EditDealHandler),
+								('/merchants/editDeal/upload', EditDealUploadHandler),
 								('/merchants/manage', ManageHandler),
 								('/merchants/email', EmailHandler),
 								('/merchants/widget', WidgetHandler),
 								('/merchants/analytics', AnalyticsHandler)
-								],debug=True)
+								], debug=True)

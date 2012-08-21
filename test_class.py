@@ -31,7 +31,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEgw')
 		c.email	= 'ethan@getlevr.com'
 		c.payment_email = c.email
-		c.pw 	= 'ethan'
+		c.pw 	= enc.encrypt_password('ethan')
 		c.alias	= 'alonso'
 		c.put()
 
@@ -39,7 +39,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYCww')
 		ninja.email	= 'santa@getlevr.com'
 		ninja.payment_email = c.email
-		ninja.pw 	= 'ethan'
+		ninja.pw 	= enc.encrypt_password('ethan')
 		ninja.alias	= 'ninja'
 		ninja.money_earned = 0.0
 		ninja.money_paid = 0.0
@@ -49,7 +49,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		#new business
 		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYBAw')
 		b.email 		= 'alonso@getlevr.com'
-		b.pw 			= 'alonso'
+		b.pw 			= enc.encrypt_password('alonso')
 		b.business_name = 'Shaws'
 		b.vicinity		= 'vicinity'
 		b.alias 		= 'Joe'
@@ -74,7 +74,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.img_path 			= './img/bobs-discount-furniture.png'
 		d.city 				= 'Qatar'
 		d.deal_status		= 'active'
-		d.vicinity			= '7 Gardner Terrace, Apt 1, Allston, MA 02134, USA'
+		d.vicinity			= '7 Gardner Terrace, Allston, MA'
 		d.tags				= ['alonso','pat','ethan']
 		d.deal_status		= 'pending'
 		d.rank				= 5

@@ -276,7 +276,7 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURL"	: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=list',
+				"imgURL"		: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=list',
 				"geoPoint"		: deal.geo_point,
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
@@ -320,6 +320,21 @@ def phoneFormat(deal,use,primary_cat=None):
 		data = {"barcodeURL"	: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"ninjaName"		: ninja.alias,
 				"isExclusive"	: deal.is_exclusive}
+	elif use == 'manage':
+		data = {
+			"dealID"		:dealID,
+			"dealText"		:dealText,
+			"dealTextExtra"	:deal.secondary_name,
+			"businessName"	:deal.business_name,
+			"vicinity"		:deal.vicinity,
+			"description"	:deal.description,
+			"isExclusive"	:deal.is_exclusive,
+#			"imgURLLarge"	:'http://www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
+#			"imgURLSmall"	:'http://www.levr.com/phone/img?dealID='+dealID+'&size=list',
+			"imgURLLarge"	:'http://0.0.0.0:8080/phone/img?dealID='+dealID+'&size=dealDetail',
+			"imgURLSmall"	:'http://0.0.0.0:8080/phone/img?dealID='+dealID+'&size=list',
+
+			}
 	data.update({'geoPoint':str(deal.geo_point)})
 	logging.info(data)
 	return data

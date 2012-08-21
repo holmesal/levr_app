@@ -7,10 +7,14 @@ function validateAllFields(){
 			pass=false;
 		}
 	});
-	if (!$('#img_upload').val()){
-		$('#img_upload').prev().addClass('input_error');
-		pass=false;
+	if (isEditing == false){
+		//if the form is in edit mode, it is not required that they upload a photo
+		if (!$('#img_upload').val()){
+			$('#img_upload').prev().addClass('input_error');
+			pass=false;
+		}
 	}
+	
 	
 	return pass;
 	

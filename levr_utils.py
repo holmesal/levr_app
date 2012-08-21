@@ -6,7 +6,7 @@ import levr_classes as levr
 import levr_encrypt as enc
 from datetime import datetime
 from datetime import timedelta
-#from google.appengine.ext import blobstore
+from google.appengine.ext import blobstore
 from google.appengine.ext import db
 #from google.appengine.ext.webapp import blobstore_handlers
 
@@ -169,15 +169,34 @@ def dealCreate(self,origin):
 	business.put()
 	
 	
+	upload_flag = True
+		#This flag indicates whether an image has been uploaded or not
+		#it is tripped false if no image is uploaded
 	#create the deal entity
 	#web deals get active status and are the child of a business
-	if origin=='web':
+	if origin	=='web':
 		deal = levr.Deal(parent = business.key())
 		deal.deal_status		= "active"
 		deal.is_exclusive		= True
-		#TODO: make deal a child of the business
+	elif origin	=='edit':
+		dealID = self.request.get('id')
+		dealID = enc.decrypt_key(dealID)
+		deal = levr.Deal.get(dealID)
+		logging.debug(self.request.get('image'))
+		if not self.request.get('image'):
+			#if an image was not uploaded, trip upload_flag
+			upload_flag = False
+			logging.debug(upload_flag)
+		else:
+			#an image was uploaded, so remove the old one.
+			blob = deal.img
+#			logging.debug(blob_key)
+#			blob = blobstore.BlobInfo.get(blob_key)
+			logging.debug(blob)
+			blob.delete()
+			logging.debug(blob)
 	#phone deals get pending status and are the child of a ninja
-	elif origin=='phone':
+	elif origin	=='phone':
 		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
 		deal.deal_status		= "pending"
 		deal.is_exclusive		= False
@@ -186,8 +205,12 @@ def dealCreate(self,origin):
 		deal.deal_status		= "active"
 		new_tags = self.request.get('tags')
 		tags.extend(levr.tagger(new_tags))
+		if not self.request.get('image'):
+			#if an image was not uploaded, trip upload_flag
+			upload_flag = False
+			logging.debug(upload_flag)
 	
-	if origin != 'pending':
+	if upload_flag == True:
 		upload	= self.get_uploads()[0]
 		blob_key= upload.key()
 		deal.img= blob_key

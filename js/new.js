@@ -2,7 +2,6 @@ var map;
 
 function initialize() {
 	var mapOptions = {
-		zoom: 8,
 		center: new google.maps.LatLng(42.349918,-71.10476),
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 		disableDefaultUI: true,
@@ -23,6 +22,9 @@ function showDetails(){
 	var position = new google.maps.LatLng(place.geometry.location.Xa,place.geometry.location.Ya)
 	console.log(position.toString())
 	map.panTo(position)
+	//reset previous values from places
+	$('#icon').attr("src",'#')
+	$('#name,#textName,#address,#number,#website').text('')
 	//set values from places
 	$('#icon').attr("src",place.icon)
 	$('#name,#textName').text(place.name)

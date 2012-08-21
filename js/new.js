@@ -43,6 +43,26 @@ function showChoices(){
 	$('#container').animate({'height': '430px'})
 	$('#choices').show()
 }
+
+function submitData(destination){
+	var data = {
+		destination:	destination,
+		business_name:	place.name,
+		vicinity:		place.vicinity,
+		geo_point:		place.geometry.location.Xa + "," + place.geometry.location.Ya,
+		reference:		place.reference,
+		types:			place.types
+	}
+	
+	//post the data
+	$.ajax({
+		type:	'POST',
+		url:	'http://www.levr.com/merchants/welcome',
+		data:	data
+	})
+}
+
+
 //initialize places service
 var input = document.getElementById('business_select');
 var options = {types: ['establishment']};
@@ -57,5 +77,9 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
 //initialize confirm click listener
 $('#btnConfirm').click(function(){showChoices()})
+
+//initialize button click listeners
+$('#btnUpload').click(function(){submitData('upload')})
+$('#btnCreate').click(function(){submitData('create')})
 
 })

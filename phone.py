@@ -95,6 +95,8 @@ class phone(webapp2.RequestHandler):
 					isEmpty = False
 					#trade an object for a phone-formatted dictionary
 					deal = levr.phoneFormat(result,'list',primaryCat)
+					#indicate that this is not a sentinel
+					deal['isSentinel'] = False
 					#push the whole dictionary onto a list
 					dealResults.append(deal)
 					#increment the counter
@@ -102,7 +104,7 @@ class phone(webapp2.RequestHandler):
 
 				#if isempty is true, send back suggested searches instead
 				if isEmpty == False:
-					dealResults.append(None)
+					dealResults.append({"isSentinel":True})
 		
 				#go get (all) suggested searches
 				q = levr.EmptySetResponse.all()
@@ -110,8 +112,9 @@ class phone(webapp2.RequestHandler):
 				q.order('index')
 				#loop through and append to data
 				for result in q:
-					searchObj = {"primaryCat":result.primary_cat,
-									"imgURL":"http://getlevr.appspot.com/phone?size=emptySet&dealID=" + enc.encrypt_key(result.key())
+					searchObj = {"isSentinel":False,
+								"primaryCat":result.primary_cat,
+								"imgURL":"http://getlevr.appspot.com/phone?size=emptySet&dealID=" + enc.encrypt_key(result.key())
 					} 
 					#push to stack
 					dealResults.append(searchObj)

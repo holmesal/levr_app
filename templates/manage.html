@@ -13,14 +13,14 @@
 
 	</head>
 	<body>
-		<div id="header">
+		<!-- <div id="header">
 			{% if headerData.loggedIn == True %}
 			<h3>This header displays when logged in</h3>
 			<h4>Your name is {{ headerData.contact_owner }}</h4>
 			{% else %}
 			<h3>This header displays when NOT logged in</h3>
 			{% endif %}
-		</div>
+		</div> -->
 		<div class="container" id="main">
 			<div class="row">
 				<div class="span10 offset1">
@@ -40,18 +40,6 @@
 										<a href="#tab1" id="deals" data-toggle="tab">Current Offers</a>
 									</li>
 									<li>
-										<a href="#tab3" id="credits" data-toggle="tab">Customer Credits</a>
-									</li>
-									<li>
-										<a href="#tab6" id="referrals" data-toggle="tab">Referrals</a>
-									</li>
-									<li>
-										<a href="#tab5" id="redemption" data-toggle="tab">Redemption</a>
-									</li>
-									<li>
-										<a href="#tab4" id="promotions" data-toggle="tab">Promotions</a>
-									</li>
-									<li>
 										<a href="#tab2" id="account" data-toggle="tab">Account Information</a>
 									</li>
 
@@ -65,7 +53,7 @@
 													<!--a href="./index.html"><img class="headerlogo" src="./img/spooflogo.png" alt="Locale!"></a-->
 													<div class="row-fluid">
 														<h2>Your Offers:</h2>
-														<table name="dealsTable" id="dealsTable" class="table tablesorter table-striped table-bordered">
+														<table border='1' name="dealsTable" id="dealsTable" class="table tablesorter table-striped table-bordered">
 															<thead>
 																<tr>
 																	<th width="30%">Promotion</th>
@@ -96,16 +84,12 @@
 													</div>
 												</div>
 											</div>
-											<a href="/merchants/deal/new">
-												Add a new offer!
-											</a>
+											<a href="/merchants/deal/new"> Add a new offer! </a>
 										</div>
 									</div>
 									<div class="tab-pane" id="tab2">
 										<!-- ACCOUNT INFO-->
-										<a href="/merchants/account">
-											Edit Account Information
-										</a>
+										<a href="/merchants/account"> Edit Account Information </a>
 										<div class="span4 formLeft">
 											<h3>Business</h3>
 											<p class="reviewParam">
@@ -141,63 +125,6 @@
 											</p>
 										</div>
 									</div>
-									<div class="tab-pane" id="tab3">
-										<!-- CREDITS -->
-										<p class="secondary">
-											You currently have <span id="numCredits" style="font-weight: 800;"></span> customer credits.
-										</p>
-										<h4 class="header"> Until launch, there are two ways to gain customer credits: </h4>
-										<p class="secondary">
-											1. Refer other businesses using the "Referrals" tab above.
-										</p>
-										<p class="secondary">
-											2. Contact us and <a href="./contact.html">request them directly</a>.
-										</p>
-										<!--p>
-										Unfortunately, we are not handling payments at this time. If you would like to request more credits, please feel free to contact us
-										<a href="contact.html">here</a>, or email us at <a href="mailto:feedback@getlevr.com">feedback@getlevr.com</a>. We would love to hear from you.
-										</p-->
-									</div>
-									<div class="tab-pane" id="tab4">
-										<!-- PROMOTIONS -->
-										<h3> You currently have no available promotions </h3>
-										<p class="secondary">
-											Promotions are power-ups: they increase your visibility and kick-start your campaigns.
-										</p>
-										<p class="secondary">
-											Please feel free to <a href="./contact.html">contact us</a> for more information or questions.
-										</p>
-									</div>
-									<div class="tab-pane" id="tab5">
-										<!-- REDEMPTION -->
-										<div class="span7">
-											<legend>
-												Redemption method
-											</legend>
-											<p class="secondary">
-												Here's what customers will show you on their mobile devices:
-											</p>
-											<p class="secondary">
-												We're currently adding support for custom barcodes. If this is an important feature for you, please let us know via the <a href="./contact.html">contact form</a>.
-											</p>
-										</div>
-										<img id="iphoneRedemption" src="./img/iphoneRedemption.png">
-
-									</div>
-									<div class="tab-pane" id="tab6">
-										<!-- REFERRALS -->
-										<p class="secondary">
-											So far you have referred <strong><span id="numReferred"></span></strong> other businesses,
-											earning you <strong><span id="creditsEarned"></span></strong> extra customer credits.
-										</p>
-										<br/>
-										<p class="secondary">
-											Refer other businesses using the following link. For every business that creates an offer, you'll receive an additional 100 free customers.
-										</p>
-										<h4> Referral URL: <span id="refURL"></span></h4>
-										<br/>
-
-									</div>
 								</div>
 							</div>
 						</div>
@@ -205,15 +132,14 @@
 				</div>
 			</div>
 			<footer id="feet">
-			<hr class="faded">
-			<a class="footerLink" href="mailto:feedback@getlevr.com" target="_blank">Contact</a>
-			<span class="divider">&#8226</span>
-			<a class="footerLink" href="./manage">For Businesses</a>
-			<span class="divider">&#8226</span>
-			<a class="footerLink" href="http://www.angel.co/levr" target="_blank">Investors</a>
-		</footer>
+				<hr class="faded">
+				<a class="footerLink" href="mailto:feedback@getlevr.com" target="_blank">Contact</a>
+				<span class="divider">&#8226</span>
+				<a class="footerLink" href="./manage">For Businesses</a>
+				<span class="divider">&#8226</span>
+				<a class="footerLink" href="http://www.angel.co/levr" target="_blank">Investors</a>
+			</footer>
 		</div>
-		
 
 		<!-- scripts-->
 		<script src="./../../js/jquery-1.7.1.js"></script>

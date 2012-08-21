@@ -1,0 +1,41 @@
+{% extends "templates/merchantsBase.html" %}
+
+{% block htmlhead %}
+<link rel="stylesheet" href="../css/manageOffers.css">
+{% endblock %}
+
+{% block content %}
+<div id='main'>
+	{{ deals }}
+	<div id='tableDiv'>
+		<h2>Your Offers:</h2>
+		<table id="my-offers-table">
+			<thead>
+				<tr>
+					<!-- 								<th>Image</th> -->
+					<th>Promotion</th>
+					<th>Description</th>
+					<th>Number Redeemed</th>
+					<th>Remaining</th>
+					<th>Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for deal in deals %}
+				
+				<tr>
+					<!-- 								<td><img src="{{ deal['imgURL'] }}" /></td> -->
+					<!-- 								<td><img src="0.0.0.0:8080/phone/img?dealID=tAv4ZDR8iEAh2w29fBwShIZWks6GJETWXYRvH1GZWk_7g-rjof2xMhOMygholuoUChDyDrrMSui1aMhOG9sX&size=dealDetail" /></td>  -->
+
+					<td>{{ deal['deal_text']}}</td>
+					<td>{{ deal['description']}}</td>
+					<td>{{ deal['count_redeemed']}}</td>
+					<td>{{ deal['deal_text']}}</td>
+					<td><a href="/merchants/deal/edit?id={{ deal['dealID'] }}">edit</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

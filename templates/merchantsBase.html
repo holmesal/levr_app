@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>Merchants</title>
+		<meta name="description" content="Merchants portal" />
+		<meta name="author" content="Levr" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		
+		<link rel="stylesheet" href="../css/merchantsBase.css">
+		<!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript"
+		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script> -->
+		{% block htmlhead %}
+		{% endblock %}
+	</head>
+
+	<body>
+		<div id="header">
+			<img id="header_logo" src="../img/levr_logo.png" alt="levr_logo"/>
+		</div>
+		<div id="nav">
+			<a href="./manage" class="navigation">My Offers</a>
+			<a href="./deal" class="navigation">Create New</a>
+			<a href="./email" class="navigation">Upload From Store</a>
+			<a href="./widget" class="navigation">Widget</a>
+			<a href="./analytics" class="navigation">Analytics</a>
+		</div>
+		<div>
+			{% block content %}
+			{% endblock %}
+		</div>
+		<div id="footer">
+			{% block footer %}
+			<!-- &copy; Copyright  by Levr Inc. -->
+			{% endblock footer %}
+		</div>
+	{% block javascript %}
+	{% endblock %}
+	</body>
+</html>

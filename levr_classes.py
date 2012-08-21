@@ -260,8 +260,8 @@ class CashOutRequest(db.Model):
 def phoneFormat(deal,use,primary_cat=None):
 	#dealID is used in a number of places
 	dealID = enc.encrypt_key(str(deal.key()))
-	logging.info(deal.key())
-	logging.info(dealID)
+#	logging.info(deal.key())
+#	logging.info(dealID)
 	#dealText
 	dealText = deal.deal_text
 		

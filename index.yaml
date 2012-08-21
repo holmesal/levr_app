@@ -57,3 +57,8 @@ indexes:
   - name: class
   - name: date_uploaded
     direction: desc
+
+- kind: Deal
+  ancestor: yes
+  properties:
+  - name: is_exclusive

@@ -17,14 +17,17 @@ class login(webapp2.RequestHandler):
 		
 	def post(self):
 		email = self.request.get('email')
+		logging.debug(self.request.get('password'))
 		pw = enc.encrypt_password(self.request.get('password'))
+		logging.debug(email)
+		logging.debug(pw)
 		
 		session = get_current_session()
 		
 		#query database for matching email and pw
 		q = levr.Business.gql("WHERE email = :email and pw = :pw",email=email,pw=pw)
 		business = q.get()
-		logging.info(business)
+		logging.debug(business)
 		if business != None:
 			#if matched, pull properties and set loginstate to true
 			session['businessID'] = enc.encrypt_key(business.key())

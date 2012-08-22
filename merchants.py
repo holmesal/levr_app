@@ -18,6 +18,17 @@ from google.appengine.ext import db
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
+class MerchantsHandler(webapp2.RequestHandler):
+	def get(self):
+		template = jinja_environment.get_template('templates/merchants.html')
+		self.response.out.write(template.render())
+
+class LoginHandler(webapp2.RequestHandler):
+	def get(self):
+		template = jinja_environment.get_template('templates/merchants.html')
+		self.response.out.write(template.render())
+
+
 class WelcomeHandler(webapp2.RequestHandler):
 	def get(self):
 		template = jinja_environment.get_template('templates/new.html')
@@ -145,7 +156,9 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
-app = webapp2.WSGIApplication([('/merchants/welcome', WelcomeHandler),
+app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
+								('/merchants/login', LoginHandler),
+								('/merchants/welcome', WelcomeHandler),
 								('/merchants/deal', DealHandler),
 								('/merchants/deal/upload', DealUploadHandler),
 								('/merchants/editDeal', EditDealHandler),

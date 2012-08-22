@@ -8,6 +8,16 @@
       
 	</head>
 	<body>
+		<div id="loginBox">
+			<form id="loginForm">
+				<p id="loginWelcome"> Welcome back! </p>
+				<input class="loginInput" id="emailInput" type="text" placeholder="Email" name="email">
+				<input class="loginInput" id="pwInput" type="password" placeholder="Password" name="pw">
+				<a id="btnHelp" class="button white">Help</a>
+				<a id="btnLogin" class="button green">Login</a>
+			</form>
+			<div id="loginStub"><p id="loginStubText">Login</p></div>
+		</div>
 		<div id="top">
 			<div id="bgimage"></div>
 			<img id="iphonehand" src="../img/iphone_hand_trans.png">
@@ -91,6 +101,6 @@
 			google.load("jquery", "1.4.2");
 		</script>
 		<!--script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script-->
-		<!--script src="../js/merchants.js"></script-->
+		<script src="../js/merchants.js"></script>
 	</body>
 </html>

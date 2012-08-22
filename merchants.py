@@ -26,7 +26,19 @@ class MerchantsHandler(webapp2.RequestHandler):
 class LoginHandler(webapp2.RequestHandler):
 	def get(self):
 		logging.info(self.request.body)
-
+	
+	def post(self):
+		email = self.request.get('email')
+		pw = self.request.get('pw')
+		
+		#check if email is already in use
+		q = levr.Deal.gql('WHERE email=:1',email)
+		if q.get():
+			#echo that email is in use
+			self.response.out.write(False)
+		else:
+			#echo that email is available
+			self.response.out.write(True)
 
 class WelcomeHandler(webapp2.RequestHandler):
 	def get(self):

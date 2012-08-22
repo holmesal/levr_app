@@ -38,6 +38,7 @@ class WelcomeHandler(webapp2.RequestHandler):
 			levr.log_error()
 	def post(self):
 		try:
+			#create session, store business info
 			#build the business object
 			business = levr.Business()
 			business.business_name = self.request.get('business_name')

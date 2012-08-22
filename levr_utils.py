@@ -24,19 +24,10 @@ def loginCheck(self,strict):
 			logging.info('Not logged in. . .Bouncing!')
 			self.redirect('/login')
 		else:
-			#check if this user is on the tour
-			if session.has_key('tour') == True and session['tour'] == True:
-				headerData = {
-					'loggedIn'	: False,
-					'tour'		: True
-				}
-			else:
-				headerData = {
-					'loggedIn'	: False,
-					'tour'		: False
-				}
-				
 			logging.info('Not logged in. . .Sending back headerData')
+			headerData = {
+				'loggedIn'	: False
+			}
 			return headerData
 	elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 		#logged in, grab the useful bits
@@ -125,81 +116,16 @@ def dealCreate(self,origin):
 	#init tags list
 	tags = []
 	
-	#==== business stuff ====#
-	if origin != 'edit' and origin != 'web':
-		#this excludes the case where the deal is being edited or created by the business
-		#in that case, the business information doesn't need to be updated, nor is it passed to the function
-		
-		#check if business exists - get businessID
-		business= levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
-		
-		if not business:
-			#if a business doesn't exist in db, then create a new one
-			business = levr.Business()
-			
-			#business name
-			business_name = self.request.get('business_name')
-			
-			
-			#geo point
-			geo_point = self.request.get('geo_point')
-			geo_point = levr.geo_converter(geo_point)
-			
-			#vicinity
-			vicinity = self.request.get('vicinity')
-			
-			
-			#types
-			types = self.request.get('types')
-			
-			
-			#add data to the new business
-			business.business_name 	= business_name
-			business.vicinity 		= vicinity
-			business.geo_point		= geo_point
-			business.types			= types
-			
-			#grab the businesses tags
-			tags.extend(business.create_tags())
-			
-			#put business
-			business.put()
-			
-			#get businessID - not encrypted - from database
-			businessID = business.key()
-		else:
-			#business exists- grab its tags
-			tags.extend(business.create_tags())
-		
-		
-		#Create tags
-		
-		logging.debug('-------------------------------------------')
-		logging.debug(tags)
-		
-	elif origin == 'edit' or origin == 'web':
-		#if the deal is being edited, then business info should not be updated, and we have the businessID
-		businessID = self.request.get('uid')
-			#encrypted - from the outside universe
-		businessID = enc.decrypt_key(businessID)
-		businessID = db.Key(businessID)
-		business 	= levr.Business.get(businessID)
-		#get the tags from the business
-		tags.extend(business.create_tags())
-		
-		#grab all the other information that needs to go into the deals
-		business_name 	= business.business_name
-		geo_point		= business.geo_point
-		vicinity		= business.vicinity
-		
-	else:
-		#this should never happen. Why is this happening? AHHHHHHH!
-		raise Exception('origin is unknown')
+	#vicinity
+	vicinity = self.request.get('vicinity')
+	tags.extend(levr.tagger(vicinity))
+	logging.info(tags)
 	
+	#types
+	types = self.request.get('types')
+	tags.extend(levr.tagger(types))
+	logging.info(tags)
 	
-	
-	
-	#====Deal Information Lines====#
 	#deal line 1
 	deal_text	= self.request.get('deal_line1')
 	tags.extend(levr.tagger(deal_text))
@@ -207,39 +133,54 @@ def dealCreate(self,origin):
 	
 	#deal line 2
 	secondary_name = self.request.get('deal_line2')
-	if secondary_name:
-			#deal is bundled
-		tags.extend(levr.tagger(secondary_name))
-		logging.info(tags)
-		deal_type = 'bundle'
-	else:
-			#deal is not bundled
-		deal_type = 'single'
+	tags.extend(levr.tagger(secondary_name))
+	logging.info(tags)
+	
 	#description
 	description = self.request.get('deal_description')
 	tags.extend(levr.tagger(description))
 	logging.info(tags)
 	
+	#business name
+	business_name = self.request.get('business_name')
+	tags.extend(levr.tagger(business_name))
+	logging.info(tags)
 	
+	#geo point
+	geo_point = self.request.get('geo_point')
+	logging.debug(geo_point)
+	geo_point = levr.geo_converter(geo_point)
+	logging.debug(geo_point)
+	
+	
+	
+	#check if business exists
+	business = levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+	#business = levr.Business.gql("WHERE business_name=:1", business_name).get()
+	#if a business doesn't exist in db, then create a new one
+	if not business:
+		business = levr.Business()
+	#add data
+	business.business_name 	= business_name
+	business.vicinity 		= vicinity
+	business.geo_point		= geo_point
+#	logging.debug(dir(business))
+	#put business
+	business.put()
 	
 	
 	upload_flag = True
 		#This flag indicates whether an image has been uploaded or not
 		#it is tripped false if no image is uploaded
-	
-	
 	#create the deal entity
+	#web deals get active status and are the child of a business
 	if origin	=='web':
-			#web deals get active status and are the child of a business
-		deal = levr.Deal(parent = businessID)
+		deal = levr.Deal(parent = business.key())
 		deal.deal_status		= "active"
 		deal.is_exclusive		= True
-
 	elif origin	=='edit':
 		dealID = self.request.get('id')
-		logging.debug(dealID)
 		dealID = enc.decrypt_key(dealID)
-		logging.debug(dealID)
 		deal = levr.Deal.get(dealID)
 		logging.debug(self.request.get('image'))
 		if not self.request.get('image'):
@@ -247,57 +188,43 @@ def dealCreate(self,origin):
 			upload_flag = False
 			logging.debug(upload_flag)
 		else:
-				#an image was uploaded, so remove the old one.
+			#an image was uploaded, so remove the old one.
 			blob = deal.img
 #			logging.debug(blob_key)
 #			blob = blobstore.BlobInfo.get(blob_key)
 			logging.debug(blob)
 			blob.delete()
 			logging.debug(blob)
-	
-
+	#phone deals get pending status and are the child of a ninja
 	elif origin	=='phone':
-			#phone deals get pending status and are the child of a ninja
 		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
 		deal.deal_status		= "pending"
 		deal.is_exclusive		= False
-
 	elif origin == 'pending':
 		deal = levr.CustomerDeal.get(enc.decrypt_key(self.request.get('dealID')))
 		deal.deal_status		= "active"
-		deal.date_start			= datetime.now()
-		deal.date_end			= datetime.now() + timedelta(days=7)
 		new_tags = self.request.get('tags')
 		tags.extend(levr.tagger(new_tags))
 		if not self.request.get('image'):
 			#if an image was not uploaded, trip upload_flag
 			upload_flag = False
 			logging.debug(upload_flag)
-		
-	
-	
-	
 	
 	if upload_flag == True:
-		#if an image has been uploaded, add it to the deal. otherwise do nothing.
-		#assumes that if an image already exists, that it the old one has been deleted elsewhere
 		upload	= self.get_uploads()[0]
 		blob_key= upload.key()
 		deal.img= blob_key
 	
-	
-	
-	
-	
 	#add the data
 	deal.deal_text 			= deal_text
 	deal.description 		= description
-	deal.tags				= tags
 	deal.business_name		= business_name
-	deal.businessID			= businessID.__str__()
+	deal.businessID			= business.key().__str__()
 	deal.vicinity			= vicinity
+	deal.tags				= tags
+	deal.date_start			= datetime.now()
 	deal.geo_point			= geo_point
-
+	deal.date_end			= datetime.now() + timedelta(days=7)
 	#secondary_name
 	if secondary_name:
 		deal.deal_type = "bundle"
@@ -305,8 +232,6 @@ def dealCreate(self,origin):
 		deal.secondary_name = secondary_name
 	else:
 		deal.deal_type = "single"
-	
-	
 	
 	#put the deal
 	deal.put()

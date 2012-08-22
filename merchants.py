@@ -35,7 +35,7 @@ class WelcomeHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render())
 		
 	def post(self):
-	
+		
 		#create session, store business info
 		
 	
@@ -85,6 +85,7 @@ class DealHandler(webapp2.RequestHandler):
 class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		levr_utils.dealCreate(self, 'web')
+		
 		self.redirect('/merchants/manage')
 		#redirect
 class DeleteDealHandler(webapp2.RequestHandler):

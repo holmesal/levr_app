@@ -70,7 +70,19 @@ class DealHandler(webapp2.RequestHandler):
 class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		levr_utils.dealCreate(self, 'web')
+		self.redirect('/merchants/manage')
 		#redirect
+class DeleteDealHandler(webapp2.RequestHandler):
+	def get(self):
+		try:
+			logging.debug(self.request)
+			dealID = self.request.get('id')
+			dealID = enc.decrypt_key(dealID)
+			db.delete(dealID)
+			
+			self.redirect('/merchants/manage')
+		except:
+			levr.log_error()
 class EditDealHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
@@ -107,7 +119,7 @@ class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			levr_utils.dealCreate(self,'edit')
-#			self.redirect('/merchants/manage')
+			self.redirect('/merchants/manage')
 		except:
 			self.response.out.write('error')
 			levr.log_error()
@@ -174,6 +186,7 @@ class AnalyticsHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/merchants/welcome', WelcomeHandler),
 								('/merchants/deal', DealHandler),
 								('/merchants/deal/upload', DealUploadHandler),
+								('/merchants/deal/delete', DeleteDealHandler),
 								('/merchants/editDeal', EditDealHandler),
 								('/merchants/editDeal/upload', EditDealUploadHandler),
 								('/merchants/manage', ManageHandler),

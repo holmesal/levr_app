@@ -43,3 +43,7 @@ body{
 	text-align: center;
 	width: 940px;
 }
+
+a{
+	text-decoration: none;
+}

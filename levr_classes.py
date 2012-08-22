@@ -83,19 +83,21 @@ class Customer(db.Model):
 
 #deal_redeemed 	= db.ListProperty(str) #list of deal keys
 #^^^would need another assoc table 
-
-class Business(db.Model):
-	#root class
+class BusinessOwner(db.Model):
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
-	signup_date 	= db.DateTimeProperty()	#when signed up for our service $$$
+	signup_date 	= db.DateTimeProperty(auto_now_add=True)	#when signed up for our service $$$
+	contact_phone 	= db.PhoneNumberProperty()
+	validated		= db.BooleanProperty()
+
+class Business(db.Model):
+	#root class or child of BusinessOwner
 	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
 	business_name 	= db.StringProperty()
 	vicinity		= db.StringProperty()
-	alias 			= db.StringProperty()
-	contact_phone 	= db.PhoneNumberProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	types			= db.ListProperty(str)
+
 	def dictify(self):
 		'''Formats the object into dictionary for review before release'''
 		data = {
@@ -288,8 +290,10 @@ def phoneFormat(deal,use,primary_cat=None):
 		
 	#dealTextExtra
 	if deal.deal_type == 'bundle':
+		logging.debug('flag bundle')
 		dealTextExtra = '(with purchase of ' + deal.secondary_name + ')'
 	else:
+		logging.debug('flag single')
 		dealTextExtra = ''
 		
 	if use == 'list' or use == 'myDeals' or use == 'widget':
@@ -349,7 +353,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		data = {
 			"dealID"		:dealID,
 			"dealText"		:dealText,
-			"dealTextExtra"	:deal.secondary_name,
+			"dealTextExtra"	:dealTextExtra,
+			"secondaryName"	:deal.secondary_name,
 			"businessName"	:deal.business_name,
 			"vicinity"		:deal.vicinity,
 			"description"	:deal.description,

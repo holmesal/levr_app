@@ -12,11 +12,10 @@
 			<thead>
 				<tr>
 					<!-- 								<th>Image</th> -->
-					<th>Promotion</th>
+					<th>Offer</th>
 					<th>Description</th>
-					<th>Number Redeemed</th>
-					<th>Remaining</th>
 					<th>Edit</th>
+					<th>&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -26,11 +25,10 @@
 					<!-- 								<td><img src="{{ deal['imgURL'] }}" /></td> -->
 					<!-- 								<td><img src="0.0.0.0:8080/phone/img?dealID=tAv4ZDR8iEAh2w29fBwShIZWks6GJETWXYRvH1GZWk_7g-rjof2xMhOMygholuoUChDyDrrMSui1aMhOG9sX&size=dealDetail" /></td>  -->
 
-					<td>{{ deal['deal_text']}}</td>
+					<td>{{ deal['dealText'] }} {{ deal['dealTextExtra'] }}</td>
 					<td>{{ deal['description']}}</td>
-					<td>{{ deal['count_redeemed']}}</td>
-					<td>{{ deal['deal_text']}}</td>
 					<td><a href="/merchants/editDeal?id={{ deal['dealID'] }}">edit</a></td>
+					<td><a href="/merchants/deal/delete?id={{ deal['dealID'] }}">x</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>

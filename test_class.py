@@ -66,7 +66,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.business_name 	= 'Shaws'
 		d.secondary_name	= 'second name'
 		d.deal_text			= '50% off booze'
-		d.deal_type			= 'single'
+		d.deal_type			= 'bundle'
 		d.description 		= 'describe me, hun.'
 		d.rating 			= 50
 		d.count_end 		= 101

@@ -198,9 +198,14 @@ def dealCreate(self,origin):
 	
 	#deal line 2
 	secondary_name = self.request.get('deal_line2')
-	tags.extend(levr.tagger(secondary_name))
-	logging.info(tags)
-	
+	if secondary_name:
+			#deal is bundled
+		tags.extend(levr.tagger(secondary_name))
+		logging.info(tags)
+		deal_type = 'bundle'
+	else:
+			#deal is not bundled
+		deal_type = 'single'
 	#description
 	description = self.request.get('deal_description')
 	tags.extend(levr.tagger(description))

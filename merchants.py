@@ -38,16 +38,28 @@ class WelcomeHandler(webapp2.RequestHandler):
 			levr.log_error()
 	def post(self):
 		try:
+			logging.debug(self.request.headers)
+			logging.debug(self.request.body)
 			#create session, store business info
-			#build the business object
-			business = levr.Business()
-			business.business_name = self.request.get('business_name')
-			business.vicinity = self.request.get('vicinity')
-			business.geo_point = self.request.get('geo_point')
-			business.types = self.request.get('types')
+			owner_key = levr.BusinessOwner(
+				#create owner with contact info, put and get key
+				email			= self.request.get('email'),
+				pw				= self.request.get('password'),
+#				contact_phone 	= self.request.get('phone'),
+				validated		= False
+				).put()
+			logging.debug(owner_key)
 			
-			logging.info('SOMETHING HAS HAPPENED')
-			logging.info(business.types)
+			
+			business = levr.Business(parent=owner_key)
+				#build the business object
+			business.business_name 	= self.request.get('business_name')
+			business.vicinity 		= self.request.get('vicinity')
+			business.geo_point 		= levr.geo_converter(self.request.get('geo_point'))
+			business.types 			= self.request.get('types')
+			
+			logging.debug('SOMETHING HAS HAPPENED')
+			logging.debug(business.types)
 			
 			#forward to appropriate page
 			if self.request.get('destination') == 'upload':
@@ -55,7 +67,7 @@ class WelcomeHandler(webapp2.RequestHandler):
 			elif self.request.get('destination') == 'create':
 				self.redirect('/merchants/deal')
 		except:
-			levr.log_error()
+			levr.log_error(self.request.body)
 
 class DealHandler(webapp2.RequestHandler):
 	def get(self):

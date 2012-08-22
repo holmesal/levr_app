@@ -87,13 +87,13 @@ class BusinessOwner(db.Model):
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
 	signup_date 	= db.DateTimeProperty(auto_now_add=True)	#when signed up for our service $$$
-	contact_phone 	= db.PhoneNumberProperty()
 	validated		= db.BooleanProperty()
 
 class Business(db.Model):
 	#root class or child of BusinessOwner
 	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
 	business_name 	= db.StringProperty()
+	contact_phone 	= db.PhoneNumberProperty()
 	vicinity		= db.StringProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	types			= db.ListProperty(str)

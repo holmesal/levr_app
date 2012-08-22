@@ -28,8 +28,8 @@
 				<div id="placeName"><p id="textName"></p></div>
 				<p class="prompt">Set up your account:</p>
 				<input class="textIn error_check" type="text" id="email" name="email" placeholder="Enter your email...">
-				<input class="textIn error_check" type="password" id="pw" name="email" placeholder="Choose a password...">
-				<input class="textIn error_check" type="password" id="pw2" name="email" placeholder="Re-enter your password...">
+				<input class="textIn error_check" type="password" id="pw" name="password1" placeholder="Choose a password...">
+				<input class="textIn error_check" type="password" id="pw2" name="password2" placeholder="Re-enter your password...">
 				<div id="tos">
 					<p class="tos" id="tos1">We respect your email, and will only use it to contact you regarding your account</p>
 					<p class="tos">By clicking "Create Account", you are agreeing to the <a href="http://www.google.com">Levr Terms of Service</a></p>
@@ -39,14 +39,14 @@
 			</div>
 			<div id="choices" hidden>
 				<div id="placeName"><p id="textName"></p></div>
-				<p class="description">Great! There are two ways to launch an offer on Levr.</br></br>Choose one to get started:</p>
+				<p class="description">Great! There are two ways to launch an offer on Levr.<br /><br />Choose one to get started:</p>
 				<div id="left" class="choice">
 			       <div class="ribbon-wrapper-green">
 			       		<div class="ribbon-green">Powerful</div>
 			       	</div>
 					<p class="choiceHeader">Create Online</p>
 					<p class="choiceDescription">Create and launch a new offer in seconds. Get awesome insights and track redemptions.</p>
-					<form method="POST" class="emptyForm"><a class="button white btnGo" id="btnCreate">Get started</a></form>
+					<form method="POST" class="emptyForm" id="form1"><a class="button white btnGo" id="btnCreate">Get started</a></form>
 				</div>
 				<div id="right" class="choice">
 					<div class="ribbon-wrapper-green">
@@ -54,7 +54,7 @@
 			       	</div>
 					<p class="choiceHeader">From store</p>
 					<p class="choiceDescription">Send us an offer you're already running via email, text, or carrier pigeon.</p>
-					<form method="POST>" class="emptyForm"><a class="button white btnGo" id="btnUpload">Get started</a></form>
+					<form method="POST>" class="emptyForm" id='form2'><a class="button white btnGo" id="btnUpload">Get started</a></form>
 				</div>
 			</div>
 		</div>

@@ -71,7 +71,10 @@ function attemptSignup(){
 
 function submitData(destination,place){
 	console.log(place)
+	console.log(place.types)
 	var data = {
+		email:			$('#email').val(),
+		password:		$('#password1').val(),
 		destination:	destination,
 		business_name:	place.name,
 		vicinity:		place.vicinity,
@@ -80,9 +83,10 @@ function submitData(destination,place){
 	}
 	
 	var URLstring = window.location.pathname + '?' + $.param(data)
+	console.log(URLstring)
 	//set form action
-	$('.emptyForm').attr('action',URLstring)
-	$('.emptyForm').submit()
+	$('#form1').attr('action',URLstring)
+	$('#form1').submit()
 }
 
 

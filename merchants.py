@@ -39,26 +39,26 @@ class WelcomeHandler(webapp2.RequestHandler):
 		try:
 			logging.debug(self.request.headers)
 			logging.debug(self.request.body)
+			logging.debug(self.request.params)
 			#create session, store business info
 			owner_key = levr.BusinessOwner(
 				#create owner with contact info, put and get key
 				email			= self.request.get('email'),
-				pw				= self.request.get('password'),
-#				contact_phone 	= self.request.get('phone'),
+				pw				= enc.encrypt_key(self.request.get('password')),
 				validated		= False
 				).put()
 			logging.debug(owner_key)
 			
-			
-			business = levr.Business(parent=owner_key)
+			types = self.request.get('types[]', allow_multiple=True)
+			logging.debug(types)
+			business = levr.Business(
+				parent			= owner_key,
+				business_name	= self.request.get('business_name'),
+				vicinity		= self.request.get('vicinity'),
+				geo_point		= levr.geo_converter(self.request.get('geo_point')),
+				types			= self.request.get_all('types[]')
+				).put()
 				#build the business object
-			business.business_name 	= self.request.get('business_name')
-			business.vicinity 		= self.request.get('vicinity')
-			business.geo_point 		= levr.geo_converter(self.request.get('geo_point'))
-			business.types 			= self.request.get('types')
-			
-			logging.debug('SOMETHING HAS HAPPENED')
-			logging.debug(business.types)
 			
 			#forward to appropriate page
 			if self.request.get('destination') == 'upload':

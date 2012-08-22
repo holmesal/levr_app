@@ -18,6 +18,22 @@ from google.appengine.ext import db
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
+class WelcomeHandler(webapp2.RequestHandler):
+	def get(self):
+		template = jinja_environment.get_template('templates/new.html')
+		self.response.out.write(template.render())
+		
+	def post(self):
+		#build the business object
+		#yada yada yada
+		
+		#forward to appropriate page
+		if self.request.get('destination') == 'upload':
+			self.redirect('/merchants/upload')
+		elif self.request.get('destination') == 'create':
+			self.redirect('/merchants/deal')
+	
+
 class DealHandler(webapp2.RequestHandler):
 	def get(self):
 		upload_url = blobstore.create_upload_url('/merchants/deal/upload')
@@ -98,7 +114,7 @@ class ManageHandler(webapp2.RequestHandler):
 		except:
 			levr.log_error()
 
-class EmailHandler(webapp2.RequestHandler):
+class UploadHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
 			template_values = {}
@@ -122,12 +138,13 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
-app = webapp2.WSGIApplication([('/merchants/deal', DealHandler),
+app = webapp2.WSGIApplication([('/merchants/welcome', WelcomeHandler),
+								('/merchants/deal', DealHandler),
 								('/merchants/deal/upload', DealUploadHandler),
 								('/merchants/editDeal', EditDealHandler),
 								('/merchants/editDeal/upload', EditDealUploadHandler),
 								('/merchants/manage', ManageHandler),
-								('/merchants/email', EmailHandler),
+								('/merchants/upload', UploadHandler),
 								('/merchants/widget', WidgetHandler),
 								('/merchants/analytics', AnalyticsHandler)
 								], debug=True)

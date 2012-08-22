@@ -20,7 +20,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
   
 function showDetails(){
 	//refocus map on place
-	var place = autocomplete.getPlace();
+	place = autocomplete.getPlace();
 	console.log(place)
 	var position = new google.maps.LatLng(place.geometry.location.Xa,place.geometry.location.Ya)
 	console.log(position.toString())
@@ -44,22 +44,20 @@ function showChoices(){
 	$('#choices').show()
 }
 
-function submitData(destination){
+function submitData(destination,place){
+	console.log(place)
 	var data = {
 		destination:	destination,
 		business_name:	place.name,
 		vicinity:		place.vicinity,
 		geo_point:		place.geometry.location.Xa + "," + place.geometry.location.Ya,
-		reference:		place.reference,
 		types:			place.types
 	}
 	
-	//post the data
-	$.ajax({
-		type:	'POST',
-		url:	'http://www.levr.com/merchants/welcome',
-		data:	data
-	})
+	var URLstring = window.location.pathname + '?' + $.param(data)
+	//set form action
+	$('.emptyForm').attr('action',URLstring)
+	$('.emptyForm').submit()
 }
 
 
@@ -79,7 +77,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 $('#btnConfirm').click(function(){showChoices()})
 
 //initialize button click listeners
-$('#btnUpload').click(function(){submitData('upload')})
-$('#btnCreate').click(function(){submitData('create')})
+$('#btnUpload').click(function(){submitData('upload',place)})
+$('#btnCreate').click(function(){submitData('create',place)})
 
 })

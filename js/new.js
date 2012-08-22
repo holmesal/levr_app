@@ -38,10 +38,35 @@ function showDetails(){
 	$('#placeDetails').show()
 }
 
-function showChoices(){
+function showSignup(){
 	$('#placeDetails,#whoAreYou').animate({opacity: 0}).hide()
 	$('#container').animate({'height': '430px'})
+	$('#signup').show()
+}
+
+function showChoices(){
+	$('#signup').animate({opacity: 0}).hide()
+	$('#container').animate({'height': '430px'})
 	$('#choices').show()
+}
+
+function attemptSignup(){
+	//break if not equal
+	if ($('#pw').val() != $('#pw2').val()) {
+		return false
+	} 
+	
+	var data = {
+		email:	$('#email').val(),
+		pw:		$('#pw').val()
+	}
+	
+	showChoices()
+	
+	/*$.ajax({
+		type:	'GET',
+		data:	data
+	})*/
 }
 
 function submitData(destination,place){
@@ -74,7 +99,10 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 })
 
 //initialize confirm click listener
-$('#btnConfirm').click(function(){showChoices()})
+$('#btnConfirm').click(function(){showSignup()})
+
+//initialize signup click listener
+$('#btnSignup').click(function(){attemptSignup()})
 
 //initialize button click listeners
 $('#btnUpload').click(function(){submitData('upload',place)})

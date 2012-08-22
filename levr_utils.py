@@ -36,7 +36,7 @@ def loginCheck(self,strict):
 					'tour'		: False
 				}
 				
-			logging.info('Not logged in. . .Sending back headerData'
+			logging.info('Not logged in. . .Sending back headerData')
 			return headerData
 	elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 		#logged in, grab the useful bits

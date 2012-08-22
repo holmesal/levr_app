@@ -35,6 +35,10 @@ class WelcomeHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render())
 		
 	def post(self):
+	
+		#create session, store business info
+		
+	
 		#build the business object
 		business = levr.Business()
 		business.business_name = self.request.get('business_name')

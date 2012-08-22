@@ -25,7 +25,14 @@ class WelcomeHandler(webapp2.RequestHandler):
 		
 	def post(self):
 		#build the business object
-		#yada yada yada
+		business = levr.Business()
+		business.business_name = self.request.get('business_name')
+		business.vicinity = self.request.get('vicinity')
+		business.geo_point = self.request.get('geo_point')
+		business.types = self.request.get('types')
+		
+		logging.info('SOMETHING HAS HAPPENED')
+		logging.info(business.types)
 		
 		#forward to appropriate page
 		if self.request.get('destination') == 'upload':

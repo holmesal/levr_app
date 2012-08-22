@@ -51,7 +51,6 @@ function submitData(destination,place){
 		business_name:	place.name,
 		vicinity:		place.vicinity,
 		geo_point:		place.geometry.location.Xa + "," + place.geometry.location.Ya,
-		reference:		place.reference,
 		types:			place.types
 	}
 	

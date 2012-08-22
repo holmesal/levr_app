@@ -95,7 +95,7 @@ class Business(db.Model):
 	alias 			= db.StringProperty()
 	contact_phone 	= db.PhoneNumberProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
-	tags			= db.ListProperty(str)
+	types			= db.ListProperty(str)
 	def dictify(self):
 		'''Formats the object into dictionary for review before release'''
 		data = {
@@ -107,16 +107,22 @@ class Business(db.Model):
 		return data
 	
 	def create_tags(self):
-		#takes a business, and returns critical properties taggified
-		business_name	= tagger(self.business_name)
-		vicinity		= tagger(self.vicinity)
-		types			= tagger(self.types)
-		
 		#create tags list
 		tags = []
+		
+		#takes a business, and returns critical properties taggified
+		business_name	= tagger(self.business_name)
 		tags.extend(business_name)
+		vicinity		= tagger(self.vicinity)
 		tags.extend(vicinity)
-		tags.extend(types)
+		
+		for type in self.types:
+			type			= tagger(type)
+			tags.extend(type)
+		
+		
+		
+		
 		
 		return tags
 	

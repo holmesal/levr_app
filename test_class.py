@@ -51,11 +51,11 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		b.email 		= 'alonso@getlevr.com'
 		b.pw 			= enc.encrypt_password('alonso')
 		b.business_name = 'Shaws'
-		b.vicinity		= 'vicinity'
+		b.vicinity		= '260 Everett St East Boston, MA'
 		b.alias 		= 'Joe'
 		b.contact_phone = '603-603-6003'
 		b.geo_point		= levr_classes.geo_converter("15.23213,60.2342")
-		b.tags			= ['tag1','tag2']
+		b.types			= ['tag1','tag2']
 		b.put()
 
 

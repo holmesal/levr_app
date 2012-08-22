@@ -156,7 +156,7 @@ def dealCreate(self,origin):
 			#put business
 			business.put()
 			
-			#get businessID
+			#get businessID - not encrypted - from database
 			businessID = business.key()
 		else:
 			#business exists- grab its tags
@@ -168,13 +168,20 @@ def dealCreate(self,origin):
 		logging.debug('-------------------------------------------')
 		logging.debug(tags)
 		
-	elif origin == 'edit':
+	elif origin == 'edit' or origin == 'web':
 		#if the deal is being edited, then business info should not be updated, and we have the businessID
 		businessID = self.request.get('uid')
+			#encrypted - from the outside universe
+		businessID = enc.decrypt_key(businessID)
+		businessID = db.Key(businessID)
+		business 	= levr.Business.get(businessID)
 		#get the tags from the business
-		business_tags = self.request.get('tags')
-		business_tags = levr.tagger(business_tags)
-		tags.extend(business_tags)
+		tags.extend(business.create_tags())
+		
+		#grab all the other information that needs to go into the deals
+		business_name 	= business.business_name
+		geo_point		= business.geo_point
+		vicinity		= business.vicinity
 		
 	else:
 		#this should never happen. Why is this happening? AHHHHHHH!
@@ -244,6 +251,7 @@ def dealCreate(self,origin):
 	elif origin == 'pending':
 		deal = levr.CustomerDeal.get(enc.decrypt_key(self.request.get('dealID')))
 		deal.deal_status		= "active"
+		deal.date_start			= datetime.now()
 		deal.date_end			= datetime.now() + timedelta(days=7)
 		new_tags = self.request.get('tags')
 		tags.extend(levr.tagger(new_tags))
@@ -271,7 +279,11 @@ def dealCreate(self,origin):
 	deal.deal_text 			= deal_text
 	deal.description 		= description
 	deal.tags				= tags
-	
+	deal.business_name		= business_name
+	deal.businessID			= businessID.__str__()
+	deal.vicinity			= vicinity
+	deal.geo_point			= geo_point
+
 	#secondary_name
 	if secondary_name:
 		deal.deal_type = "bundle"
@@ -279,16 +291,6 @@ def dealCreate(self,origin):
 		deal.secondary_name = secondary_name
 	else:
 		deal.deal_type = "single"
-	
-	if origin != 'edit':
-		#this excludes the case where the deal is being edited
-		#business info should not be overwritten in that case
-		deal.business_name		= business_name
-		deal.businessID			= business.key().__str__()
-		deal.vicinity			= vicinity
-		deal.date_start			= datetime.now()
-		deal.geo_point			= geo_point
-	
 	
 	
 	

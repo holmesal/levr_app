@@ -95,7 +95,7 @@ class Business(db.Model):
     alias 			= db.StringProperty()
     contact_phone 	= db.PhoneNumberProperty()
     geo_point		= db.GeoPtProperty() #latitude the longitude
-    
+    tags			= db.ListProperty(str)
     def dictify(self):
 		'''Formats the object into dictionary for review before release'''
 		data = {

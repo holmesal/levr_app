@@ -35,10 +35,19 @@ class EditDealHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
 			headerData = levr_utils.loginCheck(self, True)
+			logging.debug(headerData)
+			#fetch business
+			businessID = headerData['businessID']
+			logging.debug(headerData['businessID'])
+			businessID = enc.decrypt_key(businessID)
+			businessID = db.Key(businessID)
+			business = levr.Business.get(businessID)
 			
 			dealID = self.request.get('id')
 			#create upload url before decrypting
-			upload_url = blobstore.create_upload_url('/merchants/editDeal/upload?id='+dealID)
+			url = '/merchants/editDeal/upload?uid='+headerData['businessID']+'&id='+dealID
+			logging.debug(url)
+			upload_url = blobstore.create_upload_url(url)
 			dealID = enc.decrypt_key(dealID)
 			
 			deal = levr.Deal.get(dealID)
@@ -49,7 +58,7 @@ class EditDealHandler(webapp2.RequestHandler):
 							"edit"		:True,
 							"upload_url":upload_url,
 							"deal"		:deal,
-#							"business"	:business,
+							"business"	:business,
 							"headerData":headerData
 			}
 			template = jinja_environment.get_template('templates/deal.html')
@@ -73,6 +82,7 @@ class ManageHandler(webapp2.RequestHandler):
 			businessID = headerData['businessID']
 			businessID = enc.decrypt_key(businessID)
 			businessID = db.Key(businessID)
+			business = levr.Business.get(businessID)
 			#get deals that are children of the business, ordered by whether or not they are exclusive or not
 			d = levr.Deal.all().ancestor(businessID).order("is_exclusive").fetch(None)
 			#get all ninja deals
@@ -83,7 +93,7 @@ class ManageHandler(webapp2.RequestHandler):
 				deals.append(levr.phoneFormat(deal, 'manage'))
 			
 			logging.debug(deals)
-			business = levr.Business.get(businessID)
+			
 			
 			template_values = {
 				'headerData' : headerData,

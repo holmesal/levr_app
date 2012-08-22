@@ -117,8 +117,8 @@ def dealCreate(self,origin):
 	tags = []
 	
 	#==== business stuff ====#
-	if origin != 'edit':
-		#this excludes the case where the deal is being edited by the business
+	if origin != 'edit' and origin != 'web':
+		#this excludes the case where the deal is being edited or created by the business
 		#in that case, the business information doesn't need to be updated, nor is it passed to the function
 		
 		#check if business exists - get businessID
@@ -130,38 +130,43 @@ def dealCreate(self,origin):
 			
 			#business name
 			business_name = self.request.get('business_name')
-			tags.extend(levr.tagger(business_name))
-			logging.info(tags)
+			
 			
 			#geo point
 			geo_point = self.request.get('geo_point')
-			logging.debug(geo_point)
 			geo_point = levr.geo_converter(geo_point)
-			logging.debug(geo_point)
 			
 			#vicinity
 			vicinity = self.request.get('vicinity')
-			tags.extend(levr.tagger(vicinity))
-			logging.info(tags)
+			
 			
 			#types
 			types = self.request.get('types')
-			tags.extend(levr.tagger(types))
-			logging.info(tags)
 			
-			#add data
+			
+			#add data to the new business
 			business.business_name 	= business_name
 			business.vicinity 		= vicinity
 			business.geo_point		= geo_point
-			business.tags			= tags
+			business.types			= types
+			
+			#grab the businesses tags
+			tags.extend(business.create_tags())
 			
 			#put business
 			business.put()
+			
 			#get businessID
 			businessID = business.key()
 		else:
 			#business exists- grab its tags
-			tags.extend(business.tags)
+			tags.extend(business.create_tags())
+		
+		
+		#Create tags
+		
+		logging.debug('-------------------------------------------')
+		logging.debug(tags)
 		
 	elif origin == 'edit':
 		#if the deal is being edited, then business info should not be updated, and we have the businessID

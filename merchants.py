@@ -20,9 +20,26 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 
 class DealHandler(webapp2.RequestHandler):
 	def get(self):
-		upload_url = blobstore.create_upload_url('/merchants/deal/upload')
+		#check login
+		headerData = levr_utils.loginCheck(self, True)
+		#get the business information
+		businessID = headerData['businessID']
+		businessID = enc.decrypt_key(businessID)
+		businessID = db.Key(businessID)
+		business = levr.Business.get(businessID)
+		#create tags from the business
+		tags = business.create_tags()
+		
+		#create the upload url
+		url = '/merchants/deal/upload?uid='+headerData['businessID']
+		upload_url = blobstore.create_upload_url(url)
+		
+		#consolidate the values
 		template_values = {
-			"upload_url"	: upload_url,
+						"tags"			: tags,
+						"upload_url"	: upload_url,
+						"deal"			: None,
+						"business"		: business
 		}
 		template = jinja_environment.get_template('templates/deal.html')
 		self.response.out.write(template.render(template_values))
@@ -46,13 +63,11 @@ class EditDealHandler(webapp2.RequestHandler):
 			dealID = self.request.get('id')
 			#create upload url before decrypting
 			url = '/merchants/editDeal/upload?uid='+headerData['businessID']+'&id='+dealID
-			logging.debug(url)
 			upload_url = blobstore.create_upload_url(url)
+			#decrypt id, get and format deal
 			dealID = enc.decrypt_key(dealID)
-			
 			deal = levr.Deal.get(dealID)
 			deal = levr.phoneFormat(deal,'manage')
-			logging.debug(deal)
 			
 			template_values = {
 							"edit"		:True,
@@ -69,8 +84,9 @@ class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			levr_utils.dealCreate(self,'edit')
-			
+#			self.redirect('/merchants/manage')
 		except:
+			self.response.out.write('error')
 			levr.log_error()
 class ManageHandler(webapp2.RequestHandler):
 	def get(self):

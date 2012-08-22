@@ -55,6 +55,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		b.alias 		= 'Joe'
 		b.contact_phone = '603-603-6003'
 		b.geo_point		= levr_classes.geo_converter("15.23213,60.2342")
+		b.tags			= ['tag1','tag2']
 		b.put()
 
 

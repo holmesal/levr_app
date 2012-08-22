@@ -45,6 +45,7 @@
 			<button type="submit" name="submit" id="deal_submit" value='submittt'>
 				Launch this offer!
 			</button>
+			<input type="hidden" class="form_hidden" name="tags" id="tags" value="{{ tags }}">
 		</form>
 	</div>
 	<div id="right">
@@ -76,15 +77,15 @@
 					{% endif %}
 				</p>
 				<p id="deal_business" class="dealText">
-					{% if deal.businessName %}
-					{{ deal.businessName }}
+					{% if business.business_name %}
+					{{ business.business_name }}
 					{% else %}
 					&nbsp;
 					{% endif %}
 				</p>
 				<p id="deal_address" class="dealText">
-					{% if deal.vicinity %}
-					{{ deal.vicinity }}
+					{% if business.vicinity %}
+					{{ business.vicinity }}
 					{% else %}
 					&nbsp;
 					{% endif %}
@@ -101,7 +102,7 @@
 <script src="../js/deal.js"></script>
 <script type="text/javascript">
 	{% if edit == True %}
-	$('#uploaded_img').css('background-image','url(\'{{deal.imgURLLarge}}\')');
+	$('#uploaded_img').css('background-image','url(\'{{ deal.imgURLLarge }}\')');
 	
 	//this needs to be a global variable so that the form validation works correctly
 	isEditing = true;

@@ -24,10 +24,19 @@ def loginCheck(self,strict):
 			logging.info('Not logged in. . .Bouncing!')
 			self.redirect('/login')
 		else:
-			logging.info('Not logged in. . .Sending back headerData')
-			headerData = {
-				'loggedIn'	: False
-			}
+			#check if this user is on the tour
+			if session.has_key('tour') == True and session['tour'] == True:
+				headerData = {
+					'loggedIn'	: False,
+					'tour'		: True
+				}
+			else:
+				headerData = {
+					'loggedIn'	: False,
+					'tour'		: False
+				}
+				
+			logging.info('Not logged in. . .Sending back headerData'
 			return headerData
 	elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 		#logged in, grab the useful bits

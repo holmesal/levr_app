@@ -25,8 +25,7 @@ class MerchantsHandler(webapp2.RequestHandler):
 
 class LoginHandler(webapp2.RequestHandler):
 	def get(self):
-		template = jinja_environment.get_template('templates/merchants.html')
-		self.response.out.write(template.render())
+		logging.info(self.request.body)
 
 
 class WelcomeHandler(webapp2.RequestHandler):

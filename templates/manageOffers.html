@@ -28,7 +28,7 @@
 					<td>{{ deal['dealText'] }} {{ deal['dealTextExtra'] }}</td>
 					<td>{{ deal['description']}}</td>
 					<td><a href="/merchants/editDeal?id={{ deal['dealID'] }}">edit</a></td>
-					<td><a href="/merchants/deal/delete?id={{ deal['dealID'] }}">x</a></td>
+					<td><a href="/merchants/deal/delete?id={{ deal['dealID'] }}" class='delete'>x</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>

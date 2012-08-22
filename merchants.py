@@ -31,58 +31,66 @@ class LoginHandler(webapp2.RequestHandler):
 
 class WelcomeHandler(webapp2.RequestHandler):
 	def get(self):
-		template = jinja_environment.get_template('templates/new.html')
-		self.response.out.write(template.render())
-		
+		try:
+			template = jinja_environment.get_template('templates/new.html')
+			self.response.out.write(template.render())
+		except:
+			levr.log_error()
 	def post(self):
-		#build the business object
-		business = levr.Business()
-		business.business_name = self.request.get('business_name')
-		business.vicinity = self.request.get('vicinity')
-		business.geo_point = self.request.get('geo_point')
-		business.types = self.request.get('types')
-		
-		logging.info('SOMETHING HAS HAPPENED')
-		logging.info(business.types)
-		
-		#forward to appropriate page
-		if self.request.get('destination') == 'upload':
-			self.redirect('/merchants/upload')
-		elif self.request.get('destination') == 'create':
-			self.redirect('/merchants/deal')
-	
+		try:
+			#build the business object
+			business = levr.Business()
+			business.business_name = self.request.get('business_name')
+			business.vicinity = self.request.get('vicinity')
+			business.geo_point = self.request.get('geo_point')
+			business.types = self.request.get('types')
+			
+			logging.info('SOMETHING HAS HAPPENED')
+			logging.info(business.types)
+			
+			#forward to appropriate page
+			if self.request.get('destination') == 'upload':
+				self.redirect('/merchants/upload')
+			elif self.request.get('destination') == 'create':
+				self.redirect('/merchants/deal')
+		except:
+			levr.log_error()
 
 class DealHandler(webapp2.RequestHandler):
 	def get(self):
-		#check login
-		headerData = levr_utils.loginCheck(self, True)
-		#get the business information
-		businessID = headerData['businessID']
-		businessID = enc.decrypt_key(businessID)
-		businessID = db.Key(businessID)
-		business = levr.Business.get(businessID)
-		#create tags from the business
-		tags = business.create_tags()
-		
-		#create the upload url
-		url = '/merchants/deal/upload?uid='+headerData['businessID']
-		upload_url = blobstore.create_upload_url(url)
-		
-		#consolidate the values
-		template_values = {
-						"tags"			: tags,
-						"upload_url"	: upload_url,
-						"deal"			: None,
-						"business"		: business
-		}
-		template = jinja_environment.get_template('templates/deal.html')
-		self.response.out.write(template.render(template_values))
-	
+		try:
+			#check login
+			headerData = levr_utils.loginCheck(self, True)
+			#get the business information
+			businessID = headerData['businessID']
+			businessID = enc.decrypt_key(businessID)
+			businessID = db.Key(businessID)
+			business = levr.Business.get(businessID)
+			#create tags from the business
+			tags = business.create_tags()
+			
+			#create the upload url
+			url = '/merchants/deal/upload?uid='+headerData['businessID']
+			upload_url = blobstore.create_upload_url(url)
+			
+			#consolidate the values
+			template_values = {
+							"tags"			: tags,
+							"upload_url"	: upload_url,
+							"deal"			: None,
+							"business"		: business
+			}
+			template = jinja_environment.get_template('templates/deal.html')
+			self.response.out.write(template.render(template_values))
+		except:
+			levr.log_error()
 class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
-		levr_utils.dealCreate(self, 'web')
-		self.redirect('/merchants/manage')
-		#redirect
+		try:
+			levr_utils.dealCreate(self, 'web')
+			self.redirect('/merchants/manage')
+		except:
+			levr.log_error(self.request.body)
 class DeleteDealHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
@@ -132,8 +140,7 @@ class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			levr_utils.dealCreate(self,'edit')
 			self.redirect('/merchants/manage')
 		except:
-			self.response.out.write('error')
-			levr.log_error()
+			levr.log_error(self.request.body)
 class ManageHandler(webapp2.RequestHandler):
 	def get(self):
 		try:

@@ -7,7 +7,7 @@ function attemptLogin(){
 	
 	console.log(creds)
 	
-	url_string = 'merchants/login'
+	url_string = '/merchants/login'
 	
 	$.ajax({
 		type:	'POST',

@@ -24,6 +24,7 @@ class MerchantsHandler(webapp2.RequestHandler):
 		#check if logged in. if so, redirect to the manage page
 		session = get_current_session()
 		if session.has_key('loggedIn') == True and session['loggedIn'] == True:
+			logging.debug('logged in, rediredcting')
 			self.redirect("/merchants/manage")
 		else:
 			template = jinja_environment.get_template('templates/merchants.html')
@@ -33,7 +34,6 @@ class LoginHandler(webapp2.RequestHandler):
 	def get(self):
 		template = jinja_environment.get_template('templates/login.html')
 		self.response.out.write(template.render())
-		#in the future, show the login form
 	
 	def post(self):
 		try:
@@ -56,7 +56,7 @@ class LoginHandler(webapp2.RequestHandler):
 				#Normal login attempt. Redirects to manage or the login page
 				email = self.request.get('email')
 				email = db.Email(email)
-				pw = enc.encrypt_password(self.request.get('password'))
+				pw = enc.encrypt_password(self.request.get('pw'))
 				logging.debug(email)
 				logging.debug(pw)
 				
@@ -304,17 +304,18 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
-app = webapp2.WSGIApplication([('/merchants.*', MerchantsHandler),
-								('/merchants/login.*', LoginHandler),
-								('/merchants/emailCheck.*', EmailCheckHandler),
-								('/merchants/welcome.*', WelcomeHandler),
-								('/merchants/deal.*', DealHandler),
-								('/merchants/deal/upload.*', DealUploadHandler),
-								('/merchants/deal/delete.*', DeleteDealHandler),
-								('/merchants/editDeal.*', EditDealHandler),
-								('/merchants/editDeal/upload.*', EditDealUploadHandler),
-								('/merchants/manage.*', ManageHandler),
-								('/merchants/upload.*', UploadHandler),
-								('/merchants/widget.*', WidgetHandler),
-								('/merchants/analytics.*', AnalyticsHandler)
+
+app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
+								('/merchants/login', LoginHandler),
+								('/merchants/emailCheck', EmailCheckHandler),
+								('/merchants/welcome', WelcomeHandler),
+								('/merchants/deal', DealHandler),
+								('/merchants/deal/upload', DealUploadHandler),
+								('/merchants/deal/delete', DeleteDealHandler),
+								('/merchants/editDeal', EditDealHandler),
+								('/merchants/editDeal/upload', EditDealUploadHandler),
+								('/merchants/manage', ManageHandler),
+								('/merchants/upload', UploadHandler),
+								('/merchants/widget', WidgetHandler),
+								('/merchants/analytics', AnalyticsHandler)
 								], debug=True)

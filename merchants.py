@@ -25,15 +25,45 @@ class MerchantsHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render())
 
 class LoginHandler(webapp2.RequestHandler):
-	'''This is currently a handler to check whether the credentials entered by a business on the home screen are valid'''
 	def get(self):
-		logging.info(self.request.body)
+		pass
+		#in the future, show the login form
 	
-	'''This is currently a handler to check whether the email entered by a business on signup is available'''
 	def post(self):
+		#this is passed when an ajax form is checking the login state
+		if self.request.get('type') == 'ajax':
+			logging.debug('AJAX CHECK')
+			email = self.request.get('email')
+			pw = self.request.get('pw')
+			
+			#check if login is valid
+			q = levr.BusinessOwner.gql('WHERE email=:1 AND pw=:2',email,pw)
+			if q.get():
+				#echo that login was successful
+				self.response.out.write(True)
+			else:
+				#echo that login was not successful
+				self.response.out.write(False)
+		else:
+			logging.debug('AN ACTUAL LOGIN ATTEMPT')
+			#check if login is valid
+			q = levr.BusinessOwner.gql('WHERE email=:1 AND pw=:2',email,pw)
+			if q.get():
+				#set session variable to logged in
+				session = get_current_session()
+				session['loggedIn'] = True
+				#redirect to manage page
+				self.redirect('/merchants/manage')
+			else:
+				self.redirect('/login')
+	
+			
+class EmailCheckHandler(webapp2.RequestHandler):
+	def post(self):
+		'''This is currently a handler to check whether the email entered by a business on signup is available'''
 		email = self.request.get('email')
 		pw = self.request.get('pw')
-		
+		 
 		#check if email is already in use
 		q = levr.Deal.gql('WHERE email=:1',email)
 		if q.get():
@@ -42,6 +72,7 @@ class LoginHandler(webapp2.RequestHandler):
 		else:
 			#echo that email is available
 			self.response.out.write(True)
+
 
 class WelcomeHandler(webapp2.RequestHandler):
 	def get(self):
@@ -241,6 +272,7 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			levr.log_error()
 app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
 								('/merchants/login', LoginHandler),
+								('/merchants/emailCheck', EmailCheckHandler),
 								('/merchants/welcome', WelcomeHandler),
 								('/merchants/deal', DealHandler),
 								('/merchants/deal/upload', DealUploadHandler),

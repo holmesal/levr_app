@@ -65,10 +65,10 @@ function attemptSignup(){
 	
 	console.log(creds)
 	
-	url_string = 'login'
+	url_string = 'emailCheck'
 	
 	$.ajax({
-		type:	'POST',
+		type:	'GET',
 		url:	url_string,
 		data:	creds,
 		success: function(result){

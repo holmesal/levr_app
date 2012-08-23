@@ -21,7 +21,12 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 
 class MerchantsHandler(webapp2.RequestHandler):
 	def get(self):
-		template = jinja_environment.get_template('templates/merchants.html')
+		#check if logged in. if so, redirect to the manage page
+		session = get_current_session()
+		if session['loggedIn'] == True:
+			template = jinja_environment.get_template('templates/manage.html')
+		else:
+			template = jinja_environment.get_template('templates/merchants.html')
 		self.response.out.write(template.render())
 
 class LoginHandler(webapp2.RequestHandler):
@@ -31,11 +36,12 @@ class LoginHandler(webapp2.RequestHandler):
 	
 	def post(self):
 		#this is passed when an ajax form is checking the login state
+		email = self.request.get('email')
+		pw = enc.encrypt_password(self.request.get('pw'))
+		
 		if self.request.get('type') == 'ajax':
 			logging.debug('AJAX CHECK')
-			email = self.request.get('email')
-			pw = enc.encrypt_password(self.request.get('pw'))
-			
+
 			#check if login is valid
 			q = levr.BusinessOwner.gql('WHERE email =:1 AND pw =:2',email,pw)
 			if q.get():
@@ -62,7 +68,7 @@ class EmailCheckHandler(webapp2.RequestHandler):
 	def post(self):
 		'''This is currently a handler to check whether the email entered by a business on signup is available'''
 		email = self.request.get('email')
-		pw = self.request.get('pw')
+		pw = enc.encrypt_password(self.request.get('pw'))
 		 
 		#check if email is already in use
 		q = levr.Deal.gql('WHERE email=:1',email)

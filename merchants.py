@@ -27,7 +27,7 @@ class MerchantsHandler(webapp2.RequestHandler):
 			self.redirect("/merchants/manage")
 		else:
 			template = jinja_environment.get_template('templates/merchants.html')
-		self.response.out.write(template.render())
+			self.response.out.write(template.render())
 
 class LoginHandler(webapp2.RequestHandler):
 	def get(self):

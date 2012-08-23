@@ -21,7 +21,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 function showDetails(){
 	//refocus map on place
 	place = autocomplete.getPlace();
-	console.log(place)
+	//console.log(place)
 	var position = new google.maps.LatLng(place.geometry.location.Xa,place.geometry.location.Ya)
 	console.log(position.toString())
 	map.panTo(position)
@@ -114,8 +114,12 @@ autocomplete = new google.maps.places.Autocomplete(input, options);
 //initialize place_changed listener
 var place = {};
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
+	place = autocomplete.getPlace();
+	//if this is an actual place, show the details
+	if (place.id != undefined){
 	//show the details
 	$('#container').animate({'height': '550px'},function(){showDetails()});
+	}
 })
 
 //initialize confirm click listener
@@ -128,4 +132,22 @@ $('#btnSignup').click(function(){attemptSignup()})
 $('#btnUpload').click(function(){submitData('upload',place)})
 $('#btnCreate').click(function(){submitData('create',place)})
 
+//disable enter key on autocomplete
+var input = document.getElementById('business_select'); 
+                        // dojo.connect(input, 'onkeydown', function(e) { 
+                        google.maps.event.addDomListener(input, 'keydown', function(e) { 
+                                if (e.keyCode == 13) 
+                                { 
+                                        if (e.preventDefault) 
+                                        { 
+                                                e.preventDefault(); 
+                                        } 
+                                        else 
+                                        { 
+                                                // Since the google event handler framework does not handle
+                                                e.cancelBubble = true; 
+                                                e.returnValue = false; 
+                                        } 
+                                } 
+                        });    
 })

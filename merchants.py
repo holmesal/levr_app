@@ -34,10 +34,10 @@ class LoginHandler(webapp2.RequestHandler):
 		if self.request.get('type') == 'ajax':
 			logging.debug('AJAX CHECK')
 			email = self.request.get('email')
-			pw = self.request.get('pw')
+			pw = enc.encrypt_password(self.request.get('pw'))
 			
 			#check if login is valid
-			q = levr.BusinessOwner.gql('WHERE email=:1 AND pw=:2',email,pw)
+			q = levr.BusinessOwner.gql('WHERE email =:1 AND pw =:2',email,pw)
 			if q.get():
 				#echo that login was successful
 				self.response.out.write(True)

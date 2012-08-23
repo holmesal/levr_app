@@ -18,9 +18,7 @@ class login(webapp2.RequestHandler):
 	def post(self):
 		try:
 			email = self.request.get('email')
-			logging.debug(email)
 			email = db.Email(email)
-			logging.debug(self.request.get('password'))
 			pw = enc.encrypt_password(self.request.get('password'))
 			logging.debug(email)
 			logging.debug(pw)

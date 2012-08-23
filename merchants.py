@@ -24,7 +24,6 @@ class MerchantsHandler(webapp2.RequestHandler):
 		#check if logged in. if so, redirect to the manage page
 		session = get_current_session()
 		if session.has_key('loggedIn') == True and session['loggedIn'] == True:
-			logging.debug('logged in, rediredcting')
 			self.redirect("/merchants/manage")
 		else:
 			template = jinja_environment.get_template('templates/merchants.html')
@@ -304,7 +303,6 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
-
 app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
 								('/merchants/login', LoginHandler),
 								('/merchants/emailCheck', EmailCheckHandler),

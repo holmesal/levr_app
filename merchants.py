@@ -15,6 +15,7 @@ from datetime import timedelta
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import db
+from gaesessions import get_current_session
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -36,30 +37,41 @@ class WelcomeHandler(webapp2.RequestHandler):
 		except:
 			levr.log_error()
 	def post(self):
+			#A business owner is signing up in the tour
 		try:
 			logging.debug(self.request.headers)
 			logging.debug(self.request.body)
 			logging.debug(self.request.params)
-			#create session, store business info
+			
 			owner_key = levr.BusinessOwner(
 				#create owner with contact info, put and get key
 				email			= self.request.get('email'),
-				pw				= enc.encrypt_key(self.request.get('password')),
+				pw				= enc.encrypt_password(self.request.get('password')),
 				validated		= False
 				).put()
-			logging.debug(owner_key)
 			
-			types = self.request.get('types[]', allow_multiple=True)
-			logging.debug(types)
-			business = levr.Business(
+			business_name = self.request.get('business_name')
+			business_key = levr.Business(
+				#create business that is child of the owner
 				parent			= owner_key,
-				business_name	= self.request.get('business_name'),
+				business_name	= business_name,
 				vicinity		= self.request.get('vicinity'),
 				geo_point		= levr.geo_converter(self.request.get('geo_point')),
-				types			= self.request.get_all('types[]')
+				types			= self.request.get_all('types[]'),
+				validated		= False
 				).put()
-				#build the business object
 			
+			logging.debug(owner_key)
+			logging.debug(business_key)
+			
+			#creates new session for the new business
+			session = get_current_session()
+			session['businessID'] 	= enc.encrypt_key(business_key)
+			session['loggedIn']		= True
+			session['alis']			= business_name
+			session['valid']		= False
+			
+			logging.debug(session)
 			#forward to appropriate page
 			if self.request.get('destination') == 'upload':
 				self.redirect('/merchants/upload')

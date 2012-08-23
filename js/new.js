@@ -74,7 +74,7 @@ function submitData(destination,place){
 	console.log(place.types)
 	var data = {
 		email:			$('#email').val(),
-		password:		$('#password1').val(),
+		password:		$('#pw').val(),
 		destination:	destination,
 		business_name:	place.name,
 		vicinity:		place.vicinity,

@@ -57,9 +57,9 @@ def signupCustomer(email,alias,pw):
 	r_alias = q_alias.get()
 	
 	if r_email == None and r_alias == None: #nothing found
-		c = levr.Customer()
+		c 		= levr.Customer()
 		c.email = email
-		c.pw = pw
+		c.pw 	= pw
 		c.alias = alias
 		#put
 		c.put()

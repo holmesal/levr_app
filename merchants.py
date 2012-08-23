@@ -56,7 +56,7 @@ class LoginHandler(webapp2.RequestHandler):
 				#Normal login attempt. Redirects to manage or the login page
 				email = self.request.get('email')
 				email = db.Email(email)
-				pw = enc.encrypt_password(self.request.get('password'))
+				pw = enc.encrypt_password(self.request.get('pw'))
 				logging.debug(email)
 				logging.debug(pw)
 				

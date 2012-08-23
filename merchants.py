@@ -25,9 +25,11 @@ class MerchantsHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render())
 
 class LoginHandler(webapp2.RequestHandler):
+	'''This is currently a handler to check whether the credentials entered by a business on the home screen are valid'''
 	def get(self):
 		logging.info(self.request.body)
 	
+	'''This is currently a handler to check whether the email entered by a business on signup is available'''
 	def post(self):
 		email = self.request.get('email')
 		pw = self.request.get('pw')

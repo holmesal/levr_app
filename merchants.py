@@ -23,7 +23,7 @@ class MerchantsHandler(webapp2.RequestHandler):
 	def get(self):
 		#check if logged in. if so, redirect to the manage page
 		session = get_current_session()
-		if session['loggedIn'] == True:
+		if session.has_key('loggedIn') == True and session['loggedIn'] == True:
 			template = jinja_environment.get_template('templates/manage.html')
 		else:
 			template = jinja_environment.get_template('templates/merchants.html')

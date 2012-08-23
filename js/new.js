@@ -40,7 +40,7 @@ function showDetails(){
 
 function showSignup(){
 	$('#placeDetails,#whoAreYou').animate({opacity: 0}).hide()
-	$('#container').animate({'height': '430px'})
+	$('#container').animate({'height': '450px'})
 	$('#signup').show()
 }
 
@@ -53,19 +53,35 @@ function showChoices(){
 function attemptSignup(){
 	//break if not equal
 	if ($('#pw').val() != $('#pw2').val()) {
+		$('#error_field').text('Passwords must match.')
+		$('#pw,#pw2').val('')
 		return false
 	} 
 	
-	var data = {
+	var creds = {
 		email:	$('#email').val(),
 		pw:		$('#pw').val()
 	}
 	
-	showChoices()
+	console.log(creds)
 	
-	/*$.ajax({
-		type:	'GET',
-		data:	data
+	url_string = 'login'
+	
+	$.ajax({
+		type:	'POST',
+		url:	url_string,
+		data:	creds,
+		success: function(result){
+			if (result == 'True'){
+				showChoices()
+			} else{
+				$('#error_field').text('Sorry, that email is already in use.')
+			}
+		}
+	})
+	
+	/*$.post(url,data,function(creds){
+		console.log(creds)
 	})*/
 }
 

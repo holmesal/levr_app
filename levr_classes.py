@@ -346,9 +346,19 @@ def phoneFormat(deal,use,primary_cat=None):
 				"isExclusive"	: deal.is_exclusive}
 				
 	elif use == 'dealsScreen':
-		ninja = db.get(deal.key().parent())
+		deal_parent = db.get(deal.key().parent())
+		logging.debug(deal_parent.kind())
+		if deal_parent.kind() == 'Customer':
+			#deal has a ninja parent.
+			ninja = deal_parent
+			alias = ninja.alias
+			logging.debug(ninja)
+		else:
+#			business = deal_parent
+			alias = ''
+			
 		data = {"barcodeURL"	: 'http://www.levr.com/phone/img?dealID='+dealID+'&size=dealDetail',
-				"ninjaName"		: ninja.alias,
+				"ninjaName"		: alias,
 				"isExclusive"	: deal.is_exclusive}
 	elif use == 'manage':
 		data = {

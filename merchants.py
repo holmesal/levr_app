@@ -83,11 +83,6 @@ class LoginHandler(webapp2.RequestHandler):
 					#show login page again
 					template = jinja_environment.get_template('templates/login.html')
 					self.response.out.write(template.render())
-				
-				
-				
-				
-				
 		except:
 			levr.log_error()
 			

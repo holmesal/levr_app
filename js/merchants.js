@@ -1,13 +1,28 @@
 function attemptLogin(){
-	data = {
+	var creds = {
 		email:	$('#emailInput').val(),
-		pw:		$('#pwInput').val()
+		pw:		$('#pwInput').val(),
+		type:	'ajax'
 	}
+	
+	console.log(creds)
+	
+	url_string = 'merchants/login'
 	
 	$.ajax({
 		type:	'POST',
-		data:	data,
-		url:	window.location.pathname
+		url:	url_string,
+		data:	creds,
+		success: function(result){
+			console.log(result)
+			if (result == 'True'){
+				//submit the form
+				$('#loginForm').submit()
+			} else{
+				$('#loginWelcome').text('Incorrect email/password.')
+				$('#loginWelcome').css({'color':'red'})
+			}
+		}
 	})
 }
 

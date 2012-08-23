@@ -22,7 +22,7 @@ def loginCheck(self,strict):
 		if strict == True:
 			#not logged in, bounce to login page
 			logging.info('Not logged in. . .Bouncing!')
-			self.redirect('/login')
+			self.redirect('/merchants/login')
 		else:
 			logging.info('Not logged in. . .Sending back headerData')
 			headerData = {

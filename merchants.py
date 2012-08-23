@@ -24,45 +24,73 @@ class MerchantsHandler(webapp2.RequestHandler):
 		#check if logged in. if so, redirect to the manage page
 		session = get_current_session()
 		if session.has_key('loggedIn') == True and session['loggedIn'] == True:
-			template = jinja_environment.get_template('templates/manage.html')
+			self.redirect("/merchants/manage")
 		else:
 			template = jinja_environment.get_template('templates/merchants.html')
 		self.response.out.write(template.render())
 
 class LoginHandler(webapp2.RequestHandler):
 	def get(self):
-		pass
+		template = jinja_environment.get_template('templates/login.html')
+		self.response.out.write(template.render())
 		#in the future, show the login form
 	
 	def post(self):
-		#this is passed when an ajax form is checking the login state
-		email = self.request.get('email')
-		pw = enc.encrypt_password(self.request.get('pw'))
-		
-		if self.request.get('type') == 'ajax':
-			logging.debug('AJAX CHECK')
-
-			#check if login is valid
-			q = levr.BusinessOwner.gql('WHERE email =:1 AND pw =:2',email,pw)
-			if q.get():
-				#echo that login was successful
-				self.response.out.write(True)
-			else:
-				#echo that login was not successful
-				self.response.out.write(False)
-		else:
-			logging.debug('AN ACTUAL LOGIN ATTEMPT')
-			#check if login is valid
-			q = levr.BusinessOwner.gql('WHERE email=:1 AND pw=:2',email,pw)
-			if q.get():
-				#set session variable to logged in
-				session = get_current_session()
-				session['loggedIn'] = True
-				#redirect to manage page
-				self.redirect('/merchants/manage')
-			else:
-				self.redirect('/login')
+		try:
+			#this is passed when an ajax form is checking the login state
+			email = self.request.get('email')
+			pw = enc.encrypt_password(self.request.get('pw'))
+			
+			if self.request.get('type') == 'ajax':
+				logging.debug('AJAX CHECK')
 	
+				#check if login is valid
+				q = levr.BusinessOwner.gql('WHERE email =:1 AND pw =:2',email,pw)
+				if q.get():
+					#echo that login was successful
+					self.response.out.write(True)
+				else:
+					#echo that login was not successful
+					self.response.out.write(False)
+			else:
+				#Normal login attempt. Redirects to manage or the login page
+				email = self.request.get('email')
+				email = db.Email(email)
+				pw = enc.encrypt_password(self.request.get('password'))
+				logging.debug(email)
+				logging.debug(pw)
+				
+				#query database for matching email and pw
+				owner = levr.BusinessOwner.all().filter('email =',email).filter('pw =',pw).get()
+				logging.debug(owner)
+					#search for owner
+				if owner != None:
+						#owner exists in db, and can login
+					business = levr.Business.all().ancestor(owner).get()
+					logging.debug(business)
+					if business != None:
+						
+						session = get_current_session()
+						#if matched, pull properties and set loginstate to true
+						session['businessID'] = enc.encrypt_key(business.key())
+						session['alias'] 	= business.business_name
+						session['loggedIn'] = True
+						session['validated']= owner.validated
+						self.redirect('/merchants/manage')
+					else:
+						#This should nevr happen.
+						levr.log_error('A business owner does not have a business child. Ruh Roh.')
+				else:
+					#show login page again
+					template = jinja_environment.get_template('templates/login.html')
+					self.response.out.write(template.render())
+				
+				
+				
+				
+				
+		except:
+			levr.log_error()
 			
 class EmailCheckHandler(webapp2.RequestHandler):
 	def post(self):

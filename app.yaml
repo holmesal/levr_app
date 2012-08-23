@@ -15,8 +15,8 @@ handlers:
 - url: /new.*
   script: test_class.app
   login: admin
-- url: /login
-  script: login.app
+# - url: /login
+  # script: login.app
 - url: /loginstate
   script: loginstate.app
 - url: /logout

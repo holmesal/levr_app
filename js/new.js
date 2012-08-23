@@ -68,7 +68,7 @@ function attemptSignup(){
 	url_string = 'emailCheck'
 	
 	$.ajax({
-		type:	'GET',
+		type:	'POST',
 		url:	url_string,
 		data:	creds,
 		success: function(result){

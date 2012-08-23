@@ -304,17 +304,17 @@ class AnalyticsHandler(webapp2.RequestHandler):
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
-app = webapp2.WSGIApplication([('/merchants.*', MerchantsHandler),
-								('/merchants/login.*', LoginHandler),
-								('/merchants/emailCheck.*', EmailCheckHandler),
-								('/merchants/welcome.*', WelcomeHandler),
-								('/merchants/deal.*', DealHandler),
-								('/merchants/deal/upload.*', DealUploadHandler),
-								('/merchants/deal/delete.*', DeleteDealHandler),
-								('/merchants/editDeal.*', EditDealHandler),
-								('/merchants/editDeal/upload.*', EditDealUploadHandler),
-								('/merchants/manage.*', ManageHandler),
-								('/merchants/upload.*', UploadHandler),
-								('/merchants/widget.*', WidgetHandler),
-								('/merchants/analytics.*', AnalyticsHandler)
+app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
+								('/merchants/login', LoginHandler),
+								('/merchants/emailCheck', EmailCheckHandler),
+								('/merchants/welcome', WelcomeHandler),
+								('/merchants/deal', DealHandler),
+								('/merchants/deal/upload', DealUploadHandler),
+								('/merchants/deal/delete', DeleteDealHandler),
+								('/merchants/editDeal', EditDealHandler),
+								('/merchants/editDeal/upload', EditDealUploadHandler),
+								('/merchants/manage', ManageHandler),
+								('/merchants/upload', UploadHandler),
+								('/merchants/widget', WidgetHandler),
+								('/merchants/analytics', AnalyticsHandler)
 								], debug=True)

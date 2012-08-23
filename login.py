@@ -26,8 +26,6 @@ class login(webapp2.RequestHandler):
 			logging.debug(pw)
 			
 			#query database for matching email and pw
-	#		q = levr.Business.gql("WHERE email = :email and pw = :pw",email=email,pw=pw)
-	#		business = q.get()
 			owner = levr.BusinessOwner.all().filter('email =',email).filter('pw =',pw).get()
 			logging.debug(owner)
 				#search for owner

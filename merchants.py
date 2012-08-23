@@ -80,8 +80,8 @@ class WelcomeHandler(webapp2.RequestHandler):
 			session = get_current_session()
 			session['businessID'] 	= enc.encrypt_key(business_key)
 			session['loggedIn']		= True
-			session['alis']			= business_name
-			session['valid']		= False
+			session['alias']		= business_name
+			session['validated']	= False
 			
 			logging.debug(session)
 			#forward to appropriate page

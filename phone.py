@@ -380,6 +380,20 @@ class phone(webapp2.RequestHandler):
 					cor.put()
 					toEcho = {"success":True,"notifications":notifications}
 			
+			elif action == "getTargetedBusinesses":
+				#get businesses that have property targeted = True
+				businesses = levr.Business.gql('WHERE targeted = True').fetch(None) #fetches all of them
+				
+				data = []
+				for business in businesses:
+					data.append({
+						"businessName"	: business.business_name,
+						"geoPoint"		: business.geo_point,
+						"vicinity"		: business.vicinity
+					})
+				
+				toEcho = {"success":True,"data":data}
+			
 			elif action == "fetchUploadURL":
 				upload_url = blobstore.create_upload_url('/phone/uploadDeal')
 				logging.debug(upload_url)

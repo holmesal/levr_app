@@ -6,7 +6,7 @@ import levr_classes as levr
 import levr_encrypt as enc
 from datetime import datetime
 from datetime import timedelta
-from google.appengine.ext import blobstore
+#from google.appengine.ext import blobstore
 from google.appengine.ext import db
 #from google.appengine.ext.webapp import blobstore_handlers
 
@@ -133,11 +133,14 @@ def dealCreate(self,origin):
 		
 		#vicinity
 		vicinity = self.request.get('vicinity')
-		
+		logging.debug(vicinity)
 		
 		#types
 		types = self.request.get('types')
 		logging.debug(types)
+		types = levr.tagger(types)
+		logging.debug(types)
+		
 		
 		#check if business exists - get businessID
 		business= levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
@@ -151,7 +154,7 @@ def dealCreate(self,origin):
 			business.vicinity 		= vicinity
 			business.geo_point		= geo_point
 			business.types			= types
-			
+
 			#grab the businesses tags
 			tags.extend(business.create_tags())
 			
@@ -195,11 +198,13 @@ def dealCreate(self,origin):
 	#====Deal Information Lines====#
 	#deal line 1
 	deal_text	= self.request.get('deal_line1')
+	logging.debug(deal_text)
 	tags.extend(levr.tagger(deal_text))
 	logging.info(tags)
 	
 	#deal line 2
 	secondary_name = self.request.get('deal_line2')
+	logging.debug(secondary_name)
 	if secondary_name:
 			#deal is bundled
 		tags.extend(levr.tagger(secondary_name))
@@ -210,6 +215,7 @@ def dealCreate(self,origin):
 		deal_type = 'single'
 	#description
 	description = self.request.get('deal_description')
+	logging.debug(description)
 	tags.extend(levr.tagger(description))
 	logging.info(tags)
 	

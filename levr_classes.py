@@ -93,11 +93,11 @@ class Business(db.Model):
 	#root class or child of BusinessOwner
 	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
 	business_name 	= db.StringProperty()
-	contact_phone 	= db.PhoneNumberProperty()
 	vicinity		= db.StringProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	types			= db.ListProperty(str)
 	validated		= db.BooleanProperty(default=False)
+	targeted		= db.BooleanProperty(default=False)
 
 	def dictify(self):
 		'''Formats the object into dictionary for review before release'''

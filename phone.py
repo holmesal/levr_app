@@ -47,6 +47,7 @@ class phone(webapp2.RequestHandler):
 					#!!!not used
 				numResults 	= decoded["in"]["size"]
 					#length of search results list
+					#should be None if we want all results
 				
 				
 				#normalize search query
@@ -75,6 +76,7 @@ class phone(webapp2.RequestHandler):
 				#sort_property = 'rank'
 				#q.order(sort_property)
 				
+				#batch get results. here is where we would set the number of results we want and the offset
 				results = q.fetch(None)
 				
 				

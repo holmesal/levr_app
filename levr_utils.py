@@ -121,28 +121,30 @@ def dealCreate(self,origin):
 		#this excludes the case where the deal is being edited or created by the business
 		#in that case, the business information doesn't need to be updated, nor is it passed to the function
 		
+		
+		#business name
+		business_name = self.request.get('business_name')
+		logging.debug(business_name)
+		
+		#geo point
+		geo_point = self.request.get('geo_point')
+		geo_point = levr.geo_converter(geo_point)
+		logging.debug(geo_point)
+		
+		#vicinity
+		vicinity = self.request.get('vicinity')
+		
+		
+		#types
+		types = self.request.get('types')
+		logging.debug(types)
+		
 		#check if business exists - get businessID
 		business= levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 		
 		if not business:
 			#if a business doesn't exist in db, then create a new one
 			business = levr.Business()
-			
-			#business name
-			business_name = self.request.get('business_name')
-			
-			
-			#geo point
-			geo_point = self.request.get('geo_point')
-			geo_point = levr.geo_converter(geo_point)
-			
-			#vicinity
-			vicinity = self.request.get('vicinity')
-			
-			
-			#types
-			types = self.request.get('types')
-			
 			
 			#add data to the new business
 			business.business_name 	= business_name
@@ -282,6 +284,7 @@ def dealCreate(self,origin):
 	
 	#add the data
 	deal.deal_text 			= deal_text
+	deal.deal_type			= deal_type
 	deal.description 		= description
 	deal.tags				= tags
 	deal.business_name		= business_name

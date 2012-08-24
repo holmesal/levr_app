@@ -74,7 +74,8 @@ class phone(webapp2.RequestHandler):
 				#finally, sort the query
 				#sort_property = 'rank'
 				#q.order(sort_property)
-					
+				
+				results = q.fetch(None)
 				
 				
 #				logging.debug(q.__str__())
@@ -87,7 +88,7 @@ class phone(webapp2.RequestHandler):
 				isEmpty = True
 				#iterate over the results
 				#Want to grab deal information for each category
-				for result in q:
+				for result in results:
 					logging.info('Rank: ' + str(result.rank))
 					#break if results limit is hit
 					if resultsPushed == numResults:
@@ -388,7 +389,7 @@ class phone(webapp2.RequestHandler):
 				for business in businesses:
 					data.append({
 						"businessName"	: business.business_name,
-						"geoPoint"		: business.geo_point,
+						"geoPoint"		: str(business.geo_point),
 						"vicinity"		: business.vicinity
 					})
 				

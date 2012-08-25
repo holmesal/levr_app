@@ -25,7 +25,6 @@ handlers:
 - url: /emptySet.*
   script: emptySet.app
   login: admin
-  secure: always
 - url: /admin.*
   script: admin.app
   login: admin

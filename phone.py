@@ -10,7 +10,7 @@ import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-#from google.appengine.api import mail
+from google.appengine.api import mail
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
@@ -406,7 +406,12 @@ class phone(webapp2.RequestHandler):
 				where = "College campuses in Boston, MA"
 				what = "Offers on food, drink, clothing, and entertainment"
 				toEcho = {"success":True,"data":{"where":where,"what":what}}
-
+			elif action == "sendEmail":
+				message = mail.EmailMessage(
+					sender 	= "LEVR AUTOMATED <patrick@levr.com>",
+					subject	= "New Merchant signup",
+					to		= "patrick@levr.com",
+					body	= "YES YES YES").send()
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!

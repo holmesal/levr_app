@@ -117,7 +117,7 @@ class phone(webapp2.RequestHandler):
 				for result in q:
 					searchObj = {"isSentinel":False,
 								"primaryCat":result.primary_cat,
-								"imgURL":"http://getlevr.appspot.com/phone?size=emptySet&dealID=" + enc.encrypt_key(result.key())
+								"imgURL":"http://www.levr.com/phone/img?size=emptySet&dealID=" + enc.encrypt_key(result.key())
 					} 
 					#push to stack
 					dealResults.append(searchObj)

@@ -77,11 +77,16 @@ function mapHover(){
 }
 
 $(document).ready(function() {
-	$('#containerbg1,#img1').animate({opacity: 1},function(){
+	//show the white-bounded container
+	$('#containerbg1,#img1').css({opacity: 1})
+	$('#loading').animate({opacity: 0.75})
+	$('#containerbg2').css('visibility','visible')
+
+	/*$('#containerbg1,#img1').animate({opacity: 1},function(){
 		$('#loading').animate({opacity: 0.75})
 		//show images hidden during loading
 		$('#containerbg2').css('visibility','visible')
-	})
+	})*/
 	
 });
 

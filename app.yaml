@@ -58,6 +58,10 @@ handlers:
 - url: /js
   static_dir: js
   
+- url: /beta
+  static_dir: beta
+  
+  
 libraries:
 - name: jinja2
   version: latest

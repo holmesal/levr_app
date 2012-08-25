@@ -392,7 +392,8 @@ class phone(webapp2.RequestHandler):
 					data.append({
 						"businessName"	: business.business_name,
 						"geoPoint"		: str(business.geo_point),
-						"vicinity"		: business.vicinity
+						"vicinity"		: business.vicinity,
+						"key"			: enc.encrypt_key(business.key())
 					})
 				
 				toEcho = {"success":True,"data":data}

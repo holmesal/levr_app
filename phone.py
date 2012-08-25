@@ -406,12 +406,6 @@ class phone(webapp2.RequestHandler):
 				where = "College campuses in Boston, MA"
 				what = "Offers on food, drink, clothing, and entertainment"
 				toEcho = {"success":True,"data":{"where":where,"what":what}}
-			elif action == "sendEmail":
-				message = mail.EmailMessage(
-					sender 	= "LEVR AUTOMATED <patrick@levr.com>",
-					subject	= "New Merchant signup",
-					to		= "patrick@levr.com",
-					body	= "YES YES YES").send()
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!

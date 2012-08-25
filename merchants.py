@@ -9,7 +9,7 @@ import levr_encrypt as enc
 #from levr_encrypt import encrypt_key
 #from google.appengine.ext import db
 #from google.appengine.api import images
-#from google.appengine.api import mail
+from google.appengine.api import mail
 #from datetime import datetime
 #from datetime import timedelta
 from google.appengine.ext import blobstore
@@ -44,7 +44,7 @@ class LoginHandler(webapp2.RequestHandler):
 				logging.debug('AJAX CHECK')
 	
 				#check if login is valid
-				q = levr.BusinessOwner.gql('WHERE email =:1 AND pw =:2',email,pw)
+				q = levr.BusinessOwner.gql('WHERE email =:1 AND pw =:2', email, pw)
 				if q.get():
 					#echo that login was successful
 					self.response.out.write(True)
@@ -60,7 +60,7 @@ class LoginHandler(webapp2.RequestHandler):
 				logging.debug(pw)
 				
 				#query database for matching email and pw
-				owner = levr.BusinessOwner.all().filter('email =',email).filter('pw =',pw).get()
+				owner = levr.BusinessOwner.all().filter('email =', email).filter('pw =', pw).get()
 				logging.debug(owner)
 					#search for owner
 				if owner != None:
@@ -72,9 +72,9 @@ class LoginHandler(webapp2.RequestHandler):
 						session = get_current_session()
 						#if matched, pull properties and set loginstate to true
 						session['businessID'] = enc.encrypt_key(business.key())
-						session['alias'] 	= business.business_name
+						session['alias'] 	 = business.business_name
 						session['loggedIn'] = True
-						session['validated']= owner.validated
+						session['validated'] = owner.validated
 						self.redirect('/merchants/manage')
 					else:
 						#This should nevr happen.
@@ -93,7 +93,7 @@ class EmailCheckHandler(webapp2.RequestHandler):
 		#pw = enc.encrypt_password(self.request.get('pw'))
 		 
 		#check if email is already in use
-		q = levr.Deal.gql('WHERE email=:1',email)
+		q = levr.Deal.gql('WHERE email=:1', email)
 		if q.get():
 			#echo that email is in use
 			self.response.out.write(False)
@@ -119,21 +119,21 @@ class WelcomeHandler(webapp2.RequestHandler):
 			owner_key = levr.BusinessOwner(
 				#create owner with contact info, put and get key
 				#TODO: is there any checking done if the business already exists?
-				email			= self.request.get('email'),
-				pw				= enc.encrypt_password(self.request.get('password')),
-				validated		= False
+				email			=self.request.get('email'),
+				pw				=enc.encrypt_password(self.request.get('password')),
+				validated		=False
 				).put()
 			
 			business_name = self.request.get('business_name')
 			#TODO: need to check here if that business already exists
 			business_key = levr.Business(
 				#create business that is child of the owner
-				parent			= owner_key,
-				business_name	= business_name,
-				vicinity		= self.request.get('vicinity'),
-				geo_point		= levr.geo_converter(self.request.get('geo_point')),
-				types			= self.request.get_all('types[]'),
-				validated		= False
+				parent			=owner_key,
+				business_name	=business_name,
+				vicinity		=self.request.get('vicinity'),
+				geo_point		=levr.geo_converter(self.request.get('geo_point')),
+				types			=self.request.get_all('types[]'),
+				validated		=False
 				).put()
 			
 			logging.debug(owner_key)
@@ -141,12 +141,27 @@ class WelcomeHandler(webapp2.RequestHandler):
 			
 			#creates new session for the new business
 			session = get_current_session()
-			session['businessID'] 	= enc.encrypt_key(business_key)
-			session['loggedIn']		= True
-			session['alias']		= business_name
-			session['validated']	= False
-			
+			session['businessID'] 	 = enc.encrypt_key(business_key)
+			session['loggedIn']		 = True
+			session['alias']		 = business_name
+			session['validated']	 = False
 			logging.debug(session)
+
+
+			#send email to pat so that he will know that there is a new business.
+			message = mail.EmailMessage(
+				sender	="LEVR AUTOMATED <patrick@levr.com>",
+				subject	="New Merchant signup",
+				to		="patrick@levr.com")
+			logging.debug(message)
+			body = 'New merchant\n'
+			body += 'Business: '  +str(business_name)+"\n"
+			body += 'Business ID: '+str(business_key)+"\n"
+			body += "Owner Email:"+str(self.request.get('email'))+"\n"
+			logging.debug(body)
+			message.send()
+
+
 			#forward to appropriate page
 			if self.request.get('destination') == 'upload':
 				self.redirect('/merchants/upload')
@@ -169,7 +184,7 @@ class DealHandler(webapp2.RequestHandler):
 			tags = business.create_tags()
 			
 			#create the upload url
-			url = '/merchants/deal/upload?uid='+headerData['businessID']
+			url = '/merchants/deal/upload?uid=' + headerData['businessID']
 			upload_url = blobstore.create_upload_url(url)
 			
 			#consolidate the values
@@ -215,12 +230,12 @@ class EditDealHandler(webapp2.RequestHandler):
 			
 			dealID = self.request.get('id')
 			#create upload url before decrypting
-			url = '/merchants/editDeal/upload?uid='+headerData['businessID']+'&id='+dealID
+			url = '/merchants/editDeal/upload?uid=' + headerData['businessID'] + '&id=' + dealID
 			upload_url = blobstore.create_upload_url(url)
 			#decrypt id, get and format deal
 			dealID = enc.decrypt_key(dealID)
 			deal = levr.Deal.get(dealID)
-			deal = levr.phoneFormat(deal,'manage')
+			deal = levr.phoneFormat(deal, 'manage')
 			
 			template_values = {
 							"edit"		:True,
@@ -236,7 +251,7 @@ class EditDealHandler(webapp2.RequestHandler):
 class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
-			levr_utils.dealCreate(self,'edit')
+			levr_utils.dealCreate(self, 'edit')
 			self.redirect('/merchants/manage')
 		except:
 			levr.log_error(self.request.body)

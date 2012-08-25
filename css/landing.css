@@ -249,6 +249,7 @@ body{
 	background-image: url(../img/img4.png);
 	margin-left: 142px;
 	background-color: white;
+	display: hidden;
 }
 
 .headerText{

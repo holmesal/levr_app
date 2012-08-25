@@ -81,7 +81,6 @@ $(document).ready(function() {
 		$('#loading').animate({opacity: 0.75})
 		//show images hidden during loading
 		$('#containerbg2').css('visibility','visible')
-		$('#img2,#img3,#img4').show()
 	})
 	
 });
@@ -106,6 +105,8 @@ $(window).load(function() {
 	
 	//fade in the first image
 	$('#loading').delay(500).animate({opacity: 0},function(){
+		//show the next three images
+		$('#img2,#img3,#img4').show()
 		//show out the first image
 		$('#img1').delay(init_pause).animate({marginLeft: '-=282'})
 		//show in the second text

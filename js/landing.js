@@ -77,12 +77,16 @@ function mapHover(){
 }
 
 $(document).ready(function() {
-	$('#containerbg1,#img1').animate({opacity: 1},function(){
+	//show the white-bounded container
+	$('#containerbg1,#img1').css({opacity: 1})
+	$('#loading').animate({opacity: 0.75})
+	$('#containerbg2').css('visibility','visible')
+
+	/*$('#containerbg1,#img1').animate({opacity: 1},function(){
 		$('#loading').animate({opacity: 0.75})
 		//show images hidden during loading
 		$('#containerbg2').css('visibility','visible')
-		$('#img2,#img3,#img4').show()
-	})
+	})*/
 	
 });
 
@@ -106,6 +110,8 @@ $(window).load(function() {
 	
 	//fade in the first image
 	$('#loading').delay(500).animate({opacity: 0},function(){
+		//show the next three images
+		$('#img2,#img3,#img4').show()
 		//show out the first image
 		$('#img1').delay(init_pause).animate({marginLeft: '-=282'})
 		//show in the second text

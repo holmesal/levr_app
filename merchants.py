@@ -6,12 +6,12 @@ import jinja2
 import levr_classes as levr
 import levr_utils
 import levr_encrypt as enc
-from levr_encrypt import encrypt_key
+#from levr_encrypt import encrypt_key
 #from google.appengine.ext import db
 #from google.appengine.api import images
 #from google.appengine.api import mail
-from datetime import datetime
-from datetime import timedelta
+#from datetime import datetime
+#from datetime import timedelta
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import db
@@ -90,7 +90,7 @@ class EmailCheckHandler(webapp2.RequestHandler):
 	def post(self):
 		'''This is currently a handler to check whether the email entered by a business on signup is available'''
 		email = self.request.get('email')
-		pw = enc.encrypt_password(self.request.get('pw'))
+		#pw = enc.encrypt_password(self.request.get('pw'))
 		 
 		#check if email is already in use
 		q = levr.Deal.gql('WHERE email=:1',email)
@@ -118,12 +118,14 @@ class WelcomeHandler(webapp2.RequestHandler):
 			
 			owner_key = levr.BusinessOwner(
 				#create owner with contact info, put and get key
+				#TODO: is there any checking done if the business already exists?
 				email			= self.request.get('email'),
 				pw				= enc.encrypt_password(self.request.get('password')),
 				validated		= False
 				).put()
 			
 			business_name = self.request.get('business_name')
+			#TODO: need to check here if that business already exists
 			business_key = levr.Business(
 				#create business that is child of the owner
 				parent			= owner_key,

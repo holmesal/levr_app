@@ -49,11 +49,11 @@ class EmptySetUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 ###########			need to delete existing blob
 			logging.debug(obj)
 			if not obj:
-				logging.info("NO OBJECT!~")
+				logging.debug("NO OBJECT!~")
 				#create new emptySetResponse
 				obj	= levr.EmptySetResponse()
 			else:
-				logging.info("FLAG there is object!!!!!")
+				logging.debug("FLAG there is object!!!!!")
 				#delete old blob
 				old_blob	= obj.img
 #				logging.debug(old_blob_key)

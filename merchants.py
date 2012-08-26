@@ -206,7 +206,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			levr_utils.dealCreate(self, 'web')
-#			self.redirect('/merchants/manage')
+			self.redirect('/merchants/manage')
 		except:
 			levr.log_error(self.request.body)
 class DeleteDealHandler(webapp2.RequestHandler):
@@ -332,8 +332,15 @@ class WidgetHandler(webapp2.RequestHandler):
 			headerData = levr_utils.loginCheck(self, True)
 			logging.debug(headerData)
 			
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			logging.debug(ownerID)
+			businessID	= levr.Business.all().filter('owner = ',db.Key(ownerID)).get()
+			businessID = businessID.key()
+			logging.debug(businessID)
+			businessID	= enc.encrypt_key(businessID)
 			template_values = {
-				'headerData'	: headerData
+				'businessID'	: businessID
 			}
 			template = jinja_environment.get_template('templates/manageWidget.html')
 			self.response.out.write(template.render(template_values))

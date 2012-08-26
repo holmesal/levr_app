@@ -20,23 +20,16 @@ class RemoteHandler(webapp2.RequestHandler):
 			logging.debug(businessID)
 			businessID 	= enc.decrypt_key(businessID)
 			logging.debug(businessID)
-			action		= self.request.get('action')
-			
-			if action != 'success':
-				'''Action is to show list of deals'''
-				action = 'show'
-				#grab the deals for the business
-				deals = levr.Deal.gql("WHERE ANCESTOR IS :1", businessID).fetch(None)
-				logging.debug(deals)
-				if not deals:
-					#business does not have any deals
-					self.response.out.write('No deals!')
-					plugs = []
-				else:
-					#grab/format the necessary information for each deal
-					plugs = [levr.phoneFormat(deal,'widget') for deal in deals]
+			#grab the deals for the business
+			deals = levr.Deal.all().filter('businessID =', businessID).fetch(None)
+			logging.debug(deals)
+			if not deals:
+				#business does not have any deals
+				self.response.out.write('No deals!')
+				plugs = []
 			else:
-				plugs = []		
+				#grab/format the necessary information for each deal
+				plugs = [levr.phoneFormat(deal,'widget') for deal in deals]
 			#check loginstate of user viewing the deal
 			headerData = levr_utils.loginCheck(self,False)
 			headerData['loggedIn'] = False
@@ -45,7 +38,6 @@ class RemoteHandler(webapp2.RequestHandler):
 				'headerData'	: headerData,
 				'businessID'	: enc.encrypt_key(businessID),
 				'deals'			: plugs,
-				'action'		: action
 			}
 			
 			logging.debug(template_values)

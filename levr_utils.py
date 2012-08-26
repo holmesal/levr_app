@@ -247,21 +247,16 @@ def dealCreate(self,origin):
 		deal.is_exclusive		= True
 
 	elif origin	=='edit':
-		dealID = self.request.get('deal')
-		logging.debug(dealID)
-		dealID = enc.decrypt_key(dealID)
-		logging.debug(dealID)
-		deal = levr.Deal.get(dealID)
-		logging.debug(self.request.get('image'))
+		dealID	= self.request.get('deal')
+		dealID	= enc.decrypt_key(dealID)
+		deal	= levr.Deal.get(dealID)
 		if not self.request.get('image'):
 			#if an image was not uploaded, trip upload_flag
 			upload_flag = False
 			logging.debug(upload_flag)
 		else:
-				#an image was uploaded, so remove the old one.
+			#an image was uploaded, so remove the old one.
 			blob = deal.img
-#			logging.debug(blob_key)
-#			blob = blobstore.BlobInfo.get(blob_key)
 			logging.debug(blob)
 			blob.delete()
 			logging.debug(blob)

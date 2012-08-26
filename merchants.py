@@ -223,19 +223,28 @@ class DeleteDealHandler(webapp2.RequestHandler):
 class EditDealHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
+			#check login
 			headerData = levr_utils.loginCheck(self, True)
-			logging.debug(headerData)
-			#fetch business
-			businessID = headerData['businessID']
-			logging.debug(headerData['businessID'])
-			businessID = enc.decrypt_key(businessID)
-			businessID = db.Key(businessID)
-			business = levr.Business.get(businessID)
 			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			
+			#get the business
+			business = owner.businesses.get()#TODO: this will be multiple businesses later
+			
+			#get deal
 			dealID = self.request.get('id')
-			#create upload url before decrypting
+			
+			
+			#create upload url BEFORE DECRYPTING
 			url = '/merchants/editDeal/upload?uid=' + headerData['businessID'] + '&id=' + dealID
 			upload_url = blobstore.create_upload_url(url)
+			
+			
 			#decrypt id, get and format deal
 			dealID = enc.decrypt_key(dealID)
 			deal = levr.Deal.get(dealID)
@@ -245,6 +254,7 @@ class EditDealHandler(webapp2.RequestHandler):
 							"edit"		:True,
 							"upload_url":upload_url,
 							"deal"		:deal,
+							"owner"		:owner,
 							"business"	:business,
 							"headerData":headerData
 			}
@@ -262,18 +272,27 @@ class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 class ManageHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
-			#Bounce if user is not logged in
+			#check login
 			headerData = levr_utils.loginCheck(self, True)
-			logging.debug(headerData)
-			#fetch business identifier
-			businessID = headerData['businessID']
-			businessID = enc.decrypt_key(businessID)
-			businessID = db.Key(businessID)
-			business = levr.Business.get(businessID)
-			#get deals that are children of the business, ordered by whether or not they are exclusive or not
-			d = levr.Deal.all().ancestor(businessID).order("is_exclusive").fetch(None)
+			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			
+			#get the business
+			business = owner.businesses.get()#TODO: this will be multiple businesses later
+			
+			
+			#get all deals that are children of the owner ordered by whether or not they are exclusive or not
+			d = levr.Deal.all().ancestor(ownerID).order("is_exclusive").fetch(None)
 			#get all ninja deals
-			d.extend(levr.CustomerDeal.all().filter('businessID =', businessID).fetch(None))
+			#this doesnt work
+#			d.extend(levr.CustomerDeal.all().filter('businessID =', businessID).fetch(None))
+			
+			#package deals - mostly for getting the correct urls
 			deals = []
 			for deal in d:
 				logging.debug('---')
@@ -283,10 +302,11 @@ class ManageHandler(webapp2.RequestHandler):
 			
 			
 			template_values = {
-				'headerData' : headerData,
-				'title' : 'Manage',
-				'business': business,
-				'deals'	: deals
+				'headerData':headerData,
+				'title'		:'Manage',
+				'owner'		:owner,
+				'business'	:business,
+				'deals'		:deals
 			}
 			logging.debug(template_values)
 			

@@ -13,9 +13,10 @@ from google.appengine.ext import db
 from gaesessions import get_current_session
 
 def loginCheck(self,strict):
-	'''This is a general-purpose login checking function
-	   in "strict" mode (strict=True), this script will bounce to the login page if not logged in
-	   if strict=False, headers will be returned that indicate the user isn't logged in, but no bouncing'''
+	'''	for merchants
+		This is a general-purpose login checking function 
+		in "strict" mode (strict=True), this script will bounce to the login page if not logged in
+		if strict=False, headers will be returned that indicate the user isn't logged in, but no bouncing'''
 	session = get_current_session()
 	logging.info(session)
 	if session.has_key('loggedIn') == False or session['loggedIn'] == False:
@@ -33,18 +34,17 @@ def loginCheck(self,strict):
 		#logged in, grab the useful bits
 		#this is a hack. . . forgive meeee
 		try:
-			uid = session['businessID']
+			uid = session['ownerID']
 		except:
 			uid = session['uid']
 		
 		headerData = {
-			'loggedIn'		: session['loggedIn'],
-			'alias' 		: session['alias'],
-			'businessID'	: uid
+			'loggedIn'	: session['loggedIn'],
+			'alias' 	: session['alias'],
+			'ownerID'	: uid
 			}
 		#return user metadata.
 		return headerData
-		#return session['businessID']
 	return
 
 def signupCustomer(email,alias,pw):

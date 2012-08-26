@@ -88,16 +88,18 @@ class BusinessOwner(db.Model):
 	pw 				= db.StringProperty()
 	signup_date 	= db.DateTimeProperty(auto_now_add=True)	#when signed up for our service $$$
 	validated		= db.BooleanProperty(default=False)
+	#psudoproperty: businesses - see business entity - this is a query for all the businesses that list this owner as the owner
 
 class Business(db.Model):
-	#root class or child of BusinessOwner
-	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user
+	#root class
+	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user or by business
 	business_name 	= db.StringProperty()
 	vicinity		= db.StringProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	types			= db.ListProperty(str)
-	validated		= db.BooleanProperty(default=False)
 	targeted		= db.BooleanProperty(default=False)
+	owner			= db.ReferenceProperty(BusinessOwner,collection_name='businesses')
+		#this creates a list property in the owner
 
 	def dictify(self):
 		'''Formats the object into dictionary for review before release'''
@@ -130,8 +132,7 @@ class Business(db.Model):
 		return tags
 	
 class Deal(polymodel.PolyModel):
-#Child of business OR customer ninja
-	#key name is deal id
+#Child of business owner OR customer ninja
 	#deal information
 	img				= blobstore.BlobReferenceProperty()
 	barcode			= blobstore.BlobReferenceProperty()
@@ -139,19 +140,13 @@ class Deal(polymodel.PolyModel):
 	business_name 	= db.StringProperty(default='') #name of business
 	secondary_name 	= db.StringProperty(default='') #== with purchase of
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
-#	deal_item		= db.StringProperty(default='') #the item the deal is on - could be primary, secondary, ternery, whattt?
 	deal_text		= db.StringProperty(default='')
 	is_exclusive	= db.BooleanProperty(default=False)
 
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
-#	discount_value 	= db.FloatProperty() #number, -1 if free
-#	discount_type	= db.StringProperty(choices=set(["percent","monetary","free"]))
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_end 		= db.DateTimeProperty(auto_now_add=False)
-#	img_path		= db.StringProperty()   #string path to image
-#	city 			= db.StringProperty(default='')  #optional
-	count_end 		= db.IntegerProperty()  #max redemptions
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude

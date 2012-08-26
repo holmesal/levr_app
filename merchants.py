@@ -52,7 +52,7 @@ class LoginHandler(webapp2.RequestHandler):
 					#echo that login was not successful
 					self.response.out.write(False)
 			else:
-					#Normal login attempt. Redirects to manage or the login page
+				#Normal login attempt. Redirects to manage or the login page
 				email = self.request.get('email')
 #				email = db.Email(email)
 				pw = enc.encrypt_password(self.request.get('pw'))
@@ -64,21 +64,21 @@ class LoginHandler(webapp2.RequestHandler):
 				if pw == None:
 					pw = ''
 				
-					#the required text fields were entered
-					#query database for matching email and pw
+				#the required text fields were entered
+				#query database for matching email and pw
 				owner = levr.BusinessOwner.all().filter('email =', email).filter('pw =', pw).get()
-					#search for owner
+				#search for owner
 				logging.debug(owner)
 				if owner != None:
-						#owner exists in db, and can login
+					logging.debug('owner exists... login')
+					#owner exists in db, and can login
 					session = get_current_session()
-						#if matched, pull properties and set loginstate to true
 					session['ownerID'] = enc.encrypt_key(owner.key())#business.key())
 					session['loggedIn'] = True
 					session['validated'] = owner.validated
 					self.redirect('/merchants/manage')
 				else:
-						#show login page again
+					#show login page again - login failed
 					template = jinja_environment.get_template('templates/login.html')
 					self.response.out.write(template.render())
 		except:
@@ -137,10 +137,9 @@ class WelcomeHandler(webapp2.RequestHandler):
 			
 			#creates new session for the new business
 			session = get_current_session()
-			session['ownerID'] 	 = enc.encrypt_key(owner_key)
-			session['businessID']= enc.encrypt_key(business_key)
-			session['loggedIn']		 = True
-			session['validated']	 = False
+			session['ownerID']	= enc.encrypt_key(owner_key)
+			session['loggedIn']	= True
+			session['validated']= False
 			logging.debug(session)
 
 
@@ -172,7 +171,7 @@ class DealHandler(webapp2.RequestHandler):
 		try:
 			#check login
 			headerData = levr_utils.loginCheck(self, True)
-			
+			logging.debug(headerData)
 			#get the owner information
 			ownerID = headerData['ownerID']
 			ownerID = enc.decrypt_key(ownerID)
@@ -187,7 +186,8 @@ class DealHandler(webapp2.RequestHandler):
 			tags = business.create_tags()
 			
 			#create the upload url
-			url = '/merchants/deal/upload?uid=' + headerData['ownerID']
+			url = '/merchants/deal/upload?uid=' + headerData['ownerID'] + '&business=' + enc.encrypt_key(business.key())
+			logging.debug(url)
 			upload_url = blobstore.create_upload_url(url)
 			
 			#consolidate the values
@@ -206,7 +206,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			levr_utils.dealCreate(self, 'web')
-			self.redirect('/merchants/manage')
+#			self.redirect('/merchants/manage')
 		except:
 			levr.log_error(self.request.body)
 class DeleteDealHandler(webapp2.RequestHandler):
@@ -241,7 +241,7 @@ class EditDealHandler(webapp2.RequestHandler):
 			
 			
 			#create upload url BEFORE DECRYPTING
-			url = '/merchants/editDeal/upload?uid=' + headerData['businessID'] + '&id=' + dealID
+			url = '/merchants/editDeal/upload?uid=' + headerData['ownerID'] + '&business='+ enc.encrypt_key(business.key()) +'&deal=' + dealID
 			upload_url = blobstore.create_upload_url(url)
 			
 			
@@ -288,6 +288,7 @@ class ManageHandler(webapp2.RequestHandler):
 			
 			#get all deals that are children of the owner ordered by whether or not they are exclusive or not
 			d = levr.Deal.all().ancestor(ownerID).order("is_exclusive").fetch(None)
+			logging.debug(d)
 			#get all ninja deals
 			#this doesnt work
 #			d.extend(levr.CustomerDeal.all().filter('businessID =', businessID).fetch(None))

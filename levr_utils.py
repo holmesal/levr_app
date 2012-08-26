@@ -122,6 +122,7 @@ def dealCreate(self,origin):
 	
 	#==== business stuff ====#
 	if origin != 'edit' and origin != 'web':
+		logging.debug('origin is edit or web')
 		#this excludes the case where the deal is being edited or created by the business
 		#in that case, the business information doesn't need to be updated, nor is it passed to the function
 		
@@ -150,6 +151,7 @@ def dealCreate(self,origin):
 		business= levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
 		
 		if not business:
+			logging.debug('business doesnt exist')
 			#if a business doesn't exist in db, then create a new one
 			business = levr.Business()
 			
@@ -168,6 +170,7 @@ def dealCreate(self,origin):
 			#get businessID - not encrypted - from database
 			businessID = business.key()
 		else:
+			logging.debug('business exists')
 			#business exists- grab its tags
 			tags.extend(business.create_tags())
 		
@@ -178,12 +181,17 @@ def dealCreate(self,origin):
 		logging.debug(tags)
 		
 	elif origin == 'edit' or origin == 'web':
+		logging.debug('origin is edit or web')
 		#if the deal is being edited, then business info should not be updated, and we have the businessID
-		businessID = self.request.get('uid')
-			#encrypted - from the outside universe
-		businessID = enc.decrypt_key(businessID)
-		businessID = db.Key(businessID)
-		business 	= levr.Business.get(businessID)
+		ownerID = self.request.get('uid') #encrypted - from the outside universe
+		ownerID = db.Key(enc.decrypt_key(ownerID))
+		
+		#get business
+		businessID	= self.request.get('business')
+		businessID	= enc.decrypt_key(businessID)
+		businessID	= db.Key(businessID)
+		business	= levr.Business.get(businessID)
+		
 		#get the tags from the business
 		tags.extend(business.create_tags())
 		
@@ -231,15 +239,15 @@ def dealCreate(self,origin):
 		#it is tripped false if no image is uploaded
 	
 	
-	#create the deal entity
+	#==== create the deal entity ====#
 	if origin	=='web':
-			#web deals get active status and are the child of a business
-		deal = levr.Deal(parent = businessID)
+			#web deals get active status and are the child of the owner
+		deal = levr.Deal(parent = ownerID)
 		deal.deal_status		= "active"
 		deal.is_exclusive		= True
 
 	elif origin	=='edit':
-		dealID = self.request.get('id')
+		dealID = self.request.get('deal')
 		logging.debug(dealID)
 		dealID = enc.decrypt_key(dealID)
 		logging.debug(dealID)
@@ -311,9 +319,9 @@ def dealCreate(self,origin):
 		deal.deal_type = "single"
 	
 	
-	
 	#put the deal
 	deal.put()
+	
 	
 	
 	#return share url

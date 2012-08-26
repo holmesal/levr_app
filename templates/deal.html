@@ -32,10 +32,6 @@
 				Why is this a great offer?
 			</p>
 			<input value="{{ deal.description }}" class="textIn error_check" type="text" name="deal_description" placeholder="A short description...">
-			<!-- <p class="prompt">
-				Where will customers find you?
-			</p>
-			<input class="textIn error_check" type="text" id="business_select" name="business_select" placeholder="Search for your business..."> -->
 			<div id="results"></div>
 			<p class="prompt">
 				Upload a{% if edit==True%} new{% endif %} picture:
@@ -75,7 +71,7 @@
 					&nbsp;
 					{% endif %}
 				</p>
-				<p id="deal_business" class="dealText">
+				<p id="deal_business" class="dealText"> <!--TODO: this will be multiple businesses later-->
 					{% if business.business_name %}
 					{{ business.business_name }}
 					{% else %}

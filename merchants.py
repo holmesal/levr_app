@@ -317,6 +317,7 @@ class ManageHandler(webapp2.RequestHandler):
 
 class UploadHandler(webapp2.RequestHandler):
 	def get(self):
+		'''This is for the page where they see info about how to upload via email'''
 		try:
 			template_values = {}
 			template = jinja_environment.get_template('templates/emailUpload.html')
@@ -325,6 +326,7 @@ class UploadHandler(webapp2.RequestHandler):
 			levr.log_error()
 class WidgetHandler(webapp2.RequestHandler):
 	def get(self):
+		'''The page where they view info about the widget'''
 		try:
 			headerData = levr_utils.loginCheck(self, True)
 			logging.debug(headerData)
@@ -336,7 +338,7 @@ class WidgetHandler(webapp2.RequestHandler):
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
-class AnalyticsHandler(webapp2.RequestHandler):
+class MyAccountHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
 			template_values = {}
@@ -356,5 +358,5 @@ app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
 								('/merchants/manage', ManageHandler),
 								('/merchants/upload', UploadHandler),
 								('/merchants/widget', WidgetHandler),
-								('/merchants/analytics', AnalyticsHandler)
+								('/merchants/myAccount', MyAccountHandler)
 								], debug=True)

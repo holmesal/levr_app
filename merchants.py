@@ -335,8 +335,7 @@ class WidgetHandler(webapp2.RequestHandler):
 			ownerID = headerData['ownerID']
 			ownerID = enc.decrypt_key(ownerID)
 			logging.debug(ownerID)
-			businessID	= levr.Business.all().filter('owner = ',db.Key(ownerID)).get()
-			businessID = businessID.key()
+			businessID	= levr.Business.all(keys_only=True).filter('owner = ',db.Key(ownerID)).get()
 			logging.debug(businessID)
 			businessID	= enc.encrypt_key(businessID)
 			template_values = {

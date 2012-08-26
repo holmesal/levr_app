@@ -52,7 +52,7 @@ class LoginHandler(webapp2.RequestHandler):
 					#echo that login was not successful
 					self.response.out.write(False)
 			else:
-				#Normal login attempt. Redirects to manage or the login page
+					#Normal login attempt. Redirects to manage or the login page
 				email = self.request.get('email')
 #				email = db.Email(email)
 				pw = enc.encrypt_password(self.request.get('pw'))
@@ -64,33 +64,21 @@ class LoginHandler(webapp2.RequestHandler):
 				if pw == None:
 					pw = ''
 				
-				#the required text fields were entered
-				#query database for matching email and pw
+					#the required text fields were entered
+					#query database for matching email and pw
 				owner = levr.BusinessOwner.all().filter('email =', email).filter('pw =', pw).get()
 					#search for owner
 				logging.debug(owner)
 				if owner != None:
 						#owner exists in db, and can login
-#					business = levr.Business.all().ancestor(owner).get()
-#					logging.debug(business)
-#					if business != None:
-						
 					session = get_current_session()
-					#if matched, pull properties and set loginstate to true
-					session['businessID'] = enc.encrypt_key(owner.key())#business.key())
-#					session['alias'] 	 = business.business_name
+						#if matched, pull properties and set loginstate to true
+					session['ownerID'] = enc.encrypt_key(owner.key())#business.key())
 					session['loggedIn'] = True
 					session['validated'] = owner.validated
 					self.redirect('/merchants/manage')
-#					else:
-#						#This should nevr happen.
-#						levr.log_error('A business owner does not have a business child. Ruh Roh.')
 				else:
-#					template_values = {
-#						'error_field'	: error_field,
-#						'error message'	: error_message
-#					}
-					#show login page again
+						#show login page again
 					template = jinja_environment.get_template('templates/login.html')
 					self.response.out.write(template.render())
 		except:
@@ -149,7 +137,8 @@ class WelcomeHandler(webapp2.RequestHandler):
 			
 			#creates new session for the new business
 			session = get_current_session()
-			session['businessID'] 	 = enc.encrypt_key(owner_key)
+			session['ownerID'] 	 = enc.encrypt_key(owner_key)
+			session['businessID']= enc.encrypt_key(business_key)
 			session['loggedIn']		 = True
 			session['validated']	 = False
 			logging.debug(session)
@@ -179,19 +168,26 @@ class WelcomeHandler(webapp2.RequestHandler):
 
 class DealHandler(webapp2.RequestHandler):
 	def get(self):
+		'''This is the deal upload page'''
 		try:
 			#check login
 			headerData = levr_utils.loginCheck(self, True)
-			#get the business information
-			businessID = headerData['businessID']
-			businessID = enc.decrypt_key(businessID)
-			businessID = db.Key(businessID)
-			business = levr.Business.get(businessID)
+			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			
+			#get the business
+			business = owner.businesses.get()#TODO: this will be multiple businesses later
+			
 			#create tags from the business
 			tags = business.create_tags()
 			
 			#create the upload url
-			url = '/merchants/deal/upload?uid=' + headerData['businessID']
+			url = '/merchants/deal/upload?uid=' + headerData['ownerID']
 			upload_url = blobstore.create_upload_url(url)
 			
 			#consolidate the values
@@ -199,7 +195,8 @@ class DealHandler(webapp2.RequestHandler):
 							"tags"			: tags,
 							"upload_url"	: upload_url,
 							"deal"			: None,
-							"business"		: business
+							"business"		: business, #TODO need to grab multiple businesses later
+							"owner"			: owner
 			}
 			template = jinja_environment.get_template('templates/deal.html')
 			self.response.out.write(template.render(template_values))

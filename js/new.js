@@ -1,6 +1,10 @@
 
 $(document).ready(function() {
 
+$('#gmap').click(function(e) { e.preventDefault })
+
+$('#business_select').focus()
+
 var map;
 
 function initialize() {
@@ -36,12 +40,29 @@ function showDetails(){
 	$('#website').text(place.website)
 	
 	$('#placeDetails').show()
+	
+	alert('hi!')
+	
+	$(document).keypress(function(e) {
+	    if(e.which == 13) {
+	        $('#btnConfirm').click()
+	    }
+	    if(e.which == 9){
+		    $('#btnConfirm').focus()
+	    }
+	});
 }
 
 function showSignup(){
 	$('#placeDetails,#whoAreYou').animate({opacity: 0}).hide()
 	$('#container').animate({'height': '450px'})
 	$('#signup').show()
+	$('#email').focus()
+	$(document).keypress(function(e) {
+	    if(e.which == 13) {
+	        $('#btnSignup').click()
+	    }
+	});
 }
 
 function showChoices(){
@@ -50,20 +71,42 @@ function showChoices(){
 	$('#choices').show()
 }
 
+function isValidEmailAddress(emailAddress) {
+	console.log(emailAddress)
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    return pattern.test(emailAddress);
+};
+
 function attemptSignup(){
+
+	checkEmail(false)
+
+	//break if less than 5 characters
+	if ($('#pw').val() < 5){
+		$('#error_field').text('Please enter a password at least 5 characters long.')
+		return false
+	}
+	
 	//break if not equal
 	if ($('#pw').val() != $('#pw2').val()) {
 		$('#error_field').text('Passwords must match.')
-		$('#pw,#pw2').val('')
 		return false
 	} 
 	
+	checkEmail(true)
+	
+	
+	/*$.post(url,data,function(creds){
+		console.log(creds)
+	})*/
+}
+
+function checkEmail(submit){
 	var creds = {
 		email:	$('#email').val(),
 		pw:		$('#pw').val()
 	}
 	
-	console.log(creds)
 	
 	url_string = 'emailCheck'
 	
@@ -72,17 +115,16 @@ function attemptSignup(){
 		url:	url_string,
 		data:	creds,
 		success: function(result){
+			console.log("response: " + result)
 			if (result == 'True'){
-				showChoices()
+				if (submit == true){
+					showChoices()
+				}
 			} else{
 				$('#error_field').text('Sorry, that email is already in use.')
 			}
 		}
 	})
-	
-	/*$.post(url,data,function(creds){
-		console.log(creds)
-	})*/
 }
 
 function submitData(destination,place){
@@ -122,11 +164,27 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 	}
 })
 
+
+
 //initialize confirm click listener
 $('#btnConfirm').click(function(){showSignup()})
 
+//initialize a email field blur listener
+$('#email').blur(function(){
+	if( isValidEmailAddress($('#email').val()) ) {
+		checkEmail(false)
+	}
+})
+
 //initialize signup click listener
-$('#btnSignup').click(function(){attemptSignup()})
+$('#btnSignup').click(function(){
+	if( isValidEmailAddress($('#email').val()) ) {
+		attemptSignup()
+	} else{
+		$('#error_field').text('Please enter a valid email address.')
+	}
+	
+})
 
 //initialize button click listeners
 $('#btnUpload').click(function(){submitData('upload',place)})

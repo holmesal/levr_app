@@ -35,9 +35,6 @@ handlers:
   script: payments.app
   login: admin
   secure: always
-- url: /test.*
-  script: test.py
-  login: admin
 - url: /tasks/cleanDeals
   script: cleanDeals.py
   login: admin

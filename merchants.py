@@ -118,14 +118,12 @@ class WelcomeHandler(webapp2.RequestHandler):
 			
 			owner_key = levr.BusinessOwner(
 				#create owner with contact info, put and get key
-				#TODO: is there any checking done if the business already exists?
 				email			=self.request.get('email'),
 				pw				=enc.encrypt_password(self.request.get('password')),
 				validated		=False
 				).put()
 			
 			business_name = self.request.get('business_name')
-			#TODO: need to check here if that business already exists
 			business_key = levr.Business(
 				#create business that is child of the owner
 				parent			=owner_key,
@@ -154,11 +152,12 @@ class WelcomeHandler(webapp2.RequestHandler):
 				subject	="New Merchant signup",
 				to		="patrick@levr.com")
 			logging.debug(message)
-			body = 'New merchant\n'
-			body += 'Business: '  +str(business_name)+"\n"
-			body += 'Business ID: '+str(business_key)+"\n"
-			body += "Owner Email:"+str(self.request.get('email'))+"\n"
+			body = 'New merchant\n\n'
+			body += 'Business: '  +str(business_name)+"\n\n"
+			body += 'Business ID: '+str(business_key)+"\n\n"
+			body += "Owner Email:"+str(self.request.get('email'))+"\n\n"
 			logging.debug(body)
+			message.body = body
 			message.send()
 
 

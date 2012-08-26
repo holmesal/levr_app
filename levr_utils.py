@@ -63,7 +63,7 @@ def signupCustomer(email,alias,pw):
 		c.alias = alias
 		#put
 		c.put()
-		return {'success':True,'uid':enc.encrypt_key(c.key().__str__())}
+		return {'success':True,'uid':enc.encrypt_key(c.key().__str__()),'email':email,'userName':alias}
 	elif r_email != None:
 		return {
 			'success': False,

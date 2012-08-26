@@ -1,11 +1,12 @@
 {% extends "templates/merchantsBase.html" %}
 
 {% block htmlhead %}
-<link rel="stylesheet" href="../css/manageOffers.css">
+<link rel="stylesheet" href="/css/manageOffers.css">
 {% endblock %}
 
 {% block content %}
 <div id='main'>
 	widget page
+	<iframe src="/widget?id={{ headerData.businessID}}" width='1000' height='400'>
 </div>
 {% endblock %}

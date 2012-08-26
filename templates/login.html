@@ -3,10 +3,10 @@
 	<p>
 		<h2>Please log in:</h2>
 	</p>
-	<form method="post" action="/merchants/login">
+	<form id="loginForm" method="post" action="/merchants/login">
 		Email: <input type="text" id="email" name="email">
 		Password: <input type="password" id="pw" name="pw">
-		<input type="submit" value="Login">
+		<input type="submit" value="Login" onclick="validate();return(false)">
 	</form>
 	
 	<p>
@@ -14,5 +14,7 @@
 	</p>
 	
 	</body>
+	<script type="text/javascript">google.load("jquery", "1.4.2");</script>
+	<script src="/js/login.js"></script>
 </html>
 

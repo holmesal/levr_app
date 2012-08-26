@@ -54,24 +54,21 @@ class LoginHandler(webapp2.RequestHandler):
 			else:
 				#Normal login attempt. Redirects to manage or the login page
 				email = self.request.get('email')
-				email = db.Email(email)
+#				email = db.Email(email)
 				pw = enc.encrypt_password(self.request.get('pw'))
 				logging.debug(email)
 				logging.debug(pw)
 				
-				if email:
-					if pw:
-						#the required text fields were entered
-						#query database for matching email and pw
-						owner = levr.BusinessOwner.all().filter('email =', email).filter('pw =', pw).get()
-							#search for owner
-						logging.debug(owner)
-					else:
-						#did not enter pw field
-						pass
-				else:
-					#did not enter email field
-					owner = None
+				if email == None:
+					email = ''
+				if pw == None:
+					pw = ''
+				
+				#the required text fields were entered
+				#query database for matching email and pw
+				owner = levr.BusinessOwner.all().filter('email =', email).filter('pw =', pw).get()
+					#search for owner
+				logging.debug(owner)
 				if owner != None:
 						#owner exists in db, and can login
 					business = levr.Business.all().ancestor(owner).get()
@@ -89,13 +86,13 @@ class LoginHandler(webapp2.RequestHandler):
 						#This should nevr happen.
 						levr.log_error('A business owner does not have a business child. Ruh Roh.')
 				else:
-					template_values = {
-						'error_field'	: error_field,
-						'error message'	: error_message
-					}
+#					template_values = {
+#						'error_field'	: error_field,
+#						'error message'	: error_message
+#					}
 					#show login page again
 					template = jinja_environment.get_template('templates/login.html')
-					self.response.out.write(template.render(template_values))
+					self.response.out.write(template.render())
 		except:
 			levr.log_error()
 			
@@ -314,7 +311,12 @@ class UploadHandler(webapp2.RequestHandler):
 class WidgetHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
-			template_values = {}
+			headerData = levr_utils.loginCheck(self, True)
+			logging.debug(headerData)
+			
+			template_values = {
+				'headerData'	: headerData
+			}
 			template = jinja_environment.get_template('templates/manageWidget.html')
 			self.response.out.write(template.render(template_values))
 		except:

@@ -26,7 +26,7 @@ class RemoteHandler(webapp2.RequestHandler):
 				'''Action is to show list of deals'''
 				action = 'show'
 				#grab the deals for the business
-				deals = levr.Deal.gql("WHERE ANCESTOR IS :1", businessID)
+				deals = levr.Deal.gql("WHERE ANCESTOR IS :1", businessID).fetch(None)
 				logging.debug(deals)
 				if not deals:
 					#business does not have any deals
@@ -92,7 +92,7 @@ class LocalPageHandler(webapp2.RequestHandler):
 		self.response.out.write(template.render(template_values))
 		
 		
-app = webapp2.WSGIApplication([('/widget/remote', RemoteHandler),
+app = webapp2.WSGIApplication([('/widget', RemoteHandler),
 								('/widget/add', LoggedInFavHandler),
 								('/widget/welcome', LocalPageHandler)
 								], debug=True)

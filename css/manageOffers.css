@@ -1,3 +1,75 @@
+#stats{
+	background-image: url('../img/paper.png');
+	height: 274px;
+	width: 100%;
+}
+
+.statsPane{
+	width: 380px;
+	height: 100%;
+	display: block;
+	float: left;
+}
+
+/* Stats text styles */
+.statsText{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	/*font-family: "HelveticaNeue-CondensedBold";*/
+	font-weight: 900;
+	color: #8c8c8c;
+	/*color: #53777A;*/
+	/*#2c2c2c*/
+	
+}
+
+.inlineCap{
+	text-align: right;
+	font-size: 30pt;
+	width: 50%;
+}
+
+#viewsCap{
+	margin-top: 80px;
+}
+
+#rankingCap{
+	margin-top: 60px;
+}
+
+#viewsNum{
+	text-align: left;
+	display: inline-block;
+	float: right;
+	font-size: 60pt;
+	width: 50%;
+	margin-top: -80px;
+}
+
+#numView{
+	font-size: 100pt;
+	margin-top: 15px;
+	text-shadow: 0 2px 0 white;
+}
+
+#capView{
+	font-size: 30pt;
+	margin-top: -30px;
+	text-shadow: 0 2px 0 white;
+}
+
+#numRedeem{
+	font-size: 180pt;
+	margin-top: 20px;
+	line-height: 100pt;
+	text-shadow: 0 2px 0 white;
+}
+#capRedeem{
+	font-size: 30pt;
+	margin-top: -50px;
+	text-shadow: 0 2px 0 white;
+}
+
 #my-offers-table
 {
 /*	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;*/

@@ -92,6 +92,8 @@ def loginCustomer(email_or_owner,pw):
 		return {
 			'success'		: True,
 			'uid'			: enc.encrypt_key(r_email.key().__str__()),
+			'email'			: r_email.email,
+			'userName'		: r_email.alias,
 			'notifications'	: r_email.get_notifications()
 		}
 	elif r_owner != None:
@@ -99,6 +101,8 @@ def loginCustomer(email_or_owner,pw):
 		return {
 			'success'		: True,
 			'uid'			: enc.encrypt_key(r_owner.key().__str__()),
+			'email'			: r_owner.email,
+			'userName'		: r_owner.alias,
 			'notifications'	: r_owner.get_notifications()
 		}
 	else:

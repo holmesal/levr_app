@@ -132,11 +132,12 @@ class WelcomeHandler(webapp2.RequestHandler):
 				pw				=enc.encrypt_password(self.request.get('password')),
 				validated		=False
 				).put()
+			logging.debug(owner_key)
 			
 			business_name = self.request.get('business_name')
 			business_key = levr.Business(
-				#create business that is child of the owner
-				parent			=owner_key,
+				#create business
+				owner			=owner_key,
 				business_name	=business_name,
 				vicinity		=self.request.get('vicinity'),
 				geo_point		=levr.geo_converter(self.request.get('geo_point')),
@@ -144,14 +145,12 @@ class WelcomeHandler(webapp2.RequestHandler):
 				validated		=False
 				).put()
 			
-			logging.debug(owner_key)
 			logging.debug(business_key)
 			
 			#creates new session for the new business
 			session = get_current_session()
-			session['businessID'] 	 = enc.encrypt_key(business_key)
+			session['businessID'] 	 = enc.encrypt_key(owner_key)
 			session['loggedIn']		 = True
-			session['alias']		 = business_name
 			session['validated']	 = False
 			logging.debug(session)
 
@@ -166,7 +165,6 @@ class WelcomeHandler(webapp2.RequestHandler):
 			body += 'Business: '  +str(business_name)+"\n\n"
 			body += 'Business ID: '+str(business_key)+"\n\n"
 			body += "Owner Email:"+str(self.request.get('email'))+"\n\n"
-			logging.debug(body)
 			message.body = body
 			message.send()
 

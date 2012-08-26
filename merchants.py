@@ -71,20 +71,20 @@ class LoginHandler(webapp2.RequestHandler):
 				logging.debug(owner)
 				if owner != None:
 						#owner exists in db, and can login
-					business = levr.Business.all().ancestor(owner).get()
-					logging.debug(business)
-					if business != None:
+#					business = levr.Business.all().ancestor(owner).get()
+#					logging.debug(business)
+#					if business != None:
 						
-						session = get_current_session()
-						#if matched, pull properties and set loginstate to true
-						session['businessID'] = enc.encrypt_key(business.key())
-						session['alias'] 	 = business.business_name
-						session['loggedIn'] = True
-						session['validated'] = owner.validated
-						self.redirect('/merchants/manage')
-					else:
-						#This should nevr happen.
-						levr.log_error('A business owner does not have a business child. Ruh Roh.')
+					session = get_current_session()
+					#if matched, pull properties and set loginstate to true
+					session['businessID'] = enc.encrypt_key(owner.key())#business.key())
+#					session['alias'] 	 = business.business_name
+					session['loggedIn'] = True
+					session['validated'] = owner.validated
+					self.redirect('/merchants/manage')
+#					else:
+#						#This should nevr happen.
+#						levr.log_error('A business owner does not have a business child. Ruh Roh.')
 				else:
 #					template_values = {
 #						'error_field'	: error_field,

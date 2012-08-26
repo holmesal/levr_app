@@ -106,7 +106,7 @@ class EmailCheckHandler(webapp2.RequestHandler):
 		#pw = enc.encrypt_password(self.request.get('pw'))
 		 
 		#check if email is already in use
-		q = levr.Deal.gql('WHERE email=:1', email)
+		q = levr.BusinessOwner.gql('WHERE email=:1', email)
 		if q.get():
 			#echo that email is in use
 			self.response.out.write(False)

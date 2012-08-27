@@ -16,28 +16,34 @@
 		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<link rel="stylesheet" href="/css/login.css">
 	</head>
 
 	<body>
 		<div id='main'>
+			<img id="logo" src="/img/levr.png" />
 			<div id="loginBox">
-				<form id="loginForm" method="post" action="/merchants/login">
-					<!-- <p id="loginWelcome">
-					Welcome back!
-					</p> -->
-					<img id="logo" src="/img/levr.png" />
+				<form id="loginForm" class="form" method="post" action="/merchants/login">
 					<input class="loginInput" id="emailInput" type="text" placeholder="Email" name="email">
 					<input class="loginInput" id="pwInput" type="password" placeholder="Password" name="pw">
-					<input type="submit" id="btnLogin" class="button green" value="Login">
+					<!-- 					<a id="forgotPassword" href="forgot">Forgot Password?</a> -->
+					<a id="btnHelp" class="button white toggle">Help</a>
+					<input type="submit" id="btnLogin" class="button green sendBtn" value="Login">
 				</form>
-				<span id="or" class="create"> or </span> <a id="signUp" class="create" href="./merchants/welcome">Create an account</a>
-				<a href="forgot">Forgot Password</a>
+				<form id="forgotPasswordForm" class="form" hidden>
+					<span>Enter your email and we will email you with a link to reset your password.</span>
+					<input class="loginInput" id="email" type="text" placeholder="Email" name="email">
+					<a id="btnBack" class="button white toggle">Back</a>
+					<input type="submit" id="btnLogin" class="button green sendBtn" value="Send">
+					
+				</form>
 			</div>
-
 		</div>
-
+		<script type="text/javascript">
+			google.load("jquery", "1.4.2");
+		</script>
+		<script src="/js/login.js"></script>
 	</body>
 </html>
 

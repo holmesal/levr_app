@@ -277,8 +277,6 @@ class CashOutRequest(db.Model):
 	
 #functions!
 def phoneFormat(deal,use,primary_cat=None):
-#	source = 'http://www.levr.com/'
-	source = 'http://localhost:8080/'
 	#dealID is used in a number of places
 	dealID = enc.encrypt_key(str(deal.key()))
 #	logging.info(deal.key())
@@ -299,8 +297,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURL"		: source+'phone/img?dealID='+dealID+'&size=list',
-				"imgURLlarge"	: source+'phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"		: levr_utils.URL+'/phone/img?dealID='+dealID+'&size=list',
+				"imgURLlarge"	: levr_utils.URL+'/phone/img?dealID='+dealID+'&size=dealDetail',
 				"geoPoint"		: deal.geo_point,
 				"vicinity"		: deal.vicinity,
 				"dealText"  	: dealText,
@@ -321,7 +319,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dateEnd"			: deal.date_end.__str__()[:10],
 				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
-				"shareURL"			: source+'share/deal?id='+dealID
+				"shareURL"			: levr_utils.URL+'/share/deal?id='+dealID
 			})
 		if use == 'widget':
 			data.update({
@@ -334,7 +332,7 @@ def phoneFormat(deal,use,primary_cat=None):
 #		b = db.get(deal.businessID)
 		#uploaded by a user
 		data = {"dealID"		: dealID,
-				"imgURL"	  	: source+'phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"	  	: levr_utils.URL+'/phone/img?dealID='+dealID+'&size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
@@ -354,7 +352,7 @@ def phoneFormat(deal,use,primary_cat=None):
 #			business = deal_parent
 			alias = ''
 			
-		data = {"barcodeURL"	: source+'phone/img?dealID='+dealID+'&size=dealDetail',
+		data = {"barcodeURL"	: levr_utils.URL+'/phone/img?dealID='+dealID+'&size=dealDetail',
 				"ninjaName"		: alias,
 				"isExclusive"	: deal.is_exclusive}
 	elif use == 'manage':
@@ -367,8 +365,8 @@ def phoneFormat(deal,use,primary_cat=None):
 			"vicinity"		:deal.vicinity,
 			"description"	:deal.description,
 			"isExclusive"	:deal.is_exclusive,
-			"imgURLLarge"	:source+'phone/img?dealID='+dealID+'&size=dealDetail',
-			"imgURLSmall"	:source+'phone/img?dealID='+dealID+'&size=list',
+			"imgURLLarge"	:levr_utils.URL+'/phone/img?dealID='+dealID+'&size=dealDetail',
+			"imgURLSmall"	:levr_utils.URL+'/phone/img?dealID='+dealID+'&size=list',
 
 			}
 	data.update({'geoPoint':str(deal.geo_point)})

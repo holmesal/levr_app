@@ -24,14 +24,14 @@
 		<div id='main'>
 			<img id="logo" src="/img/levr.png" />
 			<div id="loginBox">
-				<form id="loginForm" class="form" method="post" action="/merchants/login">
+				<form id="loginForm" class="form" method="post" action="/merchants/login" {% if action == 'password' %} hidden {% endif %}>
 					<input class="loginInput" id="emailInput" type="text" placeholder="Email" name="email">
 					<input class="loginInput" id="pwInput" type="password" placeholder="Password" name="pw">
 					<!-- 					<a id="forgotPassword" href="forgot">Forgot Password?</a> -->
 					<a id="btnHelp" class="button white toggle">Help</a>
 					<input type="submit" id="btnLogin" class="button green sendBtn" value="Login">
 				</form>
-				<form id="forgotPasswordForm" class="form" hidden>
+				<form id="forgotPasswordForm" class="form" method="post" action="/merchants/password/lost" {% if action != 'password' %} hidden {% endif %}>
 					<span>Enter your email and we will email you with a link to reset your password.</span>
 					<input class="loginInput" id="email" type="text" placeholder="Email" name="email">
 					<a id="btnBack" class="button white toggle">Back</a>

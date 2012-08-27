@@ -37,7 +37,14 @@ class phone(webapp2.RequestHandler):
 				pw = decoded["in"]["pw"]
 				
 				toEcho = levr_utils.loginCustomer(email_or_owner,pw)
+			
 #***************dealResults************************************************
+			elif action == "popularItems":
+				data = {
+					'popularItems' : ['all','pizza','BU','commonwealth']
+					}
+				toEcho = {'success': True,'data':data}
+			
 			elif action == "dealResults":
 				#grab primaryCat from the request body
 				primaryCat 	= decoded["in"]["primaryCat"]
@@ -117,7 +124,7 @@ class phone(webapp2.RequestHandler):
 				for result in q:
 					searchObj = {"isSentinel":False,
 								"primaryCat":result.primary_cat,
-								"imgURL":"http://www.levr.com/phone/img?size=emptySet&dealID=" + enc.encrypt_key(result.key())
+								"imgURL": levr_utils.URL+"/phone/img?size=emptySet&dealID=" + enc.encrypt_key(result.key())
 					} 
 					#push to stack
 					dealResults.append(searchObj)

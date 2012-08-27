@@ -18,7 +18,6 @@ from google.appengine.ext import db
 from gaesessions import get_current_session
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
 class MerchantsHandler(webapp2.RequestHandler):
 	def get(self):
 		#check if logged in. if so, redirect to the manage page
@@ -31,9 +30,15 @@ class MerchantsHandler(webapp2.RequestHandler):
 
 class LoginHandler(webapp2.RequestHandler):
 	def get(self):
+		action = self.request.get('action')
+		success	= self.request.get('success')
+		template_values = {
+						'action'	: action,
+						'success'	: success
+		}
 		template = jinja_environment.get_template('templates/login.html')
-		self.response.out.write(template.render())
-	
+		self.response.out.write(template.render(template_values))
+		self.response.out.write(levr_utils.URL)
 	def post(self):
 		try:
 			#this is passed when an ajax form is checking the login state
@@ -90,7 +95,86 @@ class LoginHandler(webapp2.RequestHandler):
 					self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
+class LostPasswordHandler(webapp2.RequestHandler):
+	'''presents form to user to enter in their email. email is sent to user
+	to rest the password'''
+	
+	def post(self):
+		'''input:user email
+		output: success, sends email to email account'''
+		try:
+			user_email = self.request.get('email')
+			user = levr.BusinessOwner.all().filter('email =', user_email).get()
+			logging.debug(user)
+			if not user:
+				logging.debug('flag not user')
+				self.redirect('/merchants/login?action=password?success=false')
+			else:
+				logging.debug('flag is user')
+				#send mail to the admins to notify of new pending deal
+				url = DIRECTORY_PATH+'/password/reset?id=' + enc.encrypt_key(user.key())
+				logging.info(url)
+				try:
+					mail.send_mail(sender="Lost Password<password@getlevr.com>",
+									to="Patrick Walsh <patrick@getlevr.com>",
+									subject="New pending deal",
+									body="""
+									Follow this link to reset your password:
+									%s
+									""" % url).send()
+					sent = True
+				except:
+					sent = False
+					logging.error('mail not sent')
 			
+				template_values={"sent":sent}
+				template = jinja_environment.get_template('templates/lostPasswordEmailSent.html')
+				self.response.out.write(template.render(template_values))
+		except:
+			levr.log_error()
+		
+class ResetPasswordHandler(webapp2.RequestHandler):
+	'''User enters in a new password twice'''
+	def get(self):
+		pass
+		'''Template has uid in url to identify them'''
+		
+		uid = self.request.get('id')
+		#If a false attempt has been made, success will be false, otherwise true
+		try:
+			success = self.request.get('success')
+		except:
+			success = 'True'
+		
+		
+		template_values = {"success":success,"uid":uid}
+			
+		template = jinja_environment.get_template('templates/resetPassword.html')
+		self.response.out.write(template.render(template_values))
+
+	def post(self):
+		'''Resets password on the database'''
+		password1 = self.request.get('newPassword1')
+		password2 = self.request.get('newPassword2')
+		uid = self.request.get('id')
+		uid = enc.decrypt_key(uid)
+		
+		if password1 == password2:
+			#passwords match
+			logging.debug('flag password success')
+			encrypted_password = enc.encrypt_password(password1)
+			logging.debug(uid)
+			user = levr.Customer.get(uid)
+			user.pw = encrypted_password
+			user.put()
+			
+			template_values={'success':'True'}
+			template = jinja_environment.get_template('templates/resetPasswordSuccess.html')
+			self.response.out.write(template.render(template_values))
+		else:
+			#passwords do not match
+			self.redirect('/password/reset?id=%s&success=False' % enc.encrypt_key(uid))
+
 class EmailCheckHandler(webapp2.RequestHandler):
 	def post(self):
 		'''This is currently a handler to check whether the email entered by a business on signup is available'''
@@ -378,6 +462,8 @@ class MyAccountHandler(webapp2.RequestHandler):
 			levr.log_error()
 app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
 								('/merchants/login', LoginHandler),
+								('/merchants/password/lost', LostPasswordHandler),
+								('/merchants/password/reset', ResetPasswordHandler),
 								('/merchants/emailCheck', EmailCheckHandler),
 								('/merchants/welcome', WelcomeHandler),
 								('/merchants/deal', DealHandler),

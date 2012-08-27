@@ -4,7 +4,6 @@
 		<meta charset="UTF-8">
 		<link rel="icon" type="image/png" href="img/favicon.png" />
 		<link href="/css/widget.css" rel="stylesheet"/>
-<!--		<link href="http://getlevr.com/widget.css" rel="stylesheet" />-->
 	</head>
 	<body>
 		<div id="powered_by_levr">Powered by <a id="powered_by_levr_link" href="http://www.levr.com">Levr</a></div>
@@ -21,7 +20,7 @@
 						{% if headerData.loggedIn == True %}
 							<a id="btnGet"><button class="button green" onclick="changeSource('/widget/add?id={{ businessID }}&deal={{ deal.dealID }}')">Get this deal!</button></a>
 						{% else %}
-							<a id="btnGet" href="http://getlevr.appspot.com/share/deal?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
+							<a id="btnGet" href="http://www.levr.com/share/deal?id={{ deal.dealID }}" target="_blank"><button class="button green">Get this deal!</button></a>
 						{% endif %}
 					</div>
 					<!--img src="../../img/divider_faded.png"-->

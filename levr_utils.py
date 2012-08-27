@@ -1,5 +1,5 @@
 #import webapp2
-#import os
+import os
 import logging
 #import jinja2
 import levr_classes as levr
@@ -9,9 +9,19 @@ from datetime import timedelta
 #from google.appengine.ext import blobstore
 from google.appengine.ext import db
 #from google.appengine.ext.webapp import blobstore_handlers
-
 from gaesessions import get_current_session
 
+# ==== Variables ==== #
+if os.environ['SERVER_SOFTWARE'].startswith('Development') == True:
+	#we are on the development environment
+	URL = 'http://localhost:8080'
+else:
+	#we are deployed on the server
+	URL = 'http://www.levr.com'
+
+
+
+# ==== Functions ==== #
 def loginCheck(self,strict):
 	'''	for merchants
 		This is a general-purpose login checking function 
@@ -91,18 +101,22 @@ def loginCustomer(email_or_owner,pw):
 		#found user on the basis of email
 		return {
 			'success'		: True,
-			'uid'			: enc.encrypt_key(r_email.key().__str__()),
-			'email'			: r_email.email,
-			'userName'		: r_email.alias,
+			'data'			: {
+								'uid'			: enc.encrypt_key(r_email.key().__str__()),
+								'email'			: r_email.email,
+								'userName'		: r_email.alias,
+								},
 			'notifications'	: r_email.get_notifications()
 		}
 	elif r_owner != None:
 		#found user on the basis of username
 		return {
 			'success'		: True,
-			'uid'			: enc.encrypt_key(r_owner.key().__str__()),
-			'email'			: r_owner.email,
-			'userName'		: r_owner.alias,
+			'data'			: {
+								'uid'			: enc.encrypt_key(r_owner.key().__str__()),
+								'email'			: r_owner.email,
+								'userName'		: r_owner.alias,
+								},
 			'notifications'	: r_owner.get_notifications()
 		}
 	else:
@@ -320,5 +334,5 @@ def dealCreate(self,origin):
 	
 	
 	#return share url
-	share_url = 'http://getlevr.appspot.com/share/deal?id='+enc.encrypt_key(deal.key())
+	share_url = URL+'/share/deal?id='+enc.encrypt_key(deal.key())
 	return share_url

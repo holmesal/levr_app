@@ -64,6 +64,7 @@ class LoginHandler(webapp2.RequestHandler):
 				if pw == None:
 					pw = ''
 				
+				
 				#the required text fields were entered
 				#query database for matching email and pw
 				owner = levr.BusinessOwner.all().filter('email =', email).filter('pw =', pw).get()
@@ -78,9 +79,15 @@ class LoginHandler(webapp2.RequestHandler):
 					session['validated'] = owner.validated
 					self.redirect('/merchants/manage')
 				else:
+					error_field = 'pw'
+					error_message = 'Incorrect email, password combination'
 					#show login page again - login failed
+					template_values = {
+					'error_message'	: error_message,
+					'error_field'	: error_field
+					}
 					template = jinja_environment.get_template('templates/login.html')
-					self.response.out.write(template.render())
+					self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()
 			
@@ -348,7 +355,23 @@ class WidgetHandler(webapp2.RequestHandler):
 class MyAccountHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
-			template_values = {}
+			#check login
+			headerData = levr_utils.loginCheck(self, True)
+			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			
+			#get the business
+			business = owner.businesses.get()#TODO: this will be multiple businesses later
+			template_values = {
+				'owner'		: owner,
+				'business'	: business
+				}
+			
 			template = jinja_environment.get_template('templates/analytics.html')
 			self.response.out.write(template.render(template_values))
 		except:

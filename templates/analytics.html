@@ -1,11 +1,14 @@
 {% extends "templates/merchantsBase.html" %}
 
 {% block htmlhead %}
-<link rel="stylesheet" href="../css/manageOffers.css">
+<link rel="stylesheet" href="/css/myAccount.css">
 {% endblock %}
 
 {% block content %}
 <div id='main'>
-	analytics
+	<div id="left">
+		email: {{ owner.email }}
+		
+	</div>
 </div>
 {% endblock %}

@@ -40,7 +40,7 @@ def loginCheck(self,strict):
 		
 		headerData = {
 			'loggedIn'	: session['loggedIn'],
-			'alias' 	: session['alias'],
+#			'alias' 	: session['alias'],
 			'ownerID'	: uid
 			}
 		#return user metadata.

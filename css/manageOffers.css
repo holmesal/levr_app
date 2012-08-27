@@ -27,23 +27,43 @@
 	text-align: right;
 	font-size: 30pt;
 	width: 50%;
+	display: inline-block;
+	float: left;
 }
 
 #viewsCap{
+	display: inline-block;
 	margin-top: 80px;
+	margin-right: 200px;
 }
 
 #rankingCap{
 	margin-top: 60px;
 }
 
-#viewsNum{
+/*#viewsNum{
 	text-align: left;
-	display: inline-block;
 	float: right;
 	font-size: 60pt;
 	width: 50%;
-	margin-top: -80px;
+	margin-top: -83px;
+	margin-left: 200px;
+}*/
+
+#viewsNum{
+	font-size: 60pt;
+	display: inline-block;
+	position: relative;
+	left: -13px;
+	top: -83px;
+}
+
+#rankingNum{
+	font-size: 60pt;
+	display: inline-block;
+	position: relative;
+	left: -100px;
+	top: 24px;
 }
 
 #numView{

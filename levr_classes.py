@@ -8,6 +8,7 @@ import re
 import logging
 import sys, traceback
 import levr_encrypt as enc
+import levr_utils
 
 class Customer(db.Model):
 #root class

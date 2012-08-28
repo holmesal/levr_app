@@ -89,6 +89,7 @@ class BusinessOwner(db.Model):
 	pw 				= db.StringProperty()
 	signup_date 	= db.DateTimeProperty(auto_now_add=True)	#when signed up for our service $$$
 	validated		= db.BooleanProperty(default=False)
+	upload_email	= db.EmailProperty()
 	#psudoproperty: businesses - see business entity - this is a query for all the businesses that list this owner as the owner
 
 class Business(db.Model):

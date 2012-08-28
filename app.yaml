@@ -2,7 +2,7 @@ application: levr-production
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: false
+threadsafe: true
 default_expiration: "1m"
 
 handlers:
@@ -16,8 +16,6 @@ handlers:
 - url: /new.*
   script: test_class.app
   login: admin
-# - url: /login
-  # script: login.app
 - url: /loginstate
   script: loginstate.app
 - url: /logout
@@ -35,9 +33,6 @@ handlers:
   script: payments.app
   login: admin
   secure: always
-- url: /tasks/cleanDeals
-  script: cleanDeals.py
-  login: admin
 - url: /sandbox
   script: test.app
   login: admin
@@ -45,6 +40,10 @@ handlers:
   script: password.app
 - url: /widget.*
   script: widget.app
+- url: /_ah/mail/.+
+  #mail services
+  script: uploadEmail.app
+  login: admin
 
 
 - url: /img
@@ -66,3 +65,6 @@ libraries:
 
 builtins:
 - appstats: on
+
+inbound_services:
+- mail

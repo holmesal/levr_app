@@ -28,7 +28,7 @@ def loginCheck(self,strict):
 		in "strict" mode (strict=True), this script will bounce to the login page if not logged in
 		if strict=False, headers will be returned that indicate the user isn't logged in, but no bouncing'''
 	session = get_current_session()
-	logging.info(session)
+	logging.debug(session)
 	if session.has_key('loggedIn') == False or session['loggedIn'] == False:
 		if strict == True:
 			#not logged in, bounce to login page
@@ -43,10 +43,7 @@ def loginCheck(self,strict):
 	elif session.has_key('loggedIn') == True and session['loggedIn'] == True:
 		#logged in, grab the useful bits
 		#this is a hack. . . forgive meeee
-		try:
-			uid = session['ownerID']
-		except:
-			uid = session['uid']
+		uid = session['ownerID']
 		
 		headerData = {
 			'loggedIn'	: session['loggedIn'],

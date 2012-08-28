@@ -21,11 +21,14 @@
 	</head>
 
 	<body>
+		<img id="logo" src="/img/levr.png" />
 		<div id='main'>
-			<img id="logo" src="/img/levr.png" />
+			
 			<div id="loginBox">
-				<form id="loginForm" class="form" method="post" action="/merchants/login" {% if action == 'password' %} hidden {% endif %}>
-					<input class="loginInput" id="emailInput" type="text" placeholder="Email" name="email">
+				<form id="loginForm" class="form" method="post" action="/merchants/login" {% if action == 'password' or action == 'reset' %} hidden {% endif %}>
+					<label class="helpText" for="emailInput">Email</label>
+					<input class="loginInput" id="emailInput" type="text" placeholder="Email" name="email" value="{{ email }}">
+					<label class="helpText" for="pwInput">Password</label>
 					<input class="loginInput" id="pwInput" type="password" placeholder="Password" name="pw">
 					<!-- 					<a id="forgotPassword" href="forgot">Forgot Password?</a> -->
 					<a id="btnHelp" class="button white toggle">Help</a>
@@ -36,7 +39,24 @@
 					<input class="loginInput" id="email" type="text" placeholder="Email" name="email">
 					<a id="btnBack" class="button white toggle">Back</a>
 					<input type="submit" id="btnLogin" class="button green sendBtn" value="Send">
-					
+
+				</form>
+				<form method="post" action="/merchants/password/reset?id={{ uid }}" {% if action != 'reset' %} hidden {% endif %}>
+					<p>
+						Enter Password:
+						<br/>
+						<input type="text" name="newPassword1"/>
+					</p>
+					<p>
+						Re-enter Password:
+						<br/>
+						<input type="text" name="newPassword2" />
+						{% if success == 'False' %}
+					<p>
+						Passwords did not match
+					</p>
+					{% endif %}
+					<input type="submit" value="Reset Password">
 				</form>
 			</div>
 		</div>

@@ -32,13 +32,16 @@ class LoginHandler(webapp2.RequestHandler):
 	def get(self):
 		action = self.request.get('action')
 		success	= self.request.get('success')
+		
+		logging.debug(action)
+		logging.debug(action)
 		template_values = {
 						'action'	: action,
 						'success'	: success
 		}
 		template = jinja_environment.get_template('templates/login.html')
 		self.response.out.write(template.render(template_values))
-		self.response.out.write(levr_utils.URL)
+#		self.response.out.write(levr_utils.URL)
 	def post(self):
 		try:
 			#this is passed when an ajax form is checking the login state
@@ -88,13 +91,15 @@ class LoginHandler(webapp2.RequestHandler):
 					error_message = 'Incorrect email, password combination'
 					#show login page again - login failed
 					template_values = {
-					'error_message'	: error_message,
-					'error_field'	: error_field
+					'success'		: False,
+					'email'			: email
 					}
 					template = jinja_environment.get_template('templates/login.html')
 					self.response.out.write(template.render(template_values))
+					self.response.out.write(template_values)
 		except:
 			levr.log_error()
+
 class LostPasswordHandler(webapp2.RequestHandler):
 	'''presents form to user to enter in their email. email is sent to user
 	to rest the password'''
@@ -112,69 +117,82 @@ class LostPasswordHandler(webapp2.RequestHandler):
 			else:
 				logging.debug('flag is user')
 				#send mail to the admins to notify of new pending deal
-				url = DIRECTORY_PATH+'/password/reset?id=' + enc.encrypt_key(user.key())
+				url = levr_utils.URL+'/merchants/password/reset?id=' + enc.encrypt_key(user.key())
 				logging.info(url)
 				try:
-					mail.send_mail(sender="Lost Password<password@getlevr.com>",
+					mail.send_mail(sender="Lost Password<password@levr.com>",
 									to="Patrick Walsh <patrick@getlevr.com>",
 									subject="New pending deal",
 									body="""
 									Follow this link to reset your password:
 									%s
 									""" % url).send()
+					logging.debug(url)
 					sent = True
 				except:
 					sent = False
 					logging.error('mail not sent')
-			
-				template_values={"sent":sent}
-				template = jinja_environment.get_template('templates/lostPasswordEmailSent.html')
-				self.response.out.write(template.render(template_values))
+					self.redirect('/merchants/login?action=password&success=false')
+					#TODO: add parameter to login that shows it was not a success because the email was not sent
+				else:
+					template_values={"sent":sent}
+					self.redirect('/merchants/login?')
 		except:
 			levr.log_error()
 		
 class ResetPasswordHandler(webapp2.RequestHandler):
 	'''User enters in a new password twice'''
 	def get(self):
-		pass
-		'''Template has uid in url to identify them'''
-		
-		uid = self.request.get('id')
-		#If a false attempt has been made, success will be false, otherwise true
 		try:
-			success = self.request.get('success')
-		except:
-			success = 'True'
-		
-		
-		template_values = {"success":success,"uid":uid}
+			'''Template has uid in url to identify them'''
 			
-		template = jinja_environment.get_template('templates/resetPassword.html')
-		self.response.out.write(template.render(template_values))
-
+			uid = self.request.get('id')
+			#If a false attempt has been made, success will be false, otherwise true
+			try:
+				success = self.request.get('success')
+			except:
+				success = 'True'
+			
+			
+			template_values = {
+							"success"	:success,
+							"uid"		:uid,
+							"action"	:'reset'
+							}
+				
+			template = jinja_environment.get_template('templates/login.html')
+			self.response.out.write(template.render(template_values))
+		except:
+			levr.log_error()
 	def post(self):
 		'''Resets password on the database'''
-		password1 = self.request.get('newPassword1')
-		password2 = self.request.get('newPassword2')
-		uid = self.request.get('id')
-		uid = enc.decrypt_key(uid)
-		
-		if password1 == password2:
-			#passwords match
-			logging.debug('flag password success')
-			encrypted_password = enc.encrypt_password(password1)
-			logging.debug(uid)
-			user = levr.Customer.get(uid)
-			user.pw = encrypted_password
-			user.put()
+		try:
+			password1 = self.request.get('newPassword1')
+			password2 = self.request.get('newPassword2')
+			uid = self.request.get('id')
+			uid = enc.decrypt_key(uid)
 			
-			template_values={'success':'True'}
-			template = jinja_environment.get_template('templates/resetPasswordSuccess.html')
-			self.response.out.write(template.render(template_values))
-		else:
-			#passwords do not match
-			self.redirect('/password/reset?id=%s&success=False' % enc.encrypt_key(uid))
-
+			if password1 == password2:
+				#passwords match
+				logging.debug('flag password success')
+				encrypted_password = enc.encrypt_password(password1)
+				logging.debug(uid)
+				owner = levr.BusinessOwner.get(uid)
+				owner.pw = encrypted_password
+				owner.put()
+				
+				#log user in and redirect them to merchants/manage
+				session = get_current_session()
+				session['ownerID'] = enc.encrypt_key(owner.key())#business.key())
+				session['loggedIn'] = True
+				session['validated'] = owner.validated
+				self.redirect('/merchants/manage')
+				
+			else:
+				#passwords do not match
+				self.redirect('/merchants/password/reset?id=%s&success=False' % enc.encrypt_key(uid))
+		except:
+			levr.log_error()
 class EmailCheckHandler(webapp2.RequestHandler):
 	def post(self):
 		'''This is currently a handler to check whether the email entered by a business on signup is available'''

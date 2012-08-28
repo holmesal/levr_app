@@ -140,7 +140,9 @@ class phone(webapp2.RequestHandler):
 							"lon":lon}
 
 				#echo back success!
+				
 				toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty,"boundary":boundary}#,"notifications":notifications}
+				logging.debug(toEcho)
 			#***************getUserFavs************************************************
 			elif action == "getUserFavs":
 				'''

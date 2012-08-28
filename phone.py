@@ -138,9 +138,12 @@ class phone(webapp2.RequestHandler):
 				
 				boundary = {"lat":lat,
 							"lon":lon}
-
-				#echo back success!
-				toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty,"boundary":boundary}#,"notifications":notifications}
+				
+				if primaryCat == 'all':
+					#echo back data - include boundary
+					toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty,"boundary":boundary}#,"notifications":notifications}
+				else:
+					toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}#,"notifications":notifications}
 			#***************getUserFavs************************************************
 			elif action == "getUserFavs":
 				'''

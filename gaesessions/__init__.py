@@ -277,7 +277,7 @@ class Session(object):
     def __clear_data(self):
         """Deletes this session from memcache and the datastore."""
         if self.sid:
-            memcache.delete(self.sid, namespace='')  # not really needed; it'll go away on its own
+            memcache.delete(self.sid, namespace='')  # not really needed; it'll go away on its own @UndefinedVariable
             try:
                 db.delete(self.db_key)
             except:
@@ -287,7 +287,7 @@ class Session(object):
         """Sets the data associated with this session after retrieving it from
         memcache or the datastore.  Assumes self.sid is set.  Checks for session
         expiration after getting the data."""
-        pdump = memcache.get(self.sid, namespace='')
+        pdump = memcache.get(self.sid, namespace='') #@UndefinedVariable
         if pdump is None:
             # memcache lost it, go to the datastore
             if self.no_datastore:
@@ -335,7 +335,7 @@ class Session(object):
             # latest data will only be in the backend, so expire data cookies we set
             self.cookie_data = ''
 
-        memcache.set(self.sid, pdump, namespace='', time=self.get_expiration())  # may fail if memcache is down
+        memcache.set(self.sid, pdump, namespace='', time=self.get_expiration())  # may fail if memcache is down @UndefinedVariable
 
         # persist the session to the datastore
         if dirty is Session.DIRTY_BUT_DONT_PERSIST_TO_DB or self.no_datastore:

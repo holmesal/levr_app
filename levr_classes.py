@@ -92,6 +92,13 @@ class BusinessOwner(db.Model):
 	upload_email	= db.EmailProperty()
 	#psudoproperty: businesses - see business entity - this is a query for all the businesses that list this owner as the owner
 
+class EmailUpload(db.Model):
+	owner			= db.ReferenceProperty(BusinessOwner,collection_name='email_uploads')
+	message_sender	= db.EmailProperty()
+	message_subject	= db.StringProperty()
+	message_body	= db.StringProperty() #might be better to be textProperty
+	
+	
 class Business(db.Model):
 	#root class
 	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user or by business
@@ -123,9 +130,9 @@ class Business(db.Model):
 		vicinity		= tagger(self.vicinity)
 		tags.extend(vicinity)
 		
-		for type in self.types:
-			type			= tagger(type)
-			tags.extend(type)
+		for t in self.types:
+			t			= tagger(t)
+			tags.extend(t)
 		
 		
 		
@@ -388,10 +395,10 @@ def tagger(text):
 	#remove all non text characters
 	text = re.sub(r"[^\w\s]", '', text)
 	#parse text string into a list of words if it is longer than 2 chars long
-	list = [w.lower() for w in re.findall("[\'\w]+", text) if len(w)>2]
+	tags = [w.lower() for w in re.findall("[\'\w]+", text) if len(w)>2]
 
 
-	return list
+	return tags
 
 def log_error(message=''):
 	#called by: levr.log_error(*self.request.body)

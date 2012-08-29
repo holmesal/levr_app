@@ -1,0 +1,15 @@
+bin
+
+#pats local files
+.metadata
+.project
+.pydevproject
+todo*
+
+#extraneous files
+*.pyc
+*~
+.DS_store
+
+#old files
+*.old

@@ -41,7 +41,7 @@ class LoginHandler(webapp2.RequestHandler):
 		}
 		template = jinja_environment.get_template('templates/login.html')
 		self.response.out.write(template.render(template_values))
-#		self.response.out.write(levr_utils.URL)
+		self.response.out.write(os.path.dirname(__file__))
 	def post(self):
 		try:
 			#this is passed when an ajax form is checking the login state
@@ -87,8 +87,6 @@ class LoginHandler(webapp2.RequestHandler):
 					session['validated'] = owner.validated
 					self.redirect('/merchants/manage')
 				else:
-					error_field = 'pw'
-					error_message = 'Incorrect email, password combination'
 					#show login page again - login failed
 					template_values = {
 					'success'		: False,
@@ -107,7 +105,7 @@ class LostPasswordHandler(webapp2.RequestHandler):
 	def post(self):
 		'''input:user email
 		output: success, sends email to email account'''
-		try:
+		try: 
 			user_email = self.request.get('email')
 			user = levr.BusinessOwner.all().filter('email =', user_email).get()
 			logging.debug(user)
@@ -120,22 +118,22 @@ class LostPasswordHandler(webapp2.RequestHandler):
 				url = levr_utils.URL+'/merchants/password/reset?id=' + enc.encrypt_key(user.key())
 				logging.info(url)
 				try:
-					mail.send_mail(sender="Lost Password<password@levr.com>",
-									to="Patrick Walsh <patrick@getlevr.com>",
-									subject="New pending deal",
-									body="""
+					mail.send_mail(sender	="Lost Password<password@levr.com>",
+									to		="Patrick Walsh <patrick@getlevr.com>",
+									subject	="New pending deal",
+									body	="""
 									Follow this link to reset your password:
 									%s
 									""" % url).send()
 					logging.debug(url)
-					sent = True
+#					sent = True
 				except:
-					sent = False
+#					sent = False
 					logging.error('mail not sent')
 					self.redirect('/merchants/login?action=password&success=false')
 					#TODO: add parameter to login that shows it was not a success because the email was not sent
 				else:
-					template_values={"sent":sent}
+#					template_values={"sent":sent}
 					self.redirect('/merchants/login?')
 		except:
 			levr.log_error()
@@ -198,7 +196,7 @@ class EmailCheckHandler(webapp2.RequestHandler):
 		'''This is currently a handler to check whether the email entered by a business on signup is available'''
 		email = self.request.get('email')
 		#pw = enc.encrypt_password(self.request.get('pw'))
-		 
+		
 		#check if email is already in use
 		q = levr.BusinessOwner.gql('WHERE email=:1', email)
 		if q.get():

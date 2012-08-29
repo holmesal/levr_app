@@ -1,6 +1,6 @@
-import os
+#import os
 import webapp2
-import jinja2
+#import jinja2
 import logging
 
 from gaesessions import get_current_session

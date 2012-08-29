@@ -21,7 +21,7 @@ class DealHandler(webapp2.RequestHandler):
 		}
 		template = jinja_environment.get_template('templates/deal.html')
 		self.response.out.write(template.render(template_values))
-	
+		
 class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
@@ -49,7 +49,7 @@ class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		
 			#will have the businessID upon login
 			##### spoof value
-			businessID = ''
+#			businessID = ''
 	#		##### /spoof
 			#grab the business or create a new one
 			business = levr.Business.gql('WHERE business_name = :1',business_name).get()

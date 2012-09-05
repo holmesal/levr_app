@@ -18,6 +18,7 @@
 	/*font-family: "HelveticaNeue-CondensedBold";*/
 	font-weight: 900;
 	color: #8c8c8c;
+	color: #6a6a6a;
 	/*color: #53777A;*/
 	/*#2c2c2c*/
 	
@@ -96,9 +97,10 @@
 /*	font-size: 12px;*/
 /*	background: #fff;*/
 	margin-top: 45px;
-	width: 900px;
+	width: 100%;
 	border-collapse: collapse;
 	text-align: left;
+	display: none;
 }
 #my-offers-table th
 {
@@ -108,14 +110,149 @@
 	padding: 10px 8px;
 	border-bottom: 2px solid #444444; /*#6678b1;*/
 }
+#my-offers-table tr{
+	padding: 0px;
+	border: none;
+	border-spacing: 0px;
+	height: 100px;
+	border: none;
+}
+
 #my-offers-table td
 {
 	border-bottom: 1px solid #ccc;
 	color: #444444;/*#669;*/
-	padding: 6px 8px;
+	padding: 0px;
+	border: none;
+	
 }
 #my-offers-table tbody tr:hover td
 {
-	color: #000000;/*#009;*/
+	background-color: #c0d4e0;/*#009;*/
 }
 
+.tdImg{
+	height: 100px;
+	margin: 0px;
+}
+
+/*Offers*/
+.offer-container{
+	width: 300px;
+	margin: 30px;
+	/*max-height: 400px;*/
+	/*margin-left: 60px;
+	margin-top: 50px;
+	display: block;*/
+	float: left;
+	box-shadow: 1px 1px 3px black;
+	/*position: relative;*/
+	text-align: left;
+}
+
+.offer-img{
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background-image: url(../img/placeholder.png);
+}
+
+.stretchy{
+	
+}
+
+.dealText{
+	width: 100%;
+	font-size: 16pt;
+	font-weight: bold;
+	margin-top: 7px;
+	margin-left: 7px;
+	overflow: scroll;
+	max-height: 50px;
+}
+
+.dealTextExtra{
+	width: 100%;
+	color: gray;
+	margin-top: 5px;
+	margin-left: 7px;
+	overflow: scroll;
+	max-height: 35px;
+}
+
+.description{
+	width: 100%;
+	margin-left: 7px;
+	margin-top: 10px;
+	padding-right: 7px;
+	overflow: scroll;
+	max-height: 55px;
+}
+
+.offer-stats{
+	width: 100%;
+	margin-top: 20px;
+}
+
+.offer-stats-redemptions{
+	display: block;
+	float: left;
+}
+
+.offer-stats-views{
+	display: block;
+	float: right;
+}
+
+.offer-actions{
+	width: 100%;
+	height: 50px;
+	background-color: #ebebeb;
+}
+
+.offer-cancel{
+	display: block;
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.offer-edit{
+	display: block;
+	float: right;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+#anchor{
+	display: block;
+	width: 1000px;
+}
+
+
+/*
+
+.out{
+	position: relative;
+	background-color: gray;
+	width: 300px;
+}
+
+.a{
+	position: relative;
+	background-color: red;
+	top:0;
+	height: 50px;
+	width: 100%;
+}
+
+.mod{
+	background-color: green;
+}
+
+.b{
+	background-color: blue;
+}
+*/

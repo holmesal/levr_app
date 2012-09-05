@@ -4,11 +4,7 @@
 <link rel="stylesheet" href="../css/manageOffers.css">
 <link href="http://fonts.googleapis.com/css?family=normal:300,400,600,700,800" rel="stylesheet" type="text/css">
 
-<script src="../js/cufon-yui.js" type="text/javascript"></script>
-<script src="../js/leagueGothic1.font.js" type="text/javascript"></script>
-<script type="text/javascript">
-	Cufon.replace('.statsText')
-</script>
+
 
 {% endblock %}
 
@@ -33,11 +29,53 @@
 		</div>
 	</div>
 	<div id='tableDiv'>
-		<h2>{{ business.business_name }}</h2>
+		<!--h2>{{ business.business_name }}</h2-->
+		
+		<h2>Active Offers:</h2>
+		
+		<div id="grid">
+		
+			{% for deal in deals %}
+			
+			<div class="offer-container">
+				<!--img class="offer-img" src="{{ deal['imgURLLarge'] }}"/-->
+				<img class="offer-img" src="http://www.levr.com/phone/img?dealID=tAvwdQhJqgEn8hL7fD1phb9z_c-GNGaQXr0fMHGJdErvitTapPLKLhLS0SszvbkcDSnIGKrOTuyOfdhVHv0=&size=dealDetail"/>
+				<div class="stretchy">
+					<div class="dealText">{{ deal['dealText'] }}</div>
+					<div class="dealTextExtra">{{ deal['dealTextExtra'] }}</div>
+					<div class="description">{{ deal['description'] }}</div>
+				</div>
+				
+				<div class="offer-stats">
+					<p class="offer-stats-redemptions">10 Redemptions</p>
+					<p class="offer-stats-views">1023 Views</p>
+				</div>
+				<div class="offer-actions">
+					<a href="/merchants/deal/delete?id={{ deal['dealID'] }}" class="offer-cancel button red">Cancel</a>
+					<a href="/merchants/editDeal?id={{ deal['dealID'] }}" class="offer-edit button white">Edit</a>
+				</div>
+				
+			</div>
+			
+			{% endfor %}
+		
+		</div>
+		
+		<!--div class="out">
+			<div class="a">A</div>
+			<div class="in">
+				<div class="mod"><img src="../img/cafe.jpg"></div>
+			</div>
+			<div class="b">B</div>
+		</div-->
+		
+		<span id="anchor">&nbsp</span>
+		
 		<table id="my-offers-table">
 			<thead>
 				<tr>
 					<!-- 								<th>Image</th> -->
+					<th></th>
 					<th>Offer</th>
 					<th>Description</th>
 					<th>Edit</th>
@@ -48,9 +86,7 @@
 				{% for deal in deals %}
 				
 				<tr>
-					<!-- 								<td><img src="{{ deal['imgURL'] }}" /></td> -->
-					<!-- 								<td><img src="0.0.0.0:8080/phone/img?dealID=tAv4ZDR8iEAh2w29fBwShIZWks6GJETWXYRvH1GZWk_7g-rjof2xMhOMygholuoUChDyDrrMSui1aMhOG9sX&size=dealDetail" /></td>  -->
-
+					<td><img class="tdImg" src="http://www.levr.com/phone/img?dealID=tAvwdQhJqgEn8hL7fD1phb9z_c-GNGaQXr0fMHGJdErvitTapPLKLhLS0SszvbkcDSnIGKrOTuyOfdhVHv0=&size=dealDetail"/></td>
 					<td>{{ deal['dealText'] }} {{ deal['dealTextExtra'] }}</td>
 					<td>{{ deal['description']}}</td>
 					<td><a href="/merchants/editDeal?id={{ deal['dealID'] }}">edit</a></td>
@@ -61,4 +97,19 @@
 		</table>
 	</div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="../js/cufon-yui.js" type="text/javascript"></script>
+<script src="../js/leagueGothic.font.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	Cufon.replace('.statsText')
+</script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("jquery", "1.4.2");
+</script>
+<script src="../js/masonry.js" type="text/javascript"></script>
+<script src="../js/manage.js" type="text/javascript"></script>
 {% endblock %}

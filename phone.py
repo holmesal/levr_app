@@ -10,7 +10,7 @@ import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-#from google.appengine.api import mail
+from google.appengine.api import mail
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
@@ -138,11 +138,12 @@ class phone(webapp2.RequestHandler):
 				
 				boundary = {"lat":lat,
 							"lon":lon}
-
-				#echo back success!
 				
-				toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty,"boundary":boundary}#,"notifications":notifications}
-				logging.debug(toEcho)
+				if primaryCat == 'all':
+					#echo back data - include boundary
+					toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty,"boundary":boundary}#,"notifications":notifications}
+				else:
+					toEcho = {"success":True,"data":dealResults,"isEmpty":isEmpty}#,"notifications":notifications}
 			#***************getUserFavs************************************************
 			elif action == "getUserFavs":
 				'''

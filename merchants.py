@@ -423,13 +423,12 @@ class ManageHandler(webapp2.RequestHandler):
 			d = levr.Deal.all().ancestor(ownerID).order("is_exclusive").fetch(None)
 			logging.debug(d)
 			#get all ninja deals
-			#this doesnt work
-#			d.extend(levr.CustomerDeal.all().filter('businessID =', businessID).fetch(None))
-			
+			ninja_deals = levr.Deal().all().filter('businessID =', str(business.key())).fetch(None)
+			d += ninja_deals
 			#package deals - mostly for getting the correct urls
 			deals = []
 			for deal in d:
-				logging.debug('---')
+				logging.debug('-----------')
 				deals.append(levr.phoneFormat(deal, 'manage'))
 			
 			logging.debug(deals)

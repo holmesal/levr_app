@@ -1,176 +1,139 @@
-Draft Bar and Grille	34 Harvard Avenue, Allston	42.354845,-71.132488	bar,restaurant,food,establishment
+973 Commonwealth	973 Commonwealth Avenue, Boston	42.351824,-71.11982	bar,restaurant,food,establishment
+Allston Village Pizza & Grill	2 Brighton Avenue, Allston	42.352071,-71.12554	restaurant,food,establishment
+An Tua Nua	835 Beacon Street, Boston	42.347065,-71.10303	restaurant,food,establishment
+Aneka Rasa	122 Harvard Avenue, Allston	42.352306,-71.131758	restaurant,food,establishment
+Angora Cafe	1024 U.S. 20, Boston	42.35175,-71.121811	restaurant,food,establishment
+Aramark	4 Yawkey Way, Boston	42.346278,-71.09582	restaurant,food,establishment
+Ariana Restaurant	129 Brighton Avenue, Allston	42.353027,-71.131111	restaurant,food,establishment
 Asia Wok	44 Harvard Avenue, Allston	42.354597,-71.132404	restaurant,food,establishment
-China Garden Restaurant	44 Harvard Avenue, Allston	42.354597,-71.132404	restaurant,food,establishment
-Camino Real	48 Harvard Avenue, Allston	42.35447,-71.132365	restaurant,food,establishment
+Atrium Cafe	1200 Beacon Street, Brookline	42.343675,-71.116624	cafe,restaurant,food,establishment
+Audubon Circle Restaurant Bar	838 Beacon Street, Boston	42.34729,-71.103245	bar,restaurant,food,establishment
 Azama Grill Inc	54 Harvard Avenue, Allston	42.354385,-71.132342	restaurant,food,establishment
-Crystal Restaurant	20 Linden Street, Allston	42.355498,-71.13087	restaurant,food,establishment
-Common Ground Bar and Grill	85 Harvard Avenue, Allston	42.353468,-71.132256	bar,restaurant,food,establishment
-Tavern In The Square	161 Brighton Avenue, Allston	42.353212,-71.13269	night_club,bar,restaurant,food,establishment
-Myung Dong	90 Harvard Avenue, Allston	42.353286,-71.13206	bar,restaurant,food,establishment
-Domino's Pizza	450 Cambridge Street, Allston	42.354123,-71.135795	restaurant,food,establishment
-Buk Kyung Restaurant	151 Brighton Avenue, Allston	42.353105,-71.13186	restaurant,food,establishment
-Cafe Mitti's	140 Brighton Avenue, Allston	42.352847,-71.131918	restaurant,food,establishment
-Redneck's Roast Beef	140 Brighton Avenue, Allston	42.352825,-71.131917	restaurant,food,establishment
+Beijing Cafe	728 Commonwealth Ave, Boston	42.349598,-71.106461	cafe,restaurant,food,establishment
+Berry Freeze	273 Harvard Street, Brookline	42.342513,-71.121517	store,restaurant,food,establishment
+Between Hours	154 Harvard Avenue, Allston	42.351742,-71.131583	cafe,restaurant,food,establishment
 Big City	138 Brighton Avenue, Allston	42.352822,-71.131714	restaurant,food,establishment
 Blue Asia Co	113 Brighton Avenue, Allston	42.35298,-71.130735	restaurant,food,establishment
-Pizza Days	111 Brighton Avenue, Allston	42.352971,-71.130627	meal_takeaway,restaurant,food,establishment
-Punjab Palace	109 Brighton Avenue, Allston	42.352958,-71.130554	restaurant,food,establishment
-White Horse Tavern	116 Brighton Avenue, Boston	42.352707,-71.130779	bar,restaurant,food,establishment
+Boca Grande Restaurant	1294 Beacon Street, Brookline	42.342728,-71.120273	restaurant,food,establishment
+Boca Grande Restaurant	642 Beacon Street, Boston	42.349348,-71.095416	restaurant,food,establishment
 BonChon Chicken	123 Brighton Avenue, Allston	42.353005,-71.130936	restaurant,food,establishment
-Jo Jo Tai Pei	103 Brighton Avenue, Boston	42.352937,-71.130386	restaurant,food,establishment
-Ariana Restaurant	129 Brighton Avenue, Allston	42.353027,-71.131111	restaurant,food,establishment
-Spike's Junkyard Dogs	108 Brighton Avenue, Allston	42.352654,-71.130331	restaurant,food,establishment
-Infusions Tea Spa	110 Brighton Avenue, Allston	42.352652,-71.130333	restaurant,food,establishment
+Boston Beer Works	61 Brookline Avenue, Boston	42.346994,-71.098804	bar,restaurant,food,establishment
+Boston House of Pizza	173 Amory Street, Brookline	42.350278,-71.113818	restaurant,food,establishment
+Boston Pizza Express	1026 Commonwealth Ave, Boston	42.351656,-71.121986	restaurant,food,establishment
+Bottega Fiorentina	# B, 313 Harvard Street, Brookline	42.343402,-71.12309	store,restaurant,food,establishment
+Brown Sugar Cafe	1033 Commonwealth Avenue, Boston	42.35206,-71.121912	restaurant,food,establishment
+Buk Kyung Restaurant	151 Brighton Avenue, Allston	42.353105,-71.13186	restaurant,food,establishment
+Busy Bee Restaurant	1046 Beacon Street, Brookline	42.34588,-71.108601	restaurant,food,establishment
+Cafe 472	472 Commonwealth Avenue, Boston	42.348676,-71.093694	restaurant,food,establishment
+Cafe Mitti's	140 Brighton Avenue, Allston	42.352847,-71.131918	restaurant,food,establishment
+Camino Real	48 Harvard Avenue, Allston	42.35447,-71.132365	restaurant,food,establishment
+Campus Trolley	665 Commonwealth Avenue, Boston	42.349826,-71.103191	restaurant,food,establishment
 Carlos Cucina Italiana	131 Brighton Avenue, Allston	42.353056,-71.131342	restaurant,food,establishment
-Le's Restaurant	137 Brighton Avenue, Allston	42.353059,-71.131368	restaurant,food,establishment
-Pho Pasteur	137 Brighton Avenue, ALLSTON	42.353064,-71.131396	restaurant,food,establishment
-Steve's Kitchen	120 Harvard Avenue, Allston	42.352461,-71.131804	restaurant,food,establishment
-Korean Garden	122 Harvard Avenue, Allston	42.352349,-71.131771	restaurant,food,establishment
-Aneka Rasa	122 Harvard Avenue, Allston	42.352306,-71.131758	restaurant,food,establishment
-SoulFire	182 Harvard Avenue, Allston	42.351031,-71.131236	restaurant,food,establishment
-Wonder Bar	186 Harvard Avenue, Allston	42.351,-71.131218	night_club,bar,restaurant,food,establishment
-Hanmaru Restaurant	168 Harvard Avenue, Allston	42.35138,-71.131431	restaurant,food,establishment
-Color Restaurant	166 Harvard Avenue, Allston	42.35146,-71.13147	restaurant,food,establishment
-SUBWAY	162 Harvard Avenue, Allston	42.35154,-71.131503	store,meal_takeaway,restaurant,food,establishment
-In House Cafe	194 Harvard Avenue, Boston	42.350793,-71.131097	restaurant,food,establishment
-Habibi's Lounge	1217 Commonwealth Avenue, Boston	42.350691,-71.130905	night_club,bar,restaurant,food,establishment
-Between Hours	154 Harvard Avenue, Allston	42.351742,-71.131583	cafe,restaurant,food,establishment
-Dunkin' Donuts	179 Brighton Avenue, Allston	42.34991,-71.130206	store,meal_takeaway,restaurant,food,establishment
-Dunkin' Donuts	210 Harvard Avenue, Allston	42.349798,-71.130454	restaurant,food,establishment
-Wing It Inc	1153 Commonwealth Avenue, Allston	42.350791,-71.127663	restaurant,food,establishment
-Pita Pit	479 Harvard Street, Brookline	42.347184,-71.128547	store,meal_takeaway,restaurant,food,establishment
-Wings Over Brookline	477 Harvard Street, Brookline	42.34713,-71.128508	restaurant,food,establishment
-Starbucks Coffee	473 Harvard Street, Brookline	42.347022,-71.128424	cafe,restaurant,food,establishment
+Cask'n Flagon	62 Brookline Avenue, Boston	42.347286,-71.098274	store,meal_takeaway,restaurant,food,establishment
+China Garden Restaurant	44 Harvard Avenue, Allston	42.354597,-71.132404	restaurant,food,establishment
 Cognac Bistro	455 Harvard Street, Brookline	42.346644,-71.128172	restaurant,food,establishment
-The Daily Catch Brookline	441 Harvard Street, Brookline	42.346166,-71.127795	restaurant,food,establishment
-Taam China Restaurant	423 Harvard Street, Brookline	42.345681,-71.127326	restaurant,food,establishment
-Kupel's Bakery	421 Harvard Street, Brookline	42.34562,-71.127251	bakery,store,restaurant,food,establishment
-Ozzie's Pizza	415 Harvard Street, Brookline	42.345399,-71.126908	restaurant,food,establishment
+Color Restaurant	166 Harvard Avenue, Allston	42.35146,-71.13147	restaurant,food,establishment
+Common Ground Bar and Grill	85 Harvard Avenue, Allston	42.353468,-71.132256	bar,restaurant,food,establishment
+Cookin Cafe & Grille	1096 Commonwealth Avenue, Boston	42.35187,-71.124325	restaurant,food,establishment
+Coolidge Corner Clubhouse	307 Harvard Street, Brookline	42.343325,-71.122864	bar,restaurant,food,establishment
+Cornwall's	654 Beacon Street, Boston	42.349228,-71.095843	bar,restaurant,food,establishment
+Crispy Crepes Cafe	512 A Park Drive, Boston	42.347796,-71.105825	cafe,restaurant,food,establishment
+Crystal Restaurant	20 Linden Street, Allston	42.355498,-71.13087	restaurant,food,establishment
+DISTRICT Pizza	Boston	42.352723,-71.121139	restaurant,food,establishment
+Dim Sum Chef	1095 Commonwealth Avenue, Boston	42.352017,-71.125017	restaurant,food,establishment
 Dok Bua Thai Restaurant	411 Harvard Street, Brookline	42.345341,-71.126816	restaurant,food,establishment
 Dorado Tacos & Cemitas	401 Harvard St., Midway between Beacon & Comm Ave, Brookline	42.345183,-71.126582	restaurant,food,establishment
-Zaftigs Delicatessen	335 Harvard Street, Brookline	42.343794,-71.12379	store,meal_takeaway,restaurant,food,establishment
-Mr. Sushi	329 Harvard Street, Brookline	42.34376,-71.12373	restaurant,food,establishment
-Shiki	9 Babcock Street, Brookline	42.34364,-71.1229	restaurant,food,establishment
-Bottega Fiorentina	# B, 313 Harvard Street, Brookline	42.343402,-71.12309	store,restaurant,food,establishment
-Coolidge Corner Clubhouse	307 Harvard Street, Brookline	42.343325,-71.122864	bar,restaurant,food,establishment
-Panera Bread	299 Harvard Street, Brookline	42.34307,-71.122508	restaurant,food,establishment
-Upper Crust	888 Commonwealth Avenue, Brookline	42.342788,-71.122294	restaurant,food,establishment
-Osaka Japanese Sushi & Steak House	14 Green Street, Brookline	42.343122,-71.121815	restaurant,food,establishment
-Peet's Coffee & Tea	285 Harvard Street, Brookline	42.342756,-71.121934	cafe,restaurant,food,establishment
-Starbucks	277 Harvard St, Brookline	42.342586,-71.121629	restaurant,food,establishment
-Otto Pizza	289 Harvard Street, Brookline	42.342874,-71.122138	meal_takeaway,restaurant,food,establishment
-Berry Freeze	273 Harvard Street, Brookline	42.342513,-71.121517	store,restaurant,food,establishment
-Boca Grande Restaurant	1294 Beacon Street, Brookline	42.342728,-71.120273	restaurant,food,establishment
-Jerusalem Pita and Grill	10 Pleasant Street, Brookline	42.342919,-71.120187	restaurant,food,establishment
-FuGaKyu Japanese Cuisine	1280 Beacon Street, Brookline	42.342914,-71.119357	restaurant,food,establishment
-Atrium Cafe	1200 Beacon Street, Brookline	42.343675,-71.116624	cafe,restaurant,food,establishment
-The Beacon Street Tavern	1032 Beacon Street, Brookline	42.345671,-71.108621	restaurant,food,establishment
-Temptations	1038 Beacon Street, Brookline	42.345905,-71.108702	store,meal_takeaway,restaurant,food,establishment
-Sushi Express	1038 Beacon Street, Brookline	42.345869,-71.108641	restaurant,food,establishment
-Busy Bee Restaurant	1046 Beacon Street, Brookline	42.34588,-71.108601	restaurant,food,establishment
-O'Leary's	1010 Beacon Street, Brookline	42.346218,-71.10736	bar,restaurant,food,establishment
-Dunkin' Donuts	1008 Beacon Street, Brookline	42.346267,-71.10718	store,meal_takeaway,restaurant,food,establishment
-Sichuan Gourmet	1004 Beacon Street, Brookline	42.346276,-71.107149	restaurant,food,establishment
-Ginza Japanese Restaurant	1002 Beacon Street, Brookline	42.346412,-71.107036	restaurant,food,establishment
-Sol Azteca	914 Beacon Street, Boston	42.34656,-71.106214	restaurant,food,establishment
-Sicilia's Pizza	840 Commonwealth Avenue, Boston	42.350529,-71.112946	restaurant,food,establishment
-Crispy Crepes Cafe	512 A Park Drive, Boston	42.347796,-71.105825	cafe,restaurant,food,establishment
-Giga's Pizza	27 Buswell Street, Boston	42.347469,-71.105997	restaurant,food,establishment
-LongHorn Steakhouse	401 Park Drive, Boston	42.344827,-71.103329	bar,restaurant,food,establishment
-Beijing Cafe	728 Commonwealth Ave, Boston	42.349598,-71.106461	cafe,restaurant,food,establishment
-Nud Pob Thai Cuisine	738 Commonwealth Avenue, Boston	42.349844,-71.107214	restaurant,food,establishment
-Audubon Circle Restaurant Bar	838 Beacon Street, Boston	42.34729,-71.103245	bar,restaurant,food,establishment
-Espresso Royale	736 Commonwealth Avenue, Boston	42.349853,-71.107129	cafe,restaurant,food,establishment
-An Tua Nua	835 Beacon Street, Boston	42.347065,-71.10303	restaurant,food,establishment
-University Grill & Pizza	712 Commonwealth Avenue #1, Boston	42.349655,-71.105558	restaurant,food,establishment
-Olecito	700 Commonwealth Avenue, Boston	42.349488,-71.103948	store,restaurant,food,establishment
-Fresh City	201 Brookline Avenue, Boston	42.344449,-71.101625	restaurant,food,establishment
-UFood Grill	401 Park Dr # 201, Boston	42.344213,-71.101938	restaurant,food,establishment
-D'Angelo Grilled Sandwiches	200 Brookline Avenue, Boston	42.343683,-71.1021	store,meal_takeaway,restaurant,food,establishment
-UFood Grill	201 Brookline Avenue, Boston	42.344399,-71.101635	restaurant,food,establishment
-Panera Bread	201 Brookline Avenue, Boston	42.344604,-71.101407	bakery,store,meal_takeaway,cafe,restaurant,food,establishment
-Chipotle Mexican Grill	148 Brookline Avenue, Boston	42.344661,-71.10108	restaurant,food,establishment
-Sweet Cheeks Q	1381 Boylston Street, Boston	42.343794,-71.101119	restaurant,food,establishment
-Sal's Pizza in Boston	132 Brookline Avenue, Boston	42.345025,-71.100695	meal_takeaway,restaurant,food,establishment
-Happy's Bar & Kitchen	1363 Boylston Street, Boston	42.344146,-71.100215	bar,restaurant,food,establishment
-Yard House Boston	126 Brookline Avenue, Boston	42.34543,-71.100229	restaurant,food,establishment
-Au Bon Pain	133 Brookline Avenue, Boston	42.345317,-71.100614	restaurant,food,establishment
-Subway	1315 Boylston Street, Boston	42.344458,-71.098761	store,restaurant,food,establishment
-Tasty Burger	1301 Boylston Street, Boston	42.344541,-71.098312	restaurant,food,establishment
-Boston Beer Works	61 Brookline Avenue, Boston	42.346994,-71.098804	bar,restaurant,food,establishment
-Cask'n Flagon	62 Brookline Avenue, Boston	42.347286,-71.098274	store,meal_takeaway,restaurant,food,establishment
-Game On	82 Lansdowne Street, Boston	42.34717,-71.097849	bar,restaurant,food,establishment
-The Bleacher Bar	82A Lansdowne Street, Boston	42.347115,-71.096649	night_club,bar,restaurant,food,establishment
-Popeye's Chicken & Biscuits	21 Brookline Avenue, Boston	42.348354,-71.09747	restaurant,food,establishment
-Maluken Japanese Cuisine	645 Beacon Street, Boston	42.348672,-71.097832	restaurant,food,establishment
-Uno Chicago Grill	1 Brookline Avenue, Boston	42.348562,-71.097373	bar,restaurant,food,establishment
-McDonald's	540 Commonwealth Avenue, Boston	42.348573,-71.096819	store,meal_takeaway,restaurant,food,establishment
-Scoozi	580 Commonwealth Avenue, Boston	42.348968,-71.09971	restaurant,food,establishment
-Hong Kong Cafe	1271 Boylston Street, Boston	42.3453,-71.096933	restaurant,food,establishment
-House of Blues	15 Lansdowne St, Boston	42.347243,-71.095704	restaurant,food,establishment
-Aramark	4 Yawkey Way, Boston	42.346278,-71.09582	restaurant,food,establishment
+Draft Bar and Grille	34 Harvard Avenue, Allston	42.354845,-71.132488	bar,restaurant,food,establishment
 Eastern Standard	528 Commonwealth Avenue, Boston	42.348565,-71.096133	restaurant,food,establishment
-Qdoba Mexican Grill	540 Commonwealth Avenue, Boston	42.348638,-71.096063	restaurant,food,establishment
-The Lansdowne	9 Lansdowne Street, Boston	42.347268,-71.095215	bar,restaurant,food,establishment
-Bertucci's - Kenmore Square	533 Commonwealth Avenue, Boston	42.3493,-71.0966	restaurant,food,establishment
-The Hawthorne	500 A Commonwealth Avenue, Boston	42.348529,-71.095545	store,bar,restaurant,food,establishment
-Cornwall's	654 Beacon Street, Boston	42.349228,-71.095843	bar,restaurant,food,establishment
-Island Creek Oyster Bar	500 Commonwealth Avenue, Boston	42.348774,-71.094994	bar,restaurant,food,establishment
-Boca Grande Restaurant	642 Beacon Street, Boston	42.349348,-71.095416	restaurant,food,establishment
-Thai Dish Restaurant	636 Beacon Street, Boston	42.349413,-71.095151	restaurant,food,establishment
-Uburger	636 Beacon Street, Boston	42.349413,-71.095151	restaurant,food,establishment
+Espresso Royale	736 Commonwealth Avenue, Boston	42.349853,-71.107129	cafe,restaurant,food,establishment
 Fins Sushi	636 Beacon Street, Boston	42.349413,-71.095151	restaurant,food,establishment
-India Quality Restaurant	484 Commonwealth Avenue, Boston	42.348605,-71.094219	restaurant,food,establishment
-Lower Depths	476 Commonwealth Avenue, Boston	42.348731,-71.093842	bar,restaurant,food,establishment
-Cafe 472	472 Commonwealth Avenue, Boston	42.348676,-71.093694	restaurant,food,establishment
-Petit Robert	468 Commonwealth Avenue, Boston	42.348699,-71.093508	restaurant,food,establishment
-Lucky Strike Lanes	145 Ipswich Street, Boston	42.347418,-71.094245	bowling_alley,bar,restaurant,food,establishment
-Jillian's Boston	145 Ipswich Street, Boston	42.347393,-71.094247	restaurant,food,establishment
-Tequila Rain	145 Ipswich Street, Boston	42.347269,-71.094499	night_club,bar,restaurant,food,amusement_park,establishment
-Kenmore Square Hubway Station	Commonwealth Avenue, Boston	42.349083,-71.096876	restaurant,food,establishment
-Starbucks	595 Commonwealth Avenue, Boston	42.34945,-71.10002	cafe,restaurant,food,establishment
-Noodle St	627 Commonwealth Avenue, Boston	42.349632,-71.101676	restaurant,food,establishment
-Starbucks	580 Commonwealth Avenue, Boston	42.34956,-71.100287	cafe,restaurant,food,establishment
-Campus Trolley	665 Commonwealth Avenue, Boston	42.349826,-71.103191	restaurant,food,establishment
-Panda Express	775 Commonwealth Avenue, Boston	42.350586,-71.108934	restaurant,food,establishment
-Jamba Juice	775 Commonwealth Avenue, Boston	42.350526,-71.108979	restaurant,food,establishment
-Lollicup	1095 Commonwealth Avenue, Boston	42.350588,-71.10956	restaurant,food,establishment
-Roast Beast	1080 Commonwealth Avenue, Boston	42.350474,-71.10962	store,meal_takeaway,restaurant,food,establishment
-Rhett's	775 Commonwealth Avenue, Boston	42.350615,-71.109179	restaurant,food,establishment
-Boston House of Pizza	173 Amory Street, Brookline	42.350278,-71.113818	restaurant,food,establishment
-Chipotle Mexican Grill	876 Commonwealth Avenue, Brookline	42.350731,-71.114672	restaurant,food,establishment
-Panera Bread	888 Commonwealth Avenue, Boston	42.350813,-71.115361	bakery,store,meal_takeaway,cafe,restaurant,food,establishment
-Sunset Cantina	916 Commonwealth Avenue, Boston	42.350869,-71.116991	restaurant,food,establishment
-Raising Cane's	949 Commonwealth Avenue, Boston	42.351706,-71.11884	restaurant,food,establishment
-Qdoba Mexican Grill	961 Commonwealth Avenue, Boston	42.351755,-71.119223	restaurant,food,establishment
-T's Pub	973 Commonwealth Avenue, Boston	42.35182,-71.119723	bar,restaurant,food,establishment
-The Ring Boxing Club	971 Commonwealth Avenue, Boston	42.3517,-71.119793	restaurant,food,school,establishment
-973 Commonwealth	973 Commonwealth Avenue, Boston	42.351824,-71.11982	bar,restaurant,food,establishment
-T Anthony's Pizzeria	1016 Commonwealth Avenue, Boston	42.351694,-71.121481	restaurant,food,establishment
-Dunkin' Donuts	1020 Commonwealth Avenue, Boston	42.351612,-71.121638	store,meal_takeaway,restaurant,food,establishment
-DISTRICT Pizza	Boston	42.352723,-71.121139	restaurant,food,establishment
-UBurger	1022 Commonwealth Avenue, Boston	42.351615,-71.121704	restaurant,food,establishment
-Victoria Seafood Restaurant	1029 Commonwealth Avenue, Boston	42.352065,-71.121733	restaurant,food,establishment
-Angora Cafe	1024 U.S. 20, Boston	42.35175,-71.121811	restaurant,food,establishment
-Brown Sugar Cafe	1033 Commonwealth Avenue, Boston	42.35206,-71.121912	restaurant,food,establishment
-Boston Pizza Express	1026 Commonwealth Ave, Boston	42.351656,-71.121986	restaurant,food,establishment
-Quan's Kitchen Chinese Food	1026 Commonwealth Avenue, Boston	42.35165,-71.121987	restaurant,food,establishment
-Kayuga	1030 Commonwealth Avenue, Boston	42.351657,-71.122128	restaurant,food,establishment
-Japonaise Bakery	1032 Commonwealth Avenue, Boston	42.351675,-71.122199	bakery,store,cafe,restaurant,food,establishment
-Pan Roma Pizza	1026 Commonwealth Avenue, Brookline	42.35165,-71.121987	restaurant,food,establishment
-Shaw's	1065 Commonwealth Avenue, Boston	42.352677,-71.123333	pharmacy,restaurant,health,grocery_or_supermarket,food,store,establishment
-Packard's Corner Hubway Station	U.S. 20, Boston	42.352303,-71.123781	restaurant,food,establishment
-Cookin Cafe & Grille	1096 Commonwealth Avenue, Boston	42.35187,-71.124325	restaurant,food,establishment
-Saray Restaurant	1098 Commonwealth Avenue, Boston	42.35185,-71.124395	restaurant,food,establishment
-JMP Food Hut	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	restaurant,food,establishment
-Smile Thai Noodle	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	restaurant,food,establishment
-Misono Grill	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	restaurant,food,establishment
-Pho Viets	1095 Commonwealth Avenue, Boston	42.352626,-71.125417	restaurant,food,establishment
-Super 88 Market Food Court	1 Brighton Ave, Allston	42.352321,-71.125329	restaurant,grocery_or_supermarket,food,store,establishment
-Allston Village Pizza & Grill	2 Brighton Avenue, Allston	42.352071,-71.12554	restaurant,food,establishment
-Dim Sum Chef	1095 Commonwealth Avenue, Boston	42.352017,-71.125017	restaurant,food,establishment
-Kantin	1095 Commonwealth Avenue, Boston	42.352017,-71.125017	restaurant,food,establishment
-Nile Lounge	70 Brighton Avenue, Allston	42.35246,-71.128709	bar,restaurant,food,establishment
-Madina Market	72 Brighton Avenue, Boston	42.352462,-71.128789	convenience_store,store,restaurant,food,establishment
 First Bite Cafe	76 Brighton Avenue, Boston	42.352485,-71.128878	restaurant,food,establishment
+Fresh City	201 Brookline Avenue, Boston	42.344449,-71.101625	restaurant,food,establishment
+FuGaKyu Japanese Cuisine	1280 Beacon Street, Brookline	42.342914,-71.119357	restaurant,food,establishment
+Game On	82 Lansdowne Street, Boston	42.34717,-71.097849	bar,restaurant,food,establishment
+Giga's Pizza	27 Buswell Street, Boston	42.347469,-71.105997	restaurant,food,establishment
+Ginza Japanese Restaurant	1002 Beacon Street, Brookline	42.346412,-71.107036	restaurant,food,establishment
+Habibi's Lounge	1217 Commonwealth Avenue, Boston	42.350691,-71.130905	night_club,bar,restaurant,food,establishment
+Hanmaru Restaurant	168 Harvard Avenue, Allston	42.35138,-71.131431	restaurant,food,establishment
+Happy's Bar & Kitchen	1363 Boylston Street, Boston	42.344146,-71.100215	bar,restaurant,food,establishment
+Hong Kong Cafe	1271 Boylston Street, Boston	42.3453,-71.096933	restaurant,food,establishment
+In House Cafe	194 Harvard Avenue, Boston	42.350793,-71.131097	restaurant,food,establishment
+India Quality Restaurant	484 Commonwealth Avenue, Boston	42.348605,-71.094219	restaurant,food,establishment
+Infusions Tea Spa	110 Brighton Avenue, Allston	42.352652,-71.130333	restaurant,food,establishment
+Island Creek Oyster Bar	500 Commonwealth Avenue, Boston	42.348774,-71.094994	bar,restaurant,food,establishment
+JMP Food Hut	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	restaurant,food,establishment
+Japonaise Bakery	1032 Commonwealth Avenue, Boston	42.351675,-71.122199	bakery,store,cafe,restaurant,food,establishment
+Jerusalem Pita and Grill	10 Pleasant Street, Brookline	42.342919,-71.120187	restaurant,food,establishment
+Jillian's Boston	145 Ipswich Street, Boston	42.347393,-71.094247	restaurant,food,establishment
+Jo Jo Tai Pei	103 Brighton Avenue, Boston	42.352937,-71.130386	restaurant,food,establishment
+Kantin	1095 Commonwealth Avenue, Boston	42.352017,-71.125017	restaurant,food,establishment
+Kayuga	1030 Commonwealth Avenue, Boston	42.351657,-71.122128	restaurant,food,establishment
+Korean Garden	122 Harvard Avenue, Allston	42.352349,-71.131771	restaurant,food,establishment
+Kupel's Bakery	421 Harvard Street, Brookline	42.34562,-71.127251	bakery,store,restaurant,food,establishment
+Le's Restaurant	137 Brighton Avenue, Allston	42.353059,-71.131368	restaurant,food,establishment
+Lollicup	1095 Commonwealth Avenue, Boston	42.350588,-71.10956	restaurant,food,establishment
+LongHorn Steakhouse	401 Park Drive, Boston	42.344827,-71.103329	bar,restaurant,food,establishment
+Lower Depths	476 Commonwealth Avenue, Boston	42.348731,-71.093842	bar,restaurant,food,establishment
+Lucky Strike Lanes	145 Ipswich Street, Boston	42.347418,-71.094245	bowling_alley,bar,restaurant,food,establishment
+Madina Market	72 Brighton Avenue, Boston	42.352462,-71.128789	convenience_store,store,restaurant,food,establishment
+Maluken Japanese Cuisine	645 Beacon Street, Boston	42.348672,-71.097832	restaurant,food,establishment
+Misono Grill	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	restaurant,food,establishment
+Mr. Sushi	329 Harvard Street, Brookline	42.34376,-71.12373	restaurant,food,establishment
+Myung Dong	90 Harvard Avenue, Allston	42.353286,-71.13206	bar,restaurant,food,establishment
+Noodle St	627 Commonwealth Avenue, Boston	42.349632,-71.101676	restaurant,food,establishment
+Nud Pob Thai Cuisine	738 Commonwealth Avenue, Boston	42.349844,-71.107214	restaurant,food,establishment
+O'Leary's	1010 Beacon Street, Brookline	42.346218,-71.10736	bar,restaurant,food,establishment
+Olecito	700 Commonwealth Avenue, Boston	42.349488,-71.103948	store,restaurant,food,establishment
+Osaka Japanese Sushi & Steak House	14 Green Street, Brookline	42.343122,-71.121815	restaurant,food,establishment
+Otto Pizza	289 Harvard Street, Brookline	42.342874,-71.122138	meal_takeaway,restaurant,food,establishment
+Ozzie's Pizza	415 Harvard Street, Brookline	42.345399,-71.126908	restaurant,food,establishment
+Packard's Corner Hubway Station	U.S. 20, Boston	42.352303,-71.123781	restaurant,food,establishment
+Pan Roma Pizza	1026 Commonwealth Avenue, Brookline	42.35165,-71.121987	restaurant,food,establishment
+Peet's Coffee & Tea	285 Harvard Street, Brookline	42.342756,-71.121934	cafe,restaurant,food,establishment
+Petit Robert	468 Commonwealth Avenue, Boston	42.348699,-71.093508	restaurant,food,establishment
+Pho Pasteur	137 Brighton Avenue, ALLSTON	42.353064,-71.131396	restaurant,food,establishment
+Pho Viets	1095 Commonwealth Avenue, Boston	42.352626,-71.125417	restaurant,food,establishment
+Pita Pit	479 Harvard Street, Brookline	42.347184,-71.128547	store,meal_takeaway,restaurant,food,establishment
+Pizza Days	111 Brighton Avenue, Allston	42.352971,-71.130627	meal_takeaway,restaurant,food,establishment
+Punjab Palace	109 Brighton Avenue, Allston	42.352958,-71.130554	restaurant,food,establishment
+Quan's Kitchen Chinese Food	1026 Commonwealth Avenue, Boston	42.35165,-71.121987	restaurant,food,establishment
+Redneck's Roast Beef	140 Brighton Avenue, Allston	42.352825,-71.131917	restaurant,food,establishment
+Roast Beast	1080 Commonwealth Avenue, Boston	42.350474,-71.10962	store,meal_takeaway,restaurant,food,establishment
+Saray Restaurant	1098 Commonwealth Avenue, Boston	42.35185,-71.124395	restaurant,food,establishment
+Scoozi	580 Commonwealth Avenue, Boston	42.348968,-71.09971	restaurant,food,establishment
 Shabu-Zen	80 Brighton Avenue, Allston	42.352502,-71.129043	restaurant,food,establishment
+Shaw's	1065 Commonwealth Avenue, Boston	42.352677,-71.123333	pharmacy,restaurant,health,grocery_or_supermarket,food,store,establishment
+Shiki	9 Babcock Street, Brookline	42.34364,-71.1229	restaurant,food,establishment
+Sichuan Gourmet	1004 Beacon Street, Brookline	42.346276,-71.107149	restaurant,food,establishment
+Sicilia's Pizza	840 Commonwealth Avenue, Boston	42.350529,-71.112946	restaurant,food,establishment
+Smile Thai Noodle	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	restaurant,food,establishment
+Sol Azteca	914 Beacon Street, Boston	42.34656,-71.106214	restaurant,food,establishment
+SoulFire	182 Harvard Avenue, Allston	42.351031,-71.131236	restaurant,food,establishment
+Spike's Junkyard Dogs	108 Brighton Avenue, Allston	42.352654,-71.130331	restaurant,food,establishment
+Steve's Kitchen	120 Harvard Avenue, Allston	42.352461,-71.131804	restaurant,food,establishment
+Sunset Cantina	916 Commonwealth Avenue, Boston	42.350869,-71.116991	restaurant,food,establishment
+Sushi Express	1038 Beacon Street, Brookline	42.345869,-71.108641	restaurant,food,establishment
+Sweet Cheeks Q	1381 Boylston Street, Boston	42.343794,-71.101119	restaurant,food,establishment
+T Anthony's Pizzeria	1016 Commonwealth Avenue, Boston	42.351694,-71.121481	restaurant,food,establishment
+T's Pub	973 Commonwealth Avenue, Boston	42.35182,-71.119723	bar,restaurant,food,establishment
+Taam China Restaurant	423 Harvard Street, Brookline	42.345681,-71.127326	restaurant,food,establishment
+Tasty Burger	1301 Boylston Street, Boston	42.344541,-71.098312	restaurant,food,establishment
+Tavern In The Square	161 Brighton Avenue, Allston	42.353212,-71.13269	night_club,bar,restaurant,food,establishment
+Temptations	1038 Beacon Street, Brookline	42.345905,-71.108702	store,meal_takeaway,restaurant,food,establishment
+Thai Dish Restaurant	636 Beacon Street, Boston	42.349413,-71.095151	restaurant,food,establishment
+The Beacon Street Tavern	1032 Beacon Street, Brookline	42.345671,-71.108621	restaurant,food,establishment
+The Bleacher Bar	82A Lansdowne Street, Boston	42.347115,-71.096649	night_club,bar,restaurant,food,establishment
+The Daily Catch Brookline	441 Harvard Street, Brookline	42.346166,-71.127795	restaurant,food,establishment
+The Hawthorne	500 A Commonwealth Avenue, Boston	42.348529,-71.095545	store,bar,restaurant,food,establishment
+The Lansdowne	9 Lansdowne Street, Boston	42.347268,-71.095215	bar,restaurant,food,establishment
+UBurger	1022 Commonwealth Avenue, Boston	42.351615,-71.121704	restaurant,food,establishment
+Uburger	636 Beacon Street, Boston	42.349413,-71.095151	restaurant,food,establishment
+University Grill & Pizza	712 Commonwealth Avenue #1, Boston	42.349655,-71.105558	restaurant,food,establishment
+Upper Crust	888 Commonwealth Avenue, Brookline	42.342788,-71.122294	restaurant,food,establishment
+Victoria Seafood Restaurant	1029 Commonwealth Avenue, Boston	42.352065,-71.121733	restaurant,food,establishment
+White Horse Tavern	116 Brighton Avenue, Boston	42.352707,-71.130779	bar,restaurant,food,establishment
+Wing It Inc	1153 Commonwealth Avenue, Allston	42.350791,-71.127663	restaurant,food,establishment
+Wings Over Brookline	477 Harvard Street, Brookline	42.34713,-71.128508	restaurant,food,establishment
+Wonder Bar	186 Harvard Avenue, Allston	42.351,-71.131218	night_club,bar,restaurant,food,establishment
+Yard House Boston	126 Brookline Avenue, Boston	42.34543,-71.100229	restaurant,food,establishment
+Zaftigs Delicatessen	335 Harvard Street, Brookline	42.343794,-71.12379	store,meal_takeaway,restaurant,food,establishment

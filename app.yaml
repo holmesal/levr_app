@@ -1,5 +1,5 @@
 application: levr-production
-version: 2
+version: 1
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -45,6 +45,7 @@ handlers:
   script: uploadEmail.app
   login: admin
 - url: /target.*
+  login: admin
   script: store_businesses.app
 
 

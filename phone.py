@@ -10,7 +10,7 @@ import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-from google.appengine.api import mail
+#from google.appengine.api import mail
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 

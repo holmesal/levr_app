@@ -210,6 +210,8 @@ class EmailCheckHandler(webapp2.RequestHandler):
 class WelcomeHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
+			logging.debug('!!!!!!')
+			logging.info('asdasd')
 			template = jinja_environment.get_template('templates/new.html')
 			self.response.out.write(template.render())
 		except:
@@ -229,7 +231,30 @@ class WelcomeHandler(webapp2.RequestHandler):
 				).put()
 			logging.debug(owner_key)
 			
-			business_name = self.request.get('business_name')
+			business_name	= self.request.get('business_name')
+			logging.debug(business_name)
+			name_str = levr.tagger(business_name)
+			logging.debug(name_str)
+			#create unique identifier for the business
+			if name_str[0] == 'the' or name_str[0] == 'a' or name_str[0] == 'an':
+				#dont like the word the in front
+				logging.debug('flag the!')
+				identifier = ''.join(name_str[1:3])
+			else:
+				identifier = ''.join(name_str[:2])
+			upload_email = "u+"+identifier+"@levr.com"
+			
+			#check if that already exists
+			num = levr.Business.all().filter('upload_email =',upload_email).count()
+			
+			logging.debug(num)
+			if num != 0:
+				#a business already exists with that upload email
+				#increment the 
+				upload_email = "u+"+identifier+str(num)+"@levr.com"
+			
+			logging.debug(upload_email)
+#			upload_email	= 
 			business_key = levr.Business(
 				#create business
 				owner			=owner_key,
@@ -237,7 +262,8 @@ class WelcomeHandler(webapp2.RequestHandler):
 				vicinity		=self.request.get('vicinity'),
 				geo_point		=levr.geo_converter(self.request.get('geo_point')),
 				types			=self.request.get_all('types[]'),
-				validated		=False
+				validated		=False,
+				upload_email	= upload_email
 				).put()
 			
 			logging.debug(business_key)

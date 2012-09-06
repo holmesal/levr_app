@@ -44,7 +44,8 @@ handlers:
   #mail services
   script: uploadEmail.app
   login: admin
-
+- url: /target.*
+  script: store_businesses.app
 
 
 - url: /img

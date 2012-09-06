@@ -231,7 +231,12 @@ class WelcomeHandler(webapp2.RequestHandler):
 				).put()
 			logging.debug(owner_key)
 			
+			#get the business info from the form
 			business_name	= self.request.get('business_name')
+			geo_point		= levr.geo_converter(self.request.get('geo_point'))
+			vicinity		= self.request.get('vicinity')
+			types			= self.request.get_all('types[]')
+			
 			logging.debug(business_name)
 			name_str = levr.tagger(business_name)
 			logging.debug(name_str)
@@ -254,16 +259,33 @@ class WelcomeHandler(webapp2.RequestHandler):
 				upload_email = "u+"+identifier+str(num)+"@levr.com"
 			
 			logging.debug(upload_email)
-#			upload_email	= 
+			
+			#check if business exists in database
+			business = levr.Business.all().filter('business_name =', business_name).filter('vicinity =',vicinity).get()
+			logging.debug(business)
+			
+			if business:
+				logging.debug(business.owner)
+				logging.debug('flag business already exists')
+				#have to delete business entity instead of update because gae wont update reference on owner entity
+				if business.owner == None:
+					#this business has no dependencies... delete!
+					db.delete(business)
+				else:
+					logging.error('A business owner just signed up claiming a business that another person has claimed')
+			else:
+				logging.debug('flag business does not exist')
+			
+			#create business entity
 			business_key = levr.Business(
 				#create business
 				owner			=owner_key,
 				business_name	=business_name,
-				vicinity		=self.request.get('vicinity'),
-				geo_point		=levr.geo_converter(self.request.get('geo_point')),
-				types			=self.request.get_all('types[]'),
-				validated		=False,
-				upload_email	= upload_email
+				vicinity		=vicinity,
+				geo_point		=geo_point,
+				types			=types,
+				upload_email	=upload_email,
+				targeted		=False
 				).put()
 			
 			logging.debug(business_key)
@@ -420,11 +442,11 @@ class ManageHandler(webapp2.RequestHandler):
 			
 			
 			#get all deals that are children of the owner ordered by whether or not they are exclusive or not
-			d = levr.Deal.all().ancestor(ownerID).order("is_exclusive").fetch(None)
-			logging.debug(d)
+#			d = levr.Deal.all().ancestor(ownerID).order("is_exclusive").fetch(None)
+#			logging.debug(d)
 			#get all ninja deals
-			ninja_deals = levr.Deal().all().filter('businessID =', str(business.key())).fetch(None)
-			d += ninja_deals
+			d = levr.Deal().all().filter('businessID =', str(business.key())).fetch(None)
+#			d += ninja_deals
 			#package deals - mostly for getting the correct urls
 			deals = []
 			for deal in d:

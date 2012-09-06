@@ -83,7 +83,7 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
 		#new customer deal
 		cd = levr_classes.CustomerDeal(parent=ninja)
-		cd.businessID		= str(b.key())
+		cd.businessID		= 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchMLEg1CdXNpbmVzc093bmVyGAEM'#str(b.key())
 		cd.img				= upload.key()
 		cd.business_name 	= 'Shaws'
 		cd.deal_text		= '40% of sijo'

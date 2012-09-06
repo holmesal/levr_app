@@ -89,16 +89,9 @@ class BusinessOwner(db.Model):
 	pw 				= db.StringProperty()
 	signup_date 	= db.DateTimeProperty(auto_now_add=True)	#when signed up for our service $$$
 	validated		= db.BooleanProperty(default=False)
-	upload_email	= db.EmailProperty()
+	
 	#psudoproperty: businesses - see business entity - this is a query for all the businesses that list this owner as the owner
 
-class EmailUpload(db.Model):
-	owner			= db.ReferenceProperty(BusinessOwner,collection_name='email_uploads')
-	message_sender	= db.EmailProperty()
-	message_subject	= db.StringProperty()
-	message_body	= db.StringProperty() #might be better to be textProperty
-	
-	
 class Business(db.Model):
 	#root class
 	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user or by business
@@ -108,6 +101,7 @@ class Business(db.Model):
 	types			= db.ListProperty(str)
 	targeted		= db.BooleanProperty(default=False)
 	owner			= db.ReferenceProperty(BusinessOwner,collection_name='businesses')
+	upload_email	= db.EmailProperty()
 		#this creates a list property in the owner
 
 	def dictify(self):

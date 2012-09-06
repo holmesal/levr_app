@@ -46,15 +46,22 @@ handlers:
   login: admin
 
 
+
 - url: /img
   static_dir: img
 - url: /css
   static_dir: css
 - url: /js
   static_dir: js
-  
 - url: /beta
   static_dir: beta
+
+- url: /robots.txt
+  static_files: robots.txt
+  upload: robots.txt
+- url: /sitemap.xml
+  static_files: sitemap.xml
+  upload: sitemap.xml
   
   
 libraries:

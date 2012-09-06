@@ -1,3 +1,5 @@
 User-agent: *
-
+Disallow: /merchants/*
+Disallow: /logout/
+Disallow: /widget/
 Sitemap: http://www.levr.com/sitemap.xml

@@ -20,6 +20,12 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Business
+  properties:
+  - name: targeted
+  - name: business_name
+    direction: desc
+
 - kind: CashOutRequest
   properties:
   - name: status

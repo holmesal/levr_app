@@ -420,11 +420,14 @@ class phone(webapp2.RequestHandler):
 			
 			elif action == "getTargetedBusinesses":
 				#get businesses that have property targeted = True
-				businesses = levr.Business.gql('WHERE targeted = True').fetch(None) #fetches all of them
+				businesses = levr.Business.all().filter('targeted =',True).order('-business_name').fetch(None)
 				
-				data = []
+				data = {
+					'targetedBusinesses':[]
+					}
+				
 				for business in businesses:
-					data.append({
+					data['targetedBusinesses'].append({
 						"businessName"	: business.business_name,
 						"geoPoint"		: str(business.geo_point),
 						"vicinity"		: business.vicinity,

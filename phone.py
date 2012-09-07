@@ -431,7 +431,7 @@ class phone(webapp2.RequestHandler):
 						"businessName"	: business.business_name,
 						"geoPoint"		: str(business.geo_point),
 						"vicinity"		: business.vicinity,
-						"key"			: enc.encrypt_key(business.key())
+						"businessID"	: enc.encrypt_key(business.key())
 					})
 				
 				toEcho = {"success":True,"data":data}

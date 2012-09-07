@@ -3,7 +3,7 @@ import webapp2
 import jinja2
 import logging
 
-class landing(webapp2.RequestHandler):
+class ninjas(webapp2.RequestHandler):
 	def get(self):
 		#launch the jinja environment
 		jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -15,16 +15,12 @@ class landing(webapp2.RequestHandler):
 		if 'Mobile' in uastring:
 			logging.info('THIS IS A MOBILE DEVICE')
 			#serve mobile landing page
-			template = jinja_environment.get_template('templates/landing_mobile.html')
+			template = jinja_environment.get_template('templates/ninjas_landing_mobile.html')
 		else:
 			logging.info('THIS IS A DESKTOP DEVICE')
 			#serve desktop landing page
-			template = jinja_environment.get_template('templates/landing_v2.html')
+			template = jinja_environment.get_template('templates/ninjas_landing.html')
 		
 		self.response.out.write(template.render())
-		
-	def post(self):
-			logging.info(self.request.get('email'))
-	
 
-app = webapp2.WSGIApplication([('/', landing)],debug=True)
+app = webapp2.WSGIApplication([('/ninjas', ninjas)],debug=True)

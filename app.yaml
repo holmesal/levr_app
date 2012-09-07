@@ -8,6 +8,8 @@ default_expiration: "1m"
 handlers:
 - url: /
   script: landing.app
+- url: /ninjas
+  script: ninjas.app
 - url: /phone.*
   script: phone.app
 - url: /merchants.*

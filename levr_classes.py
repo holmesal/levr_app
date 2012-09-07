@@ -24,7 +24,7 @@ class Customer(db.Model):
 	redemptions		= db.StringListProperty(default = [])	#id's of all of their redeemed deals
 	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
 	vicinity		= db.StringProperty(default='') #the area of the user, probably a college campus
-	
+	favorites		= db.ListProperty(db.Key,default=[])
 	def increment_new_redeem_count(self):
 		logging.info('incrementing!')
 		self.new_redeem_count += 1
@@ -255,13 +255,6 @@ class CustomerDeal(Deal):
 		}
 		return data
 
-
-class Favorite(db.Model):
-#child of user
-	dealID			= db.StringProperty() #CHANGE TO REFERENCEPROPERTY FOR PRODUCTION
-	primary_cat		= db.StringProperty()
-
-
 class EmptySetResponse(db.Model):
 #root class
 	primary_cat		= db.StringProperty()
@@ -279,7 +272,7 @@ class CashOutRequest(db.Model):
 	note			= db.StringProperty()
 	
 #functions!
-def phoneFormat(deal,use,primary_cat=None):
+def phoneFormat(deal,use):
 	#dealID is used in a number of places
 	dealID = enc.encrypt_key(str(deal.key()))
 #	logging.info(deal.key())
@@ -308,7 +301,6 @@ def phoneFormat(deal,use,primary_cat=None):
 				"dealTextExtra" : dealTextExtra,
 				"description"	: deal.description,
 				"businessName"	: deal.business_name,
-				"primaryCat"	: primary_cat,
 				"isExclusive"	: deal.is_exclusive}
 		if use == 'myDeals':
 			#shows list deal information AND statistics

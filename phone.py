@@ -151,33 +151,28 @@ class phone(webapp2.RequestHandler):
 				input : uid
 				output: name, description, dealValue, dealType, imgPath, businessName, primaryCat
 				'''
-				uid = enc.decrypt_key(decoded["in"]["uid"])
-			
-				#grabs the deal key name and primary category from table
-				q1 = levr.Favorite.gql("WHERE ANCESTOR IS :1",uid)
-				#init key,cats list
-				logging.info(q1)
-				deal_keys,cats = [],[]
-				#grab deal keys from each favorite
-				for fav in q1:
-	#				logging.info(fav)
-					deal_keys.append(fav.dealID)
-					cats.append(fav.primary_cat)
-
-				#grab all the deal data with the keys
-				deals = levr.Deal.get(deal_keys)
-
-				#data is deal obj array
-				data = []
-				#grab data from each deal
-				for idx,deal in enumerate(deals):
-					#send to format function - package for phone
-					deal_stack = levr.phoneFormat(deal,'list',cats[idx])
-#					deal_stack.update({"primaryCat":cats[idx]})
-					data.append(deal_stack)
+				#grab inputs
+				uid	= enc.decrypt_key(decoded["in"]["uid"])
+				
+				#grab user entity
+				user	= levr.Customer.get(uid)
+				
+				#grab list of favorties - list of deal keys
+				favorites	= user.favorites
+				
+				#batch grab favorited deals
+				deals	= levr.Deal.get(favorites)
+				
+				#format deals for output to phone
+				formatted_deals	= [levr.phoneFormat(deal,'list') for deal in deals]
+				
+				#assign formatted deals to data list that doesnt follow standards
+				data = formatted_deals
+				
 				#get notifications
-				ninja = levr.Customer.get(uid)
-				notifications = ninja.get_notifications()
+				notifications = user.get_notifications()
+				
+				#output
 				toEcho = {"success":True,"data":data,'notifications':notifications}
 			#ADD FAVORITE***********************************************************
 			elif action == "addFav":
@@ -186,22 +181,24 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
+				#get inputs
 				uid 		= enc.decrypt_key(decoded["in"]["uid"])
 				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
-				primary_cat	= decoded["in"]["primaryCat"]
-
-				#create new Favorite instance
-				fav = levr.Favorite(parent=db.Key(uid))
-				#populate data in new favorite
-	#			fav.uid 		= uid
-				fav.dealID 		= dealID
-				fav.primary_cat = primary_cat
-				#place in database
-				fav.put()
 				
+				#get user entity
+				user		= levr.Customer.get(uid)
+				
+				#append dealID to favorites property
+				user.favorites.append(db.Key(dealID))
+				logging.debug(user.favorites)
+#				
 				#get notifications
-				ninja = levr.Customer.get(uid)
-				notifications = ninja.get_notifications()
+				notifications = user.get_notifications()
+				
+				#close entity
+				user.put()
+				
+				#output
 				toEcho = {"success":True,"notifications":notifications}
 			#DELETE FAVORITE********************************************************
 			elif action == "delFav":
@@ -210,14 +207,34 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
+				#get inputs
 				uid 	= enc.decrypt_key(decoded["in"]["uid"])
 				dealID 	= enc.decrypt_key(decoded["in"]["dealID"])
-				q = levr.Favorite.gql("WHERE ANCESTOR IS :1 and dealID=:2",uid, dealID)
-				for fav in q:
-					fav.delete()
+				deal_to_delete	= db.Key(dealID)
+				logging.debug(deal_to_delete)
+				
+				#get user entity
+				user	= levr.Customer.get(uid)
+				logging.debug(user)
+				
+				#grab favorites list
+				favorites	= user.favorites
+				logging.debug(favorites)
+				
+				#generate new favorites list without requested dealID
+				new_favorites	= [deal for deal in favorites if deal != deal_to_delete]
+				logging.debug(new_favorites)
+				
+				#reassign user favorites to new list
+				user.favorites	= new_favorites
+				logging.debug(user.favorites)
+				
 				#get notifications
-				ninja = levr.Customer.get(uid)
-				notifications = ninja.get_notifications()
+				notifications = user.get_notifications()
+				
+				#close entity
+				user.put()
+				
 				toEcho = {"success":True,"notificaions":notifications}
 			#***************getOneDeal************************************************
 			elif action == "getOneDeal":

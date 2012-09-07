@@ -28,26 +28,30 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		logging.info(upload)
 		
 		# new customer
-		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEgw')
+#		c = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYEgw')
+		c = levr_classes.Customer()
 		c.email	= 'ethan@getlevr.com'
 		c.payment_email = c.email
 		c.pw 	= enc.encrypt_password('ethan')
 		c.alias	= 'alonso'
+		c.favorites	= []
 		c.put()
-
+		
 		#new ninja
-		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYCww')
+#		ninja = levr_classes.Customer(key='agtkZXZ-Z2V0bGV2cnIOCxIIQ3VzdG9tZXIYCww')
+		ninja = levr_classes.Customer()
 		ninja.email	= 'santa@getlevr.com'
 		ninja.payment_email = c.email
 		ninja.pw 	= enc.encrypt_password('ethan')
 		ninja.alias	= 'ninja'
-		ninja.money_earned = 0.0
-		ninja.money_paid = 0.0
+		ninja.favorites = []
 		ninja.put()
+		
 		
 
 		#new business
-		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYBAw')
+#		b = levr_classes.Business(key='agtkZXZ-Z2V0bGV2cnIOCxIIQnVzaW5lc3MYBAw')
+		b = levr_classes.Business()
 		b.email 		= 'alonso@getlevr.com'
 		b.pw 			= enc.encrypt_password('alonso')
 		b.business_name = 'Shaws'
@@ -101,12 +105,6 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.rank				= 10
 		cd.put()
 
-
-		#new favorite
-		f = levr_classes.Favorite(parent=c)
-		f.dealID			= str(d.key())
-		f.primary_cat	 	= 'Shoes'
-		f.put()
 
 		self.response.headers['Content-Type'] = 'text/plain'
 		self.response.out.write('/phone/img?dealID='+enc.encrypt_key(str(cd.key()))+"&size=dealDetail")

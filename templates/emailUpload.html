@@ -1,17 +1,41 @@
 {% extends "templates/merchantsBase.html" %}
 
 {% block htmlhead %}
-<link rel="stylesheet" href="../css/manageOffers.css">
+<link rel="stylesheet" href="../css/emailUpload.css">
 {% endblock %}
 
 {% block content %}
 <div id='main'>
-	<span id="title">Upload Deals via Email</span>
-	<p>Uploading a deal via email is simple. Send an email to [unique email address] and include the following items:</p>
-	<p>The promotion  (e.g. free tacos with purchase of bleach)</p>
-	<p>A picture of the object of the promotion</p>
-	<p>Tell us a little about this special. Why is it awesome?</p>
-	<p>If the promotion is being offered for a limited time, be sure to include the expiration date (e.g. expires Feb 9, 2012) (e.g. expires 2/9/2012)</p>
-	
+	<div id='top'>
+			<div id="topHelper">Your email</div>
+			<a id="topEmail" href="mailto:joe@example.com?subject=feedback">{{ business.upload_email }}</a>
+	</div>
+	<div id='left'>
+		<img id="phone" src='/img/create_iphone_blank.png' />
+	</div>
+	<div id='right'>
+		<div id='rightContainer'>
+			<h1 id="title">Upload Deals from your Email</h1>
+			<div class='helpText' id='header-description'>Levr makes it easy for you to manage your promotions anywhere.</div>
+			<div class='helpText' id='header-description2'>To upload, simply send an email to <a id="email" href="mailto:joe@example.com?subject=feedback">{{ business.upload_email }}</a> with the following:</div>
+			<div id='instructions'>
+				<div id='instructions-left'>
+					<div class="content">Promotion </div>
+					<div class="content">Description</div>
+					<div class="content">Image</div>
+					<div class="content">Expiration<br /> <span id="optional">(optional)</span></div>
+				</div>
+				<div id='instructions-right'>
+						<div class='eg'>Free Soda with purchase of two slices of pizza.</div>
+						<div class='eg'>This pizza is the tits. Everyone loves it.</div>
+						<div class='eg'>(Dont forget to attach a picture to go with your promotion.)</div>
+						<div class='eg'>Never! Or February 9, 2012. Either one.</div>
+				</div>
+			</div>
+<!-- 			<p class='helpText' id='bottom-text'>That's how easy it is to promote through Levr.</p> -->
+		</div>
+
+		
+	</div>
 </div>
 {% endblock %}

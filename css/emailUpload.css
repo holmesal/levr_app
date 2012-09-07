@@ -1,0 +1,144 @@
+body {
+	color: #111111;
+}
+#main{
+	margin-bottom: 500px !important;
+}
+#top {
+	border: solid;
+	border-width: 1px;
+	border-radius: 5px;
+	border-color: #808080;
+	width: 70%;
+/*	margin-left:10px;*/
+/*	margin-right:10px;*/
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	overflow: hidden;
+	height: 80px;
+/*	background-color: ;*/
+	background-image: url('../img/paper.png');
+	background-size: contain;
+}
+
+#topHelper{
+	font-size: 18pt;
+	float: left;
+	margin-top: 17px;
+	margin-left: 50px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 50px;
+	border-right: solid;
+	border-right-width: 1px;
+	color: #555555;
+}
+
+#topEmail {
+	font-size: 20pt;
+	float: left;
+	margin-top: 27px;
+	margin-bottom: 20px;
+	margin-left: 90px;
+	margin-right: auto;
+	font-weight: bold;
+	color: #000000;
+}
+
+#title {
+	text-align: left;
+}
+
+
+.helpText{
+	text-align: left;
+	font-size: 14pt;
+	float:left;
+}
+
+#header-description2{
+	margin-top: 30px;
+}
+
+#left {
+	float: left;
+	margin-left: 40px;
+	margin-bottom: 40px;
+	width: 30%;
+}
+#phone{
+	width: 100%;
+}
+
+#right {
+	float: left;
+/*	margin-left: 50px;*/
+	width: 65%;
+}
+#rightContainer{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#instructions{
+	float:left;
+/*	margin-left:10px;*/
+	margin-top: 60px;
+	margin-bottom: 30px;
+	width: 100%;
+}
+.content{
+	font-size: 14pt;
+	height: 60px;
+	font-weight: bold;
+	padding-right: 20px;
+}
+.description{
+	font-size: 14pt;
+	height: 60px;
+}
+.eg {
+	font-size: 10-pt;
+	color: #444444;
+	padding-left: 15px;
+	height: 60px;
+/*	margin-top: -15px;*/
+}
+#instructions-left{
+	float:left;
+	text-align: right;
+	border-right: thin;
+	border-right-color: #313131;
+	border-right-style: solid;
+	border-right-style: inset;
+	padding-top: 20px;
+	width: 25%;
+	height: 240px;
+}
+
+
+#instructions-right{
+	float:left;
+	text-align: left;
+/*	margin-left: 20px;*/
+/*	margin-top: 20pt;*/
+	padding-top: 19px;
+	width:60%;
+}
+
+#optional{
+	font-size: 10pt;
+	color: #404040;
+}
+
+#bottom-text{
+	margin-bottom: 60px;
+}
+
+
+#email {
+	color: #000000;
+	font-weight: bold;
+}

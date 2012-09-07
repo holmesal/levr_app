@@ -436,7 +436,6 @@ class ManageHandler(webapp2.RequestHandler):
 			ownerID = db.Key(ownerID)
 			owner = levr.BusinessOwner.get(ownerID)
 			logging.debug(owner)
-			
 			#get the business
 			business = owner.businesses.get()#TODO: this will be multiple businesses later
 			
@@ -474,7 +473,29 @@ class UploadHandler(webapp2.RequestHandler):
 	def get(self):
 		'''This is for the page where they see info about how to upload via email'''
 		try:
-			template_values = {}
+			#check login
+			headerData = levr_utils.loginCheck(self, True)
+			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			if not owner:
+				self.redirect('/merchants')
+			
+			#get the business
+			business = owner.businesses.get()#TODO: this will be multiple businesses later
+			
+			
+			template_values = {
+				'headerData':headerData,
+				'title'		:'Upload Instructions',
+				'owner'		:owner,
+				'business'	:business
+			}
+			
 			template = jinja_environment.get_template('templates/emailUpload.html')
 			self.response.out.write(template.render(template_values))
 		except:

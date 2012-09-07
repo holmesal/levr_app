@@ -312,17 +312,20 @@ def phoneFormat(deal,use,primary_cat=None):
 				"isExclusive"	: deal.is_exclusive}
 		if use == 'myDeals':
 			#shows list deal information AND statistics
+			deal_parent = db.get(deal.key().parent())
+			logging.debug(deal_parent)
 			data.update({
-				"gateRequirement"	: deal.gate_requirement,
-				"gatePaymentPer"	: deal.gate_payment_per,
-				"earnedTotal"		: deal.earned_total,
-				"paymentMax"		: deal.gate_max*deal.gate_payment_per,
-				"paidOut"			: deal.paid_out,
-				"dealStatus"		: deal.deal_status,
-				"dateEnd"			: deal.date_end.__str__()[:10],
-				"moneyAvailable"	: db.get(deal.key().parent()).money_available,
-				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,
-				"shareURL"			: levr_utils.URL+'/share/deal?id='+dealID
+				"gateRequirement"	: deal.gate_requirement,						#The number of redemptions needed to earn a dollar on this deal
+				"gatePaymentPer"	: deal.gate_payment_per,						#The dollar amount we pay for each gate
+				"earnedTotal"		: deal.earned_total,							#The amount of money that this deal has earned so far
+				"paymentMax"		: deal.gate_max*deal.gate_payment_per,			#The most money we will pay them for this deal
+				"paidOut"			: deal.paid_out,								#The amount of money that this deal has earned to date
+				"dealStatus"		: deal.deal_status,								#active,pending,rejected,expired
+				"dateEnd"			: deal.date_end.__str__()[:10],					#The date this deal becomes inactive
+				"moneyAvailable"	: deal_parent.money_available,					#The amount of money that the NINJA has available for redemption
+				"ninjaMoneyEarned"	: deal_parent.money_earned,						#The amount of money that the ninja has earned to date
+				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,	#The number of redemptions they need to earn another dollar
+				"shareURL"			: levr_utils.URL+'/share/deal?id='+dealID		#The URL for them to share
 			})
 		if use == 'widget':
 			data.update({

@@ -38,7 +38,7 @@ class phone(webapp2.RequestHandler):
 				
 				toEcho = levr_utils.loginCustomer(email_or_owner,pw)
 			
-#***************dealResults************************************************
+			#***************dealResults************************************************
 			elif action == "popularItems":
 				data = {
 					'popularItems' : ['all','pizza','BU','commonwealth']

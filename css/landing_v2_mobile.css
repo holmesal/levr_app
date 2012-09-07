@@ -1,0 +1,29 @@
+body{
+	margin: 0px;
+	width: 100%;
+	background-image: url(../img/paper_no_shadow.jpg);
+}
+
+/*#welcome_top{
+	width: 100%;
+	overflow: hidden;
+	background-image: url(../img/welcome_top.jpg);
+	background-position: center top;
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: auto;
+}*/
+
+#welcome_top{
+	width:100%;
+}
+
+#save_money{
+	width: 100%;
+	margin-top: 100px;
+}
+
+#iphoneHand{
+	background-position: center;
+	width: 300%;
+}

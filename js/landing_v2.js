@@ -80,6 +80,16 @@ $(window).load(function(){
 			mixpanel.track("Beta Request",{"email":$('#email').val()})
 		})
 	})
+	
+	//click listeners for mobile button
+	$('#welcome_top').click(function(){
+		/*$('html, body').animate({
+		    scrollTop: $(".middle").offset().top
+		 }, 2000);*/
+		 $('body').animate({
+			 scrollTop: 500
+		 },500);
+	})
 		
 	
 	

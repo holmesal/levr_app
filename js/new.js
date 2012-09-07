@@ -203,8 +203,6 @@ $(document).ready(function() {
 	$('#btnSignup').click(function(){
 		if( isValidEmailAddress($('#email').val()) ) {
 			mixpanel.people.identify($('#email').val())
-			console.log(autocomplete.getPlace().name)
-			console.log(autocomplete.getPlace())
 			mixpanel.people.set({
 				"$email" : $('#email').val(),
 				"$usiness_name": autocomplete.getPlace().name,
@@ -212,6 +210,7 @@ $(document).ready(function() {
 				"$last_login": new Date()
 				
 			})
+			mixpanel.identify($('#email').val())
 			mixpanel.track("Merchant Enters Account Info");
 			console.info("Merchant Enters Account Info")
 			attemptSignup()

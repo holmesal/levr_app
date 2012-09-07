@@ -223,13 +223,13 @@ class WelcomeHandler(webapp2.RequestHandler):
 			logging.debug(self.request.body)
 			logging.debug(self.request.params)
 			
-			owner_key = levr.BusinessOwner(
+			owner = levr.BusinessOwner(
 				#create owner with contact info, put and get key
 				email			=self.request.get('email'),
 				pw				=enc.encrypt_password(self.request.get('password')),
 				validated		=False
 				).put()
-			logging.debug(owner_key)
+			logging.debug(owner)
 			
 			#get the business info from the form
 			business_name	= self.request.get('business_name')
@@ -237,6 +237,7 @@ class WelcomeHandler(webapp2.RequestHandler):
 			vicinity		= self.request.get('vicinity')
 			types			= self.request.get_all('types[]')
 			
+			#parse business name to create an upload email
 			logging.debug(business_name)
 			name_str = levr.tagger(business_name)
 			logging.debug(name_str)
@@ -272,27 +273,28 @@ class WelcomeHandler(webapp2.RequestHandler):
 					#this business has no dependencies... delete!
 					db.delete(business)
 				else:
+#					db.delete(business)
 					logging.error('A business owner just signed up claiming a business that another person has claimed')
 			else:
 				logging.debug('flag business does not exist')
 			
 			#create business entity
-			business_key = levr.Business(
+			business = levr.Business(
 				#create business
-				owner			=owner_key,
+				owner			=owner,
 				business_name	=business_name,
 				vicinity		=vicinity,
 				geo_point		=geo_point,
 				types			=types,
 				upload_email	=upload_email,
 				targeted		=False
-				).put()
-			
-			logging.debug(business_key)
+				)
+			logging.debug(dir(business))
+			business.put()
 			
 			#creates new session for the new business
 			session = get_current_session()
-			session['ownerID']	= enc.encrypt_key(owner_key)
+			session['ownerID']	= enc.encrypt_key(owner)
 			session['loggedIn']	= True
 			session['validated']= False
 			logging.debug(session)
@@ -306,17 +308,17 @@ class WelcomeHandler(webapp2.RequestHandler):
 			logging.debug(message)
 			body = 'New merchant\n\n'
 			body += 'Business: '  +str(business_name)+"\n\n"
-			body += 'Business ID: '+str(business_key)+"\n\n"
+			body += 'Business ID: '+str(business)+"\n\n"
 			body += "Owner Email:"+str(self.request.get('email'))+"\n\n"
 			message.body = body
 			message.send()
 
 
-			#forward to appropriate page
-			if self.request.get('destination') == 'upload':
-				self.redirect('/merchants/upload')
-			elif self.request.get('destination') == 'create':
-				self.redirect('/merchants/deal')
+#			#forward to appropriate page
+#			if self.request.get('destination') == 'upload':
+#				self.redirect('/merchants/upload')
+#			elif self.request.get('destination') == 'create':
+#				self.redirect('/merchants/deal')
 		except:
 			levr.log_error(self.request.body)
 

@@ -7,8 +7,10 @@ import levr_utils
 #from google.appengine.api import images
 import logging
 import jinja2
+from gaesessions import get_current_session
 #from datetime import datetime
 
+jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class Pending(webapp2.RequestHandler):
 	def get(self):
@@ -28,7 +30,7 @@ class Pending(webapp2.RequestHandler):
 				"business"	: business
 			}
 			logging.debug(template_values)
-			jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+			
 			template = jinja_environment.get_template('templates/admin_pending.html')
 			self.response.out.write(template.render(template_values))
 		else:
@@ -57,8 +59,44 @@ class Reject(webapp2.RequestHandler):
 		deal.put()
 		self.redirect('/admin/pending')
 		
-
+class GodLoginHandler(webapp2.RequestHandler):
+	def get(self):
+		'''This handler allows an admin to log in to any merchants account to manage it'''
+		#grab ALLL of the business Owners, sorted alphabetically
+		owners = levr.BusinessOwner.all().order('-email').fetch(None)
+		data = []
+		for o in owners:
+			things = {
+					"email":o.email,
+					"business":o.businesses.get().business_name,
+					"id":str(o.key())
+					}
+			logging.debug(things)
+			data.append(things)
+		logging.debug(data)
+		#grab all of the businesses
+		businesses = levr.Business.all().order('-business_name').fetch(None)
+		
+		template_values = {
+						'owners':data,
+						'businesses':businesses
+						}
+		
+		template = jinja_environment.get_template('templates/god_login.html')
+		self.response.out.write(template.render(template_values))
+	def post(self):
+		logging.debug(self.request.body)
+		owner_id = self.request.get('owner_id')
+		
+		owner = levr.BusinessOwner.get(owner_id)
+		
+		session = get_current_session()
+		session['ownerID'] = enc.encrypt_key(owner_id)#business.key())
+		session['loggedIn'] = True
+		session['validated'] = owner.validated
+		self.redirect('/merchants/manage')
 app = webapp2.WSGIApplication([('/admin/pending', Pending),
 								('/admin/approve', Approve),
-								('/admin/reject',Reject)],
-								debug=True)
+								('/admin/reject',Reject),
+								('/admin/merchants', GodLoginHandler)
+								],debug=True)

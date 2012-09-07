@@ -16,7 +16,7 @@ body{
 	width: 1140px;
 	box-shadow: 1px 1px 4px 0px #565656;
 	height: auto;
-	overflow: auto;
+	overflow: hidden;
 }
 
 #nav{

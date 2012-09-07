@@ -82,8 +82,6 @@ class Customer(db.Model):
 	
 
 
-#deal_redeemed 	= db.ListProperty(str) #list of deal keys
-#^^^would need another assoc table 
 class BusinessOwner(db.Model):
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
@@ -272,7 +270,7 @@ class CashOutRequest(db.Model):
 	note			= db.StringProperty()
 	
 #functions!
-def phoneFormat(deal,use):
+def phoneFormat(deal,use,primary_cat=None):
 	#dealID is used in a number of places
 	dealID = enc.encrypt_key(str(deal.key()))
 #	logging.info(deal.key())
@@ -301,6 +299,7 @@ def phoneFormat(deal,use):
 				"dealTextExtra" : dealTextExtra,
 				"description"	: deal.description,
 				"businessName"	: deal.business_name,
+				"primaryCat"	: primary_cat,
 				"isExclusive"	: deal.is_exclusive}
 		if use == 'myDeals':
 			#shows list deal information AND statistics

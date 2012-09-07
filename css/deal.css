@@ -3,41 +3,26 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	margin: 0;
 }
-
-/*#header{
-	background-color: #313131;
-	height: 40px;
-}
-
-#header_logo{
-	width: 80px;
-	margin-left: 20px;
-	margin-top: 3px;
-}
-
-#container{
+#main{
+	width: 85%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 100px;
-	text-align: center;
-	width: 940px;
-}*/
+}
 
 #left{
 	width: 460px;
-	height: 100px;
 	float: left;
+	display: inline-block;
 }	
 	
 #right{
 	width: 460px;
-	height: 100px;
 	float: left;
+	display: inline-block;
 }	
 
 #results{
 	width:342px;
-	
 	border-top: none;
 	overflow: scroll;
 	visibility: hidden;
@@ -76,7 +61,7 @@ body{
 /* !iPhone Inner */
 #iphone_outer{
 	width: 300px;
-	height: 800px;
+	height: 500px;
 	background-image: url(../img/create_iphone_blank.png);
 	background-origin: 0px,0px;
 	background-position: top left;
@@ -85,6 +70,7 @@ body{
 	padding-left:60.5px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 50px;
 }
 
 #iphone_inner{
@@ -188,7 +174,7 @@ input[type=file]:hover{
 	margin-left: 30px;
 }
 #headerText{
-	margin-top: 100px;
+	margin-top: 50px;
 	text-align: center;
 	font-size: 20pt;
 	font-weight: 200;

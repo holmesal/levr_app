@@ -1,75 +1,77 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
+<head>
+<meta charset="utf-8" />
 
-		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
 		Remove this if you use the .htaccess -->
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-		<title>Merchants</title>
-		<meta name="description" content="Merchants portal" />
-		<meta name="author" content="Levr" />
+<title>Merchants</title>
+<meta name="description" content="Merchants portal" />
+<meta name="author" content="Levr" />
 
-		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0" />
 
-		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-		<link rel="shortcut icon" href="/img/favicon.ico" />
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-		
-		<link rel="stylesheet" href="/css/merchantsBase.css">
-		<!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+<link rel="shortcut icon" href="/img/favicon.ico" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<link rel="stylesheet" href="/css/merchantsBase.css">
+
+<!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript"
 		src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script> -->
-		{% block htmlhead %}
-		{% endblock %}
-	</head>
+{% block htmlhead %} {% endblock %}
+</head>
 
-	<body>
-		<!--div id="header">
+<body>
+	<!--div id="header">
 			<img id="header_logo" src="../img/levr_logo.png" alt="levr_logo"/>
 		</div-->
-		<div id="app-container">
-			<div id="nav">
-				<div class="nav-item" id="nav1">
-					<object class="navimg" data="../img/lock.svg" type="image/svg+xml"></object>
-					<a href="./manage" class="navText">My Offers</a>
-					<div class="navDivider"></div>
-				</div>
-				<div class="nav-item" id="nav2">
-					<object class="navimg" data="../img/tag.svg" type="image/svg+xml"></object>
-					<a href="./deal" 		class="navText">Create New</a>
-					<div class="navDivider"></div>
-				</div>
-				<div class="nav-item" id="nav3">
-				<object class="navimg" data="../img/tag.svg" type="image/svg+xml"></object>
-					<a href="./upload" 		class="navText">Upload From Store</a>
-					<div class="navDivider"></div>
-				</div>
-				<div class="nav-item" id="nav4">
-					<object class="navimg" data="../img/markup.svg" type="image/svg+xml"></object>
-					<a href="./widget" 		class="navText">Widget</a>
-					<div class="navDivider"></div>
-				</div>
-				<div class="nav-item" id="nav5">
-					<object class="navimg" data="../img/person.svg" type="image/svg+xml"></object>
-					<a href="./myAccount"	class="navText">My Account</a>
-					<div class="navDivider"></div>
-				</div>
-				<div class="nav-item" id="nav6">
-					<object class="navimg" data="../img/portal.svg" type="image/svg+xml"></object>
-					<a href="/logout"		class="navText">Logout</a>
-				</div>
+	<div id="app-container">
+		<div id="nav">
+			<div class="nav-item" id="nav1">
+				<object class="navimg" data="../img/lock.svg" type="image/svg+xml"></object>
+				<a href="./manage" class="navText">My Offers</a>
+				<div class="navDivider"></div>
 			</div>
-				{% block content %}
-				{% endblock %}
-			<div id="footer">
-				{% block footer %}
-				<!-- &copy; Copyright  by Levr Inc. -->
-				{% endblock footer %}
+			<div class="nav-item" id="nav2">
+				<object class="navimg" data="../img/tag.svg" type="image/svg+xml"></object>
+				<a href="./deal" class="navText">Create New</a>
+				<div class="navDivider"></div>
+			</div>
+			<div class="nav-item" id="nav3">
+				<object class="navimg" data="../img/tag.svg" type="image/svg+xml"></object>
+				<a href="./upload" class="navText">Upload From Store</a>
+				<div class="navDivider"></div>
+			</div>
+			<div class="nav-item" id="nav4">
+				<object class="navimg" data="../img/markup.svg" type="image/svg+xml"></object>
+				<a href="./widget" class="navText">Widget</a>
+				<div class="navDivider"></div>
+			</div>
+			<div class="nav-item" id="nav5">
+				<object class="navimg" data="../img/person.svg" type="image/svg+xml"></object>
+				<a href="./myAccount" class="navText">My Account</a>
+				<div class="navDivider"></div>
+			</div>
+			<div class="nav-item" id="nav6">
+				<object class="navimg" data="../img/portal.svg" type="image/svg+xml"></object>
+				<a href="/logout" class="navText">Logout</a>
 			</div>
 		</div>
+		{% block content %} {% endblock %}
+		<div id="footer">
+			{% block footer %}
+			<!-- &copy; Copyright  by Levr Inc. -->
+			{% endblock footer %}
+		</div>
+	</div>
 	{% block javascript %}
+	<script type="text/javascript">
+			google.load("jquery", "1.4.2");
+		</script>
 	{% endblock %}
-	</body>
+</body>
 </html>

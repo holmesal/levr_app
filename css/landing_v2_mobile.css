@@ -37,8 +37,8 @@ body{
 	margin-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
-	width: 60%;
-	font-size: 15pt;
+	width: 70%;
+	font-size: 14pt;
 	border: 1px solid #bcbcbc;
 	border-radius: 3px;
 	padding: 5px;
@@ -50,7 +50,7 @@ body{
 }
 
 #requestBeta{
-	font-size: 15pt;
+	font-size: 13pt;
 	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
@@ -74,7 +74,7 @@ body{
 
 #footer{
 	width: 100%;
-	height: 150px;
+	height: 200px;
 	background-color: #333335;
 	margin-top: 0px;
 	color: #f4f4f4;
@@ -85,13 +85,13 @@ a{
 	color: #f4f4f4;
 	text-decoration: none;
 	line-height: 250%;
-	font-size: 17pt;
+	font-size: 12pt;
 	margin-left: 40px;
 }
 
 #copyright{
 	margin-left: 40px;
-	font-size: 13pt;
+	font-size: 10pt;
 }
 
 

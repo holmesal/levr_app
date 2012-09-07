@@ -40,7 +40,7 @@ function animDone(){
 	width = $(window).width()
 	globalSlot = 3
 	//bind mousemove handler
-	$('body').mousemove(function(event){
+	$('#top').mousemove(function(event){
 		
 		//console.log(event.pageX)
 		slide(event.pageX)

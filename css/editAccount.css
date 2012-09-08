@@ -1,0 +1,46 @@
+#main{
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+/*	overflow:hidden;*/
+}
+
+#top{
+	text-align: left;
+	font-size: 20pt;
+	font-weight: bold;
+	border-bottom: solid;
+	border-bottom-style: inset;
+	border-bottom-width: 1px;
+}
+
+
+#account{
+	overflow: hidden;
+	margin-top: 50px;
+}
+
+#business{
+	overflow: hidden;
+	margin-top: 50px;
+}
+
+.left{
+	font-size: 14pt;
+	float: left;
+	display: block;
+	text-align: left;
+	width: 200px;
+}
+
+.right{
+	float: left;
+	display: block;
+	text-align: left;
+	padding-right: 40px;
+	margin-left: 25px;
+}
+
+.text-right{
+}

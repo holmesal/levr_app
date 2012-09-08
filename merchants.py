@@ -314,11 +314,11 @@ class WelcomeHandler(webapp2.RequestHandler):
 			message.send()
 
 
-#			#forward to appropriate page
-#			if self.request.get('destination') == 'upload':
-#				self.redirect('/merchants/upload')
-#			elif self.request.get('destination') == 'create':
-#				self.redirect('/merchants/deal')
+			#forward to appropriate page
+			if self.request.get('destination') == 'upload':
+				self.redirect('/merchants/upload')
+			elif self.request.get('destination') == 'create':
+				self.redirect('/merchants/deal')
 		except:
 			levr.log_error(self.request.body)
 
@@ -542,7 +542,7 @@ class MyAccountHandler(webapp2.RequestHandler):
 				'business'	: business
 				}
 			
-			template = jinja_environment.get_template('templates/analytics.html')
+			template = jinja_environment.get_template('templates/editAccount.html')
 			self.response.out.write(template.render(template_values))
 		except:
 			levr.log_error()

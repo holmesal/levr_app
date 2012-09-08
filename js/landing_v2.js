@@ -40,7 +40,7 @@ function animDone(){
 	width = $(window).width()
 	globalSlot = 3
 	//bind mousemove handler
-	$('body').mousemove(function(event){
+	$('#top').mousemove(function(event){
 		
 		//console.log(event.pageX)
 		slide(event.pageX)
@@ -79,6 +79,16 @@ $(window).load(function(){
 			$('#inviteRequested').show()
 			mixpanel.track("Beta Request",{"email":$('#email').val()})
 		})
+	})
+	
+	//click listeners for mobile button
+	$('#welcome_top').click(function(){
+		/*$('html, body').animate({
+		    scrollTop: $(".middle").offset().top
+		 }, 2000);*/
+		 $('body').animate({
+			 scrollTop: 500
+		 },500);
 	})
 		
 	

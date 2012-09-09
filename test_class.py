@@ -4,9 +4,12 @@ import webapp2
 import levr_classes
 import logging
 import levr_encrypt as enc
+import levr_utils
+import base_62_converter as converter
 #from google.appengine.ext import db
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+from datetime import datetime
 
 class MainPage(webapp2.RequestHandler):
 	def get(self):
@@ -83,6 +86,13 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		d.tags				= ['alonso','pat','ethan']
 		d.deal_status		= 'pending'
 		d.rank				= 5
+		
+		#create the share ID - based on milliseconds since epoch
+		milliseconds = int(levr_utils.unix_time_millis(datetime.now()))
+		#make it smaller so we get ids with 5 chars, not 6
+		shortened_milliseconds = milliseconds % 100000000
+		unique_id = converter.dehydrate(shortened_milliseconds)
+		d.share_id = unique_id
 		d.put()
 
 		#new customer deal
@@ -103,6 +113,13 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		cd.vicinity			= '1234 Cherry Lane, Boston, MA 02134, USA'
 		cd.tags				= ['alonso','pat','ethan']
 		cd.rank				= 10
+		#create the share ID - based on milliseconds since epoch
+		milliseconds = int(levr_utils.unix_time_millis(datetime.now()))
+		#make it smaller so we get ids with 5 chars, not 6
+		shortened_milliseconds = milliseconds % 100000000
+		unique_id = converter.dehydrate(shortened_milliseconds)
+		cd.share_id = unique_id
+		
 		cd.put()
 
 

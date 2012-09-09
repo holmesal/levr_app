@@ -1,8 +1,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta property="og:image" content="http://getlevr.appspot.com/phone/img?size=facebook&dealID={{dealID}}"/> 
-		<meta property="og:title" content="Score! {{dealText}} at {{business_name}}"/>
+		<meta property="og:image" content="http://getlevr.appspot.com/phone/img?size=facebook&dealID={{deal.dealID}}"/> 
+		<meta property="og:title" content="Score! {{deal.deal_text}} at {{deal.business_name}}"/>
 		<title>{{alias}} wants to share a deal with you.</title>
 		<link href="../css/share_mobile.css" rel="stylesheet">
 		<link rel="icon" type="image/png" href="img/favicon.png">
@@ -12,10 +12,10 @@
 		<div id="container">
 			<!--img src="http://getlevr.appspot.com/phone/img?size=dealDetail&dealID={{dealID}}"-->
 			<div id="dealImg" style="background-image: url(/phone/img?size=dealDetail&dealID={{dealID}});"></div>
-			<p id='dealText'>{{dealText}}this is deal text</p>
-			<p id='dealTextExtra'>{{dealTextExtra}}this is deal text extra</p>
-			<p id='business_string'>{{business_string}}This is the business string.</p>
-			<p id="description">{{description}} this is a long description it will mst likely be more than one line at least i hope so which is why i am writing this essay to nobody. damn. i should really memorize some shakespeare for situations such as this one i doth foundeth myself in</p>	
+			<p id='dealText'>{{deal.dealText}}</p>
+			<p id='dealTextExtra'>{{deal.dealTextExtra}}</p>
+			<p id='business_string'>{{deal.businessName}}, {{deal.vicinity}}</p>
+			<p id="description">{{deal.description}}</p>	
 			<img src="../img/divider_faded.png">
 		<div id="app">
 			<img id="phoneImg" src="../img/iphone_map.png"/>

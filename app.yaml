@@ -47,6 +47,8 @@ handlers:
 - url: /target.*
   login: admin
   script: store_businesses.app
+- url: /download.*
+  script: download.app
 
 
 

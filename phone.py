@@ -474,10 +474,10 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 		logging.debug('deal_line1: '+ str(self.request.get('deal_line1')))
 		if self.request.get('businessID'):
 			#we are on iphone
-			share_url = levr_utils.dealCreate(self,'phone',True)
+			share_url = levr_utils.dealCreate(self,'phone')
 		else:
 			#we are on android
-			share_url = levr_utils.dealCreate(self,'phone')
+			share_url = levr_utils.dealCreate(self,'oldphone')
 		toEcho = {"success":True,"shareURL":share_url}
 		self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):

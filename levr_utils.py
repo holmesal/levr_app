@@ -122,7 +122,7 @@ def loginCustomer(email_or_owner,pw):
 			'error': 'Incorrect username, email, or password. Please try again!'
 		}
 
-def dealCreate(self,origin,flag=False):
+def dealCreate(self,origin):
 	'''pass in "self"'''
 	logging.debug(self.request.headers)
 	logging.debug(self.request.body)
@@ -132,8 +132,8 @@ def dealCreate(self,origin,flag=False):
 	tags = []
 	
 	#==== business stuff ====#
-	if origin != 'edit' and origin != 'web':
-		logging.debug('origin is NOT edit or web')
+	if origin != 'edit' and origin != 'web' and origin != 'phone':
+		logging.debug('origin is NOT edit or web or phone. running out of options here.')
 		#this excludes the case where the deal is being edited or created by the business
 		#in that case, the business information doesn't need to be updated, nor is it passed to the function
 		
@@ -191,14 +191,16 @@ def dealCreate(self,origin,flag=False):
 		logging.debug('-------------------------------------------')
 		logging.debug(tags)
 		
-	elif origin == 'edit' or origin == 'web':
+	elif origin == 'edit' or origin == 'web' or origin == 'phone':
 		logging.debug('origin is edit or web')
 		#if the deal is being edited, then business info should not be updated, and we have the businessID
 		ownerID = self.request.get('uid') #encrypted - from the outside universe
 		ownerID = db.Key(enc.decrypt_key(ownerID))
 		
-		#get business
-		businessID	= self.request.get('business')
+		if origin == 'phone':
+			businessID = self.request.get('businessID')
+		else:
+			businessID	= self.request.get('business')
 		businessID	= enc.decrypt_key(businessID)
 		businessID	= db.Key(businessID)
 		business	= levr.Business.get(businessID)
@@ -213,7 +215,7 @@ def dealCreate(self,origin,flag=False):
 		
 	else:
 		#this should never happen. Why is this happening? AHHHHHHH!
-		raise Exception('origin is unknown')
+		raise ValueError('origin is unknown')
 	
 	
 	
@@ -273,7 +275,7 @@ def dealCreate(self,origin,flag=False):
 			logging.debug(blob)
 	
 
-	elif origin	=='phone':
+	elif origin	=='phone' or 'oldphone':
 			#phone deals get pending status and are the child of a ninja
 		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
 		deal.deal_status		= "pending"

@@ -286,8 +286,9 @@ class WelcomeHandler(webapp2.RequestHandler):
 				vicinity		=vicinity,
 				geo_point		=geo_point,
 				types			=types,
-				upload_email	=upload_email,
-				targeted		=False
+				upload_email	=upload_email
+				#TODO targeted will be set to false in the future, removing signed businesses from the ninja pool
+#				targeted		=False
 				)
 			logging.debug(dir(business))
 			business.put()
@@ -537,13 +538,137 @@ class MyAccountHandler(webapp2.RequestHandler):
 			
 			#get the business
 			business = owner.businesses.get()#TODO: this will be multiple businesses later
+			
 			template_values = {
 				'owner'		: owner,
-				'business'	: business
+				'business'	: business,
+				'mode'		: '', #which form to show
+				'error'		: ''
 				}
-			
+				
 			template = jinja_environment.get_template('templates/editAccount.html')
 			self.response.out.write(template.render(template_values))
+		except:
+			levr.log_error()
+	def post(self):
+		try:
+			logging.debug(self.request.headers)
+			logging.debug(self.request.body)
+			logging.debug(self.request.params)
+			
+			#check login
+			headerData = levr_utils.loginCheck(self, True)
+			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			
+			password = enc.encrypt_password(self.request.get('old_password'))
+			mode = self.request.get('change')
+			logging.debug(owner.pw == password)
+			if owner.pw == password:
+				
+				#password is correct
+				
+				if mode == 'email':
+					#user is changing their email
+					
+					email			= self.request.get('new_email')
+					confirm_email	= self.request.get('confirm_new_email')
+					if email == confirm_email:
+						logging.debug(email)
+						#emails match - change owner email
+						owner.email = email
+						owner.put()
+						self.redirect('/merchants/myAccount?success=true')
+					else:
+						#get the business
+						business = owner.businesses.get()#TODO: this will be multiple businesses later
+						
+						template_values = {
+						'owner'		: owner,
+						'business'	: business,
+						'mode'		: mode, #which form to show
+						'error'		: 'confirm_new_email'
+						}
+						logging.debug(template_values)
+						#password is incorrect
+						template = jinja_environment.get_template('templates/editAccount.html')
+						self.response.out.write(template.render(template_values))
+					
+				elif mode == 'password':
+					#user is changing their password
+					new_password		= self.request.get('new_password')
+					confirm_new_password= self.request.get('confirm_new_password')
+					
+					if new_password == confirm_new_password:
+						logging.debug(new_password)
+						#passwords match - change owner password
+						owner.pw = new_password
+						owner.put()
+						self.redirect('/merchants/myAccount?success=true')
+					else:
+						#new passwords do not match
+						#get the business
+						business = owner.businesses.get()#TODO: this will be multiple businesses later
+						
+						template_values = {
+						'owner'		: owner,
+						'business'	: business,
+						'mode'		: mode, #which form to show
+						'error'		: 'confirm_new_password'
+						}
+				
+						#password is incorrect
+						template = jinja_environment.get_template('templates/editAccount.html')
+						self.response.out.write(template.render(template_values))
+				else:
+					#mode not recognized
+					logging.error('mode not recognized')
+			else:
+				#old password is incorrect
+				#get the business
+				business = owner.businesses.get()#TODO: this will be multiple businesses later
+				
+				template_values = {
+				'owner'		: owner,
+				'business'	: business,
+				'mode'		: mode, #which form to show
+				'error'		: 'old_password'
+				}
+				
+				logging.debug(template_values)
+				template = jinja_environment.get_template('templates/editAccount.html')
+				self.response.out.write(template.render(template_values))
+		except:
+			levr.log_error(self.request.headers)
+			
+class CheckPasswordHandler(webapp2.RequestHandler):
+	def post(self):
+		try:
+			logging.debug(self.request.headers)
+			logging.debug(self.request.body)
+			logging.debug(self.request.params)
+			
+			#check login
+			headerData = levr_utils.loginCheck(self, True)
+			
+			#get the owner information
+			ownerID = headerData['ownerID']
+			ownerID = enc.decrypt_key(ownerID)
+			ownerID = db.Key(ownerID)
+			owner = levr.BusinessOwner.get(ownerID)
+			logging.debug(owner)
+			
+			password = enc.encrypt_password(self.request.get('password'))
+			if owner.pw == password:
+				self.response.out.write(True)
+			else:
+				self.response.out.write(False)
+			
 		except:
 			levr.log_error()
 app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
@@ -560,5 +685,6 @@ app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
 								('/merchants/manage', ManageHandler),
 								('/merchants/upload', UploadHandler),
 								('/merchants/widget', WidgetHandler),
-								('/merchants/myAccount', MyAccountHandler)
+								('/merchants/myAccount', MyAccountHandler),
+								('/merchants/myAccount/checkPassword', CheckPasswordHandler)
 								], debug=True)

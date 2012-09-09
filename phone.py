@@ -428,10 +428,10 @@ class phone(webapp2.RequestHandler):
 				
 				for business in businesses:
 					data['targetedBusinesses'].append({
-						"businessName"	: business.business_name,
-						"geoPoint"		: str(business.geo_point),
-						"vicinity"		: business.vicinity,
-						"businessID"	: enc.encrypt_key(business.key())
+						"businessName"	: business.business_name#,
+#						"geoPoint"		: str(business.geo_point),
+#						"vicinity"		: business.vicinity,
+#						"businessID"	: enc.encrypt_key(business.key())
 					})
 				
 				toEcho = {"success":True,"data":data}

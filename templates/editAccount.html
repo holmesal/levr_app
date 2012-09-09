@@ -12,8 +12,49 @@
 	<div id='account'>
 		<div class='left'><span>Account Information</span></div>
 		<div class='right'>
-			<span class="right-text">{{ owner.email }}</span>
-			</div>
+<!-- 			<span class="right-text">{{ owner.email }}</span><br /><br /> -->
+			<a href="#" class="right-text" id="editEmail">Edit Email</a><br /><br />
+			<a href="#" class="right-text" id="editPassword">Edit Password</a>
+			
+		</div>
+		<div class='righter'>
+			<form method='post' action="/merchants/myAccount?change=email" id="editEmailForm" {% if mode !='email' %}class="hidden"{% endif %}>
+				<div class="control-group {% if mode == 'email' and error == 'old_password'  %}error{% endif %}" >
+					<label for="old_password1">Old password</label>
+					<input type="password" name="old_password" id="old_password1"/>
+				</div>
+				
+				<div class="control-group {% if error == 'new_email' %}error{% endif %}">
+					<label for="new_email">New Email</label> 
+					<input type="text" name="new_email" id="new_email"/>
+				</div>
+				
+				<div class="control-group {% if error == 'confirm_new_email' %}error{% endif %}">
+					<label for="confirm_new_email">Confirm Email</label>
+					<input type="text" name="confirm_new_email" id="confirm_new_email" />
+				</div>
+<!-- 				<button class="button">Submit</button> -->
+				<input type="submit" id="submitEmail" class="button green" value="Submit" onclick="validate('email');return false;"/>
+			</form>
+			<form method="post" action="/merchants/myAccount?change=password" id="editPasswordForm" {% if mode !='password' %}class="hidden"{% endif %}>
+				<div class="control-group {% if mode == 'password' and error == 'old_password'  %}error{% endif %}">
+					<label for="old_password2">Old Password</label>
+					<input type="password" name="old_password" id="old_password2"/>
+				</div>
+				
+				<div class="control-group {% if error == 'new_password' %}error{% endif %}">
+					<label for="new_password">New Password</label>
+					<input type="password" name="new_password" id="new_password"/>
+				</div>
+				
+				<div class="control-group">
+					<label for="confirm_new_password {% if error == 'confirm_new_password' %}error{% endif %}">Confirm New Password</label>
+					<input type="password" name="confirm_new_password" id="confirm_new_password"/>
+				</div>
+				<input type="submit" class="button green" value="Submit" onclick="validate('password');return false;"/>
+			</form>
+			<div id='error_field'></div>
+		</div>
 	</div>
 	<div id='business'>
 		<div class='left'><span>Business Information</span></div>

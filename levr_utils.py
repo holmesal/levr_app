@@ -122,7 +122,7 @@ def loginCustomer(email_or_owner,pw):
 			'error': 'Incorrect username, email, or password. Please try again!'
 		}
 
-def dealCreate(self,origin):
+def dealCreate(self,origin,flag=False):
 	'''pass in "self"'''
 	logging.debug(self.request.headers)
 	logging.debug(self.request.body)

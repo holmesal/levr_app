@@ -15,7 +15,7 @@ class ShareHandler(webapp2.RequestHandler):
 	def get(self,identifier):
 		try:
 			logging.debug(identifier)
-			deal = levr.Deal.all().filter('share_id =', identifier)
+			deal = levr.Deal.all().filter('share_id =', identifier).get()
 			logging.debug(deal)
 			template_values = {
 							'deal':deal

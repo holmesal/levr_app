@@ -466,7 +466,18 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		logging.debug(self.request.headers)
 		logging.debug(self.request.body)
-		share_url = levr_utils.dealCreate(self,'phone')
+		
+		logging.debug('uid: '+str(self.request.get('uid')))
+		#check for upload kind based on 
+		logging.debug('businessID: '+str(self.request.get('businessID')))
+		logging.debug('description: '+ str(self.request.get('deal_description')))
+		logging.debug('deal_line1: '+ str(self.request.get('deal_line1')))
+		if self.request.get('businessID'):
+			#we are on iphone
+			share_url = levr_utils.dealCreate(self,'phone',True)
+		else:
+			#we are on android
+			share_url = levr_utils.dealCreate(self,'phone')
 		toEcho = {"success":True,"shareURL":share_url}
 		self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):

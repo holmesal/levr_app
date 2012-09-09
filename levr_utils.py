@@ -133,7 +133,7 @@ def dealCreate(self,origin):
 	
 	#==== business stuff ====#
 	if origin != 'edit' and origin != 'web':
-		logging.debug('origin is edit or web')
+		logging.debug('origin is NOT edit or web')
 		#this excludes the case where the deal is being edited or created by the business
 		#in that case, the business information doesn't need to be updated, nor is it passed to the function
 		

@@ -463,6 +463,7 @@ class phone(webapp2.RequestHandler):
 
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
+		logging.debug(self.request.body)
 		share_url = levr_utils.dealCreate(self,'phone')
 		toEcho = {"success":True,"shareURL":share_url}
 		self.response.out.write(json.dumps(toEcho))

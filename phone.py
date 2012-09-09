@@ -86,10 +86,10 @@ class phone(webapp2.RequestHandler):
 				
 				#batch get results. here is where we would set the number of results we want and the offset
 				results = q.fetch(None)
-				logging.debug(results.__str__())
+				
 				
 #				logging.debug(q.__str__())
-#				logging.debug(q.get().__str__())
+				logging.debug(q.get().__str__())
 
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []
@@ -429,10 +429,10 @@ class phone(webapp2.RequestHandler):
 				
 				for business in businesses:
 					data['targetedBusinesses'].append({
-						"businessName"	: business.business_name#,
-#						"geoPoint"		: str(business.geo_point),
-#						"vicinity"		: business.vicinity,
-#						"businessID"	: enc.encrypt_key(business.key())
+						"businessName"	: business.business_name,
+						"geoPoint"		: str(business.geo_point),
+						"vicinity"		: business.vicinity,
+						"businessID"	: enc.encrypt_key(business.key())
 					})
 				
 				toEcho = {"success":True,"data":data}
@@ -464,8 +464,8 @@ class phone(webapp2.RequestHandler):
 
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
-		
-		
+		logging.debug(self.request.headers)
+		logging.debug(self.request.body)
 		share_url = levr_utils.dealCreate(self,'phone')
 		toEcho = {"success":True,"shareURL":share_url}
 		self.response.out.write(json.dumps(toEcho))

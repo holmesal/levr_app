@@ -12,10 +12,10 @@ from gaesessions import get_current_session
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class ShareHandler(webapp2.RequestHandler):
-	def get(self,id):
+	def get(self,identifier):
 		try:
-			logging.debug(id)
-			deal = levr.Deal.all().filter('share_id =', id)
+			logging.debug(identifier)
+			deal = levr.Deal.all().filter('share_id =', identifier)
 			logging.debug(deal)
 			template_values = {
 							'deal':deal

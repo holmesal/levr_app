@@ -122,12 +122,24 @@ def loginCustomer(email_or_owner,pw):
 			'error': 'Incorrect username, email, or password. Please try again!'
 		}
 
-def dealCreate(self,origin):
+def dealCreate(self,origin,params=[],gets=[],request=[]):
 	'''pass in "self"'''
+	logging.debug('DEAL CREATE')
 	logging.debug(self.request.headers)
 	logging.debug(self.request.body)
-	logging.debug(self.request.get('image'))
-	
+	logging.debug(self.request.get('image.jpg'))
+	logging.debug(self.request.url)
+	logging.debug(self.request.params)
+	logging.debug(params)
+	logging.debug(gets)
+	logging.debug('request params:')
+	logging.debug(request.params)
+	logging.debug(request.get('uid'))
+	logging.debug('uid' in self.request.POST)
+	logging.debug('uid' in self.request.GET)
+#	logging.debug(self.request.POST['uid'])
+	logging.debug("uid: "+str(self.request.get('uid')))
+	logging.debug(self.request.get('uid'))
 	#init tags list
 	tags = []
 	
@@ -140,16 +152,16 @@ def dealCreate(self,origin):
 		
 		#business name
 		business_name = self.request.get('business_name')
-		logging.debug(business_name)
+		logging.debug("business name: "+str(business_name))
 		
 		#geo point
 		geo_point = self.request.get('geo_point')
 		geo_point = levr.geo_converter(geo_point)
-		logging.debug(geo_point)
+		logging.debug("geo point: "+str(geo_point))
 		
 		#vicinity
 		vicinity = self.request.get('vicinity')
-		logging.debug(vicinity)
+		logging.debug("vicinity: "+str(vicinity))
 		
 		#types
 		types = self.request.get('types')
@@ -165,7 +177,7 @@ def dealCreate(self,origin):
 			logging.debug('business doesnt exist')
 			#if a business doesn't exist in db, then create a new one
 			business = levr.Business()
-			
+			logging.debug(business.__str__())
 			#add data to the new business
 			business.business_name 	= business_name
 			business.vicinity 		= vicinity
@@ -195,6 +207,18 @@ def dealCreate(self,origin):
 		logging.debug('origin is edit or web')
 		#if the deal is being edited, then business info should not be updated, and we have the businessID
 		ownerID = self.request.get('uid') #encrypted - from the outside universe
+		logging.debug("uid: "+str(ownerID))
+		logging.debug(ownerID)
+		logging.debug(enc.decrypt_key(ownerID))
+		
+		ownerID = self.request.get("uid") #encrypted - from the outside universe
+		logging.debug("uid: "+str(ownerID))
+		logging.debug(ownerID)
+		logging.debug(enc.decrypt_key(ownerID))
+		
+		
+		logging.debug(self.request.get("deal_line1"))
+		logging.debug(self.request.get("deal_description"))
 		ownerID = db.Key(enc.decrypt_key(ownerID))
 		
 		if origin == 'phone':
@@ -276,7 +300,12 @@ def dealCreate(self,origin):
 	
 
 	elif origin	=='phone' or 'oldphone':
-			#phone deals get pending status and are the child of a ninja
+		#phone deals get pending status and are the child of a ninja
+		logging.debug('uid: '+str(self.request.get('uid')))
+		logging.debug('uid(unencrypted): '+str(enc.decrypt_key(self.request.get('uid'))))
+		logging.debug('uid(dk.Key()): '+str(db.Key(enc.decrypt_key(self.request.get('uid')))))
+		owner = levr.Customer.get(db.Key(enc.decrypt_key(self.request.get('uid'))))
+		logging.debug(owner)
 		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
 		deal.deal_status		= "pending"
 		deal.is_exclusive		= False

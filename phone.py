@@ -10,7 +10,7 @@ import levr_encrypt as enc
 import levr_utils
 from google.appengine.ext import db
 from google.appengine.api import images
-#from google.appengine.api import mail
+from google.appengine.api import mail
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
@@ -24,6 +24,7 @@ class phone(webapp2.RequestHandler):
 			#switch action
 			#***************signup************************************************
 			if action == "signup":
+				logging.info('signup')
 				#grab email/password from request body
 				email = decoded["in"]["email"]
 				alias = decoded["in"]["alias"]
@@ -32,6 +33,7 @@ class phone(webapp2.RequestHandler):
 		
 			#***************login*************************************************
 			elif action == "login":
+				logging.info('login')
 			#grab email/password from request body
 				email_or_owner = decoded["in"]["email_or_owner"]
 				pw = decoded["in"]["pw"]
@@ -40,12 +42,15 @@ class phone(webapp2.RequestHandler):
 			
 			#***************dealResults************************************************
 			elif action == "popularItems":
+				logging.info('popularItems')
 				data = {
 					'popularItems' : ['all','pizza','BU','commonwealth']
 					}
 				toEcho = {'success': True,'data':data}
 			
 			elif action == "dealResults":
+				logging.info('dealResults')
+				
 				#grab primaryCat from the request body
 				primaryCat 	= decoded["in"]["primaryCat"]
 					#search term
@@ -152,6 +157,7 @@ class phone(webapp2.RequestHandler):
 				input : uid
 				output: name, description, dealValue, dealType, imgPath, businessName, primaryCat
 				'''
+				logging.info('getUserFavs')
 				#grab inputs
 				uid	= enc.decrypt_key(decoded["in"]["uid"])
 				
@@ -182,6 +188,7 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
+				logging.info('addFav')
 				#get inputs
 				uid 		= enc.decrypt_key(decoded["in"]["uid"])
 				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
@@ -208,6 +215,7 @@ class phone(webapp2.RequestHandler):
 				input: dealID,uid,primaryCat
 				output: success = bool
 				'''
+				logging.info('delFav')
 				#get inputs
 				uid 	= enc.decrypt_key(decoded["in"]["uid"])
 				dealID 	= enc.decrypt_key(decoded["in"]["dealID"])
@@ -244,6 +252,7 @@ class phone(webapp2.RequestHandler):
 				input	: primaryCat,dealID
 				output	: json object of all information necessary to describe deal
 				'''
+				logging.info('getOneDeal')
 				#grab input dealID
 				dealID 		= enc.decrypt_key(decoded["in"]["dealID"])
 				primary_cat = decoded["in"]["primaryCat"]
@@ -266,6 +275,7 @@ class phone(webapp2.RequestHandler):
 				input	: uid
 				output	: list of deal objects
 				'''
+				logging.info('getMyDeals')
 				uid	= enc.decrypt_key(decoded["in"]["uid"])
 				logging.info(uid)
 				#grab all deal children of the user
@@ -297,6 +307,7 @@ class phone(webapp2.RequestHandler):
 				input	: uid
 				output	: 
 				'''
+				logging.info('getMyStats')
 				uid = enc.decrypt_key(decoded['in']['uid'])
 				#get user information
 				user = db.get(uid)
@@ -308,6 +319,7 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"data":data,"notifications":notifications}
 				
 			elif action == "checkRedeem":
+				logging.info('checkRedeem')
 				#grab corresponding deal
 				uid 	= enc.decrypt_key(decoded['in']['uid'])
 				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
@@ -327,6 +339,7 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"notifications":notifications}
 				
 			elif action == "getRedeemScreen":
+				logging.info('getRedeemScreen')
 				#grab inputs
 				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
 				
@@ -340,6 +353,7 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"data":data}
 			
 			elif action == "redeem":
+				logging.info('redeem')
 				#grab corresponding deal
 				uid 	= enc.decrypt_key(decoded['in']['uid'])
 				dealID 	= enc.decrypt_key(decoded['in']['dealID'])
@@ -398,6 +412,7 @@ class phone(webapp2.RequestHandler):
 			
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
+				logging.info('cashOut')
 				uid = enc.decrypt_key(decoded['in']['uid'])
 			
 				#grab the ninja
@@ -421,6 +436,7 @@ class phone(webapp2.RequestHandler):
 			
 			elif action == "getTargetedBusinesses":
 				#get businesses that have property targeted = True
+				logging.info('getTargetedBusinesses')
 				businesses = levr.Business.all().filter('targeted =',True).order('-business_name').fetch(None)
 				
 				data = {
@@ -438,14 +454,76 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"data":data}
 			
 			elif action == "fetchUploadURL":
+				logging.info('fetchUploadURL')
 				upload_url = blobstore.create_upload_url('/phone/uploadDeal')
 				logging.debug(upload_url)
 				toEcho = {"success":True, "data":{"url":upload_url}}
 
 			elif action == "checkBounty":
+				logging.info('fetchUploadURL')
 				where = "College campuses in Boston, MA"
 				what = "Offers on food, drink, clothing, and entertainment"
 				toEcho = {"success":True,"data":{"where":where,"what":what}}
+			elif action == "reportDeal":
+				#user reports a deal
+				logging.info('reportDeal')
+#				uid = enc.decrypt_key(decoded['in']['uid'])
+#				dealID = enc.decrypt_key(decoded['in']['dealID'])
+				
+				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg8LEghDdXN0b21lchiRAQw'
+#				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchoLEghCdXNpbmVzcxiTAQwLEgREZWFsGJQBDA'
+				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchoLEghDdXN0b21lchiSAQwLEgREZWFsGJUBDA'
+#				dateTime = enc.decrypt_key(decoded['in']['dateTime'])
+
+				#create report Entity
+				report = levr.ReportedDeal(
+										uid = db.Key(uid),
+										dealID = db.Key(dealID)
+										).put()
+				
+				#get human readable info for email
+				deal = levr.Deal.get(dealID)
+				business_name = deal.business_name
+				logging.debug(business_name)
+				
+				if deal.deal_type == "single":
+					deal_text = deal.deal_text
+				else:
+					deal_text = deal.deal_text +" with purchase of "+deal.secondary_name
+				
+				user = levr.Customer.get(uid)
+				alias = user.alias
+				
+				deal_class = str(deal.class_name())
+				if deal_class == 'CustomerDeal':
+					deal_kind = "Ninja Deal"
+				elif deal_class == 'Deal':
+					deal_kind = "Business Deal"
+				else:
+					raise ValueError('deal class_name not recognized')
+				
+				logging.debug(report)
+				
+				#send notification via email
+				message = mail.EmailMessage(
+					sender	="LEVR AUTOMATED <patrick@levr.com>",
+					subject	="New Reported Deal",
+					to		="patrick@levr.com")
+				
+				logging.debug(message)
+				body = 'New Reported Deal\n\n'
+				body += 'reporter uid: '  +str(uid)+"\n\n"
+				body += 'reporter alias: ' +str(alias)+"\n\n"
+				body += 'Business name: '+str(business_name)+"\n\n"
+				body += "Deal: "+str(deal_text)+"\n\n"
+				body += "Deal Kind: "+deal_kind+"\n\n"
+				body += "dealID: "+str(dealID)+"\n\n"
+				message.body = body
+				logging.debug(message.body)
+				message.send()
+				
+				notifications = user.get_notifications()
+				toEcho = {"success":True,"notifications":notifications}
 			else:
 				raise Exception('Unrecognized action')
 			############ END OF ACTION FILE PART!!! JSONIFY!!!
@@ -464,20 +542,29 @@ class phone(webapp2.RequestHandler):
 
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
+		logging.info('uploadDeal')
 		logging.debug(self.request.headers)
 		logging.debug(self.request.body)
-		
+		logging.debug(self.request.url)
+		logging.debug(self.request.params)
 		logging.debug('uid: '+str(self.request.get('uid')))
+		logging.debug(self.request.POST['uid'])
+		logging.debug('decrypted uid: '+ str(enc.decrypt_key(self.request.get('uid'))))
 		#check for upload kind based on 
 		logging.debug('businessID: '+str(self.request.get('businessID')))
 		logging.debug('description: '+ str(self.request.get('deal_description')))
 		logging.debug('deal_line1: '+ str(self.request.get('deal_line1')))
+		
+		params = self.request.params
+		gets = self.request.GET.items()
 		if self.request.get('businessID'):
+			logging.debug('iphone')
 			#we are on iphone
-			share_url = levr_utils.dealCreate(self,'phone')
+			share_url = levr_utils.dealCreate(self,'phone',params,gets,self.request)
 		else:
+			logging.debug('android')
 			#we are on android
-			share_url = levr_utils.dealCreate(self,'oldphone')
+			share_url = levr_utils.dealCreate(self,'oldphone',params,gets,self.request)
 		toEcho = {"success":True,"shareURL":share_url}
 		self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):
@@ -490,6 +577,7 @@ class img(webapp2.RequestHandler):
 		'''Returns ONLY an image for a deal specified by dealID
 		Gets the image from the blobstoreReferenceProperty deal.img'''
 		try:
+			logging.info('img')
 			dealID 	= enc.decrypt_key(self.request.get('dealID'))
 			size 	= self.request.get('size')
 			logging.debug(dealID)

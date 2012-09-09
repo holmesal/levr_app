@@ -268,7 +268,12 @@ class CashOutRequest(db.Model):
 	payKey			= db.StringProperty()
 	money_available_paytime	= db.FloatProperty()
 	note			= db.StringProperty()
-	
+
+class ReportedDeal(db.Model):
+	uid				= db.ReferenceProperty(Customer,collection_name='reported_deals')
+	dealID			= db.ReferenceProperty(Deal,collection_name='reported_deals')
+	date			= db.DateTimeProperty(auto_now_add=True)
+
 #functions!
 def phoneFormat(deal,use,primary_cat=None):
 	#dealID is used in a number of places

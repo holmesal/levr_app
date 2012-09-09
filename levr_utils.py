@@ -10,6 +10,7 @@ from datetime import timedelta
 from google.appengine.ext import db
 #from google.appengine.ext.webapp import blobstore_handlers
 from gaesessions import get_current_session
+import base_62_converter as converter
 
 # ==== Variables ==== #
 if os.environ['SERVER_SOFTWARE'].startswith('Development') == True:
@@ -333,4 +334,17 @@ def dealCreate(self,origin):
 	share_url = URL+'/share/deal?id='+enc.encrypt_key(deal.key())
 	return share_url
 
+
+def create_share_url(self,dealID):
+	#creates a shortened share url for the deal
+	#takes the dealID which is really the deal key, and grabs its actual id.
+	#converts the id into shortened alphanumeric
+	deal_key = db.Key(dealID)
+	deal_id  = deal_key.id() #this is not to be mistaken with dealID, which is the deal key
+	share_url_appendage = converter.saturate(deal_id)
+	share_url = "levr.com/"+share_url_appendage
+	return share_url
+def parse_share_url(self,url):
+	#parses a shortened url into a deal key
+	pass
 

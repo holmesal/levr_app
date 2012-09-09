@@ -53,6 +53,7 @@ class phone(webapp2.RequestHandler):
 					#starting index of search results
 					#!!!not used
 				numResults 	= decoded["in"]["size"]
+				logging.debug(numResults)
 					#length of search results list
 					#should be None if we want all results
 				
@@ -85,10 +86,10 @@ class phone(webapp2.RequestHandler):
 				
 				#batch get results. here is where we would set the number of results we want and the offset
 				results = q.fetch(None)
-				
+				logging.debug(results.__str__())
 				
 #				logging.debug(q.__str__())
-				logging.debug(q.get().__str__())
+#				logging.debug(q.get().__str__())
 
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []

@@ -29,8 +29,6 @@ handlers:
   script: admin.app
   login: admin
   secure: always
-- url: /share.*
-  script: share.app
 - url: /payments/.*
   script: payments.app
   login: admin
@@ -51,6 +49,7 @@ handlers:
   script: store_businesses.app
 
 
+
 - url: /img
   static_dir: img
 - url: /css
@@ -66,7 +65,10 @@ handlers:
 - url: /sitemap.xml
   static_files: sitemap.xml
   upload: sitemap.xml
-  
+
+#share handler - alphanumeric appendage
+- url: /.*
+  script: share.app
   
 libraries:
 - name: jinja2

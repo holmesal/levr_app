@@ -143,7 +143,7 @@ class Deal(polymodel.PolyModel):
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_text		= db.StringProperty(default='')
 	is_exclusive	= db.BooleanProperty(default=False)
-
+	share_id		= db.StringProperty()
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
@@ -316,7 +316,7 @@ def phoneFormat(deal,use,primary_cat=None):
 				"moneyAvailable"	: deal_parent.money_available,					#The amount of money that the NINJA has available for redemption
 				"ninjaMoneyEarned"	: deal_parent.money_earned,						#The amount of money that the ninja has earned to date
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,	#The number of redemptions they need to earn another dollar
-				"shareURL"			: levr_utils.URL+'/share/deal?id='+dealID		#The URL for them to share
+				"shareURL"			: levr_utils.create_share_url(deal)			#The URL for them to share
 			})
 		if use == 'widget':
 			data.update({

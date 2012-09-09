@@ -315,7 +315,7 @@ def dealCreate(self,origin):
 	deal.businessID			= businessID.__str__()
 	deal.vicinity			= vicinity
 	deal.geo_point			= geo_point
-
+	
 	#secondary_name
 	if secondary_name:
 		deal.deal_type = "bundle"
@@ -324,6 +324,13 @@ def dealCreate(self,origin):
 	else:
 		deal.deal_type = "single"
 	
+	#create the share ID - based on milliseconds since epoch
+	milliseconds = int(unix_time_millis(datetime.now()))
+	#make it smaller so we get ids with 5 chars, not 6
+	shortened_milliseconds = milliseconds % 100000000
+	unique_id = converter.dehydrate(shortened_milliseconds)
+	
+	deal.share_id = unique_id
 	
 	#put the deal
 	deal.put()
@@ -331,20 +338,26 @@ def dealCreate(self,origin):
 	
 	
 	#return share url
-	share_url = URL+'/share/deal?id='+enc.encrypt_key(deal.key())
+	share_url = create_share_url(deal)
 	return share_url
 
+def unix_time(dt):
+	epoch = datetime.utcfromtimestamp(0)
+	delta = dt - epoch
+	return delta.total_seconds()
+	
+def unix_time_millis(dt):
+	return unix_time(dt)
 
-def create_share_url(self,dealID):
-	#creates a shortened share url for the deal
-	#takes the dealID which is really the deal key, and grabs its actual id.
-	#converts the id into shortened alphanumeric
-	deal_key = db.Key(dealID)
-	deal_id  = deal_key.id() #this is not to be mistaken with dealID, which is the deal key
-	share_url_appendage = converter.saturate(deal_id)
-	share_url = "levr.com/"+share_url_appendage
+def create_share_url(deal_entity):
+	#creates a share url for a deal
+	if os.environ['SERVER_SOFTWARE'].startswith('Development') == True:
+		#we are on the development environment
+		URL = 'http://localhost:8080/'
+	else:
+		#we are deployed on the server
+		URL = 'levr.com/'
+		
+	share_url = URL+deal_entity.share_id
 	return share_url
-def parse_share_url(self,url):
-	#parses a shortened url into a deal key
-	pass
 

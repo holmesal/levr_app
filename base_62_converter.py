@@ -11,6 +11,7 @@
 # saturate()  takes the base 62 key, as a string, and turns it back into an integer
 # dehydrate() takes an integer and turns it into the base 62 string
 #
+# https://gist.github.com/778542
 import math
 import sys
 
@@ -84,7 +85,7 @@ if __name__ == '__main__':
     # not really unit tests just a rough check to see if anything is way off
     if sys.argv[1] == '-tests':
         passed_tests = True
-        for i in xrange(0, 100000):
+        for i in xrange(0, 1000):
             passed_tests &= (i == saturate(dehydrate(i)))
         print passed_tests
     else:

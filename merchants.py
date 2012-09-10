@@ -717,6 +717,7 @@ class CheckPasswordHandler(webapp2.RequestHandler):
 		except:
 			levr.log_error()
 app = webapp2.WSGIApplication([('/merchants', MerchantsHandler),
+								('/merchants/', MerchantsHandler),
 								('/merchants/login', LoginHandler),
 								('/merchants/password/lost', LostPasswordHandler),
 								('/merchants/password/reset', ResetPasswordHandler),

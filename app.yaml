@@ -1,7 +1,7 @@
 application: levr-production
 version: 1
 runtime: python27
-api_version: 1
+api_version: 2
 threadsafe: false
 default_expiration: "1m"
 
@@ -70,9 +70,11 @@ handlers:
   static_files: sitemap.xml
   upload: sitemap.xml
 
-  #share handler - alphanumeric appendage
 - url: /.*
+  #share handler - alphanumeric appendage
   script: share.app
+- url: .*
+  script: landing.app
   
 libraries:
 - name: jinja2

@@ -52,6 +52,7 @@ class RemoteHandler(webapp2.RequestHandler):
 class LoggedInFavHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
+			pass
 			dealID		= enc.decrypt_key(self.request.get('deal'))
 			businessID	= self.request.get('id') #do not decrypt
 			session		= get_current_session()

@@ -15,16 +15,15 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 class Pending(webapp2.RequestHandler):
 	def get(self):
 		#grab all the deals with current status == pending
-		deal = levr.CustomerDeal.gql('WHERE deal_status=:1','pending').get()
+		deal = levr.CustomerDeal.all().filter('deal_status =', 'pending').get()
+		
 		#dictify deal
 		if deal:
 			#logging.info(deal['dateEnd'])
 			#get the first matching entity and parse into template values
-			self.response.headers['Content-Type'] = 'text/html'	
 			
 			business = levr.Business.get(deal.businessID)
-			business = business.dictify()
-			deal = deal.dictify()
+			
 			template_values = {
 				"deal"		: deal,
 				"business"	: business

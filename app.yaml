@@ -68,7 +68,7 @@ handlers:
   static_files: sitemap.xml
   upload: sitemap.xml
 
-#share handler - alphanumeric appendage
+  #share handler - alphanumeric appendage
 - url: /.*
   script: share.app
   

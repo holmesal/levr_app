@@ -15,6 +15,7 @@ class StoreBusinessesHandler(webapp2.RequestHandler):
 		
 		logging.debug(businesses_list)
 		#perform on each business entry
+		name_lengths = []
 		for b in businesses_list:
 			if b != []:
 				#split entry
@@ -22,6 +23,7 @@ class StoreBusinessesHandler(webapp2.RequestHandler):
 				logging.debug(business)
 				#grab data from entry
 				name		= business[0]
+				name_lengths.append(name.__len__())
 				vicinity	= business[1]
 				geo_point	= levr.geo_converter(business[2])
 				types		= business[3].split(',')
@@ -37,6 +39,7 @@ class StoreBusinessesHandler(webapp2.RequestHandler):
 				
 				#confirm storage
 				self.response.out.write(name+" "+vicinity+"<br />")
-
+		self.response.out.write(max(name_lengths))
+		self.response.out.write(sorted(name_lengths))
 app = webapp2.WSGIApplication([('/target', StoreBusinessesHandler)
 								], debug=True)

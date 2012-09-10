@@ -122,49 +122,109 @@ def loginCustomer(email_or_owner,pw):
 			'error': 'Incorrect username, email, or password. Please try again!'
 		}
 
-def dealCreate(self,origin,params=[],gets=[],request=[]):
+def dealCreate(params,origin,upload_flag=True):
 	'''pass in "self"'''
 	logging.debug('DEAL CREATE')
-	logging.debug(self.request.headers)
-	logging.debug(self.request.body)
-	logging.debug(self.request.get('image.jpg'))
-	logging.debug(self.request.url)
-	logging.debug(self.request.params)
+	logging.debug(origin)
 	logging.debug(params)
-	logging.debug(gets)
-	logging.debug('request params:')
-	logging.debug(request.params)
-	logging.debug(request.get('uid'))
-	logging.debug('uid' in self.request.POST)
-	logging.debug('uid' in self.request.GET)
-#	logging.debug(self.request.POST['uid'])
-	logging.debug("uid: "+str(self.request.get('uid')))
-	logging.debug(self.request.get('uid'))
-	#init tags list
+	
+	logging.debug(upload_flag)
+	#init tags list for deal
 	tags = []
 	
+	#business information - never create business unless old phone
+		#just want to get tags to store on deal
+	#get deal information
+	#create deals with appropriate owners
+	
+	'''
+	the same are:
+	merchant edit -optional image
+	merchant create
+	phone - sans deal_line2
+	pending - additional parameters
+	oldphone - business info is different 
+			 - sans deal_line2
+	
+	#####merchant_edit
+		params = {
+				'uid'			#uid is businessOwner
+				'business'		#businessID
+				'deal'			#dealID
+				'deal_description'
+				'deal_line1'
+				'deal_line2'
+				}
+		!!! check for uploaded image !!!
+		
+
+	#####merchant_create
+		params = {
+				'uid'			#uid is businessOwner
+				'business'
+				'deal_line1'
+				'deal_line2' 	#optional
+				'deal_description'
+				'img_key'
+				}
+		
+	#####phone
+		params = {
+				'uid' 			#uid is ninja
+				'business' 
+				'deal_description'
+				'deal_line1'
+				!!! no deal_line2 !!!
+				}
+	#####oldphone
+		params = {
+				'uid'			#uid is ninja
+				'business_name'
+				'geo_point'
+				'vicinity'
+				'types'
+				'deal_description'
+				'deal_line1'
+				}
+	#####admin_pending
+		params = {
+				'uid'		#uid is ninja
+				'deal'		#deal id
+				'business'	#business id
+				'deal_line1'
+				'deal_line2'
+				'deal_description'
+				'tags'
+				'end date'
+				!!! other stuff !!!
+				}
+	'''
+	
+	
+	#==== deal information ====#
+	
+	
 	#==== business stuff ====#
-	if origin != 'edit' and origin != 'web' and origin != 'phone':
+	if origin == 'oldphone':
+		#this will soon be deprecated when android is done
 		logging.debug('origin is NOT edit or web or phone. running out of options here.')
-		#this excludes the case where the deal is being edited or created by the business
-		#in that case, the business information doesn't need to be updated, nor is it passed to the function
 		
 		
 		#business name
-		business_name = self.request.get('business_name')
+		business_name = params['business']
 		logging.debug("business name: "+str(business_name))
 		
 		#geo point
-		geo_point = self.request.get('geo_point')
+		geo_point = params['geo_point']
 		geo_point = levr.geo_converter(geo_point)
 		logging.debug("geo point: "+str(geo_point))
 		
 		#vicinity
-		vicinity = self.request.get('vicinity')
+		vicinity = params['vicinity']
 		logging.debug("vicinity: "+str(vicinity))
 		
 		#types
-		types = self.request.get('types')
+		types = params['types']
 		logging.debug(types)
 		types = levr.tagger(types)
 		logging.debug(types)
@@ -202,29 +262,11 @@ def dealCreate(self,origin,params=[],gets=[],request=[]):
 		
 		logging.debug('-------------------------------------------')
 		logging.debug(tags)
+	else:
+		#
+		logging.debug('not oldphoone')
 		
-	elif origin == 'edit' or origin == 'web' or origin == 'phone':
-		logging.debug('origin is edit or web')
-		#if the deal is being edited, then business info should not be updated, and we have the businessID
-		ownerID = self.request.get('uid') #encrypted - from the outside universe
-		logging.debug("uid: "+str(ownerID))
-		logging.debug(ownerID)
-		logging.debug(enc.decrypt_key(ownerID))
-		
-		ownerID = self.request.get("uid") #encrypted - from the outside universe
-		logging.debug("uid: "+str(ownerID))
-		logging.debug(ownerID)
-		logging.debug(enc.decrypt_key(ownerID))
-		
-		
-		logging.debug(self.request.get("deal_line1"))
-		logging.debug(self.request.get("deal_description"))
-		ownerID = db.Key(enc.decrypt_key(ownerID))
-		
-		if origin == 'phone':
-			businessID = self.request.get('businessID')
-		else:
-			businessID	= self.request.get('business')
+		businessID = params['business']
 		businessID	= enc.decrypt_key(businessID)
 		businessID	= db.Key(businessID)
 		business	= levr.Business.get(businessID)
@@ -237,33 +279,38 @@ def dealCreate(self,origin,params=[],gets=[],request=[]):
 		geo_point		= business.geo_point
 		vicinity		= business.vicinity
 		
-	else:
-		#this should never happen. Why is this happening? AHHHHHHH!
-		raise ValueError('origin is unknown')
-	
-	
-	
-	
-	#====Deal Information Lines====#
+
+
+	#====Deal Information Lines ====#
 	#deal line 1
-	deal_text	= self.request.get('deal_line1')
+	deal_text	= params['deal_line1']
 	logging.debug(deal_text)
 	tags.extend(levr.tagger(deal_text))
 	logging.info(tags)
 	
 	#deal line 2
-	secondary_name = self.request.get('deal_line2')
-	logging.debug(secondary_name)
-	if secondary_name:
+	if origin != 'phone' and origin != 'oldphone':
+		secondary_name = params['deal_line2']
+		logging.debug(secondary_name)
+		if secondary_name:
 			#deal is bundled
-		tags.extend(levr.tagger(secondary_name))
-		logging.info(tags)
-		deal_type = 'bundle'
-	else:
+			logging.debug('deal is bundled')
+			tags.extend(levr.tagger(secondary_name))
+			logging.info(tags)
+			deal_type = 'bundle'
+		else:
 			#deal is not bundled
+			'deal is NOT bundled'
+			deal_type = 'single'
+	else:
+		#phone uploaded deals do not pass deal_line2
 		deal_type = 'single'
+	
 	#description
-	description = self.request.get('deal_description')
+	description = params['deal_description']
+	#truncate description to a length of 500 chars
+	logging.debug(description.__len__())
+	description = description[:500]
 	logging.debug(description)
 	tags.extend(levr.tagger(description))
 	logging.info(tags)
@@ -271,67 +318,60 @@ def dealCreate(self,origin,params=[],gets=[],request=[]):
 	
 	
 	
-	upload_flag = True
-		#This flag indicates whether an image has been uploaded or not
-		#it is tripped false if no image is uploaded
-	
 	
 	#==== create the deal entity ====#
-	if origin	=='web':
-			#web deals get active status and are the child of the owner
-		deal = levr.Deal(parent = ownerID)
+	if origin	== 'merchant_create':
+		#web deals get active status and are the child of the owner
+		ownerID = params['uid']
+		ownerID = enc.decrypt_key(ownerID)
+		
+		deal = levr.Deal(parent = db.Key(ownerID))
 		deal.deal_status		= "active"
 		deal.is_exclusive		= True
 
-	elif origin	=='edit':
-		dealID	= self.request.get('deal')
+	elif origin	=='merchant_edit':
+		dealID	= params['deal']
 		dealID	= enc.decrypt_key(dealID)
 		deal	= levr.Deal.get(dealID)
-		if not self.request.get('image'):
-			#if an image was not uploaded, trip upload_flag
-			upload_flag = False
-			logging.debug(upload_flag)
-		else:
-			#an image was uploaded, so remove the old one.
-			blob = deal.img
-			logging.debug(blob)
-			blob.delete()
-			logging.debug(blob)
-	
 
 	elif origin	=='phone' or 'oldphone':
 		#phone deals get pending status and are the child of a ninja
-		logging.debug('uid: '+str(self.request.get('uid')))
-		logging.debug('uid(unencrypted): '+str(enc.decrypt_key(self.request.get('uid'))))
-		logging.debug('uid(dk.Key()): '+str(db.Key(enc.decrypt_key(self.request.get('uid')))))
-		owner = levr.Customer.get(db.Key(enc.decrypt_key(self.request.get('uid'))))
-		logging.debug(owner)
-		deal = levr.CustomerDeal(parent = db.Key(enc.decrypt_key(self.request.get('uid'))))
+		uid = enc.decrypt_key(params['uid'])
+
+		deal = levr.CustomerDeal(parent = db.Key(uid))
 		deal.deal_status		= "pending"
 		deal.is_exclusive		= False
 
-	elif origin == 'pending':
-		deal = levr.CustomerDeal.get(enc.decrypt_key(self.request.get('dealID')))
+	elif origin == 'admin_pending':
+		#deal has already been uploaded by ninja - rewriting info that has been reviewed
+		dealID = enc.decrypt_key(params['deal'])
+		deal = levr.CustomerDeal.get(db.Key(dealID))
+		
 		deal.deal_status		= "active"
 		deal.date_start			= datetime.now()
 		deal.date_end			= datetime.now() + timedelta(days=7)
-		new_tags = self.request.get('tags')
-		tags.extend(levr.tagger(new_tags))
-		if not self.request.get('image'):
-			#if an image was not uploaded, trip upload_flag
-			upload_flag = False
-			logging.debug(upload_flag)
 		
+		new_tags = params['tags']
+		tags.extend(levr.tagger(new_tags))
+
 	
 	
-	
-	
+	#==== Link deal to blobstore image ====#
 	if upload_flag == True:
+		#an image has been uploaded, and the blob needs to be tied to the deal
+		logging.debug('image uploaded')
+		if origin == 'merchant_edit' or origin == 'admin_pending':
+			#an image was uploaded, so remove the old one.
+			blob = deal.img
+			blob.delete()
 		#if an image has been uploaded, add it to the deal. otherwise do nothing.
 		#assumes that if an image already exists, that it the old one has been deleted elsewhere
-		upload	= self.get_uploads()[0]
-		blob_key= upload.key()
+		blob_key = params['img_key']
 		deal.img= blob_key
+	else:
+		#an image was not uploaded. do nothing
+		logging.debug('image not uploaded')
+		pass
 	
 	
 	
@@ -348,12 +388,8 @@ def dealCreate(self,origin,params=[],gets=[],request=[]):
 	deal.geo_point			= geo_point
 	
 	#secondary_name
-	if secondary_name:
-		deal.deal_type = "bundle"
-		tags.extend(levr.tagger(secondary_name))
+	if deal_type == 'bundle':
 		deal.secondary_name = secondary_name
-	else:
-		deal.deal_type = "single"
 	
 	#create the share ID - based on milliseconds since epoch
 	milliseconds = int(unix_time_millis(datetime.now()))
@@ -363,10 +399,13 @@ def dealCreate(self,origin,params=[],gets=[],request=[]):
 	
 	deal.share_id = unique_id
 	
+	#log properties
+	
 	#put the deal
 	deal.put()
 	
-	
+	log_model(deal)
+	log_model(business)
 	
 	#return share url
 	share_url = create_share_url(deal)
@@ -392,3 +431,11 @@ def create_share_url(deal_entity):
 	share_url = URL+deal_entity.share_id
 	return share_url
 
+def log_model(model):
+	#just prints all of the models key: prop in the log
+	log_str = ''
+	for key, prop in model.properties().iteritems():
+		log_str += str(key)+": "+str(getattr(model,key))+": "+str(prop)+"\n\t"
+		logging.debug(log_str)
+		
+		

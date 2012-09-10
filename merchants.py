@@ -363,7 +363,26 @@ class DealHandler(webapp2.RequestHandler):
 class DealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
-			levr_utils.dealCreate(self, 'web')
+			#A merchant is creating a NEW deal from the online form
+			
+			#make sure than an image is uploaded
+			logging.debug(self.get_uploads())
+			if self.get_uploads(): #will this work?
+				upload	= self.get_uploads()[0]
+				blob_key= upload.key()
+				img_key = blob_key
+			else:
+				raise Exception('Image was not uploaded')
+			
+			params = {
+					'uid'				:self.request.get('uid'),
+					'business'			:self.request.get('business'),
+					'deal_description'	:self.request.get('deal_description'),
+					'deal_line1'		:self.request.get('deal_line1'),
+					'deal_line2'		:self.request.get('deal_line2'),
+					'img_key'			:img_key
+					}
+			levr_utils.dealCreate(params, 'merchant_create')
 			self.redirect('/merchants/manage')
 		except:
 			levr.log_error(self.request.body)
@@ -423,7 +442,33 @@ class EditDealHandler(webapp2.RequestHandler):
 class EditDealUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
-			levr_utils.dealCreate(self, 'edit')
+			#A merchant is EDITING a deal from the online form
+			logging.debug(self.request.params)
+			
+			#make sure than an image is uploaded
+			logging.debug(self.get_uploads())
+			if self.get_uploads().__len__()>0: #will this work?
+				#image has been uploaded
+				upload_flag = True
+				upload	= self.get_uploads()[0]
+				blob_key= upload.key()
+				img_key = blob_key
+			else:
+				#image has not been uploaded
+				upload_flag = False
+				img_key = ''
+			logging.debug('upload_flag: '+str(upload_flag))
+			params = {
+					'uid'				:self.request.get('uid'),
+					'business'			:self.request.get('business'),
+					'deal'				:self.request.get('deal'),
+					'deal_description'	:self.request.get('deal_description'),
+					'deal_line1'		:self.request.get('deal_line1'),
+					'deal_line2'		:self.request.get('deal_line2'),
+					'img_key'			:img_key
+					}
+			
+			levr_utils.dealCreate(params, 'merchant_edit',upload_flag)
 			self.redirect('/merchants/manage')
 		except:
 			levr.log_error(self.request.body)

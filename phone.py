@@ -543,28 +543,43 @@ class phone(webapp2.RequestHandler):
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		logging.info('uploadDeal')
-		logging.debug(self.request.headers)
-		logging.debug(self.request.body)
-		logging.debug(self.request.url)
-		logging.debug(self.request.params)
-		logging.debug('uid: '+str(self.request.get('uid')))
-		logging.debug(self.request.POST['uid'])
-		logging.debug('decrypted uid: '+ str(enc.decrypt_key(self.request.get('uid'))))
-		#check for upload kind based on 
-		logging.debug('businessID: '+str(self.request.get('businessID')))
-		logging.debug('description: '+ str(self.request.get('deal_description')))
-		logging.debug('deal_line1: '+ str(self.request.get('deal_line1')))
 		
-		params = self.request.params
-		gets = self.request.GET.items()
+		#make sure than an image is uploaded
+		logging.debug(self.get_uploads())
+		if self.get_uploads(): #will this work?
+			upload	= self.get_uploads()[0]
+			blob_key= upload.key()
+			img_key = blob_key
+		else:
+			raise Exception('Image was not uploaded')
+		
+		
+		#screen for businessID to determine which mode of upload we are receiving
 		if self.request.get('businessID'):
 			logging.debug('iphone')
 			#we are on iphone
-			share_url = levr_utils.dealCreate(self,'phone',params,gets,self.request)
+			params = {
+				'uid'				: self.request.get('uid'),
+				'business'		: self.request.get('businessID'),
+				'deal_description'	: self.request.get('deal_description'),
+				'deal_line1'		: self.request.get('deal_line1'),
+				'img_key'			: img_key
+				}
+			share_url = levr_utils.dealCreate(params,'phone')
 		else:
 			logging.debug('android')
 			#we are on android
-			share_url = levr_utils.dealCreate(self,'oldphone',params,gets,self.request)
+			params = {
+				'uid'				: self.request.get('uid'),
+				'business_name'		: self.request.get('business_name'),
+				'geo_point'			: self.request.get('geo_point'),
+				'vicinity'			: self.request.get('vicinity'),
+				'types'				: self.request.get('types'),
+				'deal_description'	: self.request.get('deal_description'),
+				'deal_line1'		: self.request.get('deal_line1'),
+				'img_key'			: img_key
+				}
+			share_url = levr_utils.dealCreate(params,'oldphone')
 		toEcho = {"success":True,"shareURL":share_url}
 		self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):

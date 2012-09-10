@@ -5,6 +5,25 @@ body{
 	color: #333335;
 }
 
+#merchants-link{
+	background-color: #333335;
+	position: absolute;
+	z-index: 99999;
+	text-decoration: none;
+	font-weight: 600;
+	top: 0px;
+	right: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	color: #f9f9f9;
+}
+
+#merchants-link:hover{
+	background-color: gray;
+}
+
 #top{
 	height: 700px;
 	margin-top: 0px;
@@ -165,7 +184,7 @@ body{
 	color: #333335;
 	font-size: 15pt;
 }
-
+/*
 #footer{
 	width: 100%;
 	height: 200px;
@@ -191,12 +210,12 @@ body{
 	text-align: right;
 }
 
-a{
+#footer-link{
 	color: #f4f4f4;
 	text-decoration: none;
 	line-height: 200%;
 }
-
+*/
 .button {
 	display: inline-block;
 	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */

@@ -1,0 +1,36 @@
+#footer{
+	width: 100%;
+	height: 200px;
+	background-color: #333335;
+	margin-top: 0px;
+	color: #f4f4f4;
+}
+
+#footer-container{
+	width: 940px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#footer-left{
+	display: block;
+	float: left;
+}
+
+#footer-right{
+	display: block;
+	float: right;
+	text-align: right;
+}
+
+.footer-link{
+	color: #f4f4f4;
+	text-decoration: none;
+	line-height: 200%;
+}
+
+#copyright{
+	font-size: 10pt;
+	margin-top: 40px;
+}
+

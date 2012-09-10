@@ -25,6 +25,9 @@ class Customer(db.Model):
 	new_redeem_count= db.IntegerProperty(default = 0) #number of unseen redemptions
 	vicinity		= db.StringProperty(default='') #the area of the user, probably a college campus
 	favorites		= db.ListProperty(db.Key,default=[])
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
+	
 	def increment_new_redeem_count(self):
 		logging.info('incrementing!')
 		self.new_redeem_count += 1
@@ -85,14 +88,14 @@ class Customer(db.Model):
 class BusinessOwner(db.Model):
 	email 			= db.EmailProperty()
 	pw 				= db.StringProperty()
-	signup_date 	= db.DateTimeProperty(auto_now_add=True)	#when signed up for our service $$$
 	validated		= db.BooleanProperty(default=False)
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
 	
 	#psudoproperty: businesses - see business entity - this is a query for all the businesses that list this owner as the owner
 
 class Business(db.Model):
 	#root class
-	creation_date	= db.DateTimeProperty(auto_now_add=True) #when created organically by user or by business
 	business_name 	= db.StringProperty()
 	vicinity		= db.StringProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
@@ -100,7 +103,8 @@ class Business(db.Model):
 	targeted		= db.BooleanProperty(default=False)
 	owner			= db.ReferenceProperty(BusinessOwner,collection_name='businesses')
 	upload_email	= db.EmailProperty()
-		#this creates a list property in the owner
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
 
 	def dictify(self):
 		'''Formats the object into dictionary for review before release'''
@@ -146,7 +150,6 @@ class Deal(polymodel.PolyModel):
 	share_id		= db.StringProperty()
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
-	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_end 		= db.DateTimeProperty(auto_now_add=False)
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
@@ -156,6 +159,8 @@ class Deal(polymodel.PolyModel):
 	vicinity		= db.StringProperty()
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
 	def dictify(self):
 		'''Dictifies object for viewing its information on the phone - "myDeals" '''
 		data = {
@@ -258,21 +263,25 @@ class EmptySetResponse(db.Model):
 	primary_cat		= db.StringProperty()
 	img				= blobstore.BlobReferenceProperty()
 	index			= db.IntegerProperty()
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
 	
 class CashOutRequest(db.Model):
 #child of ninja
 	amount			= db.FloatProperty()
-	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_paid		= db.DateTimeProperty()
 	status			= db.StringProperty(choices=set(['pending','paid','rejected']))
 	payKey			= db.StringProperty()
 	money_available_paytime	= db.FloatProperty()
 	note			= db.StringProperty()
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
 
 class ReportedDeal(db.Model):
 	uid				= db.ReferenceProperty(Customer,collection_name='reported_deals')
 	dealID			= db.ReferenceProperty(Deal,collection_name='reported_deals')
-	date			= db.DateTimeProperty(auto_now_add=True)
+	date_created	= db.DateTimeProperty(auto_now_add=True)
+	date_last_edited= db.DateTimeProperty(auto_now=True)
 
 #functions!
 def phoneFormat(deal,use,primary_cat=None):

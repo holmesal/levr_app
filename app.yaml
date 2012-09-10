@@ -49,6 +49,8 @@ handlers:
   script: store_businesses.app
 - url: /download.*
   script: download.app
+- url: /beta.*
+  script: beta.app
 
 
 

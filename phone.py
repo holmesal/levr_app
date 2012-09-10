@@ -583,7 +583,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			#we are on iphone
 			params = {
 				'uid'				: self.request.get('uid'),
-				'business'		: self.request.get('businessID'),
+				'business'			: self.request.get('businessID'),
 				'deal_description'	: self.request.get('deal_description'),
 				'deal_line1'		: self.request.get('deal_line1'),
 				'img_key'			: img_key
@@ -603,7 +603,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 				'img_key'			: img_key
 				}
 			share_url = levr_utils.dealCreate(params,'oldphone')
-		toEcho = {"success":True,"shareURL":share_url}
+		toEcho = {"success":True,"data":{"shareURL":share_url}}
 		self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):
 	def post(self):

@@ -467,12 +467,12 @@ class phone(webapp2.RequestHandler):
 			elif action == "reportDeal":
 				#user reports a deal
 				logging.info('reportDeal')
-#				uid = enc.decrypt_key(decoded['in']['uid'])
-#				dealID = enc.decrypt_key(decoded['in']['dealID'])
+				uid = enc.decrypt_key(decoded['in']['uid'])
+				dealID = enc.decrypt_key(decoded['in']['dealID'])
 				
-				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg8LEghDdXN0b21lchiRAQw'
+#				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg8LEghDdXN0b21lchiRAQw'
 #				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchoLEghCdXNpbmVzcxiTAQwLEgREZWFsGJQBDA'
-				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchoLEghDdXN0b21lchiSAQwLEgREZWFsGJUBDA'
+#				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchoLEghDdXN0b21lchiSAQwLEgREZWFsGJUBDA'
 #				dateTime = enc.decrypt_key(decoded['in']['dateTime'])
 
 				#create report Entity
@@ -521,6 +521,29 @@ class phone(webapp2.RequestHandler):
 				message.body = body
 				logging.debug(message.body)
 				message.send()
+				
+				notifications = user.get_notifications()
+				toEcho = {"success":True,"notifications":notifications}
+			elif action == 'ninjaHasShared':
+#				uid = enc.decrypt_key(decoded['in']['uid'])
+#				dealID = enc.decrypt_key(decoded['in']['dealID'])
+				
+				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchgLEghDdXN0b21lchgaDAsSBERlYWwYHQw'
+				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg4LEghDdXN0b21lchgaDA'
+				
+				keys = [dealID,uid]
+				#pull deal and user
+				entities = db.get(keys)
+				deal = entities[0]
+				user = entities[1]
+				
+				logging.debug(levr_utils.log_model_props(deal,['gate_max','has_been_shared']))
+				
+				deal.share_deal()
+				deal.put()
+				
+				logging.debug(levr_utils.log_model_props(deal,['gate_max','has_been_shared']))
+
 				
 				notifications = user.get_notifications()
 				toEcho = {"success":True,"notifications":notifications}

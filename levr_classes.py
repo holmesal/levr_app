@@ -12,7 +12,6 @@ import levr_utils
 
 class Customer(db.Model):
 #root class
-	#key_name is uid
 	email 			= db.EmailProperty()
 	payment_email	= db.EmailProperty()
 	pw 				= db.StringProperty()
@@ -159,42 +158,9 @@ class Deal(polymodel.PolyModel):
 	vicinity		= db.StringProperty()
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
+	has_been_shared	= db.BooleanProperty(default = False)
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
-	def dictify(self):
-		'''Dictifies object for viewing its information on the phone - "myDeals" '''
-		data = {
-			"dealID"		: enc.encrypt_key(self.key().__str__()),
-			"img"			: self.img,
-			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
-			"businessName"	: self.business_name,
-			"secondaryName"	: self.secondary_name,
-			"deal_text"		: self.deal_text,
-			"deal_type"  	: self.deal_type,
-#			"deal_item"		: self.deal_item,
-			"description"   : self.description,
-#			"discountValue" : self.discount_value,
-#			"discountType"  : self.discount_type,
-#			"dealOrigin"	: self.deal_origin,
-#			"dateStart"		: self.date_start,
-			"dateEnd"		: self.date_end,
-#			"city"			: self.city,
-			"endValue"  	: self.count_end,
-#			"imgPath"		: self.img_path,
-			"countRedeemed"	: self.count_redeemed,
-#			"gateRequirement": self.gate_requirement,
-#			"gatePaymentPer": self.gate_payment_per,
-#			"gateCount"		: self.gate_count,
-#			"gateMax"		: self.gate_max,
-			"dateUploaded"	: self.date_uploaded,
-#			"paymentTotal"	: self.payment_total(),
-			"geoPoint"		: str(self.geo_point),
-			"dealStatus"	: self.deal_status,
-			"tags"			: self.tags,
-			"rank"			: self.rank
-		}
-		return data
-
 
 class CustomerDeal(Deal):
 #Sub-class of deal
@@ -203,9 +169,22 @@ class CustomerDeal(Deal):
 	gate_requirement= db.IntegerProperty(default = 5) #threshold of redeems that must be passed to earn a gate
 	gate_payment_per= db.IntegerProperty(default = 1) #dollar amount per gate
 	gate_count		= db.IntegerProperty(default = 0) #number of gates passed so far
-	gate_max		= db.IntegerProperty(default = 10) #max number of gates allowed
+	gate_max		= db.IntegerProperty(default = 5) #max number of gates allowed
 	earned_total	= db.FloatProperty(default = 0.0) #amount earned by this deal
 	paid_out		= db.FloatProperty(default = 0.0) #amount paid out by this deal
+	
+	def share_deal(self):
+		if self.has_been_shared == False:
+			#deal has never been shared before
+			#flag that it has been shared
+			self.has_been_shared = True
+			
+			#increase the max payment gates the ninja can earn
+			self.gate_max += 5
+		else:
+			#deal has been shared - do nothing
+			pass
+		return self.has_been_shared
 	
 	def update_earned_total(self):
 		#what was self.earned_total to start with?
@@ -223,40 +202,6 @@ class CustomerDeal(Deal):
 	def echo_stats(self):
 		logging.info('Deal money earned: ' + str(self.earned_total))
 		logging.info('Deal money paid: ' + str(self.paid_out))
-	
-	def dictify(self):
-		'''Dictifies object for viewing its information on the phone - "myDeals" '''
-		data = {
-			"dealID"		: enc.encrypt_key(self.key().__str__()),
-			"img"			: self.img,
-			"businessID"	: enc.encrypt_key(self.businessID.__str__()),
-			"businessName"	: self.business_name,
-			"secondaryName"	: self.secondary_name,
-			"deal_text"		: self.deal_text,
-			"deal_type"  	: self.deal_type,
-#			"deal_item"		: self.deal_item,
-			"description"   : self.description,
-#			"discountValue" : self.discount_value,
-#			"discountType"  : self.discount_type,
-#			"dealOrigin"	: self.deal_origin,
-#			"dateStart"		: self.date_start,
-			"dateEnd"		: self.date_end,
-#			"city"			: self.city,
-			"endValue"  	: self.count_end,
-#			"imgPath"		: self.img_path,
-			"countRedeemed"	: self.count_redeemed,
-			"gateRequirement": self.gate_requirement,
-			"gatePaymentPer": self.gate_payment_per,
-			"gateCount"		: self.gate_count,
-			"gateMax"		: self.gate_max,
-			"dateUploaded"	: self.date_uploaded,
-			"paid_out"		: self.paid_out,
-			"geoPoint"		: str(self.geo_point),
-			"dealStatus"	: self.deal_status,
-			"tags"			: self.tags,
-			"rank"			: self.rank
-		}
-		return data
 
 class EmptySetResponse(db.Model):
 #root class

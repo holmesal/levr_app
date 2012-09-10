@@ -398,8 +398,8 @@ def dealCreate(params,origin,upload_flag=True):
 	#put the deal
 	deal.put()
 	
-	logging.debug(model_props(deal))
-	logging.debug(model_props(business))
+	logging.debug(log_model_props(deal))
+	logging.debug(log_model_props(business))
 	
 	#return share url
 	share_url = create_share_url(deal)
@@ -425,12 +425,20 @@ def create_share_url(deal_entity):
 	share_url = URL+deal_entity.share_id
 	return share_url
 
-def model_props(model):
+def log_model_props(model,props=None):
 	#returns a long multiline string of the model in key: prop
-	log_str = ''
-#	logging.debug(model.properties())
-	for key in model.properties():
-		log_str += str(key)+": "+str(getattr(model,key))+"\n\t"
+	delimeter = "\n\t\t"
+	log_str = delimeter
+	if props == None:
+		logging.debug('all props')
+		#display all keys
+		for key in model.properties():
+			log_str += str(key)+": "+str(getattr(model,key))+delimeter
+	else:
+		logging.debug('some props')
+		#only display certain keys
+		for key in props:
+			log_str += str(key)+": "+str(getattr(model,key))+delimeter
+	
 	return log_str
-		
 		

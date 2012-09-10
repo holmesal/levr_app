@@ -138,13 +138,7 @@ def dealCreate(params,origin,upload_flag=True):
 	#create deals with appropriate owners
 	
 	'''
-	the same are:
-	merchant edit -optional image
-	merchant create
-	phone - sans deal_line2
-	pending - additional parameters
-	oldphone - business info is different 
-			 - sans deal_line2
+
 	
 	#####merchant_edit
 		params = {
@@ -404,8 +398,8 @@ def dealCreate(params,origin,upload_flag=True):
 	#put the deal
 	deal.put()
 	
-	log_model(deal)
-	log_model(business)
+	logging.debug(model_props(deal))
+	logging.debug(model_props(business))
 	
 	#return share url
 	share_url = create_share_url(deal)
@@ -431,11 +425,12 @@ def create_share_url(deal_entity):
 	share_url = URL+deal_entity.share_id
 	return share_url
 
-def log_model(model):
-	#just prints all of the models key: prop in the log
+def model_props(model):
+	#returns a long multiline string of the model in key: prop
 	log_str = ''
-	for key, prop in model.properties().iteritems():
-		log_str += str(key)+": "+str(getattr(model,key))+": "+str(prop)+"\n\t"
-		logging.debug(log_str)
+#	logging.debug(model.properties())
+	for key in model.properties():
+		log_str += str(key)+": "+str(getattr(model,key))+"\n\t"
+	return log_str
 		
 		

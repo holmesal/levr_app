@@ -16,9 +16,12 @@ class ShareHandler(webapp2.RequestHandler):
 		try:
 			logging.debug(identifier)
 			deal = levr.Deal.all().filter('share_id =', identifier).get()
-			ninja = levr.Customer.get(deal.key().parent())
+			
+			
 			if deal:
 				logging.debug(deal)
+				ninjaKey = deal.key().parent()
+				ninja = levr.Customer.get(ninjaKey)
 				template_values = {
 								'deal':levr.phoneFormat(deal, 'list'),
 								'ninja':ninja.alias

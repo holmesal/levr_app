@@ -505,7 +505,6 @@ class ManageHandler(webapp2.RequestHandler):
 				logging.debug('-----------')
 				deals.append(levr.phoneFormat(deal, 'manage'))
 			
-			logging.debug(deals)
 			
 			
 			template_values = {

@@ -220,7 +220,7 @@ class phone(webapp2.RequestHandler):
 				
 				#get user entity
 				user	= levr.Customer.get(uid)
-				logging.debug(user)
+				logging.debug(levr_utils.log_model_props(user))
 				
 				#grab favorites list
 				favorites	= user.favorites
@@ -417,7 +417,7 @@ class phone(webapp2.RequestHandler):
 				#grab the ninja
 				ninja = levr.Customer.get(uid)
 				#delete any current cashOutRequests
-				q = levr.CashOutRequest.gql('WHERE ANCESTOR IS :1 AND status=:2',ninja.key(),'pending')
+				q = levr.CashOutRequest.gql('WHERE ANCESTOR IS :1 AND status=:2',ninja.key(),'pending').fetch(None)
 				for result in q:
 					result.delete()
 				#create a new cashOut request
@@ -439,73 +439,73 @@ class phone(webapp2.RequestHandler):
 				
 				
 				
-				## ====== SPOOF ACCEPTANCE FOR BETA TEST ====== ##
+					## ====== SPOOF ACCEPTANCE FOR BETA TEST ====== ##
 				
 				
 				
 				
 				
-				logging.debug(levr_utils.log_model_props(ninja))
-				logging.debug(levr_utils.log_model_props(cor))
+					logging.debug(levr_utils.log_model_props(ninja))
+					logging.debug(levr_utils.log_model_props(cor))
+					
+					#get corID
+					#get cor
+					#get the larger amount if money available at paytime is different
+					if cor.amount != cor.money_available_paytime:
+						amount = cor.money_available_paytime
+						cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
+					else:
+						amount = cor.amount
+					#get payment email
+					receiver_email = ninja.email
 				
-				#get corID
-				#get cor
-				#get the larger amount if money available at paytime is different
-				if cor.amount != cor.money_available_paytime:
-					amount = cor.money_available_paytime
-					cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
-				else:
-					amount = cor.amount
-				#get payment email
-				receiver_email = ninja.email
-			
-				#set cor to "paid"
-				cor.status = "paid"
-				cor.date_paid = datetime.now()
-				cor.payKey = 'this is a pay key'
-			
-				cor.put()
-			
-				#for each deal, make paid_out == earned_total
-				q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
-				for deal in q:
-					deal.paid_out = deal.earned_total
-					deal.put()
-			
-				#are number consistent?
-				logging.debug(cor.amount)
-				logging.debug(cor.money_available_paytime)
-				if cor.amount != cor.money_available_paytime:
-					#remember to encrypt the key if this is being used for anything
-					#other than just error logging
-					logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
-					#send email here later
-			
-				#set ninja money_available back to 0
-				ninja.money_available = 0.0
-			
-				#increment money_paid for the customer
-				ninja.money_paid += amount
+					#set cor to "paid"
+					cor.status = "paid"
+					cor.date_paid = datetime.now()
+					cor.payKey = 'this is a pay key'
 				
-				#update ninja
-				ninja.put()
-				logging.info('Payment completed!')
-				logging.debug(levr_utils.log_model_props(ninja))
-				logging.debug(levr_utils.log_model_props(cor))
-				#send email to the ninja confirming their cashout!
-				message = mail.EmailMessage(
-					sender	="LEVR AUTOMATED <beta@levr.com>",
-					subject	="Levr Cash Out",
-					to		=receiver_email)
-				logging.debug(message)
-				body = 'Hey Beta Tester,\n\n'
-				body += "You submitted a request to be paid for uploading deals to the Levr platform.\n"
-				body += "If this were real life, this email would be letting you know that you were about to be paid via paypal an amount of $"+str(amount)+". "
-				body += "Unfortunately your reality is being simulated. "
-				body += "\n\nThanks for helping us test.\nSincerely,\nThe Levr Team"
-				message.body = body
-				logging.debug(body)
-				message.send()
+					cor.put()
+				
+					#for each deal, make paid_out == earned_total
+					q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
+					for deal in q:
+						deal.paid_out = deal.earned_total
+						deal.put()
+				
+					#are number consistent?
+					logging.debug(cor.amount)
+					logging.debug(cor.money_available_paytime)
+					if cor.amount != cor.money_available_paytime:
+						#remember to encrypt the key if this is being used for anything
+						#other than just error logging
+						logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
+						#send email here later
+				
+					#set ninja money_available back to 0
+					ninja.money_available = 0.0
+				
+					#increment money_paid for the customer
+					ninja.money_paid += amount
+					
+					#update ninja
+					ninja.put()
+					logging.info('Payment completed!')
+					logging.debug(levr_utils.log_model_props(ninja))
+					logging.debug(levr_utils.log_model_props(cor))
+					#send email to the ninja confirming their cashout!
+					message = mail.EmailMessage(
+						sender	="LEVR <beta@levr.com>",
+						subject	="Levr Cash Out",
+						to		=receiver_email)
+					logging.debug(message)
+					body = 'Hey Beta Tester,\n\n'
+					body += "You submitted a request to be paid for uploading deals to the Levr platform.\n\n"
+					body += "If this were real life, this email would be letting you know that you were about to be paid via paypal an amount of $"+str(amount)+". "
+					body += "Unfortunately your reality is being simulated. "
+					body += "\n\nThanks for helping us test.\nSincerely,\nThe Levr Team"
+					message.body = body
+					logging.debug(body)
+					message.send()
 				
 			elif action == "getTargetedBusinesses":
 				#get businesses that have property targeted = True
@@ -609,7 +609,7 @@ class phone(webapp2.RequestHandler):
 				deal = entities[0]
 				user = entities[1]
 				
-				logging.debug(levr_utils.log_model_props(deal,['gate_max','has_been_shared']))
+				logging.debug(levr_utils.log_model_props(deal,['deal_text','business_name','gate_max','has_been_shared']))
 				
 				deal.share_deal()
 				deal.put()
@@ -627,7 +627,8 @@ class phone(webapp2.RequestHandler):
 			toEcho = {"success":False}
 		finally:
 			try:
-				logging.info(json.dumps(toEcho))
+				logging.debug(levr_utils.log_dict(toEcho))
+				logging.debug(json.dumps(toEcho))
 				self.response.out.write(json.dumps(toEcho))
 			except:
 				#catches the case where toEcho cannot be parsed as json
@@ -637,46 +638,51 @@ class phone(webapp2.RequestHandler):
 
 class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
-		logging.info('uploadDeal')
-		
-		#make sure than an image is uploaded
-		logging.debug(self.get_uploads())
-		if self.get_uploads(): #will this work?
-			upload	= self.get_uploads()[0]
-			blob_key= upload.key()
-			img_key = blob_key
-		else:
-			raise Exception('Image was not uploaded')
-		
-		
-		#screen for businessID to determine which mode of upload we are receiving
-		if self.request.get('businessID'):
-			logging.debug('iphone')
-			#we are on iphone
-			params = {
-				'uid'				: self.request.get('uid'),
-				'business'			: self.request.get('businessID'),
-				'deal_description'	: self.request.get('deal_description'),
-				'deal_line1'		: self.request.get('deal_line1'),
-				'img_key'			: img_key
-				}
-			share_url = levr_utils.dealCreate(params,'phone')
-		else:
-			logging.debug('android')
-			#we are on android
-			params = {
-				'uid'				: self.request.get('uid'),
-				'business_name'		: self.request.get('business_name'),
-				'geo_point'			: self.request.get('geo_point'),
-				'vicinity'			: self.request.get('vicinity'),
-				'types'				: self.request.get('types'),
-				'deal_description'	: self.request.get('deal_description'),
-				'deal_line1'		: self.request.get('deal_line1'),
-				'img_key'			: img_key
-				}
-			share_url = levr_utils.dealCreate(params,'oldphone')
-		toEcho = {"success":True,"data":{"shareURL":share_url}}
-		self.response.out.write(json.dumps(toEcho))
+		try:
+			logging.info('uploadDeal')
+			#make sure than an image is uploaded
+			logging.debug(self.get_uploads())
+			if self.get_uploads(): #will this work?
+				upload	= self.get_uploads()[0]
+				blob_key= upload.key()
+				img_key = blob_key
+			else:
+				raise Exception('Image was not uploaded')
+			
+			
+			#screen for businessID to determine which mode of upload we are receiving
+			if self.request.get('businessID'):
+				logging.debug('iphone')
+				#we are on iphone
+				params = {
+					'uid'				: self.request.get('uid'),
+					'business'			: self.request.get('businessID'),
+					'deal_description'	: self.request.get('deal_description'),
+					'deal_line1'		: self.request.get('deal_line1'),
+					'img_key'			: img_key
+					}
+				
+				share_url = levr_utils.dealCreate(params,'phone')
+			else:
+				logging.debug('android')
+				#we are on android
+				params = {
+					'uid'				: self.request.get('uid'),
+					'business_name'		: self.request.get('business_name'),
+					'geo_point'			: self.request.get('geo_point'),
+					'vicinity'			: self.request.get('vicinity'),
+					'types'				: self.request.get('types'),
+					'deal_description'	: self.request.get('deal_description'),
+					'deal_line1'		: self.request.get('deal_line1'),
+					'img_key'			: img_key
+					}
+				(share_url,dealID) = levr_utils.dealCreate(params,'oldphone')
+			toEcho = {"success":True,"data":{"shareURL":share_url,"dealID":dealID}}
+			self.response.out.write(json.dumps(toEcho))
+		except:
+			levr.log_error(levr_utils.log_dir(self.request))
+			toEcho = {"success":False}#,"data":{"shareURL":share_url}}
+			self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):
 	def post(self):
 		pass

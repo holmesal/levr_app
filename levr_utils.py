@@ -125,8 +125,10 @@ def loginCustomer(email_or_owner,pw):
 def dealCreate(params,origin,upload_flag=True):
 	'''pass in "self"'''
 	logging.debug('DEAL CREATE')
+	
 	logging.debug(origin)
 	logging.debug(params)
+	
 	
 	logging.debug(upload_flag)
 	#init tags list for deal
@@ -396,14 +398,19 @@ def dealCreate(params,origin,upload_flag=True):
 	#log properties
 	
 	#put the deal
-	deal.put()
-	
+	dealput = deal.put()
+	#dealput is the deal key i.e. dealID
 	logging.debug(log_model_props(deal))
 	logging.debug(log_model_props(business))
 	
-	#return share url
 	share_url = create_share_url(deal)
-	return share_url
+	
+	if origin == 'phone' or origin =='oldphone':
+		#needs share url and dealID
+		return share_url,str(dealput)
+	else:
+		#return share url
+		return share_url
 
 def unix_time(dt):
 	epoch = datetime.utcfromtimestamp(0)
@@ -429,42 +436,54 @@ def log_model_props(model,props=None):
 	#returns a long multiline string of the model in key: prop
 	delimeter = "\n\t\t"
 	log_str = delimeter
-	if type(props) is list:
-		#only display certain keys
-		for key in props:
-			log_str += str(key)+": "+str(getattr(model,key))+delimeter
-	else:
-		#display all keys
-		for key in model.properties():
-			log_str += str(key)+": "+str(getattr(model,key))+delimeter
-	
-	
-	return log_str
+	try:
+		if type(props) is list:
+			#only display certain keys
+			for key in props:
+				log_str += str(key)+": "+str(getattr(model,key))+delimeter
+		else:
+			#display all keys
+			for key in model.properties():
+				log_str += str(key)+": "+str(getattr(model,key))+delimeter
+	except:
+		levr.log_error('There was an error in log_model_props')
+	finally:
+		return log_str
 
 def log_dir(obj,props=None):
 	#returns a long multiline string of a regular python object in key: prop
 	delimeter = "\n\t\t"
 	log_str = delimeter
-	if type(props) is list:
-		#only display certain keys
-		for key in props:
-			log_str += str(key)+": "+str(getattr(obj,key))+delimeter
-	else:
-		#display all keys
-		for key in dir(obj):
-			log_str += str(key)+": "+str(getattr(obj,key))+delimeter
-	return log_str
+	try:
+		if type(props) is list:
+			logging.debug('log some keys')
+			#only display certain keys
+			for key in props:
+				log_str += str(key)+": "+str(getattr(obj,key))+delimeter
+		else:
+			logging.debug('log all keys')
+			#display all keys
+			for key in dir(obj):
+				log_str += str(key)+": "+str(getattr(obj,key))+delimeter
+	except:
+		levr.log_error('There was an error in log_dir')
+	finally:
+		return log_str
 
 def log_dict(obj,props=None):
 	#returns a long multiline string of a regular python object in key: prop
 	delimeter = "\n\t\t"
 	log_str = delimeter
-	if type(props) is list:
-		#only display certain keys
-		for key in props:
-			log_str += str(key)+": "+str(obj[key])+delimeter
-	else:
-		#display all keys
-		for key in obj:
-			log_str += str(key)+": "+str(obj[key])+delimeter
-	return log_str
+	try:
+		if type(props) is list:
+			#only display certain keys
+			for key in props:
+				log_str += str(key)+": "+str(obj[key])+delimeter
+		else:
+			#display all keys
+			for key in obj:
+				log_str += str(key)+": "+str(obj[key])+delimeter
+	except:
+		levr.log_error('There was an error in log_dict')
+	finally:
+		return log_str

@@ -266,13 +266,13 @@ def phoneFormat(deal,use,primary_cat=None):
 			data.update({
 				"gateRequirement"	: deal.gate_requirement,						#The number of redemptions needed to earn a dollar on this deal
 				"gatePaymentPer"	: deal.gate_payment_per,						#The dollar amount we pay for each gate
-				"earnedTotal"		: deal_parent.money_paid, #This used to be the total earned to date but it felt weird#earned_total,							#The amount of money that this deal has earned so far
+				"earnedTotal"		: deal.earned_total, 							#The amount of money that this deal has earned so far
 				"paymentMax"		: deal.gate_max*deal.gate_payment_per,			#The most money we will pay them for this deal
 				"paidOut"			: deal.paid_out,								#The amount of money that this deal has earned to date
 				"dealStatus"		: deal.deal_status,								#active,pending,rejected,expired
 				"dateEnd"			: deal.date_end.__str__()[:10],					#The date this deal becomes inactive
 				"moneyAvailable"	: deal_parent.money_available,					#The amount of money that the NINJA has available for redemption
-				"ninjaMoneyEarned"	: deal_parent.money_earned,						#The amount of money that the ninja has earned to date
+				"ninjaMoneyEarned"	: deal_parent.money_paid,						#The amount of money that the ninja has earned to date
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,	#The number of redemptions they need to earn another dollar
 				"shareURL"			: levr_utils.create_share_url(deal)			#The URL for them to share
 			})

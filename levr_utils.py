@@ -333,7 +333,7 @@ def dealCreate(params,origin,upload_flag=True):
 		uid = enc.decrypt_key(params['uid'])
 
 		deal = levr.CustomerDeal(parent = db.Key(uid))
-		deal.deal_status		= "pending"
+		deal.deal_status		= "active"#"pending"
 		deal.is_exclusive		= False
 
 	elif origin == 'admin_pending':

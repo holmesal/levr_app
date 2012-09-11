@@ -4,6 +4,14 @@
 		<link href="../css/merchantBeta.css" rel="stylesheet">
 		<title>Welcome to Levr.</title>
 		<link rel="icon" type="image/png" href="img/favicon.png">
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script> var startTime = (new Date()).getTime();</script>
+		<!-- start Mixpanel -->
+		<script type="text/javascript">(function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.1.min.js';d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?
+g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.identify people.set people.increment".split(" ");for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.1})(document,window.mixpanel||[]);
+mixpanel.init("115b36ec63eb2cb70bb9196c58046f6f");
+		</script>
+		<!-- end Mixpanel -->
 	</head>
 	<body>
 		<p id="headerText">Welcome to Levr.</p>
@@ -11,13 +19,17 @@
 		<div id="container">
 		
 			<form id="signupForm" action="/beta/merchant" method="post">
-				<input type="text" class="textIn" name="business_name" placeholder="Business Name">
-				<input type="text" class="textIn" name="contact_name" placeholder="Contact Name">
-				<input type="text" class="textIn" name="contact_email" placeholder="Contact Email">
-				<input type="text" class="textIn" name="contact_phone" placeholder="Contact Phone">
+				<input id="business_name" type="text" class="textIn" name="business_name" placeholder="Business Name">
+				<input id="contact_name" type="text" class="textIn" name="contact_name" placeholder="Contact Name">
+				<input id="contact_email" type="text" class="textIn" name="contact_email" placeholder="Contact Email">
+				<input id="contact_phone" type="text" class="textIn" name="contact_phone" placeholder="Contact Phone">
 				<p id="noSpam">No spam - we promise.</p>
 				<button id="btnSubmit" type="submit" class="button green">Sign Up</button>
 			</form>
 		</div>
+		<script type="text/javascript">
+			google.load("jquery", "1.4.2");
+		</script>
+		<script src="../js/merchantBeta.js"></script>
 	</body>
 </html>

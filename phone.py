@@ -92,9 +92,6 @@ class phone(webapp2.RequestHandler):
 				results = q.fetch(None)
 				
 				
-#				logging.debug(q.__str__())
-#				logging.debug(q.get().__str__())
-
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []
 				resultsPushed = 0

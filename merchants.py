@@ -41,7 +41,7 @@ class LoginHandler(webapp2.RequestHandler):
 		}
 		template = jinja_environment.get_template('templates/login.html')
 		self.response.out.write(template.render(template_values))
-		self.response.out.write(os.path.dirname(__file__))
+#		self.response.out.write(os.path.dirname(__file__))
 	def post(self):
 		try:
 			#this is passed when an ajax form is checking the login state
@@ -94,7 +94,7 @@ class LoginHandler(webapp2.RequestHandler):
 					}
 					template = jinja_environment.get_template('templates/login.html')
 					self.response.out.write(template.render(template_values))
-					self.response.out.write(template_values)
+#					self.response.out.write(template_values)
 		except:
 			levr.log_error()
 

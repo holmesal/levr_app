@@ -48,6 +48,13 @@ class MerchantBetaHandler(webapp2.RequestHandler):
 		message.body = body
 		message.send()
 		
+		b = levr.BusinessBetaRequest()
+		b.business_name = self.request.get('business_name')
+		b.contact_name = self.request.get('contact_name')
+		b.contact_email = self.request.get('contact_email')
+		b.contact_phone = self.request.get('contact_phone')
+		b.put()
+		
 class SendMailHandler(webapp2.RequestHandler):
 	def get(self):
 	

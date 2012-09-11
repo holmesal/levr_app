@@ -73,13 +73,13 @@ $(window).load(function(){
 	})
 	
 	//click listeners for beta request
-	$('#requestBeta').click(function(event){
+	/*$('#requestBeta').click(function(event){
 		$.post('/',{'email':$('#email').val()},function(){
 			$('#requestBeta,#email').hide()
 			$('#inviteRequested').show()
 			mixpanel.track("Beta Request",{"email":$('#email').val()})
 		})
-	})
+	})*/
 	
 	//click listeners for mobile button
 	$('#welcome_top').click(function(){

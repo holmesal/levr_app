@@ -412,8 +412,8 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
 				logging.info('cashOut')
-				uid = enc.decrypt_key(decoded['in']['uid'])
-			
+#				uid = enc.decrypt_key(decoded['in']['uid'])
+				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg8LEghDdXN0b21lchiYAQw'
 				#grab the ninja
 				ninja = levr.Customer.get(uid)
 				#delete any current cashOutRequests
@@ -423,6 +423,7 @@ class phone(webapp2.RequestHandler):
 				#create a new cashOut request
 				cor = levr.CashOutRequest(parent=ninja)
 				cor.amount = ninja.money_available
+				cor.money_available_paytime = cor.amount
 				#get notifications
 				notifications = ninja.get_notifications()
 				if cor.amount == 0:
@@ -432,7 +433,80 @@ class phone(webapp2.RequestHandler):
 					cor.date_created = datetime.now()
 					cor.put()
 					toEcho = {"success":True,"notifications":notifications}
+				
+				
+				
+				
+				
+				
+				## ====== SPOOF ACCEPTANCE FOR BETA TEST ====== ##
+				
+				
+				
+				
+				
+				logging.debug(levr_utils.log_model_props(ninja))
+				logging.debug(levr_utils.log_model_props(cor))
+				
+				#get corID
+				#get cor
+				#get the larger amount if money available at paytime is different
+				if cor.amount != cor.money_available_paytime:
+					amount = cor.money_available_paytime
+					cor.note = 'The money available at paytime was greater than when the COR was created, so the paytime balance was used.'
+				else:
+					amount = cor.amount
+				#get payment email
+				receiver_email = ninja.email
 			
+				#set cor to "paid"
+				cor.status = "paid"
+				cor.date_paid = datetime.now()
+				cor.payKey = 'this is a pay key'
+			
+				cor.put()
+			
+				#for each deal, make paid_out == earned_total
+				q = levr.CustomerDeal.gql('WHERE ANCESTOR IS :1',ninja.key())
+				for deal in q:
+					deal.paid_out = deal.earned_total
+					deal.put()
+			
+				#are number consistent?
+				logging.debug(cor.amount)
+				logging.debug(cor.money_available_paytime)
+				if cor.amount != cor.money_available_paytime:
+					#remember to encrypt the key if this is being used for anything
+					#other than just error logging
+					logging.error('PAY MISMATCH AT UID:' + ninja.key().__str__())
+					#send email here later
+			
+				#set ninja money_available back to 0
+				ninja.money_available = 0.0
+			
+				#increment money_paid for the customer
+				ninja.money_paid += amount
+				
+				#update ninja
+				ninja.put()
+				logging.info('Payment completed!')
+				logging.debug(levr_utils.log_model_props(ninja))
+				logging.debug(levr_utils.log_model_props(cor))
+				#send email to the ninja confirming their cashout!
+				message = mail.EmailMessage(
+					sender	="LEVR AUTOMATED <feedback@levr.com>",
+					subject	="Levr Cash Out",
+					to		=receiver_email)
+				logging.debug(message)
+				body = 'Hey Beta Tester,\n\n'
+				body += "You submitted a request to be paid for uploading deals to the Levr platform.\n"
+				body += "If this were real life, this email would be letting you know that you were about to be paid via paypal an amount of $"+str(amount)+". "
+				body += "Unfortunately your reality is being simulated. "
+				body += "\n\nThanks for helping us test.\nSincerely,\nAlonso, Ethan, Pat, and Art\nLevr Inc."
+				message.body = body
+				logging.debug(body)
+				message.send()
+				
 			elif action == "getTargetedBusinesses":
 				#get businesses that have property targeted = True
 				logging.info('getTargetedBusinesses')

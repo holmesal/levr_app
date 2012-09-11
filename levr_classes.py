@@ -150,6 +150,7 @@ class Deal(polymodel.PolyModel):
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
 	has_been_shared	= db.BooleanProperty(default = False)
+#	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
 

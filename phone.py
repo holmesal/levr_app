@@ -273,15 +273,20 @@ class phone(webapp2.RequestHandler):
 				'''
 				logging.info('getMyDeals')
 				uid	= enc.decrypt_key(decoded["in"]["uid"])
-				logging.info(uid)
+				logging.debug("encrypted uid: "+str(decoded["in"]["uid"]))
+				logging.debug("uid: "+str(uid))
 				#grab all deal children of the user
-				deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid)
+				deals = levr.CustomerDeal.all().ancestor(uid).order('-date_created').fetch(None)
+				
+				if not deals:
+					deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid).fetch(None)
 				#format CUSTOMER deals
 				data = [levr.phoneFormat(x,'myDeals') for x in deals]
 				#I believe this will just return data:None if deals is empty
 				
 				#flush their notifications
 				ninja = levr.Customer.get(uid)
+				
 #				ninja.flush_new_redeem_count()
 #				ninja.put()
 				#get new notifications

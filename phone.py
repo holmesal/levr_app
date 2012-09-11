@@ -329,13 +329,13 @@ class phone(webapp2.RequestHandler):
 				#new notifications?
 				notifications = customer.get_notifications()
 				#don't try and redeem the same deal twice. . .
-				#if dealID in customer.redemptions:
-					#toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
-				#else:
-					#toEcho = {"success":True,"notifications":notifications}
+				if str(dealID) in customer.redemptions:
+					toEcho = {"success":False,"data":{"message":"You have already redeemed this deal."},"notifications":notifications}
+				else:
+					toEcho = {"success":True,"notifications":notifications}
 				
 				#!!!!!!!!REMOVE THIS WHEN CHECKING IS PUT BACK IN	
-				toEcho = {"success":True,"notifications":notifications}
+#				toEcho = {"success":True,"notifications":notifications}
 				
 			elif action == "getRedeemScreen":
 				logging.info('getRedeemScreen')

@@ -446,7 +446,7 @@ def log_model_props(model,props=None):
 			for key in model.properties():
 				log_str += str(key)+": "+str(getattr(model,key))+delimeter
 	except:
-		levr.log_error('There was an error in log_model_props')
+		logging.warning('There was an error in log_model_props')
 	finally:
 		return log_str
 
@@ -466,7 +466,7 @@ def log_dir(obj,props=None):
 			for key in dir(obj):
 				log_str += str(key)+": "+str(getattr(obj,key))+delimeter
 	except:
-		levr.log_error('There was an error in log_dir')
+		logging.warning('There was an error in log_dir')
 	finally:
 		return log_str
 
@@ -484,6 +484,6 @@ def log_dict(obj,props=None):
 			for key in obj:
 				log_str += str(key)+": "+str(obj[key])+delimeter
 	except:
-		levr.log_error('There was an error in log_dict')
+		logging.warning('There was an error in log_dict')
 	finally:
 		return log_str

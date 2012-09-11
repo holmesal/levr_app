@@ -50,7 +50,7 @@ class phone(webapp2.RequestHandler):
 			
 			elif action == "dealResults":
 				logging.info('dealResults')
-				
+				logging.info(decoded['in'])
 				#grab primaryCat from the request body
 				primaryCat 	= decoded["in"]["primaryCat"]
 					#search term
@@ -84,17 +84,16 @@ class phone(webapp2.RequestHandler):
 					logging.debug(tags)
 					#grab all deals where primary_cat is in tags
 					for tag in tags:
-						q.filter('tags',tag)
+						logging.debug('tag: '+str(tag))
+						q.filter('tags =',tag)
 				#finally, sort the query
-				#sort_property = 'rank'
-				#q.order(sort_property)
 				
 				#batch get results. here is where we would set the number of results we want and the offset
 				results = q.fetch(None)
 				
 				
 #				logging.debug(q.__str__())
-				logging.debug(q.get().__str__())
+#				logging.debug(q.get().__str__())
 
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				dealResults = []

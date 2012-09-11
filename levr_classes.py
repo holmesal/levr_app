@@ -342,7 +342,7 @@ def tagger(text):
 	#remove all non text characters
 	text = re.sub(r"[^\w\s]", '', text)
 	#parse text string into a list of words if it is longer than 2 chars long
-	tags = [w.lower() for w in re.findall("[\'\w]+", text) if len(w)>2]
+	tags = [w.lower() for w in re.findall("[\'\w]+", text) if len(w)>0]
 
 
 	return tags

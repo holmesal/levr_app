@@ -266,31 +266,34 @@ class WelcomeHandler(webapp2.RequestHandler):
 			logging.debug(business)
 			
 			if business:
-				logging.debug(business.owner)
+				logging.debug(levr_utils.log_model_props(business))
 				logging.debug('flag business already exists')
 				#have to delete business entity instead of update because gae wont update reference on owner entity
 				if business.owner == None:
-					#this business has no dependencies... delete!
-					db.delete(business)
+					#grab this business! 
+					business.owner	= owner
+					upload_email	= upload_email
+					#TODO targeted will be set to false in the future, removing signed businesses from the ninja pool
+#					targeted		= False
 				else:
 #					db.delete(business)
 					logging.error('A business owner just signed up claiming a business that another person has claimed')
 			else:
 				logging.debug('flag business does not exist')
 			
-			#create business entity
-			business = levr.Business(
-				#create business
-				owner			=owner,
-				business_name	=business_name,
-				vicinity		=vicinity,
-				geo_point		=geo_point,
-				types			=types,
-				upload_email	=upload_email
-				#TODO targeted will be set to false in the future, removing signed businesses from the ninja pool
-#				targeted		=False
-				)
-			logging.debug(dir(business))
+				#create business entity
+				business = levr.Business(
+					#create business
+					owner			=owner,
+					business_name	=business_name,
+					vicinity		=vicinity,
+					geo_point		=geo_point,
+					types			=types,
+					upload_email	=upload_email
+					#TODO targeted will be set to false in the future, removing signed businesses from the ninja pool
+#					targeted		=False
+					)
+			logging.debug(levr_utils.log_model_props(business))
 			business.put()
 			
 			#creates new session for the new business

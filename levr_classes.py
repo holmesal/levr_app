@@ -105,16 +105,7 @@ class Business(db.Model):
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
 
-	def dictify(self):
-		'''Formats the object into dictionary for review before release'''
-		data = {
-				"businessID"	: enc.encrypt_key(self.key().__str__()),
-				"vicinity"		: self.vicinity,
-				"businessName"	: self.business_name,
-				"geoPoint"		: self.geo_point,
-			}
-		return data
-	
+
 	def create_tags(self):
 		#create tags list
 		tags = []

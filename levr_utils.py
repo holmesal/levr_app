@@ -429,16 +429,15 @@ def log_model_props(model,props=None):
 	#returns a long multiline string of the model in key: prop
 	delimeter = "\n\t\t"
 	log_str = delimeter
-	if props == None:
-		logging.debug('all props')
-		#display all keys
-		for key in model.properties():
-			log_str += str(key)+": "+str(getattr(model,key))+delimeter
-	else:
-		logging.debug('some props')
+	if type(props) is list:
 		#only display certain keys
 		for key in props:
 			log_str += str(key)+": "+str(getattr(model,key))+delimeter
+	else:
+		#display all keys
+		for key in model.properties():
+			log_str += str(key)+": "+str(getattr(model,key))+delimeter
+	
 	
 	return log_str
 
@@ -446,15 +445,14 @@ def log_dir(obj,props=None):
 	#returns a long multiline string of a regular python object in key: prop
 	delimeter = "\n\t\t"
 	log_str = delimeter
-	if props == None:
-		logging.debug('all props')
-		#display all keys
-		for key in dir(obj):
-			log_str += str(key)+": "+str(getattr(obj,key))+delimeter
-	else:
-		logging.debug('some props')
+	if type(props) is list:
 		#only display certain keys
 		for key in props:
 			log_str += str(key)+": "+str(getattr(obj,key))+delimeter
+	else:
+		#display all keys
+		for key in dir(obj):
+			log_str += str(key)+": "+str(getattr(obj,key))+delimeter
+	
 	
 	return log_str

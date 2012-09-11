@@ -267,6 +267,8 @@ class WelcomeHandler(webapp2.RequestHandler):
 			
 			if business:
 				logging.debug(levr_utils.log_model_props(business))
+				logging.debug(owner)
+				logging.debug(upload_email)
 				logging.debug('flag business already exists')
 				#have to delete business entity instead of update because gae wont update reference on owner entity
 				if business.owner == None:

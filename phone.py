@@ -595,11 +595,10 @@ class phone(webapp2.RequestHandler):
 				notifications = user.get_notifications()
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == 'ninjaHasShared':
-#				uid = enc.decrypt_key(decoded['in']['uid'])
-#				dealID = enc.decrypt_key(decoded['in']['dealID'])
+				logging.info(action)
+				uid = enc.decrypt_key(decoded['in']['uid'])
+				dealID = enc.decrypt_key(decoded['in']['dealID'])
 				
-				dealID = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9uchgLEghDdXN0b21lchgaDAsSBERlYWwYHQw'
-				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg4LEghDdXN0b21lchgaDA'
 				
 				keys = [dealID,uid]
 				#pull deal and user

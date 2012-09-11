@@ -227,6 +227,13 @@ class ReportedDeal(db.Model):
 	dealID			= db.ReferenceProperty(Deal,collection_name='reported_deals')
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
+	
+class BusinessBetaRequest(db.Model):
+	business_name	= db.StringProperty()
+	contact_name	= db.StringProperty()
+	contact_email	= db.StringProperty()
+	contact_phone	= db.StringProperty()
+
 
 #functions!
 def phoneFormat(deal,use,primary_cat=None):

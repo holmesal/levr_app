@@ -276,10 +276,8 @@ class phone(webapp2.RequestHandler):
 				logging.debug("encrypted uid: "+str(decoded["in"]["uid"]))
 				logging.debug("uid: "+str(uid))
 				#grab all deal children of the user
-				deals = levr.CustomerDeal.all().ancestor(uid).order('-date_created').fetch(None)
-				
-				if not deals:
-					deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid).fetch(None)
+				deals = levr.CustomerDeal.gql("WHERE ANCESTOR IS :1 ORDER BY date_uploaded DESC",uid).fetch(None)
+				logging.debug(deals)
 				#format CUSTOMER deals
 				data = [levr.phoneFormat(x,'myDeals') for x in deals]
 				#I believe this will just return data:None if deals is empty
@@ -414,8 +412,8 @@ class phone(webapp2.RequestHandler):
 				toEcho = {"success":True,"notifications":notifications}
 			elif action == "cashOut":
 				logging.info('cashOut')
-#				uid = enc.decrypt_key(decoded['in']['uid'])
-				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg8LEghDdXN0b21lchiYAQw'
+				uid = enc.decrypt_key(decoded['in']['uid'])
+#				uid = 'ahNkZXZ-bGV2ci1wcm9kdWN0aW9ucg8LEghDdXN0b21lchiYAQw'
 				#grab the ninja
 				ninja = levr.Customer.get(uid)
 				#delete any current cashOutRequests
@@ -496,7 +494,7 @@ class phone(webapp2.RequestHandler):
 				logging.debug(levr_utils.log_model_props(cor))
 				#send email to the ninja confirming their cashout!
 				message = mail.EmailMessage(
-					sender	="LEVR AUTOMATED <feedback@levr.com>",
+					sender	="LEVR AUTOMATED <beta@levr.com>",
 					subject	="Levr Cash Out",
 					to		=receiver_email)
 				logging.debug(message)
@@ -504,7 +502,7 @@ class phone(webapp2.RequestHandler):
 				body += "You submitted a request to be paid for uploading deals to the Levr platform.\n"
 				body += "If this were real life, this email would be letting you know that you were about to be paid via paypal an amount of $"+str(amount)+". "
 				body += "Unfortunately your reality is being simulated. "
-				body += "\n\nThanks for helping us test.\nSincerely,\nAlonso, Ethan, Pat, and Art\nLevr Inc."
+				body += "\n\nThanks for helping us test.\nSincerely,\nThe Levr Team"
 				message.body = body
 				logging.debug(body)
 				message.send()

@@ -453,6 +453,18 @@ def log_dir(obj,props=None):
 		#display all keys
 		for key in dir(obj):
 			log_str += str(key)+": "+str(getattr(obj,key))+delimeter
-	
-	
+	return log_str
+
+def log_dict(obj,props=None):
+	#returns a long multiline string of a regular python object in key: prop
+	delimeter = "\n\t\t"
+	log_str = delimeter
+	if type(props) is list:
+		#only display certain keys
+		for key in props:
+			log_str += str(key)+": "+str(obj[key])+delimeter
+	else:
+		#display all keys
+		for key in obj:
+			log_str += str(key)+": "+str(obj[key])+delimeter
 	return log_str

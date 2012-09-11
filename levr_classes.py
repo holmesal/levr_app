@@ -150,7 +150,7 @@ class Deal(polymodel.PolyModel):
 	tags			= db.ListProperty(str)
 	rank			= db.IntegerProperty(default = 0)
 	has_been_shared	= db.BooleanProperty(default = False)
-#	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
+	date_uploaded	= db.DateTimeProperty(auto_now_add=True)
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
 
@@ -266,7 +266,7 @@ def phoneFormat(deal,use,primary_cat=None):
 			data.update({
 				"gateRequirement"	: deal.gate_requirement,						#The number of redemptions needed to earn a dollar on this deal
 				"gatePaymentPer"	: deal.gate_payment_per,						#The dollar amount we pay for each gate
-				"earnedTotal"		: deal.earned_total,							#The amount of money that this deal has earned so far
+				"earnedTotal"		: deal_parent.money_paid, #This used to be the total earned to date but it felt weird#earned_total,							#The amount of money that this deal has earned so far
 				"paymentMax"		: deal.gate_max*deal.gate_payment_per,			#The most money we will pay them for this deal
 				"paidOut"			: deal.paid_out,								#The amount of money that this deal has earned to date
 				"dealStatus"		: deal.deal_status,								#active,pending,rejected,expired
@@ -325,7 +325,7 @@ def phoneFormat(deal,use,primary_cat=None):
 
 			}
 	data.update({'geoPoint':str(deal.geo_point)})
-	logging.info(data)
+	logging.info(levr_utils.log_dict(data))
 	return data
 
 def geo_converter(geo_str):

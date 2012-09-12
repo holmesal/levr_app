@@ -4,7 +4,7 @@
 		<img src="{{ img_big }}" />
 		<img src="{{ img_small }}" />
 	</div>
-	<form method="post" action="/admin/approve?dealID={{ deal.dealID }}&businessID={{ business.businessID }}">
+	<form method="post" action="/admin/approve?deal={{ dealID }}&business={{ businessID }}">
 		<div style="float:left;">
 			<h2>Business Information</h2>
 			<p>{{ business.business_name }}</p>
@@ -16,62 +16,29 @@
 			<p>Deal Text: 		<br /><input type="text" name="deal_line1" value="{{ deal.deal_text }}" /></p>
 			<p>With purchase of:<br /><input type="text" name="deal_line2" value="{{deal.secondaryName}}"></p>
 			<p>Description:		<br /><input type="text" rows="3" name="deal_description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>
-			<p>Extra Tags: 		<br /><input type="text" rows="3" name="tags" placeholder="separate by commas"></textarea></p>
+			<p>Days Active: 	<br /><input type="text" name="days_active" value="7" /></p>
+			<h3>Existing Tags:</h3>
+			{% for tag in tags %}
+			{{tag}}<br/>
+			{% endfor %}
+			
+			
+			
+			<p><strong>Extra Tags:</strong> 		<br /><input type="text" rows="3" name="tags" placeholder="separate by commas"></textarea></p>
 			<input type="submit" value="Accept Deal">
 		</div>
 			
 	</form>
-			<div>
+			<div style="float:left;margin-left:25px;">
+				<h2>Reject</h2>
 				<p>Danger, Will Robinson…</p>
-				<form method="post" action="/admin/reject?dealID={{deal.dealID}}">
+				<form method="post" action="/admin/reject?deal={{dealID}}">
 					<p>Why is this rejected? <br /> <input type="text" id="reject_message" name="rejection_message"></p>
 					<input type="submit" value="Reject Deal">
 				</form>
 			</div>
-		</div>
 	
 	</body>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	<script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDA6oSrrTbFLHVqZSt2JGeJWFLVa9F0074&sensor=false&libraries=places"></script>
-	<script type="text/javascript">
-		google.load("jquery", "1.4.2");
-	</script>
-	<script>
-	//initialize places service
-	var input = document.getElementById('business_select');
-	var options = {types: ['establishment']};
-	autocomplete = new google.maps.places.Autocomplete(input, options);
-	
-	//initialize place_changed listener
-	var place = {};
-	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-		place = autocomplete.getPlace();
-		$('#deal_business').val(place.name);
-		$('#deal_address').val(place.vicinity);
-		console.log(place)
-		//add types
-        $('#types').val(place.types)
-        //add vicinity as a hidden field
-        $('#vicinity').val(place.vicinity)
-        // vicinity_input = "<input type='hidden' name='vicinity' value='"+place.vicinity+"'>"
-        // $('#deal_form').append(vicinity_input);
-        //add business_name as a hidden field
-        $('#business_name').val(place.name)
-        // business_name_input = "<input type='hidden' name='business_name' value='"+place.name+"'>"
-        // $('#deal_form').append(business_name_input);
-        
-        //add geo_point
-        geo_point = place.geometry.location.toString();
-        lat = place.geometry.location.lat();
-        lng = place.geometry.location.lng();
-        console.log(lat,lng);
-        geo_point = ""+lat+","+lng;
-        $('#geo_point').val(geo_point);
-        console.log($('#geoPoint').val());
-        
-	});
-	
-	</script>
 </html>
 
+			

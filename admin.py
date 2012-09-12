@@ -8,7 +8,6 @@ import levr_utils
 import logging
 import jinja2
 from gaesessions import get_current_session
-import levr_utils
 #from datetime import datetime
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -25,11 +24,18 @@ class Pending(webapp2.RequestHandler):
 			logging.debug(levr_utils.log_model_props(deal))
 			business = levr.Business.get(deal.businessID)
 			
+			#sort tags for easy readin
+			tags = deal.tags
+			tags.sort()
+			
 			template_values = {
 				"deal"		: deal,
 				"img_big"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=dealDetail',
-				"img_small"	:levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=list',
-				"business"	: business
+				"img_small"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=list',
+				"tags"		: tags,
+				"business"	: business,
+				"dealID"	: enc.encrypt_key(deal.key()),
+				"businessID": enc.encrypt_key(business.key())
 			}
 			logging.debug(levr_utils.log_dict(template_values))
 			
@@ -43,7 +49,16 @@ class Approve(webapp2.RequestHandler):
 	#insert into database and redirect to Pending for next pending deal
 	def post(self):
 		try:
-			levr_utils.dealCreate(self,'pending')
+			params = {
+					'deal'				: self.request.get('deal'),
+					'business'			: self.request.get('business'),
+					'deal_description'	: self.request.get('deal_description'),
+					'deal_line1'		: self.request.get('deal_line1'),
+					'deal_line2'		: self.request.get('deal_line2'),
+					'extra_tags'		: self.request.get('tags'),
+					'days_active'		: self.request.get('days_active')
+					}
+			levr_utils.dealCreate(params,'admin_review',False)
 			self.response.out.write('<a href="/admin/pending">Success</a>')
 #			self.redirect('/admin/pending')
 		except:
@@ -53,10 +68,11 @@ class Approve(webapp2.RequestHandler):
 		
 class Reject(webapp2.RequestHandler):
 	def post(self):
-		inputs = self.request.get
-		dealID = enc.decrypt_key(inputs('dealID'))
+		dealID = enc.decrypt_key(self.request.get('deal'))
+		logging.debug(dealID)
 		deal = levr.CustomerDeal.get(dealID)
 		deal.deal_status = 'rejected'
+		deal.been_reviewed = True
 		deal.reject_message = self.request.get('reject_message')
 		deal.put()
 		self.redirect('/admin/pending')

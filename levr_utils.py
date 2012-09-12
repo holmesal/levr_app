@@ -182,7 +182,7 @@ def dealCreate(params,origin,upload_flag=True):
 				'deal_description'
 				'deal_line1'
 				}
-	#####admin_pending
+	#####admin_review
 		params = {
 				'uid'		#uid is ninja
 				'deal'		#deal id
@@ -286,7 +286,10 @@ def dealCreate(params,origin,upload_flag=True):
 	
 	#deal line 2
 	if origin != 'phone' and origin != 'oldphone':
-		secondary_name = params['deal_line2']
+		if 'deal_line2' in params:
+			secondary_name = params['deal_line2']
+		else:
+			secondary_name = False
 		logging.debug(secondary_name)
 		if secondary_name:
 			#deal is bundled
@@ -330,34 +333,38 @@ def dealCreate(params,origin,upload_flag=True):
 		dealID	= enc.decrypt_key(dealID)
 		deal	= levr.Deal.get(dealID)
 
-	elif origin	=='phone' or 'oldphone':
-		#phone deals get pending status and are the child of a ninja
+	elif origin	=='phone' or origin == 'oldphone':
+		#phone deals are the child of a ninja
+		logging.debug('STOP!')
 		uid = enc.decrypt_key(params['uid'])
 
 		deal = levr.CustomerDeal(parent = db.Key(uid))
-		deal.deal_status		= "active"#"pending"
+		deal.deal_status		= "active"
 		deal.is_exclusive		= False
+		
+		
 		deal.date_end			= datetime.now() + timedelta(days=7)
 
-	elif origin == 'admin_pending':
+	elif origin == 'admin_review':
 		#deal has already been uploaded by ninja - rewriting info that has been reviewed
 		dealID = enc.decrypt_key(params['deal'])
 		deal = levr.CustomerDeal.get(db.Key(dealID))
-		
-		deal.deal_status		= "active"
+		deal.been_reviewed		= True
 		deal.date_start			= datetime.now()
-		deal.date_end			= datetime.now() + timedelta(days=7)
+		days_active				= int(params['days_active'])
+		deal.date_end			= datetime.now() + timedelta(days=days_active)
 		
-		new_tags = params['tags']
+		new_tags = params['extra_tags']
 		tags.extend(levr.tagger(new_tags))
-
+		logging.debug('!!!!!!!!!!!!')
+		logging.debug(tags)
 	
 	
 	#==== Link deal to blobstore image ====#
 	if upload_flag == True:
 		#an image has been uploaded, and the blob needs to be tied to the deal
 		logging.debug('image uploaded')
-		if origin == 'merchant_edit' or origin == 'admin_pending':
+		if origin == 'merchant_edit' or origin == 'admin_review':
 			#an image was uploaded, so remove the old one.
 			blob = deal.img
 			blob.delete()

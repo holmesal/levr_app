@@ -337,6 +337,7 @@ def dealCreate(params,origin,upload_flag=True):
 		deal = levr.CustomerDeal(parent = db.Key(uid))
 		deal.deal_status		= "active"#"pending"
 		deal.is_exclusive		= False
+		deal.date_end			= datetime.now() + timedelta(days=7)
 
 	elif origin == 'admin_pending':
 		#deal has already been uploaded by ninja - rewriting info that has been reviewed
@@ -408,7 +409,7 @@ def dealCreate(params,origin,upload_flag=True):
 	
 	if origin == 'phone' or origin =='oldphone':
 		#needs share url and dealID
-		return share_url,str(enc.encrypt_key(deal.key()))
+		return share_url,deal
 	else:
 		#return share url
 		return share_url

@@ -52,7 +52,7 @@ class phone(webapp2.RequestHandler):
 			elif action == "popularItems":
 				logging.info('popularItems')
 				data = {
-					'popularItems' : ['all','pizza','BU','commonwealth']
+					'popularItems' : ['all','food','indian','pizza','BU','commonwealth']
 					}
 				toEcho = {'success': True,'data':data}
 			
@@ -381,8 +381,8 @@ class phone(webapp2.RequestHandler):
 				customer = levr.Customer.get(uid)
 			
 				#don't try and redeem the same deal twice. . .
-				if dealID in customer.redemptions:
-					raise Exception('Cannot redeem a deal more than once')
+#				if dealID in customer.redemptions:
+#					raise Exception('Cannot redeem a deal more than once')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
@@ -681,7 +681,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'img_key'			: img_key
 					}
 				
-				(share_url,dealID) = levr_utils.dealCreate(params,'phone')
+				(share_url,deal_entity) = levr_utils.dealCreate(params,'phone')
 			else:
 				logging.debug('android')
 				#we are on android
@@ -695,8 +695,17 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'deal_line1'		: self.request.get('deal_line1'),
 					'img_key'			: img_key
 					}
-				(share_url,dealID) = levr_utils.dealCreate(params,'oldphone')
-			toEcho = {"success":True,"data":{"shareURL":share_url,"dealID":dealID}}
+				(share_url,deal_entity) = levr_utils.dealCreate(params,'oldphone')
+			
+			
+			
+			
+			#grab deal information for sending back to phone
+			deal = levr.phoneFormat(deal_entity,'list')
+			
+			
+			#Return Info..
+			toEcho = {"success":True,"data":{"shareURL":share_url,"deal":deal}}
 			logging.debug(levr_utils.log_dict(toEcho))
 			self.response.out.write(json.dumps(toEcho))
 		except:

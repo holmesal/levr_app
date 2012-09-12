@@ -521,10 +521,21 @@ class phone(webapp2.RequestHandler):
 					body += "If this were real life, this email would be letting you know that you were about to be paid via paypal an amount of $"+str(amount)+". "
 					body += "Unfortunately your reality is being simulated. "
 					body += "\n\nThanks for helping us test.\nSincerely,\nThe Levr Team"
-					message.body = body
-					logging.debug(body)
-					message.send()
-				
+					
+#					#alt body for when not in beta
+#					message = mail.EmailMessage(
+#						sender	="LEVR <feedback@levr.com>",
+#						subject	="Levr Cash Out",
+#						to		=receiver_email)
+#					body = 'Hey '+ninja.alias+',\n\n'
+#					body += "You have submitted a request to be paid for the deals that you've uploaded to Levr.\n\n"
+#					body += "The amount you have requested is: $"+str(amount)+".\n\n"
+#					body += "Your request is in the process of being reviewed. If accepted, we will send you an email with instructions to receive your payment via PayPal."
+#					body += "\n\nSincerely,\nThe Levr Team"
+#					message.body = body
+#					logging.debug(body)
+#					message.send()
+#				
 			elif action == "getTargetedBusinesses":
 				#get businesses that have property targeted = True
 				logging.info('getTargetedBusinesses')

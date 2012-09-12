@@ -325,7 +325,6 @@ def dealCreate(params,origin,upload_flag=True):
 		ownerID = enc.decrypt_key(ownerID)
 		
 		deal = levr.Deal(parent = db.Key(ownerID))
-		deal.deal_status		= "active"
 		deal.is_exclusive		= True
 
 	elif origin	=='merchant_edit':
@@ -339,7 +338,6 @@ def dealCreate(params,origin,upload_flag=True):
 		uid = enc.decrypt_key(params['uid'])
 
 		deal = levr.CustomerDeal(parent = db.Key(uid))
-		deal.deal_status		= "active"
 		deal.is_exclusive		= False
 		
 		
@@ -452,7 +450,11 @@ def log_model_props(model,props=None):
 				log_str += str(key)+": "+str(getattr(model,key))+delimeter
 		else:
 			#display all keys
+			key_list = []
 			for key in model.properties():
+				key_list.append(key)
+			key_list.sort()
+			for key in key_list:
 				log_str += str(key)+": "+str(getattr(model,key))+delimeter
 	except:
 		logging.warning('There was an error in log_model_props')
@@ -467,7 +469,11 @@ def log_dir(obj,props=None):
 		if type(props) is list:
 			logging.debug('log some keys')
 			#only display certain keys
+			key_list = []
 			for key in props:
+				key_list.append(key)
+			key_list.sort()
+			for key in key_list:
 				log_str += str(key)+": "+str(getattr(obj,key))+delimeter
 		else:
 			logging.debug('log all keys')
@@ -490,7 +496,11 @@ def log_dict(obj,props=None):
 				log_str += str(key)+": "+str(obj[key])+delimeter
 		else:
 			#display all keys
+			key_list = []
 			for key in obj:
+				key_list.append(key)
+			key_list.sort()
+			for key in key_list:
 				log_str += str(key)+": "+str(obj[key])+delimeter
 	except:
 		logging.warning('There was an error in log_dict')

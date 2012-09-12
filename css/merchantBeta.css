@@ -16,6 +16,7 @@ body{
 	border-radius: 10px;
 	margin-bottom: 50px;
 	box-shadow: 1px 1px 12px gray;
+	padding-bottom: 20px;
 }
 
 #headerText{
@@ -38,8 +39,7 @@ body{
 	margin-top: 40px;
 }
 
-#btnSubmit{
-	margin-bottom: 20px;
+#betaRequest{
 	font-size: 17px;
 }
 

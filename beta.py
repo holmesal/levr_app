@@ -76,7 +76,7 @@ class SendMailHandler(webapp2.RequestHandler):
 		
 	
 		<div style="background-color: white; width: 80%; margin-left: auto; margin-right: auto; height:auto; margin-top: 15px; margin-bottom: 15px; color: #333333;">
-			<div id="image" style="width: 100%;height: 200px;background-image: url(http://www.levr.com/img/streetsmaller.jpeg);background-size: cover;background-position-y: 70%;"></div>
+			<div id="image" style="width: 100%;height: 200px;background-image: url(../img/boston.jpeg);background-position-x: center;background-position-y: center;background-repeat: no-repeat;"></div>
 			<div style="padding:20px;">
 				<p style="font-size: 20pt; font-weight: 700;">Cheap, easy advertising that works.</p>
 				<p style="font-size: 15pt; font-weight: 300; margin-top: 50px;">Levr is a location-based advertising network for your business.</p>
@@ -84,6 +84,7 @@ class SendMailHandler(webapp2.RequestHandler):
 				<p style="font-size: 15pt; font-weight: 300;">Reach a broad local audience that is actively trying to buy what you sell.</p>
 				<p style="font-size: 16pt; font-weight: 700; margin-top: 40px;">Join during the trial phase, and get Levr for free. For life.</p>
 				<a id="trialbutton" href="http://www.levr.com/beta/merchant" class="button green" style="display: inline-block;   outline: none;   cursor: pointer;   text-align: center;   text-decoration: none;   font: 20px/100% Arial, Helvetica, sans-serif;   padding: .5em 2em .55em;   text-shadow: 0 1px 1px rgba(0,0,0,.3);   -webkit-border-radius: .5em;    -moz-border-radius: .5em;   border-radius: .5em;   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);   -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);   box-shadow: 0 1px 2px rgba(0,0,0,.2);		color: #e8f0de;   border: solid 1px #538312;   background: #64991e;   background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));   background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');">Get Levr for free</a>
+				<a id="learnButton" href="http://www.levr.com/merchants" class="button blue" style="display: inline-block;   margin-left: 50px; outline: none;   cursor: pointer;   text-align: center;   text-decoration: none;   font: 20px/100% Arial, Helvetica, sans-serif;   padding: .5em 2em .55em;   text-shadow: 0 1px 1px rgba(0,0,0,.3);   -webkit-border-radius: .5em;    -moz-border-radius: .5em;   border-radius: .5em;   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);   -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);   box-shadow: 0 1px 2px rgba(0,0,0,.2);		color: #d9eef7;   border: solid 1px #0076a3;   background: #0095cd;   background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));   background: -moz-linear-gradient(top,  #00adee,  #0078a5);   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');">Learn more</a>
 			</div>
 		</div>
 	</body>
@@ -108,7 +109,9 @@ class SendMailHandler(webapp2.RequestHandler):
 		
 		self.response.out.write('Email sent to: ' + targetArr.__str__() + ' Now go unset this so there are no duplicate sends!')
 	
-
+		#self.response.out.write(message.html)
+		
+		
 app = webapp2.WSGIApplication([('/beta/merchant', MerchantBetaHandler),
 								('/beta/sendMail', SendMailHandler)],
 								debug=True)

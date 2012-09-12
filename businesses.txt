@@ -137,3 +137,30 @@ Wings Over Brookline	477 Harvard Street, Brookline	42.34713,-71.128508	restauran
 Wonder Bar	186 Harvard Avenue, Allston	42.351,-71.131218	night_club,bar,restaurant,food,establishment
 Yard House Boston	126 Brookline Avenue, Boston	42.34543,-71.100229	restaurant,food,establishment
 Zaftigs Delicatessen	335 Harvard Street, Brookline	42.343794,-71.12379	store,meal_takeaway,restaurant,food,establishment
+A.W.O.L	190 Harvard Avenue, Allston	42.350904,-71.131162	shoe_store,store,establishment
+Audio Concepts	870 Commonwealth Ave, Boston	42.350718,-71.113975	electronics_store,store,establishment
+Blauer	20 Aberdeen Street, Boston	42.346768,-71.103945	clothing_store,store,health,establishment
+Blick Art Materials	401 Park Drive, Boston	42.344494,-71.103202	store,establishment
+Boston Blossom	714 Commonwealth Avenue, Boston	42.349652,-71.105659	florist,store,establishment
+Boston Book Annex	906 Beacon Street, Boston	42.346654,-71.105973	book_store,store,establishment
+Brookline Booksmith	279 Harvard Street, Brookline	42.342621,-71.12171	book_store,store,establishment
+Buffalo Exchange	180 Harvard Avenue, Boston	42.351128,-71.131293	clothing_store,store,establishment
+Computer Loft Inc	6 Fordham Road, Allston	42.351946,-71.127735	electronics_store,store,establishment
+Copperfield's	98 Brookline Avenue, Boston	42.346199,-71.099476	night_club,establishment
+East Coast Alpine Inc	860 Commonwealth Avenue, Boston	42.35068,-71.114052	store,establishment
+In Your Ear	957 Commonwealth Avenue, Boston	42.351722,-71.118966	store,establishment
+International Bicycle Centers	89 Brighton Avenue, Allston	42.352934,-71.129635	bicycle_store,store,establishment
+LAB Boston	113 Brighton Avenue, Allston	42.35298,-71.130735	clothing_store,art_gallery,store,establishment
+Landry's Bicycles	890 Commonwealth Avenue, Boston	42.350845,-71.115639	bicycle_store,store,establishment
+Mint Julep	1302 Beacon Street, Brookline	42.342555,-71.120572	clothing_store,store,establishment
+Music Studio Direct	971 Commonwealth Ave, Boston	42.351825,-71.119587	store,establishment
+REI	401 Park Drive, Boston	42.344201,-71.102889	store,establishment
+RadioShack	730 Commonwealth Ave #2, Suite 2, Boston	42.3498,-71.1071	electronics_store,store,establishment
+Rangoli	129 Brighton Avenue, Allston	42.353023,-71.131083	food,establishment
+Rumblestrip Audio	115 Dummer Street, Brookline	42.350224,-71.116731	electronics_store,store,establishment
+Stingray Body Art & More	386 Cambridge Street, Allston	42.355346,-71.132974	store,establishment
+Superb Bicycle	842 Beacon Street, Boston	42.347292,-71.103246	bicycle_store,store,establishment
+The Compleat Strategist	957 Commonwealth Avenue, Boston	42.351714,-71.118878	electronics_store,store,establishment
+Urban Outfitters Allston	226 Harvard Avenue, Allston	42.349254,-71.129903	shoe_store,clothing_store,store,establishment
+Urban Renewals	122 Brighton Avenue, Boston	42.352735,-71.131006	department_store,store,establishment
+Visual Velocity	15 James Street, Brookline	42.343814,-71.118341	electronics_store,store,establishment

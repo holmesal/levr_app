@@ -6,6 +6,9 @@ bin
 .pydevproject
 todo*
 test.py
+Copy*
+
+
 
 #extraneous files
 *.pyc

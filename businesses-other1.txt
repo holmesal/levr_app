@@ -1,4 +1,5 @@
 A.W.O.L	190 Harvard Avenue, Allston	42.350904,-71.131162	shoe_store,store,establishment
+Abreu Steven MD	# 1A, 930 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
 Audio Concepts	870 Commonwealth Ave, Boston	42.350718,-71.113975	electronics_store,store,establishment
 Blauer	20 Aberdeen Street, Boston	42.346768,-71.103945	clothing_store,store,health,establishment
 Blick Art Materials	401 Park Drive, Boston	42.344494,-71.103202	store,establishment
@@ -6,7 +7,6 @@ Boston Blossom	714 Commonwealth Avenue, Boston	42.349652,-71.105659	florist,stor
 Boston Book Annex	906 Beacon Street, Boston	42.346654,-71.105973	book_store,store,establishment
 Brookline Booksmith	279 Harvard Street, Brookline	42.342621,-71.12171	book_store,store,establishment
 Buffalo Exchange	180 Harvard Avenue, Boston	42.351128,-71.131293	clothing_store,store,establishment
-Computer Loft Inc	6 Fordham Road, Allston	42.351946,-71.127735	electronics_store,store,establishment
 Copperfield's	98 Brookline Avenue, Boston	42.346199,-71.099476	night_club,establishment
 East Coast Alpine Inc	860 Commonwealth Avenue, Boston	42.35068,-71.114052	store,establishment
 In Your Ear	957 Commonwealth Avenue, Boston	42.351722,-71.118966	store,establishment

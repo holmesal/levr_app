@@ -1,5 +1,5 @@
 application: levr-production
-version: public
+version: beta
 runtime: python27
 api_version: 1
 threadsafe: false

@@ -27,12 +27,12 @@ def point_in_poly(x, y, poly):
 
 	return inside
 
-#data = [
-#	- 71.13291567731757, 42.35554491199912, 0 - 71.13371142324495, 42.35317880718497, 0 - 71.13071182248666, 42.35289425055202, 0 - 71.13120518406669, 42.35121446445319, 0 - 71.12951035135833, 42.34920812692455, 0 - 71.12830549341774, 42.3468052971652, 0 - 71.12592906032192, 42.34488439481419, 0 - 71.12421419842904, 42.343752552996, 0 - 71.12227464653085, 42.34263570582295, 0 - 71.12299930022292, 42.34161471905097, 0 - 71.12065810066707, 42.34012858302157, 0 - 71.12008937946634, 42.34237078340382, 0 - 71.11717797680373, 42.34312576500385, 0 - 71.11297801076428, 42.34423285638898, 0 - 71.10925581162213, 42.34516971467844, 0 - 71.10611554302466, 42.34615224076367, 0 - 71.10442484360148, 42.34481638440683, 0 - 71.10258028422642, 42.34326677877443, 0 - 71.10059296644449, 42.34517741879495, 0 - 71.09861831469122, 42.3470223284111, 0 - 71.09722081635779, 42.34823347557149, 0 - 71.09475160912974, 42.34963713278553, 0 - 71.09749017370243, 42.3496346818714, 0 - 71.1011879442639, 42.34993818517612, 0 - 71.10576272712214, 42.35050758481145, 0 - 71.10976333416478, 42.35093388400737, 0 - 71.11328415581951, 42.35119022006207, 0 - 71.11774445071369, 42.35178222332647, 0 - 71.12167291908858, 42.3523710674681, 0 - 71.12553396759073, 42.35315711697848, 0 - 71.1291265033779, 42.35395797070547, 0 - 71.12786802070478, 42.35167827577001, 0 - 71.12427600791742, 42.35097974863034, 0 - 71.11995661357103, 42.35019482854115, 0 - 71.11526733504046, 42.34961707764953, 0 - 71.09983109334259, 42.34818877813406, 0 - 71.10261625382694, 42.34606580261889, 0 - 71.12065362440021, 42.34392584742306, 0 - 71.125125153395, 42.34674378297035, 0 - 71.1263241505234, 42.34958151468953, 0 - 71.13291567731757, 42.35554491199912, 0 
-#	]
-
-data = [- 71.13291567731757, 42.35554491199912, 0 - 71.13371142324495, 42.35317880718497, 0
+data = [
+	- 71.13291567731757, 42.35554491199912, 0 - 71.13371142324495, 42.35317880718497, 0 - 71.13071182248666, 42.35289425055202, 0 - 71.13120518406669, 42.35121446445319, 0 - 71.12951035135833, 42.34920812692455, 0 - 71.12830549341774, 42.3468052971652, 0 - 71.12592906032192, 42.34488439481419, 0 - 71.12421419842904, 42.343752552996, 0 - 71.12227464653085, 42.34263570582295, 0 - 71.12299930022292, 42.34161471905097, 0 - 71.12065810066707, 42.34012858302157, 0 - 71.12008937946634, 42.34237078340382, 0 - 71.11717797680373, 42.34312576500385, 0 - 71.11297801076428, 42.34423285638898, 0 - 71.10925581162213, 42.34516971467844, 0 - 71.10611554302466, 42.34615224076367, 0 - 71.10442484360148, 42.34481638440683, 0 - 71.10258028422642, 42.34326677877443, 0 - 71.10059296644449, 42.34517741879495, 0 - 71.09861831469122, 42.3470223284111, 0 - 71.09722081635779, 42.34823347557149, 0 - 71.09475160912974, 42.34963713278553, 0 - 71.09749017370243, 42.3496346818714, 0 - 71.1011879442639, 42.34993818517612, 0 - 71.10576272712214, 42.35050758481145, 0 - 71.10976333416478, 42.35093388400737, 0 - 71.11328415581951, 42.35119022006207, 0 - 71.11774445071369, 42.35178222332647, 0 - 71.12167291908858, 42.3523710674681, 0 - 71.12553396759073, 42.35315711697848, 0 - 71.1291265033779, 42.35395797070547, 0 - 71.12786802070478, 42.35167827577001, 0 - 71.12427600791742, 42.35097974863034, 0 - 71.11995661357103, 42.35019482854115, 0 - 71.11526733504046, 42.34961707764953, 0 - 71.09983109334259, 42.34818877813406, 0 - 71.10261625382694, 42.34606580261889, 0 - 71.12065362440021, 42.34392584742306, 0 - 71.125125153395, 42.34674378297035, 0 - 71.1263241505234, 42.34958151468953, 0 - 71.13291567731757, 42.35554491199912, 0 
 	]
+
+#data = [- 71.13291567731757, 42.35554491199912, 0 - 71.13371142324495, 42.35317880718497, 0
+#	]
 
 zipped = zip(data[0::2], data[1::2])
 
@@ -90,65 +90,69 @@ other = 0
 print points
 
 print_glob = ''
-for point in points:
-	queries += 1
-#	print point
-#	print list(point)
-	p = list(point)
-	#grab lat, lng from the point in question
-	lat = p[0]
-	lng = p[1]
-	LAT_LNG = {
-				'lat':lat,
-				'lng':lng
-				}
-	#query google places
-	query_result = GooglePlaces(API_KEY).query(
-			lat_lng=LAT_LNG,
-			types=TYPES,
-			rankby='distance',
-			keyword=KEYWORD
-			)
-
-
-	for place in query_result.places:
-		places +=1
-		# Returned places from a query are place summaries, not the whole object
-		x = place.geo_location['lat']
-		y = place.geo_location['lng']
-		geo_string	 = "" + str(x) + "," + str(y)
-		name		 = place.name
-		business	 = (name, geo_string)
-		
-#		print business
-		if business not in businesses_check:
-			checked += 1
-			#business is not in the set of already checked businesses
-			if point_in_poly(x, y, polygon):
-				valid += 1
-				#business exists in our range
-				#get additional details from place
-				place.get_details()
-				vicinity	 = place.vicinity
-				types		 = place.types
-				types		 = ','.join(types)
-				print_str = name + "\t" + vicinity + "\t" + geo_string + "\t" + types + "\n"
-				
-				if 'food' in types or 'restaurant' in types or 'bar' in types:
-					food += 1
-					#output business info to txt file
-					print print_str
-					businesses_food.write(print_str)
-				else: 
-					other += 1
-					print '!!!'+ print_str
-					businesses_other.write(print_str)
-				
-				
-				#add business to set of businesses that have been checked
-			businesses_check.add(business)
-businesses_food.close()
-businesses_other.close()
+try:
+	for point in points:
+		queries += 1
+	#	print point
+	#	print list(point)
+		p = list(point)
+		#grab lat, lng from the point in question
+		lat = p[0]
+		lng = p[1]
+		LAT_LNG = {
+					'lat':lat,
+					'lng':lng
+					}
+		#query google places
+		query_result = GooglePlaces(API_KEY).query(
+				lat_lng=LAT_LNG,
+				types=TYPES,
+				rankby='distance',
+				keyword=KEYWORD
+				)
+	
+	
+		for place in query_result.places:
+			places +=1
+			# Returned places from a query are place summaries, not the whole object
+			x = place.geo_location['lat']
+			y = place.geo_location['lng']
+			geo_string	 = "" + str(x) + "," + str(y)
+			name		 = place.name
+			business	 = (name, geo_string)
+			
+	#		print business
+			if business not in businesses_check:
+				checked += 1
+				#business is not in the set of already checked businesses
+				if point_in_poly(x, y, polygon):
+					valid += 1
+					#business exists in our range
+					#get additional details from place
+					place.get_details()
+					vicinity	 = place.vicinity
+					types		 = place.types
+					types		 = ','.join(types)
+					print_str = name + "\t" + vicinity + "\t" + geo_string + "\t" + types + "\n"
+					
+					if 'food' in types or 'restaurant' in types or 'bar' in types:
+						food += 1
+						#output business info to txt file
+						print print_str
+						businesses_food.write(print_str)
+					else: 
+						other += 1
+						print '!!!'+ print_str
+						businesses_other.write(print_str)
+					
+					
+					#add business to set of businesses that have been checked
+				businesses_check.add(business)
+except Exception, e:
+	print e
+finally:
+	businesses_food.close()
+	businesses_other.close()
 
 print queries
 print places

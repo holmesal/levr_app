@@ -390,7 +390,7 @@ def dealCreate(params,origin,upload_flag=True):
 	#create the share ID - based on milliseconds since epoch
 	milliseconds = int(unix_time_millis(datetime.now()))
 	#make it smaller so we get ids with 5 chars, not 6
-	shortened_milliseconds = milliseconds % 100000000
+	shortened_milliseconds = milliseconds/10 % 1000000000
 	unique_id = converter.dehydrate(shortened_milliseconds)
 	
 	deal.share_id = unique_id
@@ -398,7 +398,8 @@ def dealCreate(params,origin,upload_flag=True):
 	#log properties
 	
 	#put the deal
-	dealput = deal.put()
+	deal.put()
+	
 	#dealput is the deal key i.e. dealID
 	logging.debug(log_model_props(deal))
 	logging.debug(log_model_props(business))
@@ -407,7 +408,7 @@ def dealCreate(params,origin,upload_flag=True):
 	
 	if origin == 'phone' or origin =='oldphone':
 		#needs share url and dealID
-		return share_url,str(dealput)
+		return share_url,str(enc.encrypt_key(deal.key()))
 	else:
 		#return share url
 		return share_url

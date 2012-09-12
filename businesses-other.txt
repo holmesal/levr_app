@@ -1,0 +1,404 @@
+Stingray Body Art & More	386 Cambridge Street, Allston	42.355346,-71.132974	store,establishment
+Scissorsound Hair Salon	17 Harvard Avenue, Boston	42.355171,-71.132817	beauty_salon,establishment
+Brazilian Immigrants Center	14 Harvard Avenue, Allston	42.355169,-71.132573	establishment
+Firebeat Dancesport Studios, LLC	14 Harvard Avenue, Allston	42.355171,-71.132566	school,establishment
+Jack Young Co	354 Cambridge Street, Allston	42.355649,-71.13227	store,car_repair,establishment
+Model Hardware	22 Harvard Avenue, Allston	42.355044,-71.132527	hardware_store,store,establishment
+Boston Christmas Trees	22 Harvard Avenue, Allston	42.35497,-71.132725	establishment
+Luiz Hair Salon	177 Brighton Avenue, Allston	42.353337,-71.133586	beauty_salon,establishment
+H&R Block	177 Brighton Avenue, Allston	42.353337,-71.133586	accounting,finance,establishment
+Ted Kurland Associates	173 Brighton Avenue, Boston	42.353481,-71.133159	establishment
+LAB Boston	113 Brighton Avenue, Allston	42.35298,-71.130735	clothing_store,art_gallery,store,establishment
+Benjamin Apartments & Cityside Homes	107 Brighton Avenue, Boston	42.352914,-71.130441	real_estate_agency,establishment
+Milano Salon	105 Brighton Avenue, Allston	42.352914,-71.13044	beauty_salon,hair_care,establishment
+Urban Renewals	122 Brighton Avenue, Boston	42.352735,-71.131006	department_store,store,establishment
+Rangoli	129 Brighton Avenue, Allston	42.353023,-71.131083	establishment
+Alpha Management Corp	59 Linden Street	42.353193,-71.130194	real_estate_agency,establishment
+Buffalo Exchange	180 Harvard Avenue, Boston	42.351128,-71.131293	clothing_store,store,establishment
+Douglas Paul Real Estate	176 Harvard Avenue, Boston	42.35132,-71.131398	real_estate_agency,establishment
+A.W.O.L	190 Harvard Avenue, Allston	42.350904,-71.131162	shoe_store,store,establishment
+Exclusive Beauty Salon	164 Harvard Avenue, Boston	42.351519,-71.131495	beauty_salon,hair_care,establishment
+East West Bank	230 Harvard Avenue, Allston	42.349052,-71.129719	atm,bank,finance,establishment
+Unleashed by Petco	226 Harvard Avenue, Allston	42.349202,-71.129853	pet_store,store,establishment
+Hair Cuttery	226 Harvard Avenue, Allston	42.349176,-71.129892	beauty_salon,establishment
+Urban Outfitters Allston	226 Harvard Avenue, Allston	42.349254,-71.129903	shoe_store,clothing_store,store,establishment
+T.J. Maxx	525 Harvard Street, Brookline	42.348878,-71.129582	clothing_store,store,establishment
+Mall Discount Liquors	525 Harvard Street, Brookline	42.348618,-71.129414	liquor_store,store,establishment
+Staples	214 Harvard Avenue, Allston	42.349649,-71.13009	electronics_store,store,establishment
+Herb Chambers Infiniti of Boston	1192-1198 Commonwealth Avenue, Boston	42.350158,-71.129515	car_repair,car_dealer,store,establishment
+Herb Chambers Honda in Boston	1186 Commonwealth Avenue, Boston	42.350131,-71.129103	car_repair,car_dealer,store,establishment
+Allston All night pizza delivery west campus	1200 Commonwealth Avenue, Allston	42.350279,-71.129775	establishment
+Herb Chambers Porsche Of Boston	1172 Commonwealth Avenue, Boston	42.349984,-71.128425	car_dealer,store,establishment
+Herb Chambers Saab of Boston	1172 Commonwealth Avenue, Boston	42.349984,-71.128425	car_repair,car_dealer,store,establishment
+Christo's Dry Cleaning	471 Harvard Street, Brookline	42.347007,-71.128424	laundry,establishment
+Christo's Tailoring Shop	471 Harvard Street, Brookline	42.347007,-71.128424	establishment
+Domani Hair Design	475 Harvard Street, Brookline	42.347098,-71.128487	beauty_salon,hair_care,establishment
+Massage Envy Spa - Brookline	481 Harvard St, Brookline	42.34725,-71.128589	spa,health,establishment
+Sovereign Bank	487 Harvard Street, Brookline	42.347547,-71.128769	atm,bank,finance,establishment
+Kolbo Fine Judaica Gallery	437 Harvard Street, Brookline	42.346062,-71.127704	art_gallery,store,establishment
+Info Travel	387 Harvard Street, Brookline	42.344894,-71.125992	establishment
+Averbuch Realty Corporation	387 Harvard Street, Brookline	42.344894,-71.125992	real_estate_agency,establishment
+Tsay CMP Whole Health	385 Harvard Street, Brookline	42.344832,-71.125882	health,establishment
+Swerdlick Theodore DDS	389 Harvard Street, Brookline	42.344952,-71.126042	dentist,doctor,health,establishment
+Boston Nail	395 Harvard Street, Brookline	42.345011,-71.12617	beauty_salon,establishment
+Classic Realty	397 Harvard Street, Brookline	42.345085,-71.126327	real_estate_agency,establishment
+Weightloss Boston, The Sadkhin Complex	375 Harvard Street, Brookline	42.344699,-71.12551	health,establishment
+City-Wide Real Estate	375 Harvard Street, Brookline	42.344699,-71.12551	real_estate_agency,establishment
+Environmental Business Counsel	375 Harvard Street, Brookline	42.344699,-71.12551	establishment
+Boston Prime Realty	375 Harvard Street, Brookline	42.344699,-71.12551	real_estate_agency,establishment
+Irving's Toy & Card Shop	371 Harvard Street, Brookline	42.344598,-71.125295	store,establishment
+Ross Cleaners	405 Harvard Street, Brookline	42.345262,-71.12668	laundry,establishment
+Crew International	327 Harvard Street, Brookline	42.343711,-71.12364	beauty_salon,establishment
+Healthworks Fitness Center	325 Harvard Street, Brookline	42.34368,-71.123585	gym,health,establishment
+Relax the Back	319 Harvard Street, Brookline	42.343622,-71.123476	furniture_store,general_contractor,home_goods_store,store,establishment
+Coolidge Corner South - Citizens Bank	315 Harvard Street, Brookline	42.343521,-71.123299	bank,finance,establishment
+Verizon Wireless	283 Harvard St, Coolidge Corner, Brookline	42.342731,-71.121861	electronics_store,store,establishment
+Citibank	297 Harvard Street, Brookline	42.342957,-71.1223	atm,bank,finance,establishment
+Brookline Booksmith	279 Harvard Street, Brookline	42.342621,-71.12171	book_store,store,establishment
+LensCrafters	1314 Beacon Street, Brookline	42.34254,-71.120291	store,health,establishment
+Boston Skin Solutions	1318 Beacon Street #7, Brookline	42.342624,-71.120341	beauty_salon,hair_care,establishment
+Philographica Inc	1318 Beacon Street, Brookline	42.34262,-71.120356	establishment
+Dr. Yen-Ching Chen, DMD	1318 Beacon Street #20, Brookline	42.34262,-71.120356	doctor,health,establishment
+Diet Health Inc	1318 Beacon Street, Brookline	42.34262,-71.120356	health,establishment
+The Pear Tree	1298 Beacon Street, Brookline	42.342606,-71.120401	jewelry_store,store,establishment
+Mint Julep	1302 Beacon Street, Brookline	42.342555,-71.120572	clothing_store,store,establishment
+Brookline VisionHouse	1296 Beacon Street, Brookline	42.342538,-71.120627	doctor,health,establishment
+Stavros Cleaners	1292 Beacon Street, Brookline	42.342802,-71.120228	laundry,establishment
+Prudential Unlimited Realty	1290 Beacon Street, Brookline	42.342824,-71.11991	real_estate_agency,establishment
+Holiday Inn	1200 Beacon Street, Brookline	42.34368,-71.116845	lodging,establishment
+Mars Hill Fellowship Church	1200 Beacon Street, Brookline	42.343674,-71.116633	church,place_of_worship,establishment
+Visual Velocity	15 James Street, Brookline	42.343814,-71.118341	electronics_store,store,establishment
+1160 Beacon Street Condominium	1160 Beacon Street, Brookline	42.344238,-71.113815	establishment
+Dannin Management Corporation	1120 Beacon Street, Brookline	42.344849,-71.112338	establishment
+Cushner & Bloom PC	1170 Beacon Street, Brookline	42.344125,-71.114227	lawyer,establishment
+Colleen A. Burns, MA	1170 Beacon Street, Brookline	42.344125,-71.114227	health,establishment
+Electrolysis & Skin Care Clinic	1170 Beacon Street, Brookline	42.344308,-71.114312	beauty_salon,hair_care,establishment
+1180 Beacon Property	1180 Beacon Street, Brookline	42.344016,-71.114622	establishment
+Bio Cardia Diagnostics	1180 Beacon Street, Brookline	42.344016,-71.114622	health,establishment
+Quest Diagnostics	1180 Beacon Street #1D, Brookline	42.344199,-71.114714	health,establishment
+Boris Orkin. Reproductive Health Care Services	1180 Beacon Street, Brookline	42.344214,-71.114718	doctor,health,establishment
+Back On Track Physical Therapy	1180 Beacon Street #6, Brookline	42.344214,-71.114718	health,establishment
+Try TMS Now	1180 Beacon Street #7b, Brookline	42.344214,-71.114718	store,establishment
+Schachter Deborah	1180 Beacon Street, Brookline	42.344214,-71.114718	health,establishment
+Marjorie Siegel, LICSW	1180 Beacon Street #4b, Brookline	42.344214,-71.114718	doctor,health,establishment
+Austin Wertheimer, M.D.	1180 Beacon St., 7-A, Brookline (Boston)	42.344221,-71.11472	doctor,health,establishment
+J.E. Pierce Apothecary	1180 Beacon Street, Brookline	42.344221,-71.114721	pharmacy,store,health,establishment
+Mirage Hair & Skin Salon	1052 Beacon Street, Brookline	42.3458,-71.109071	beauty_salon,health,spa,hair_care,establishment
+Kolgian Oriental Rug Galleries	1050 Beacon Street, Brookline	42.345789,-71.108935	laundry,establishment
+Angela Mitchell Palm & Card	918 Beacon Street, Boston	42.346401,-71.10626	establishment
+Boston Book Annex	906 Beacon Street, Boston	42.346654,-71.105973	book_store,store,establishment
+Fenway Station	United States	42.345394,-71.104187	establishment
+Staples	401 Park Drive, Boston	42.34467,-71.103468	store,establishment
+Blick Art Materials	401 Park Drive, Boston	42.344494,-71.103202	store,establishment
+Ted J. Kaptchuk, Lic	401 Park Drive, Boston	42.344401,-71.103218	doctor,health,establishment
+Tremont Credit Union	401 Park Drive, Boston	42.344401,-71.103218	establishment
+Landmark	Park Drive, Boston	42.344794,-71.102888	shopping_mall,establishment
+Fitness Forward	401 Park Drive, Boston	42.344498,-71.102902	establishment
+Bed Bath and Beyond	401 Park Drive, Boston	42.34449,-71.102889	furniture_store,department_store,general_contractor,home_goods_store,store,establishment
+Blue Cross Blue Shield	401 Park Dr #14, Boston	42.344494,-71.102886	insurance_agency,health,establishment
+Bright Horizons Childrens Center	Suite # 4, 401 Park Drive, Boston	42.344494,-71.102886	school,establishment
+Laz Parking Ltd	401 Park Dr # 11, Boston	42.344494,-71.102886	parking,establishment
+Advance Auto Detailing	401 Park Dr # 12, Boston	42.344494,-71.102886	car_repair,establishment
+Eisenberg David M MD	401 Park Dr # 22A, Boston	42.344494,-71.102886	doctor,health,establishment
+Dr. Cheng-Yi Lee, MD	401 Park Drive, Boston	42.344494,-71.102886	doctor,health,establishment
+Dr. Peter D. Goldbach, MD	401 Park Drive, Boston	42.344494,-71.102886	doctor,health,establishment
+Dr. Jan L. Cook, MD	401 Park Drive, Boston	42.344494,-71.102886	doctor,health,establishment
+Mc Brien Kerry MD	401 Park Drive, Boston	42.344494,-71.102886	doctor,health,establishment
+Ahn Andrew C MD	401 Park Dr # 22A, Boston	42.344494,-71.102886	doctor,health,establishment
+Dr. Gloria Y. Yeh, MD	401 Park Drive #22a, Boston	42.344494,-71.102886	doctor,health,establishment
+Harvard Pilgrim Health Care: Inui Thomas MD	126 Brookline Avenue, Boston	42.343683,-71.1021	doctor,health,establishment
+Geek Squad	401 Park Drive #4, Boston	42.343999,-71.102527	electronics_store,store,establishment
+Best Buy	401 Park Drive #4, Boston	42.344179,-71.102867	home_goods_store,car_repair,electronics_store,store,establishment
+REI	401 Park Drive, Boston	42.344201,-71.102889	store,establishment
+Boston Sports Club - Fenway	201 Brookline Avenue, Boston	42.34423,-71.101982	gym,health,establishment
+Harvard@Trilogy	170 Brookline Avenue, Boston	42.344161,-71.101413	establishment
+Supah Fans Streetwear	176 Brookline Avenue, Boston	42.344237,-71.101528	store,establishment
+Dr. Kelly M. Macaulay, MD	133 Brookline Ave #6, Boston	42.345295,-71.100576	doctor,health,establishment
+Martin M. Dolan, MD Hand Surgeon	133 Brookline Avenue, Boston	42.345291,-71.100642	doctor,health,establishment
+Dr. Henri C. Tannas, MD	133 Brookline Avenue, Boston	42.345317,-71.100614	establishment
+Piper James Kenne MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Vanguard Medical Associates: Eldeiry Leslie MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Seetharaman Kavita MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Gibbs Gladys M MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Hersh Bonnie P MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Lee Jennifer H MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Spar Ellen MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Foxworthy Donald M MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Rose Susan C	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Vanguard Medical Associates: Williams Michael MD	133 Brookline Avenue, Boston	42.345317,-71.100614	establishment
+Purman K J DDS	133 Brookline Avenue, Boston	42.345317,-71.100614	dentist,doctor,health,establishment
+Lawler Noelle S	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Pinkston Paula MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Dr Fleurant Marshall MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Harvard Pilgrim Health Care: Saenz-Badillos Judit MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Dr. Edward F. Rabe, MD	133 Brookline Avenue, Boston	42.345317,-71.100614	doctor,health,establishment
+Mercantile Bank	61 Brookline Avenue, Boston	42.347048,-71.098844	bank,finance,establishment
+European Car Doctors	Rear, 61 Brookline Avenue, Boston	42.347048,-71.098844	car_repair,establishment
+Dr. Renata C. Ratusznik-Martin, MD	2 Yawkey Way, Boston	42.346813,-71.098812	doctor,health,establishment
+Lansdowne Frame	73 Lansdowne Street, Boston	42.347242,-71.098069	store,establishment
+Gold's Gym	71 Lansdowne Street, Boston	42.347242,-71.098025	gym,health,establishment
+Boston Pole Fitness	71 Lansdowne Street, Boston	42.347258,-71.098033	establishment
+Twins Enterprises Inc	19 Yawkey Way, Boston	42.346186,-71.098729	store,establishment
+New England Sports Ventures	4 Yawkey Way, Boston	42.346173,-71.09848	establishment
+Red Sox Team Store	19 Yawkey Way, Boston	42.346112,-71.098693	clothing_store,store,establishment
+Boston Red Sox	4 Yawkey Way, Boston	42.346207,-71.097929	stadium,establishment
+Copperfield's	98 Brookline Avenue, Boston	42.346199,-71.099476	night_club,establishment
+CrossFit Fenway	100 Brookline Avenue, Boston	42.346115,-71.099559	gym,health,establishment
+Boston Hotel Buckminster Garage	665 Beacon Street, Boston	42.348103,-71.09807	parking,establishment
+Fenway Park	4 Yawkey Way, Boston	42.346634,-71.097131	stadium,establishment
+Dr. Edward K. Rodriguez, MD	1 Brookline Avenue, Boston	42.348557,-71.097369	doctor,health,establishment
+Bank of America	540 Commonwealth Avenue, Boston	42.348435,-71.096802	atm,bank,finance,establishment
+Boston Hotel Buckminster	645 Beacon Street, Boston	42.348346,-71.097736	lodging,establishment
+Sovereign Bank	552 Commonwealth Avenue, Boston	42.348434,-71.096728	atm,bank,finance,establishment
+Kaplan Career Institute - Boston	540 Commonwealth, Boston	42.348588,-71.096708	university,school,establishment
+Stay Corporation	534 Commonwealth Avenue, Boston	42.348603,-71.096648	establishment
+Kenmore Square	Boston	42.348937,-71.09746	park,establishment
+Kids Are People Elementary School	530 Commonwealth Avenue, Boston	42.348634,-71.09637	school,establishment
+Citizens Bank - Kenmore Square	560 Commonwealth Avenue, Boston	42.348753,-71.098076	atm,bank,finance,establishment
+New England School of Photography	537 Commonwealth Avenue, Boston	42.349016,-71.096748	university,school,establishment
+Giacomo & Rondi Salon	539 Commonwealth Avenue, Boston	42.349083,-71.096982	beauty_salon,establishment
+Daily Free Press	648 Beacon Street, Boston	42.349493,-71.094858	establishment
+Dr. Katherine C. Eisenmenger, MD	648 Beacon Street, Boston	42.349493,-71.094858	establishment
+Center For Anxiety and Related Disorders	648 Beacon Street, Boston	42.349493,-71.094858	doctor,health,establishment
+Tibor P. Palfai, PhD	648 Beacon Street, Boston	42.349493,-71.094858	doctor,health,establishment
+Chabad House of Greater Boston	491 Commonwealth Avenue, Boston	42.349295,-71.094247	synagogue,place_of_worship,establishment
+Boston University - Technology Development	53 Bay State Road, Boston	42.350026,-71.095383	university,school,establishment
+The Boston Language Institute, Inc.	648 Beacon Street, Boston	42.349272,-71.095607	school,establishment
+Back Bay Dental Care	21 Bay State Road #3, Boston	42.350005,-71.093843	dentist,doctor,health,establishment
+Del Sys Inc	650 Beacon Street, Boston	42.349268,-71.095683	store,health,establishment
+EDCO Youth Alternatives	650 Beacon Street, Boston	42.349268,-71.095683	school,establishment
+UAW	650 Beacon Street, Boston	42.349268,-71.095683	establishment
+Theta Xi	64 Bay State Road, Boston	42.349763,-71.095896	university,school,establishment
+Cole & Co Inc	654 Beacon Street, Boston	42.349238,-71.095795	establishment
+Joint Ventures Physical Therapy & Fitness	350 3rd St, Cambridge	42.349226,-71.095792	establishment
+IDTheftSecurity.com	11 Deerfield Street #15145, Boston	42.34952,-71.09724	establishment
+Dr. Zhimon Jacobson, D.M.D., M.S.D.	96 Bay State Road, Boston	42.349882,-71.097304	dentist,doctor,health,establishment
+US Post Office	11 Deerfield Street, Boston	42.349541,-71.097117	post_office,finance,establishment
+Lizzy the Clown Entertainment	12 Deerfield Street, Boston	42.349304,-71.097375	establishment
+Boston University IT Help Center	533 Commonwealth Avenue, Boston	42.349261,-71.096584	university,school,establishment
+H&R Block Income Tax Preparation Services	535 Commonwealth Avenue, Boston	42.349071,-71.096777	accounting,finance,establishment
+Ramakrishna Vedanta Society	58 Deerfield Street, Boston	42.350395,-71.098086	church,place_of_worship,establishment
+Barnes & Noble	660 Beacon Street, Boston	42.349153,-71.096154	book_store,store,establishment
+Dellaria Salon	623 Commonwealth Avenue, Boston	42.349676,-71.101504	beauty_salon,hair_care,establishment
+Dellaria Tanning & Nails	623 Commonwealth Avenue, Boston	42.349676,-71.101504	beauty_salon,establishment
+Boston University	1 Silber Way, Boston	42.349786,-71.100487	university,school,establishment
+Boston University Sargent Choice Nutrition Center	635 Commonwealth Avenue, Boston	42.349746,-71.102155	health,establishment
+Danielsen Institute	185 Bay State Road, Boston	42.350558,-71.101828	health,establishment
+Wintermyer Carol A	185 Bay State Road, Boston	42.350685,-71.101808	doctor,health,establishment
+James P. Burns, PhD	185 Bay State Road, Boston	42.350685,-71.101808	doctor,health,establishment
+Dr. Mary T. Wilson, MD	185 Bay State Road, Boston	42.350685,-71.101808	doctor,health,establishment
+Jennifer Culbert, MS	635 Commonwealth Avenue, Boston	42.3495,-71.102221	doctor,health,establishment
+Dr. Eileen Brigid O'keefe, MD	635 Commonwealth Avenue, Boston	42.3495,-71.102221	doctor,health,establishment
+Boston University	1 Silber Way, Boston	42.349705,-71.099955	university,school,establishment
+Blandford St. Station	United States	42.349293,-71.100258	establishment
+WTBU	30 Bay State Road, Boston	42.348833,-71.10177	university,school,establishment
+Frederick S. Pardee Management Library	Commonwealth Avenue, Boston	42.349401,-71.099623	library,establishment
+Fresenius Medical Care Babcock Artificial Kidney Center	888 Commonwealth Avenue, Boston	42.349399,-71.099603	health,establishment
+BU School of Management	595 Commonwealth Avenue, Boston	42.349275,-71.099651	university,school,establishment
+BU Astronomy	725 Commonwealth Avenue, Boston	42.350306,-71.105704	university,school,establishment
+Boston University:Department of Economics	270 Bay State Road, Boston	42.35076,-71.105463	university,establishment
+Marsh Chapel	735 Commonwealth Avenue, Boston	42.350203,-71.106552	establishment
+BU Beach	Bay State Road, Boston	42.351145,-71.106031	park,establishment
+Boston Blossom	714 Commonwealth Avenue, Boston	42.349652,-71.105659	florist,store,establishment
+Louies Haircuts	712 Commonwealth Avenue, Boston	42.34965,-71.105572	health,hair_care,establishment
+Boston City Florist	714 Commonwealth Avenue, Boston	42.349641,-71.105657	florist,store,establishment
+Fashion Optique	710 Commonwealth Avenue, Boston	42.349631,-71.105453	store,health,establishment
+BU Tsai Performance Center	685 Commonwealth Avenue, Boston	42.350257,-71.104524	establishment
+University Barber Shop	728 A Commonwealth Ave Boston, MA 02215	42.349713,-71.106523	health,hair_care,establishment
+Partisan Review	236 Bay State Road, Boston	42.350963,-71.104556	establishment
+Boston University Health and Safety	704 Commonwealth Avenue, Boston	42.349459,-71.10528	university,school,establishment
+Boston University College of Communication	640 Commonwealth Avenue, Boston	42.349752,-71.104657	university,school,establishment
+CVS	730 Commonwealth Avenue, Boston	42.34982,-71.10706	pharmacy,store,health,establishment
+northeastern university	549 Commonwealth Avenue, Boston	42.349566,-71.104745	university,health,establishment
+RadioShack	730 Commonwealth Ave #2, Suite 2, Boston	42.3498,-71.1071	electronics_store,store,establishment
+Boston University Academy	1 University Road, Boston	42.351075,-71.109824	university,school,establishment
+American Society of Law, Medicine, & Ethics	765 Commonwealth Avenue, Boston	42.350588,-71.10956	establishment
+Dr. Clement L. Trempe, MD	930 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Abreu Steven MD	# 1A, 930 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Sunsational Tanning Spa	1089 Commonwealth Avenue, Boston	42.350588,-71.10956	establishment
+Mgh Back Bay: Clark Andrew B MD	388 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Dr. Catherine A. Rich, MD	940 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Bu Medical Group: Kronman Andrea MD	930 Commonwealth Avenue #100, Boston	42.350588,-71.10956	doctor,health,establishment
+Masco Print & Copy	882 Commonwealth Avenue, Boston	42.350588,-71.10956	store,establishment
+Dr. Cheryl S. Barbanel, MD	930 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Brittney J. Mazza, OD	930 Commonwealth Avenue #2a, Boston	42.350588,-71.10956	doctor,health,establishment
+New England Eye Institute: Baylus Susan L OD	930 Commonwealth Avenue #2a, Boston	42.350588,-71.10956	doctor,health,establishment
+Dr. Afsheen Lakhani, DMD	930 Commonwealth Avenue, Boston	42.350588,-71.10956	dentist,doctor,health,establishment
+ATM (Commonwealth Sunoco)	900 Commonwealth Avenue, Boston	42.350588,-71.10956	establishment
+Dr. Gurkan Goktug, DDS	930 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Gerald R. Friedman, OD	930 Commonwealth Avenue #2a, Boston	42.350588,-71.10956	doctor,health,establishment
+Dr. Adriana C. Poleo, DDS	930 Commonwealth Avenue, Boston	42.350588,-71.10956	dentist,doctor,health,establishment
+Susan M. Walsh, DPM	930 Commonwealth Avenue, Boston	42.350588,-71.10956	doctor,health,establishment
+Boston University Art Gallery	855 Commonwealth Avenue, Boston	42.351076,-71.113544	art_gallery,store,establishment
+Boston University Visual Arts Resource Library	855 Commonwealth Avenue, Boston	42.351078,-71.113553	library,art_gallery,store,establishment
+Boston Youth Symphony Orchestras	855 Commonwealth Avenue, Boston	42.351078,-71.113557	store,establishment
+Student Health Services	881 Commonwealth Avenue, Boston	42.351071,-71.113571	doctor,health,establishment
+University Credit Union	846 Commonwealth Ave, Boston	42.350551,-71.1133	atm,bank,finance,establishment
+Audio Concepts	870 Commonwealth Ave, Boston	42.350718,-71.113975	electronics_store,store,establishment
+Boston University City Planning and Urban Affairs	808 Commonwealth Avenue, Boston	42.350529,-71.112806	university,school,dentist,doctor,health,establishment
+Photographic Resource Center	832 Commonwealth Avenue, Boston	42.350524,-71.112786	museum,establishment
+East Coast Alpine Inc	860 Commonwealth Avenue, Boston	42.35068,-71.114052	store,establishment
+Darque Tan	830 Commonwealth Avenue, Boston	42.350549,-71.112713	establishment
+Sands Creative Group	870 Commonwealth Avenue, Boston	42.350701,-71.114224	store,establishment
+Fenway Printers / Minuteman Press	870 Commonwealth Avenue, Boston	42.350735,-71.114278	store,establishment
+New England Mattress & Futon	872 Commonwealth Avenue, Boston	42.350715,-71.11434	furniture_store,general_contractor,home_goods_store,store,establishment
+NextStep Properties	169 Amory Street, Brookline	42.350108,-71.113855	real_estate_agency,establishment
+Dave's Auto Repair	880 Commonwealth Ave, Boston	42.350762,-71.114822	establishment
+Terminal Exchange Systems	163 Amory Street, Brookline	42.349889,-71.113866	electronics_store,store,establishment
+Agganis Arena at Boston University	925 Commonwealth Avenue, Boston	42.351498,-71.118089	stadium,establishment
+Sargent College Clinical Center	915 Commonwealth Avenue, Boston	42.351504,-71.117164	university,school,establishment
+Boston University:Swimming Department	915 Commonwealth Avenue, Boston	42.351633,-71.116985	establishment
+Prometric Testing Site	930 Commonwealth Avenue, Brookline	42.351302,-71.11822	establishment
+New England Eye Institute	930 Commonwealth Avenue, Boston	42.351056,-71.117763	doctor,university,health,school,establishment
+Boston Playwrights' Theatre	949 Commonwealth Avenue, Boston	42.351883,-71.118824	movie_theater,establishment
+The Compleat Strategist	957 Commonwealth Avenue, Boston	42.351714,-71.118878	electronics_store,store,establishment
+Boston University Cosmetic and Laser Center	Commonwealth Avenue, Boston	42.350988,-71.118149	establishment
+Jacky K. Kong, OD	940 Commonwealth Avenue, Boston	42.35126,-71.118706	doctor,health,establishment
+GymIt	920 Commonwealth Avenue, Brookline	42.351063,-71.117043	gym,health,establishment
+In Your Ear	957 Commonwealth Avenue, Boston	42.351722,-71.118966	store,establishment
+Bank of America ATM	957 Commonwealth Avenue, Boston	42.351722,-71.118966	atm,bank,finance,establishment
+Hub Auto Supply Distrs	957 Commonwealth Avenue, Boston	42.351722,-71.118966	store,car_repair,establishment
+CityView Realty Group	957 Commonwealth Avenue, Boston	42.351604,-71.118999	establishment
+Sullivan Tire and Auto Service	950 Commonwealth Avenue, Brookline	42.351181,-71.118749	store,car_repair,establishment
+Firestone Complete Auto Care	972 Commonwealth Avenue, Boston	42.351414,-71.119026	store,car_repair,establishment
+Lisa's Hair Salon	1027 Commonwealth Avenue, Boston	42.352044,-71.121559	beauty_salon,establishment
+City Sports Boston University	1035 Commonwealth Avenue, Boston	42.35212,-71.122167	clothing_store,store,establishment
+T R Productions	1031 Commonwealth Avenue, Boston	42.351899,-71.121801	establishment
+Babcock Tower	270 Babcock Street, Boston	42.352728,-71.121191	establishment
+Eastern Mountain Sports	1041 Commonwealth Avenue, Boston	42.352129,-71.12232	store,establishment
+Babcock St. Station	United States	42.35182,-71.12165	establishment
+MATCH Public Charter High School	1001 Commonwealth Avenue, Boston	42.352241,-71.120947	school,establishment
+Media & Technology Charter	1001 Commonwealth Avenue, Boston	42.352241,-71.120947	establishment
+Match Wireless	1001 Commonwealth Avenue, Boston	42.352241,-71.120947	establishment
+Symphony Church	1001 Commonwealth Avenue, Boston	42.352241,-71.120947	church,place_of_worship,establishment
+Perfect Tan	# 2, 1030 Commonwealth Avenue, Boston	42.351778,-71.122034	establishment
+Leeba Salon	1024 Commonwealth Avenue, Boston	42.35163,-71.121801	beauty_salon,establishment
+EXIT Realty Associates	1028 Commonwealth Avenue, Boston	42.351642,-71.121926	real_estate_agency,establishment
+AA Zack plumbing & heating	5 Gardner Terrace, Allston	42.353135,-71.125961	shoe_store,store,plumber,establishment
+Starzzone Communications	1095 Commonwealth Avenue, Boston	42.352733,-71.125502	electronics_store,store,establishment
+Super 88	1 Brighton Ave, Allston, MA 02134, United States	42.352554,-71.125429	establishment
+Pro Arte Chamber Orchestra	107 Brighton Avenue, Allston	42.352337,-71.125321	establishment
+The UPS Store	1085 Commonwealth Avenue, Boston	42.352378,-71.124682	store,post_office,finance,establishment
+New Years Boston	1085 Commonwealth Ave., #215, Boston	42.352372,-71.124662	store,establishment
+Kasbahouse.Com	1085 Commonwealth Avenue, Boston	42.352341,-71.124685	establishment
+25 Seven Systems Inc	1085 Commonwealth Avenue, Boston	42.352341,-71.124685	establishment
+Supercuts	1083 Commonwealth Avenue, Boston	42.352352,-71.124617	beauty_salon,establishment
+Allston Auto Tops	14 Brighton Avenue, Allston	42.352107,-71.125822	car_repair,establishment
+Hydro-Therapy Bath & Spa Showrooms	1107 Commonwealth Avenue, At Comm. Ave. and Brighton Ave., Boston	42.352232,-71.124792	home_goods_store,hardware_store,store,establishment
+FRUGAL BUSINESS	41 Gardner Street, Allston	42.353575,-71.12944	establishment
+Linden Realty Rentals	31 Gardner Street, Allston	42.353537,-71.129996	establishment
+International Bicycle Centers	89 Brighton Avenue, Allston	42.352934,-71.129635	bicycle_store,store,establishment
+Budget Truck Rental - Allston	95 Brighton Avenue, Allston	42.352872,-71.129909	moving_company,car_rental,establishment
+Abercrombie's Farrington Inn	23 Farrington Avenue, Allston	42.3544,-71.130946	lodging,establishment
+East Coast Kustmrydz	18 Fordham Road, Allston	42.351637,-71.127796	car_repair,electronics_store,store,establishment
+Boston Ornament	20 Fordham Road, Allston	42.351588,-71.127829	establishment
+Arbour Health System	14 Fordham Road, Allston	42.351818,-71.127775	health,establishment
+Andrew E. Ferrante, MA	14 Fordham Road, Allston	42.351818,-71.127775	health,establishment
+Heart Punch Studio Inc	14 Fordham Road, Allston	42.351818,-71.127775	establishment
+Data Recovery New England	6 Fordham Road, Allston	42.351946,-71.127745	establishment
+Computer Loft Inc	6 Fordham Road, Allston	42.351946,-71.127735	electronics_store,store,establishment
+Berklee College of Music Fordham Road Practice Facility	25 Fordham Road, Allston	42.351315,-71.128063	university,school,establishment
+Charles River Movers	48 Brighton Avenue, Boston	42.352302,-71.12748	store,moving_company,establishment
+Brighton Realty	48 Brighton Avenue, Allston	42.352302,-71.12748	real_estate_agency,establishment
+ALD Insurance Agency	60 Brighton Avenue, Allston	42.352367,-71.128039	insurance_agency,establishment
+Brighton-Allston After School	5 Saint Lukes Road, Allston	42.352047,-71.127043	establishment
+Boston's Best Realty	1149 Commonwealth Avenue, Allston	42.350841,-71.127489	real_estate_agency,establishment
+AutoZone	55 Brighton Avenue, Allston	42.3526,-71.12765	store,car_repair,establishment
+Herb Chambers Vespa Boston	22 Brighton Avenue, Boston	42.352234,-71.126823	store,establishment
+Mikes Auto Repair	55 Brighton Avenue, Allston	42.352622,-71.127644	store,car_repair,establishment
+ABC Towing	55 Brighton Avenue, Allston	42.352622,-71.127644	establishment
+Frank's Towing	55 Brighton Avenue, Boston	42.352622,-71.127644	establishment
+Zipcar Location	224 Fuller Street, Brookline	42.351047,-71.12469	establishment
+Single Parent Family Outreach	173 Naples Road, Brookline	42.350977,-71.123516	health,establishment
+ASC English	1106 Commonwealth Avenue, Boston	42.351759,-71.124509	establishment
+RPM Automotive Inc	1090 Commonwealth Avenue, Boston	42.351911,-71.12403	car_repair,establishment
+Swedish Motors	1090 Commonwealth Avenue, Boston	42.35193,-71.124169	store,car_repair,establishment
+Boston University Metro College	808 Commonwealth Avenue, Boston	42.351828,-71.123508	university,school,establishment
+Triad Group	930 Commonwealth Avenue, Boston	42.351828,-71.123508	establishment
+Advantage Real Estate	1066 Commonwealth Avenue, Boston	42.351784,-71.123253	real_estate_agency,establishment
+Packards Corner Station	United States	42.351967,-71.125031	establishment
+Global Refinishing Corporation	1085 Commonwealth Avenue #143, Boston	42.352149,-71.124137	general_contractor,home_goods_store,store,establishment
+National Organization-Women	1105 Commonwealth Avenue, Boston	42.351861,-71.12546	establishment
+Rapo & Jepsen Insurance	1103 Commonwealth Ave, Boston	42.351925,-71.125366	insurance_agency,establishment
+Comm. Ave. Associates	1101 Commonwealth Avenue, Boston	42.351913,-71.12542	real_estate_agency,establishment
+Kunevich & Lau	1128 Commonwealth Avenue, Allston	42.350789,-71.12597	real_estate_agency,establishment
+Bostonwood	1117 Commonwealth Avenue, Boston	42.351622,-71.125778	furniture_store,general_contractor,home_goods_store,store,establishment
+Arbour-HRI Hospital	227 Babcock Street, Brookline	42.350747,-71.121271	hospital,health,establishment
+Enterprise Rent-A-Car	996 Commonwealth Avenue, Boston	42.351326,-71.120588	car_rental,establishment
+Boston University Dental Health Center	930 Commonwealth Avenue, Boston	42.350512,-71.118289	hospital,dentist,doctor,health,establishment
+BU Medical Group	930 Commonwealth Avenue Boston, MA 02215	42.35051,-71.118229	hospital,dentist,doctor,health,establishment
+SGI USA	930 Commonwealth Avenue, Boston	42.350678,-71.118267	establishment
+NE Eye Institute	930 Commonwealth Avenue, Boston	42.350642,-71.11822	store,doctor,health,establishment
+Karma Yoga Studio	971 Commonwealth Avenue, Boston	42.351786,-71.119506	gym,health,establishment
+Rainbow Preschool	240 Babcock Street, Brookline	42.351377,-71.121472	school,establishment
+Advanced Peptides Inc	971 Commonwealth Avenue, Boston	42.35181,-71.119639	store,establishment
+Zvi Construction Co LLC	131 Dummer Street, Brookline	42.350345,-71.117746	general_contractor,establishment
+Slone Epidemiology Center	1010 Commonwealth Avenue, Boston	42.351558,-71.121214	university,establishment
+Music Studio Direct	971 Commonwealth Ave, Boston	42.351825,-71.119587	store,establishment
+Spanish Diploma Boston	888 Commonwealth Avenue, Boston	42.35005,-71.115304	university,establishment
+World Auto Body Inc.	880 Commonwealth Avenue, Brookline	42.350095,-71.114954	car_repair,establishment
+Brookline Jaguar & BMW Service	880 Commonwealth Avenue, Boston	42.350107,-71.114619	electrician,general_contractor,car_repair,establishment
+Bennys Foreign Motor Service	880 Commonwealth Avenue, Boston	42.350167,-71.114663	store,car_repair,establishment
+Rita D Lu Law Firm	327 Saint Paul Street, Brookline	42.3492,-71.116071	lawyer,establishment
+Bha Trustman Apartments	150 Amory Street, Brookline	42.349447,-71.114159	local_government_office,establishment
+Partners In Health	#3, 888 Commonwealth Avenue, Boston	42.350695,-71.11519	health,establishment
+Boston University Nutrition	881 Commonwealth Avenue, Boston	42.350819,-71.115183	real_estate_agency,gym,university,health,school,establishment
+National Boston Video Center	115 Dummer Street, Brookline	42.350224,-71.116731	establishment
+Rumblestrip Audio	115 Dummer Street, Brookline	42.350224,-71.116731	electronics_store,store,establishment
+Landry's Bicycles	890 Commonwealth Avenue, Boston	42.350845,-71.115639	bicycle_store,store,establishment
+Boston University Center for English Language and Orientation Programs	890 Commonwealth Avenue, Boston	42.350865,-71.115682	establishment
+WBUR	890 Commonwealth Avenue, Boston	42.350874,-71.115694	establishment
+Boston University: Chemistry Department	590 Commonwealth Avenue, Boston	42.348526,-71.099775	university,school,establishment
+Forestvale Apartments	690 Beacon Street, Boston	42.348097,-71.100309	establishment
+The Art Institute of Boston	700 Beacon Street, Boston	42.348354,-71.099388	art_gallery,store,establishment
+Doubleopublishing Services	656 Beacon Street, Boston	42.348046,-71.100496	establishment
+Boston University: Physics Department	590 Commonwealth Avenue, Boston	42.348352,-71.10056	university,establishment
+Rojas Rafael MD	Beth Israel Deaconess Medical Center, 330 Brookline, Radiology Department, Boston, MA 02215	42.347618,-71.100288	doctor,health,establishment
+International English Group, LLC	580 Commonwealth Ave #510, Boston	42.348907,-71.099547	establishment
+Yawkey	Boston	42.34758,-71.100506	train_station,establishment
+Todd Valentine	580 Commonwealth Avenue, Boston	42.348945,-71.099536	establishment
+Universal Consulting Group	566 Commonwealth Avenue, Boston	42.348861,-71.098883	establishment
+Boston Cat Hospital - Kenmore Square	665 Beacon Street, Boston	42.348298,-71.098513	veterinary_care,establishment
+US Veterans Outreach Center	665 Beacon Street, Boston	42.348298,-71.098513	local_government_office,establishment
+Sunny Spa	665 Beacon Street, Boston	42.348298,-71.098513	spa,establishment
+Boston Cat Hospital-Kenmore Sq: Widman Laura DVM	665 Beacon Street, Boston	42.348298,-71.098513	veterinary_care,establishment
+Elovic Dental Associates	665 Beacon Street, Boston	42.348298,-71.098513	dentist,doctor,health,establishment
+Boston Cat Hospital-Kenmore Sq: Gallo Patricia V DVM	665 Beacon Street, Boston	42.348298,-71.098513	veterinary_care,establishment
+Kerstein & Friedmann: Friedmann Rhonda J DMD	665 Beacon Street #204, Boston	42.348313,-71.098456	dentist,doctor,health,establishment
+Laser Bella	665 Beacon Street #304, Boston	42.348313,-71.098456	beauty_salon,hair_care,establishment
+SunGard Boston	21 Burlington Avenue, Boston	42.346414,-71.101802	establishment
+Management Barkan	16 Miner Street, Boston	42.346662,-71.103204	establishment
+New England AIDS Education and Training Center	23 Miner Street, Boston	42.346912,-71.103306	establishment
+Oreck Clean Home Center	841 Beacon Street, Boston	42.347035,-71.103139	store,establishment
+Security Insurance Agency, Inc	843 Beacon Street, Boston	42.347024,-71.103181	insurance_agency,establishment
+Twilight Hair Salon	849 Beacon Street, Boston	42.346915,-71.103549	beauty_salon,establishment
+Blauer	20 Aberdeen Street, Boston	42.346768,-71.103945	clothing_store,store,health,establishment
+Authorized Vac	841 Beacon Street, Boston	42.34722,-71.103197	store,establishment
+Bernard G Berkman Associates Inc	842 Beacon Street, Boston	42.34728,-71.103281	establishment
+Superb Bicycle	842 Beacon Street, Boston	42.347292,-71.103246	bicycle_store,store,establishment
+Hospitality Homes	20 Overland Street #204, Boston	42.34665,-71.100924	health,establishment
+Garment Valet	860 Beacon Street, Boston	42.346962,-71.104107	laundry,establishment
+VIP Parking	120 Brookline Avenue, Boston	42.345921,-71.100648	parking,establishment
+SCS Realty Group	877 Beacon Street, Boston	42.346564,-71.104562	real_estate_agency,establishment
+Bay Realty of Boston	879 Beacon Street, Boston	42.346402,-71.104638	establishment
+Portraits By Photographer Lisa of Brookline	65 Green Street, Brookline	42.344328,-71.120499	establishment
+Young Israel of Brookline	62 Green Street, Brookline	42.34451,-71.120526	synagogue,church,place_of_worship,establishment
+Village Collision	5 Waldo Street, Brookline	42.342981,-71.120401	car_repair,establishment
+Coolidge Corner Branch Library	31 Pleasant Street, Brookline	42.343612,-71.119411	library,establishment
+Babcock Street Parking Lot	Babcock Street, Brookline	42.344037,-71.122436	parking,establishment
+Modern Pilates Brookline	1318 Beacon Street #12, Brookline	42.342569,-71.121517	establishment
+Pine Street Inn	51 Beals Street, Brookline	42.346196,-71.124188	establishment
+Digizyme	88 Naples Road, Brookline	42.34782,-71.124271	establishment
+John F. Kennedy National Historic Site	83 Beals Street, Brookline	42.347097,-71.123439	museum,establishment
+Bureau of Jewish Education	28 Stedman Street, Brookline	42.345148,-71.12434	health,establishment
+Stork Adoption Agency	167 Thorndike Street, Brookline	42.349505,-71.126021	establishment
+Lawton Playground	Brookline	42.349467,-71.126761	park,establishment
+Bay Cove Academy	Brookline	42.3499,-71.1268	school,establishment
+Thorndike Laundromat	180 Thorndike Street, Brookline	42.350094,-71.126062	laundry,establishment
+Lorna Mckenzie-Pollock, LICSW	89 Abbottsford Road, Brookline	42.349944,-71.125154	doctor,health,establishment
+Uptown Realty	1140 Commonwealth Avenue, Allston	42.350704,-71.126476	establishment
+Geo Vision Inc	1168 Commonwealth Avenue, Allston	42.350191,-71.12809	establishment
+Herb Chambers BMW and MINI of Boston	1168 Commonwealth Avenue, Boston	42.350268,-71.128074	establishment
+Kameleon Healing Inc	1161 Commonwealth Avenue, Allston	42.35072,-71.127981	health,establishment
+Rolls Realty Inc	1125 Commonwealth Avenue, Allston	42.351396,-71.126185	real_estate_agency,establishment
+Zeta Beta Tau (MIT)	58 Manchester Road, Brookline	42.348846,-71.124005	establishment

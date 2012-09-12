@@ -1,0 +1,2 @@
+O'Briens Pub	3 Harvard Avenue, Allston	42.355272,-71.132818	bar,establishment
+Pizza Pronto	177 Brighton Avenue, ALLSTON	42.353337,-71.133586	restaurant,food,establishment

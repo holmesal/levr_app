@@ -20,7 +20,15 @@ class phone(webapp2.RequestHandler):
 		try:
 			decoded = json.loads(self.request.body)
 			action = decoded["action"]
-			
+			logging.info(action)
+			try:
+				uid	= enc.decrypt_key(decoded["in"]["uid"])
+				user = levr.Customer.get(uid)
+				logging.debug(levr_utils.log_model_props(user,['alias','email']))
+			except Exception, e:
+#				logging.debug(uid)
+				logging.debug(e)
+					
 			#switch action
 			#***************signup************************************************
 			if action == "signup":
@@ -156,18 +164,28 @@ class phone(webapp2.RequestHandler):
 				logging.info('getUserFavs')
 				#grab inputs
 				uid	= enc.decrypt_key(decoded["in"]["uid"])
-				
+				logging.debug(uid)
+				logging.debug(decoded["in"]["uid"])
 				#grab user entity
 				user	= levr.Customer.get(uid)
 				
 				#grab list of favorties - list of deal keys
 				favorites	= user.favorites
+				logging.debug(favorites)
 				
 				#batch grab favorited deals
 				deals	= levr.Deal.get(favorites)
+				logging.debug(deals)
 				
 				#format deals for output to phone
-				formatted_deals	= [levr.phoneFormat(deal,'list') for deal in deals]
+				formatted_deals = []
+				for deal in deals:
+					try:
+						formatted_deals.append(levr.phoneFormat(deal,'list'))
+					except:
+						logging.warning('deal exists in favorites but was removed from the db')
+						logging.warning(deal)
+#				formatted_deals	= [levr.phoneFormat(deal,'list') for deal in deals]
 				
 				#assign formatted deals to data list that doesnt follow standards
 				data = formatted_deals
@@ -363,8 +381,8 @@ class phone(webapp2.RequestHandler):
 				customer = levr.Customer.get(uid)
 			
 				#don't try and redeem the same deal twice. . .
-				#if dealID in customer.redemptions:
-					#raise Exception('Cannot redeem a deal more than once')
+				if dealID in customer.redemptions:
+					raise Exception('Cannot redeem a deal more than once')
 				#increment deal "redeemed" count by 1
 				deal.count_redeemed += 1
 				#add deal to "redeemed" for the customer
@@ -604,6 +622,7 @@ class phone(webapp2.RequestHandler):
 				
 				
 				keys = [dealID,uid]
+				logging.debug(keys)
 				#pull deal and user
 				entities = db.get(keys)
 				deal = entities[0]
@@ -662,7 +681,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'img_key'			: img_key
 					}
 				
-				share_url = levr_utils.dealCreate(params,'phone')
+				(share_url,dealID) = levr_utils.dealCreate(params,'phone')
 			else:
 				logging.debug('android')
 				#we are on android
@@ -678,9 +697,9 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					}
 				(share_url,dealID) = levr_utils.dealCreate(params,'oldphone')
 			toEcho = {"success":True,"data":{"shareURL":share_url,"dealID":dealID}}
+			logging.debug(levr_utils.log_dict(toEcho))
 			self.response.out.write(json.dumps(toEcho))
 		except:
-			levr.log_error(levr_utils.log_dir(self.request))
 			toEcho = {"success":False}#,"data":{"shareURL":share_url}}
 			self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):

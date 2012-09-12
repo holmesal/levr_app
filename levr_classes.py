@@ -102,6 +102,7 @@ class Business(db.Model):
 	targeted		= db.BooleanProperty(default=False)
 	owner			= db.ReferenceProperty(BusinessOwner,collection_name='businesses')
 	upload_email	= db.EmailProperty()
+	creation_date	= db.DateTimeProperty(auto_now_add=True)
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
 
@@ -145,6 +146,7 @@ class Deal(polymodel.PolyModel):
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]))
+	been_reviewed	= db.BooleanProperty(default=False)
 	reject_message	= db.StringProperty()
 	vicinity		= db.StringProperty()
 	tags			= db.ListProperty(str)

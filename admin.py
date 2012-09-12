@@ -8,6 +8,7 @@ import levr_utils
 import logging
 import jinja2
 from gaesessions import get_current_session
+import levr_utils
 #from datetime import datetime
 
 jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -15,20 +16,22 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 class Pending(webapp2.RequestHandler):
 	def get(self):
 		#grab all the deals with current status == pending
-		deal = levr.CustomerDeal.all().filter('deal_status =', 'pending').get()
+		deal = levr.CustomerDeal.all().filter('been_reviewed =', False).get()
 		
 		#dictify deal
 		if deal:
 			#logging.info(deal['dateEnd'])
 			#get the first matching entity and parse into template values
-			
+			logging.debug(levr_utils.log_model_props(deal))
 			business = levr.Business.get(deal.businessID)
 			
 			template_values = {
 				"deal"		: deal,
+				"img_big"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=dealDetail',
+				"img_small"	:levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=list',
 				"business"	: business
 			}
-			logging.debug(template_values)
+			logging.debug(levr_utils.log_dict(template_values))
 			
 			template = jinja_environment.get_template('templates/admin_pending.html')
 			self.response.out.write(template.render(template_values))

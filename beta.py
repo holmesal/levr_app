@@ -58,7 +58,7 @@ class MerchantBetaHandler(webapp2.RequestHandler):
 class SendMailHandler(webapp2.RequestHandler):
 	def get(self):
 	
-		targetArr = ["alonso@levr.com","beta@levr.com","patrick@levr.com"]
+		targetArr = ["alonso@levr.com","beta@levr.com"]
 		
 		for rec in targetArr:
 			
@@ -70,13 +70,15 @@ class SendMailHandler(webapp2.RequestHandler):
 				#to		=self.request.get('email'))
 				to		=rec)
 			
+			#check out http://www.campaignmonitor.com/css/ for styles that are allowed in email
+			
 			html = '''<html>
 	<body style="background-color: #f3f3f3; margin:0; font-family: helvetica, arial,sans-serif;">
 	
 		
 	
 		<div style="background-color: white; width: 80%; margin-left: auto; margin-right: auto; height:auto; margin-top: 15px; margin-bottom: 15px; color: #333333;">
-			<div id="image" style="width: 100%;height: 200px;background-image: url(../img/boston.jpeg);background-position-x: center;background-position-y: center;background-repeat: no-repeat;"></div>
+			<div id="image" style="width: 100%;height: 200px;overflow:hidden;text-align:center;"><img src='../img/boston_300.jpg'></div>
 			<div style="padding:20px;">
 				<p style="font-size: 20pt; font-weight: 700;">Cheap, easy advertising that works.</p>
 				<p style="font-size: 15pt; font-weight: 300; margin-top: 50px;">Levr is a location-based advertising network for your business.</p>
@@ -107,7 +109,7 @@ class SendMailHandler(webapp2.RequestHandler):
 			message.body = body
 			message.send()
 		
-		self.response.out.write('Email sent to: ' + targetArr.__str__() + ' Now go unset this so there are no duplicate sends!')
+		#self.response.out.write('Email sent to: ' + targetArr.__str__() + ' Now go unset this so there are no duplicate sends!')
 	
 		#self.response.out.write(message.html)
 		

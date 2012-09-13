@@ -58,7 +58,11 @@ class MerchantBetaHandler(webapp2.RequestHandler):
 class SendMailHandler(webapp2.RequestHandler):
 	def get(self):
 	
+		noAddressFound = ["brown sugar cafe","campus trolley","first bite cafe","noodle st",]
+	
 		targetArr = ["alonso@levr.com","beta@levr.com"]
+		
+		newTargetArr = ["info@tspub.com",""]
 		
 		for rec in targetArr:
 			
@@ -78,7 +82,7 @@ class SendMailHandler(webapp2.RequestHandler):
 		
 	
 		<div style="background-color: white; width: 80%; margin-left: auto; margin-right: auto; height:auto; margin-top: 15px; margin-bottom: 15px; color: #333333;">
-			<div id="image" style="width: 100%;height: 200px;overflow:hidden;text-align:center;"><img src='../img/boston_300.jpg'></div>
+			<div id="image" style="width: 100%;height: 200px;overflow:hidden;text-align:center;"><img src='http://levr.com/img/boston_300.jpg'></div>
 			<div style="padding:20px;">
 				<p style="font-size: 20pt; font-weight: 700;">Cheap, easy advertising that works.</p>
 				<p style="font-size: 15pt; font-weight: 300; margin-top: 50px;">Levr is a location-based advertising network for your business.</p>

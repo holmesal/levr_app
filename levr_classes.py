@@ -105,6 +105,7 @@ class Business(db.Model):
 	creation_date	= db.DateTimeProperty(auto_now_add=True)
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
+	widget_id		= db.StringProperty(default=levr_utils.create_unique_id())
 
 
 	def create_tags(self):
@@ -138,7 +139,7 @@ class Deal(polymodel.PolyModel):
 	deal_type 		= db.StringProperty(choices=set(["single","bundle"])) #two items or one item
 	deal_text		= db.StringProperty(default='')
 	is_exclusive	= db.BooleanProperty(default=False)
-	share_id		= db.StringProperty()
+	share_id		= db.StringProperty(default=levr_utils.create_unique_id())
 	description 	= db.StringProperty(multiline=True,default='') #description of deal
 	date_start 		= db.DateTimeProperty(auto_now_add=False) #start date
 	date_end 		= db.DateTimeProperty(auto_now_add=False)
@@ -227,6 +228,7 @@ class BusinessBetaRequest(db.Model):
 	contact_name	= db.StringProperty()
 	contact_email	= db.StringProperty()
 	contact_phone	= db.StringProperty()
+	date_created	= db.DateTimeProperty(auto_now_add=True)
 
 
 #functions!

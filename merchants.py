@@ -561,12 +561,24 @@ class WidgetHandler(webapp2.RequestHandler):
 			
 			ownerID = headerData['ownerID']
 			ownerID = enc.decrypt_key(ownerID)
-			logging.debug(ownerID)
-			businessID	= levr.Business.all(keys_only=True).filter('owner = ',db.Key(ownerID)).get()
-			logging.debug(businessID)
-			businessID	= enc.encrypt_key(businessID)
+			
+			
+			#business info
+			business	= levr.Business.all().filter('owner = ',db.Key(ownerID)).get()
+			logging.debug(business)
+			
+			#businessID
+			businessID	= enc.encrypt_key(business.key())
+			
+			#iframe
+			frame = "<iframe src='/widget?id="+businessID+"' frameborder='0' width='1000' height='400' >Your Widget</iframe>"
+			logging.debug(frame)
+			
+			
 			template_values = {
-				'businessID'	: businessID
+				'business'		: business,
+				'businessID'	: businessID,
+				'frame'		: frame
 			}
 			template = jinja_environment.get_template('templates/manageWidget.html')
 			self.response.out.write(template.render(template_values))

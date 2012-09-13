@@ -6,7 +6,18 @@
 
 {% block content %}
 <div id='main'>
-	widget page
-	<iframe src="/widget?id={{ businessID }}" frameborder='0' width='1000' height='400' >This is an iframe</iframe>
+	<div id="top">
+		<h2>Engage customers right from your Website.</h2>
+		<input type="text" readonly="readonly" value="&lt;iframe src='/widget?id={{businessID}}' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt;" />
+		<code>&lt;iframe src='/widget?id={{businessID}}' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt;</code>
+		
+	</div>
+	<div id="left">
+		
+	</div>
+	<div id="right">
+		<iframe src="/widget?id={{ businessID }}" frameborder='0' width='1000' height='400' >Your Widget</iframe>
+	</div>
+	
 </div>
 {% endblock %}

@@ -393,15 +393,7 @@ def dealCreate(params,origin,upload_flag=True):
 	if deal_type == 'bundle':
 		deal.secondary_name = secondary_name
 	
-	#create the share ID - based on milliseconds since epoch
-	milliseconds = int(unix_time_millis(datetime.now()))
-	#make it smaller so we get ids with 5 chars, not 6
-	shortened_milliseconds = milliseconds/10 % 1000000000
-	unique_id = converter.dehydrate(shortened_milliseconds)
 	
-	deal.share_id = unique_id
-	
-	#log properties
 	
 	#put the deal
 	deal.put()
@@ -418,6 +410,14 @@ def dealCreate(params,origin,upload_flag=True):
 	else:
 		#return share url
 		return share_url
+
+def create_unique_id():
+	#create the share ID - based on milliseconds since epoch
+	milliseconds = int(unix_time_millis(datetime.now()))
+	#make it smaller so we get ids with 5 chars, not 6
+	shortened_milliseconds = milliseconds/10 % 1000000000
+	unique_id = converter.dehydrate(shortened_milliseconds)
+	return unique_id
 
 def unix_time(dt):
 	epoch = datetime.utcfromtimestamp(0)

@@ -379,7 +379,7 @@ class phone(webapp2.RequestHandler):
 				deal = levr.Deal.get(dealID)
 				#grab the customer
 				customer = levr.Customer.get(uid)
-			
+				
 				#don't try and redeem the same deal twice. . .
 #				if dealID in customer.redemptions:
 #					raise Exception('Cannot redeem a deal more than once')

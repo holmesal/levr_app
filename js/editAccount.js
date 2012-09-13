@@ -1,15 +1,18 @@
 $(document).ready(function(){
 	$('#editEmail').click(function(){
+		// wants to show edit email form
 		//if other form is open, close
-		// $('#editEmailForm').show()
 		if($('#editPasswordForm').hasClass('hidden')===false){
-			console.log('trip true')
+			//edit password is open, so close before opening email edit
 			$('#editPasswordForm').addClass('hidden')
 			$('#editEmailForm').removeClass('hidden')
 		}else if($('#editEmailForm').hasClass('hidden')===false){
+			// edit email is ALREADY OPEN, so close it
 			$('#editEmailForm').addClass('hidden')
+			$('#error_field').text('')
+			
 		}else{
-			console.log('trip false')
+			//open edit email form
 			$('#editEmailForm').removeClass('hidden')
 		}
 	})
@@ -17,13 +20,15 @@ $(document).ready(function(){
 	$('#editPassword').click(function(){
 		//if other form is open, close
 		if($('#editEmailForm').hasClass('hidden')===false){
-			console.log('trip true')
+			// other form is open, so close
 			$('#editEmailForm').addClass('hidden')
 			$('#editPasswordForm').removeClass('hidden')
 		}else if($('#editPasswordForm').hasClass('hidden')===false){
-			console.log('trip false')
+			// this form is open, so close
 			$('#editPasswordForm').addClass('hidden')
+			$('#error_field').text('')
 		}else{
+			// this form is not open, so open
 			$('#editPasswordForm').removeClass('hidden')
 		}
 		// if($('#editEmailForm').hasClass('hidden')===false){

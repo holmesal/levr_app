@@ -12,7 +12,12 @@
 			<p>{{ business.geo_point }}</p>
 			<p>{{ business.types }}</p>
 			
+			<h2>Uploaded by:</h2>	
+			<p>{{ninja.alias}}</p>
+			<p>{{ninja.email}}</p>
+			
 			<h2>Deal Information</h2>
+			
 			<p>Deal Text: 		<br /><input type="text" name="deal_line1" value="{{ deal.deal_text }}" /></p>
 			<p>With purchase of:<br /><input type="text" name="deal_line2" value="{{deal.secondaryName}}"></p>
 			<p>Description:		<br /><input type="text" rows="3" name="deal_description" placeholder="Remember the Alamo." value="{{ deal.description }}"></textarea></p>

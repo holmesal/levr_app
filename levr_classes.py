@@ -278,7 +278,8 @@ def phoneFormat(deal,use,primary_cat=None):
 				"moneyAvailable"	: deal_parent.money_available,					#The amount of money that the NINJA has available for redemption
 				"ninjaMoneyEarned"	: deal_parent.money_paid,						#The amount of money that the ninja has earned to date
 				"weightedRedeems"	: deal.count_redeemed % deal.gate_requirement,	#The number of redemptions they need to earn another dollar
-				"shareURL"			: levr_utils.create_share_url(deal)			#The URL for them to share
+				"dealCountRedeemed"	: deal.count_redeemed,							#The number of times that the deal has been redeemed
+				"shareURL"			: levr_utils.create_share_url(deal)				#The URL for them to share
 			})
 		if use == 'widget':
 			data.update({
@@ -286,7 +287,7 @@ def phoneFormat(deal,use,primary_cat=None):
 			})
 	elif use == 'deal':
 		#view deal information screen
-		#grab business
+		#grab business 
 #		logging.info(deal.businessID)
 #		b = db.get(deal.businessID)
 		#uploaded by a user

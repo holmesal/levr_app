@@ -58,8 +58,16 @@ body {
 	width: 345px;
 	height: 25px;
 }
+#email{
+	margin-top: 20px;
+}
 
-
+.error_text{
+	float:left;
+	margin-top: 20px;
+	font-size:12px;
+	color: red;
+}
 .sendBtn {
 	display: block;
 	float: right;

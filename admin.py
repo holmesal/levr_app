@@ -23,7 +23,9 @@ class Pending(webapp2.RequestHandler):
 			#get the first matching entity and parse into template values
 			logging.debug(levr_utils.log_model_props(deal))
 			business = levr.Business.get(deal.businessID)
-			
+			ninjaID = deal.key().parent()
+			logging.debug(ninjaID)
+			ninja = levr.Customer.get(ninjaID)
 			#sort tags for easy readin
 			tags = deal.tags
 			tags.sort()
@@ -35,7 +37,8 @@ class Pending(webapp2.RequestHandler):
 				"tags"		: tags,
 				"business"	: business,
 				"dealID"	: enc.encrypt_key(deal.key()),
-				"businessID": enc.encrypt_key(business.key())
+				"businessID": enc.encrypt_key(business.key()),
+				"ninja"		: ninja
 			}
 			logging.debug(levr_utils.log_dict(template_values))
 			

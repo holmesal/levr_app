@@ -670,6 +670,10 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 	def post(self):
 		try:
 			logging.info('uploadDeal')
+			uid	= enc.decrypt_key(self.request.get('uid'))
+			user = levr.Customer.get(uid)
+			logging.debug(levr_utils.log_model_props(user,['alias','email']))
+			
 			#make sure than an image is uploaded
 			logging.debug(self.get_uploads())
 			if self.get_uploads(): #will this work?

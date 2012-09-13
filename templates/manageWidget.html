@@ -7,7 +7,7 @@
 {% block content %}
 <div id='main'>
 	<div id="top">
-		<h2>Engage customers right from your Website.</h2>
+		<h2>Convert web traffic into paying customers.</h2>
 		<!-- 
 		<input type="text" id='widget_tag' readonly="readonly" value="{{ frame }}" />
 		 -->
@@ -15,11 +15,12 @@
 	</div>
 	<div id="body">
 		<div id="left">
-			<div>Have a website? Convert your website viewers into paying customers using this embeddable iframe into your website to make the internet people very happy.</div>
+			<div id="topText">Simply copy and paste this code into the body of your website. </div>
 			<textarea rows="4" cols="40">{{frame}}</textarea>
+			<div id="bottomText">If you need help, or don't know what to do, try <a href="mailto:feedback@levr.com?Subject=Widget%20Support">contacting us</a>. We can help you out.</div>
 		</div>
 		<div id="right">
-			<iframe src="/widget?id={{ businessID }}" frameborder='0' border="0" width='620' height='400' >Your Widget</iframe>
+			<iframe src="/widget?id={{ businessID }}" frameborder='0' border="0" width='620' height='350' >Your Widget</iframe>
 		</div>
 	
 	</div>

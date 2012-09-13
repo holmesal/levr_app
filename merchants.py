@@ -39,6 +39,7 @@ class LoginHandler(webapp2.RequestHandler):
 						'action'	: action,
 						'success'	: success
 		}
+		logging.debug(levr_utils.log_dict(template_values))
 		template = jinja_environment.get_template('templates/login.html')
 		self.response.out.write(template.render(template_values))
 #		self.response.out.write(os.path.dirname(__file__))
@@ -111,20 +112,27 @@ class LostPasswordHandler(webapp2.RequestHandler):
 			logging.debug(user)
 			if not user:
 				logging.debug('flag not user')
-				self.redirect('/merchants/login?action=password?success=false')
+				self.redirect('/merchants/login?action=password&success=False')
 			else:
 				logging.debug('flag is user')
 				#send mail to the admins to notify of new pending deal
 				url = levr_utils.URL+'/merchants/password/reset?id=' + enc.encrypt_key(user.key())
 				logging.info(url)
 				try:
-					mail.send_mail(sender	="Lost Password<password@levr.com>",
-									to		="Patrick Walsh <patrick@getlevr.com>",
-									subject	="New pending deal",
-									body	="""
-									Follow this link to reset your password:
-									%s
-									""" % url).send()
+					message = mail.EmailMessage(
+						sender	="Levr <patrick@levr.com>",
+						subject	="Reset Password",
+						to		=user.email)
+					logging.debug(message)
+					body = 'Hello,\n\n'
+					body += "To reset your Levr password, please follow this link.\n\n"
+					body += url+"\n\n"
+					body += "If you did not request this password reset, please ignore this email.\n\n"
+					body += "Regards,\n\n"
+					body += "The Levr Team"
+					message.body = body
+					message.send()
+					logging.debug(body)
 					logging.debug(url)
 #					sent = True
 				except:
@@ -134,7 +142,7 @@ class LostPasswordHandler(webapp2.RequestHandler):
 					#TODO: add parameter to login that shows it was not a success because the email was not sent
 				else:
 #					template_values={"sent":sent}
-					self.redirect('/merchants/login?')
+					self.redirect('/merchants/login?action=password&success=true')
 		except:
 			levr.log_error()
 		
@@ -571,7 +579,7 @@ class WidgetHandler(webapp2.RequestHandler):
 			businessID	= enc.encrypt_key(business.key())
 			
 			#iframe
-			frame = "&lt;iframe src='"+levr_utils.URL+"/widget?id="+business.widget_id+"' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt;"
+			frame = "&lt;iframe src='"+levr_utils.URL+"/widget?id="+business.widget_id+"' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt; />"
 		
 #			frame = "<iframe src='/widget?id="+business.widget_id+"' frameborder='0' width='1000' height='400' >Your Widget</iframe>"
 			logging.debug(frame)

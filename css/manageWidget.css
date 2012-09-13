@@ -1,7 +1,11 @@
+body{
+}
 #main{
-	background-color:red;
 	overflow:hidden;
 	
+}
+#top{
+	margin-top:50px;
 }
 #widget_tag{
 	width:900px;
@@ -11,6 +15,7 @@
 	width:90%;
 	margin-left:auto;
 	margin-right:auto;
+	text-align:left;
 }
 #left{
 	float:left;
@@ -18,6 +23,17 @@
 	margin-top:23px;
 }
 
+#topText{
+	margin-bottom:20px;
+}
+#bottomText{
+	margin-top:20px;
+}
+#topText, #bottomText{
+	
+}
+
 #right{
 	float:right;
+	margin-bottom: 50px;
 }

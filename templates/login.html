@@ -33,13 +33,14 @@
 					<!-- 					<a id="forgotPassword" href="forgot">Forgot Password?</a> -->
 					<a id="btnHelp" class="button white toggle">Help</a>
 					<input type="submit" id="btnLogin" class="button green sendBtn" value="Login">
+					<div class="error_text">{% if action !='password' and action !='reset' and success==False %}Incorrect email, password combination{% endif %}</div>
 				</form>
 				<form id="forgotPasswordForm" class="form" method="post" action="/merchants/password/lost" {% if action != 'password' %} hidden {% endif %}>
 					<span>Enter your email and we will email you with a link to reset your password.</span>
 					<input class="loginInput" id="email" type="text" placeholder="Email" name="email">
 					<a id="btnBack" class="button white toggle">Back</a>
 					<input type="submit" id="btnLogin" class="button green sendBtn" value="Send">
-
+					<div class="error_text">{% if action =='password' and success=='False' %}Email not found.  If you think this is an error, please <a href="mailto:feedback@levr.com?Subject=Lost Email">contact us</a> for support.{% endif %}</div>
 				</form>
 				<form method="post" action="/merchants/password/reset?id={{ uid }}" {% if action != 'reset' %} hidden {% endif %}>
 					<p>

@@ -5,6 +5,7 @@ body{
 	font-family: Helvetica, Arial, sans-serif;
 	margin: 0;
 	color: #111111;
+	background-image: url("/img/paper-nofade.svg");
 }
 
 #app-container{

@@ -58,7 +58,7 @@ class MerchantBetaHandler(webapp2.RequestHandler):
 class SendMailHandler(webapp2.RequestHandler):
 	def get(self):
 	
-		targetArr = ["alonso@levr.com","beta@levr.com","patrick@levr.com"]
+		targetArr = ["alonso@levr.com","beta@levr.com"]
 		
 		for rec in targetArr:
 			
@@ -109,9 +109,9 @@ class SendMailHandler(webapp2.RequestHandler):
 			message.body = body
 			message.send()
 		
-		self.response.out.write('Email sent to: ' + targetArr.__str__() + ' Now go unset this so there are no duplicate sends!')
+		#self.response.out.write('Email sent to: ' + targetArr.__str__() + ' Now go unset this so there are no duplicate sends!')
 	
-		self.response.out.write(message.html)
+		#self.response.out.write(message.html)
 		
 		
 app = webapp2.WSGIApplication([('/beta/merchant', MerchantBetaHandler),

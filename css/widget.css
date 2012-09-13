@@ -8,8 +8,9 @@ body{
 	text-align: left;
 	margin-top: 0px;
 	width: 600px;
-	margin-left: 0px;
-	margin-right: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
 }
 
 .deal{

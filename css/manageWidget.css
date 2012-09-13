@@ -1,0 +1,23 @@
+#main{
+	background-color:red;
+	overflow:hidden;
+	
+}
+#widget_tag{
+	width:900px;
+	text-align: center;
+}
+#body{
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+}
+#left{
+	float:left;
+	width:35%;
+	margin-top:23px;
+}
+
+#right{
+	float:right;
+}

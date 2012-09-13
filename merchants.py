@@ -571,14 +571,16 @@ class WidgetHandler(webapp2.RequestHandler):
 			businessID	= enc.encrypt_key(business.key())
 			
 			#iframe
-			frame = "<iframe src='/widget?id="+businessID+"' frameborder='0' width='1000' height='400' >Your Widget</iframe>"
+			frame = "&lt;iframe src='"+levr_utils.URL+"/widget?id="+business.widget_id+"' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt;"
+		
+#			frame = "<iframe src='/widget?id="+business.widget_id+"' frameborder='0' width='1000' height='400' >Your Widget</iframe>"
 			logging.debug(frame)
 			
 			
 			template_values = {
 				'business'		: business,
 				'businessID'	: businessID,
-				'frame'		: frame
+				'frame'			: frame
 			}
 			template = jinja_environment.get_template('templates/manageWidget.html')
 			self.response.out.write(template.render(template_values))

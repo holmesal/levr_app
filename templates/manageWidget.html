@@ -1,23 +1,29 @@
 {% extends "templates/merchantsBase.html" %}
 
 {% block htmlhead %}
-<!-- <link rel="stylesheet" href="/css/manageOffers.css">-->
+<link rel="stylesheet" href="/css/manageWidget.css">
 {% endblock %}
 
 {% block content %}
 <div id='main'>
 	<div id="top">
 		<h2>Engage customers right from your Website.</h2>
-		<input type="text" readonly="readonly" value="&lt;iframe src='/widget?id={{businessID}}' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt;" />
-		<code>&lt;iframe src='/widget?id={{businessID}}' frameborder='0' width='1000' height='400' &gt;Your Widget&lt;/iframe&gt;</code>
+		<!-- 
+		<input type="text" id='widget_tag' readonly="readonly" value="{{ frame }}" />
+		 -->
 		
 	</div>
-	<div id="left">
+	<div id="body">
+		<div id="left">
+			<div>Have a website? Convert your website viewers into paying customers using this embeddable iframe into your website to make the internet people very happy.</div>
+			<textarea rows="4" cols="40">{{frame}}</textarea>
+		</div>
+		<div id="right">
+			<iframe src="/widget?id={{ businessID }}" frameborder='0' border="0" width='620' height='400' >Your Widget</iframe>
+		</div>
+	
+	</div>
 		
-	</div>
-	<div id="right">
-		<iframe src="/widget?id={{ businessID }}" frameborder='0' width='1000' height='400' >Your Widget</iframe>
-	</div>
 	
 </div>
 {% endblock %}

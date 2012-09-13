@@ -43,21 +43,18 @@
 					<div class="error_text">{% if action =='password' and success=='False' %}Email not found.  If you think this is an error, please <a href="mailto:feedback@levr.com?Subject=Lost Email">contact us</a> for support.{% endif %}</div>
 				</form>
 				<form method="post" action="/merchants/password/reset?id={{ uid }}" {% if action != 'reset' %} hidden {% endif %}>
-					<p>
-						Enter Password:
-						<br/>
-						<input type="text" name="newPassword1"/>
-					</p>
-					<p>
-						Re-enter Password:
-						<br/>
-						<input type="text" name="newPassword2" />
-						{% if success == 'False' %}
-					<p>
-						Passwords did not match
-					</p>
-					{% endif %}
-					<input type="submit" value="Reset Password">
+					<div id='resetTitle'>Reset your password</div>
+					<div>
+						<label class="helpText" for="newPw1">Password</label>
+						<input class="loginInput" id="newPw1" type="text" placeholder="Password" name="newPassword1">
+						<label class="helpText" for="newPw2">Confirm Password</label>
+						<input class="loginInput" id="newPw2" type="text" placeholder="Password" name="newPassword2">
+					</div>
+					<div>
+					<div class="error_text">{% if success=='False' %} Passwords did not match{% endif %}</div>
+						<input type="submit" id="submitReset" value="Reset Password">
+					</div>
+					
 				</form>
 			</div>
 		</div>

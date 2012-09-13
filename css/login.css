@@ -87,6 +87,15 @@ a {
 	text-decoration: none;
 }
 
+#resetTitle{
+	margin-bottom: 20px;
+	font-size: 14pt;
+	text-align: center;
+}
+
+#submitReset{
+	float:right;
+}
 /* button */
 .button {
 	margin-top: 10px;

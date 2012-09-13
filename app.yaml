@@ -27,7 +27,6 @@ handlers:
 - url: /admin.*
   script: admin.app
   login: admin
-  secure: always
 - url: /payments/.*
   script: payments.app
   login: admin

@@ -514,13 +514,20 @@ class ManageHandler(webapp2.RequestHandler):
 				deals.append(levr.phoneFormat(deal, 'manage'))
 			
 			
+			## ==== Spoofed values ====##
+			views = 20
+			rank = 21
+			redemptions = 23
 			
 			template_values = {
 				'headerData':headerData,
 				'title'		:'Manage',
 				'owner'		:owner,
 				'business'	:business,
-				'deals'		:deals
+				'deals'		:deals,
+				'views'		:views,
+				'rank'		:rank,
+				'redemptions':redemptions
 			}
 			logging.debug(template_values)
 			

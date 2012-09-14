@@ -17,6 +17,10 @@ body{
 	margin-right:auto;
 	text-align:left;
 }
+
+p{
+	line-height:120%;
+}
 #left{
 	float:left;
 	width:35%;

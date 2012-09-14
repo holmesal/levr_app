@@ -14,39 +14,43 @@ jinja_environment = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.di
 
 class Pending(webapp2.RequestHandler):
 	def get(self):
-		#grab all the deals with current status == pending
-		deal = levr.CustomerDeal.all().filter('been_reviewed =', False).get()
-		
-		#dictify deal
-		if deal:
-			#logging.info(deal['dateEnd'])
-			#get the first matching entity and parse into template values
-			logging.debug(levr_utils.log_model_props(deal))
-			business = levr.Business.get(deal.businessID)
-			ninjaID = deal.key().parent()
-			logging.debug(ninjaID)
-			ninja = levr.Customer.get(ninjaID)
-			#sort tags for easy readin
-			tags = deal.tags
-			tags.sort()
+		try:
+			#grab all the deals with current status == pending
+			deal = levr.CustomerDeal.all().filter('been_reviewed =', False).get()
 			
-			template_values = {
-				"deal"		: deal,
-				"img_big"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=dealDetail',
-				"img_small"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=list',
-				"tags"		: tags,
-				"business"	: business,
-				"dealID"	: enc.encrypt_key(deal.key()),
-				"businessID": enc.encrypt_key(business.key()),
-				"ninja"		: ninja
-			}
-			logging.debug(levr_utils.log_dict(template_values))
-			
-			template = jinja_environment.get_template('templates/admin_pending.html')
-			self.response.out.write(template.render(template_values))
-		else:
-			self.response.out.write('No pending deals!')
-	
+			#dictify deal
+			if deal:
+				#logging.info(deal['dateEnd'])
+				#get the first matching entity and parse into template values
+				logging.debug(levr_utils.log_model_props(deal))
+				business = levr.Business.get(deal.businessID)
+				if not business:
+					raise Exception('business does not exist')
+				ninjaID = deal.key().parent()
+				logging.debug(ninjaID)
+				ninja = levr.Customer.get(ninjaID)
+				#sort tags for easy readin
+				tags = deal.tags
+				tags.sort()
+				
+				template_values = {
+					"deal"		: deal,
+					"img_big"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=dealDetail',
+					"img_small"	: levr_utils.URL+'/phone/img?dealID='+enc.encrypt_key(deal.key())+'&size=list',
+					"tags"		: tags,
+					"business"	: business,
+					"dealID"	: enc.encrypt_key(deal.key()),
+					"businessID": enc.encrypt_key(business.key()),
+					"ninja"		: ninja
+				}
+				logging.debug(levr_utils.log_dict(template_values))
+				
+				template = jinja_environment.get_template('templates/admin_pending.html')
+				self.response.out.write(template.render(template_values))
+			else:
+				self.response.out.write('No pending deals!')
+		except Exception,e:
+			levr.log_error(e)
 
 class Approve(webapp2.RequestHandler):
 	#insert into database and redirect to Pending for next pending deal
@@ -62,8 +66,8 @@ class Approve(webapp2.RequestHandler):
 					'days_active'		: self.request.get('days_active')
 					}
 			levr_utils.dealCreate(params,'admin_review',False)
-			self.response.out.write('<a href="/admin/pending">Success</a>')
-#			self.redirect('/admin/pending')
+#			self.response.out.write('<a href="/admin/pending">Success</a>')
+			self.redirect('/admin/pending')
 		except:
 			levr.log_error(self.request.body)
 			self.response.out.write('Upload Unsuccessful. Check error log')

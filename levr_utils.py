@@ -126,11 +126,11 @@ def dealCreate(params,origin,upload_flag=True):
 	'''pass in "self"'''
 	logging.debug('DEAL CREATE')
 	
-	logging.debug(origin)
-	logging.debug(params)
+	logging.debug("origin: "+str(origin))
+	logging.debug(log_dict(params))
 	
 	
-	logging.debug(upload_flag)
+	logging.debug("image was uploaded: "+str(upload_flag))
 	#init tags list for deal
 	tags = []
 	
@@ -164,7 +164,7 @@ def dealCreate(params,origin,upload_flag=True):
 				'img_key'
 				}
 		
-	#####phone
+	#####phone_existing_business
 		params = {
 				'uid' 			#uid is ninja
 				'business' 
@@ -172,7 +172,7 @@ def dealCreate(params,origin,upload_flag=True):
 				'deal_line1'
 				!!! no deal_line2 !!!
 				}
-	#####oldphone
+	#####phone_new_business
 		params = {
 				'uid'			#uid is ninja
 				'business_name'
@@ -201,33 +201,50 @@ def dealCreate(params,origin,upload_flag=True):
 	
 	
 	#==== business stuff ====#
-	if origin == 'oldphone':
-		#this will soon be deprecated when android is done
-		logging.debug('origin is NOT edit or web or phone. running out of options here.')
+	if origin == 'phone_new_business':
+		#The business to which a deal is being uploaded is not targeted
+		logging.debug('origin is phone, new business being added')
 		
 		
 		#business name
-		business_name = params['business']
-		logging.debug("business name: "+str(business_name))
-		
+		if 'business_name' in params:
+			business_name = params['business_name']
+			logging.debug("business name: "+str(business_name))
+		else:
+			raise KeyError('business_name not in params')
 		#geo point
-		geo_point = params['geo_point']
-		geo_point = levr.geo_converter(geo_point)
-		logging.debug("geo point: "+str(geo_point))
+		
+		if 'geo_point' in params:
+			geo_point = params['geo_point']
+			geo_point = levr.geo_converter(geo_point)
+			logging.debug("geo point: "+str(geo_point))
+		else:
+			raise KeyError('geo_point not in params')
 		
 		#vicinity
-		vicinity = params['vicinity']
-		logging.debug("vicinity: "+str(vicinity))
+		if 'vicinity' in params:
+			vicinity = params['vicinity']
+			logging.debug("vicinity: "+str(vicinity))
+		else:
+			raise KeyError('vicinity not in params')
 		
 		#types
-		types = params['types']
-		logging.debug(types)
-		types = levr.tagger(types)
-		logging.debug(types)
-		
-		
+		if 'types' in params:
+			types = params['types']
+			logging.debug('start types')
+			logging.debug(types)
+			logging.debug(type(types))
+			types = levr.tagger(types)
+			logging.debug(types)
+			logging.debug('end types')
+		else:
+			raise KeyError('types not in params')
 		#check if business exists - get businessID
-		business= levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+#		business= levr.Business.gql("WHERE business_name=:1 and geo_point=:2", business_name, geo_point).get()
+		business = levr.Business.all().filter('business_name =',business_name).filter('vicinity =',vicinity).get()
+		logging.debug('start business info')
+		logging.debug(log_model_props(business))
+		logging.debug('end business info')
 		
 		if not business:
 			logging.debug('business doesnt exist')
@@ -239,20 +256,22 @@ def dealCreate(params,origin,upload_flag=True):
 			business.vicinity 		= vicinity
 			business.geo_point		= geo_point
 			business.types			= types
-
-			#grab the businesses tags
-			tags.extend(business.create_tags())
+			
 			
 			#put business
 			business.put()
 			
-			#get businessID - not encrypted - from database
-			businessID = business.key()
+			
 		else:
 			logging.debug('business exists')
 			#business exists- grab its tags
-			tags.extend(business.create_tags())
 		
+		
+		#grab the businesses tags
+		tags.extend(business.create_tags())
+		#get businessID - not encrypted - from database
+		businessID = business.key()
+		logging.debug("businessID: "+str(businessID))
 		
 		#Create tags
 		
@@ -262,11 +281,13 @@ def dealCreate(params,origin,upload_flag=True):
 		#
 		logging.debug('not oldphoone')
 		
-		businessID = params['business']
-		businessID	= enc.decrypt_key(businessID)
-		businessID	= db.Key(businessID)
-		business	= levr.Business.get(businessID)
-		
+		if 'business' in params:
+			businessID = params['business']
+			businessID	= enc.decrypt_key(businessID)
+			businessID	= db.Key(businessID)
+			business	= levr.Business.get(businessID)
+		else:
+			raise KeyError('business not passed in params')
 		#get the tags from the business
 		tags.extend(business.create_tags())
 		
@@ -276,16 +297,19 @@ def dealCreate(params,origin,upload_flag=True):
 		vicinity		= business.vicinity
 		
 
-
+	logging.debug('!!!!!')
 	#====Deal Information Lines ====#
 	#deal line 1
-	deal_text	= params['deal_line1']
-	logging.debug(deal_text)
-	tags.extend(levr.tagger(deal_text))
-	logging.info(tags)
+	if 'deal_line1' in params:
+		deal_text	= params['deal_line1']
+		logging.debug(deal_text)
+		tags.extend(levr.tagger(deal_text))
+		logging.info(tags)
+	else:
+		raise KeyError('deal_line1 not passed in params')
 	
 	#deal line 2
-	if origin != 'phone' and origin != 'oldphone':
+	if origin != 'phone_existing_business' and origin != 'phone_new_business':
 		if 'deal_line2' in params:
 			secondary_name = params['deal_line2']
 		else:
@@ -306,14 +330,16 @@ def dealCreate(params,origin,upload_flag=True):
 		deal_type = 'single'
 	
 	#description
-	description = params['deal_description']
-	#truncate description to a length of 500 chars
-	logging.debug(description.__len__())
-	description = description[:500]
-	logging.debug(description)
-	tags.extend(levr.tagger(description))
-	logging.info(tags)
-	
+	if 'deal_description' in params:
+		description = params['deal_description']
+		#truncate description to a length of 500 chars
+		logging.debug(description.__len__())
+		description = description[:500]
+		logging.debug(description)
+		tags.extend(levr.tagger(description))
+		logging.info(tags)
+	else:
+		raise KeyError('deal_description not passed in params')
 	
 	
 	
@@ -332,7 +358,7 @@ def dealCreate(params,origin,upload_flag=True):
 		dealID	= enc.decrypt_key(dealID)
 		deal	= levr.Deal.get(dealID)
 
-	elif origin	=='phone' or origin == 'oldphone':
+	elif origin	=='phone_existing_business' or origin == 'phone_new_business':
 		#phone deals are the child of a ninja
 		logging.debug('STOP!')
 		uid = enc.decrypt_key(params['uid'])
@@ -373,7 +399,6 @@ def dealCreate(params,origin,upload_flag=True):
 	else:
 		#an image was not uploaded. do nothing
 		logging.debug('image not uploaded')
-		pass
 	
 	
 	
@@ -404,7 +429,7 @@ def dealCreate(params,origin,upload_flag=True):
 	
 	share_url = create_share_url(deal)
 	
-	if origin == 'phone' or origin =='oldphone':
+	if origin == 'phone_existing_business' or origin =='phone_new_business':
 		#needs share url and dealID
 		return share_url,deal
 	else:
@@ -456,8 +481,8 @@ def log_model_props(model,props=None):
 			key_list.sort()
 			for key in key_list:
 				log_str += str(key)+": "+str(getattr(model,key))+delimeter
-	except:
-		logging.warning('There was an error in log_model_props')
+	except Exception,e:
+		logging.warning('There was an error in log_model_props %s',e)
 	finally:
 		return log_str
 

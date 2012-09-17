@@ -5,11 +5,11 @@ import levr_classes
 import logging
 import levr_encrypt as enc
 import levr_utils
-import base_62_converter as converter
+#import base_62_converter as converter
 #from google.appengine.ext import db
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
-from datetime import datetime
+#from datetime import datetime
 
 class MainPage(webapp2.RequestHandler):
 	def get(self):

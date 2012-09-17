@@ -51,6 +51,7 @@ class Pending(webapp2.RequestHandler):
 				self.response.out.write('No pending deals!')
 		except Exception,e:
 			levr.log_error(e)
+			self.response.out.write('Error fetching deal. See logs.')
 
 class Approve(webapp2.RequestHandler):
 	#insert into database and redirect to Pending for next pending deal
@@ -75,14 +76,18 @@ class Approve(webapp2.RequestHandler):
 		
 class Reject(webapp2.RequestHandler):
 	def post(self):
-		dealID = enc.decrypt_key(self.request.get('deal'))
-		logging.debug(dealID)
-		deal = levr.CustomerDeal.get(dealID)
-		deal.deal_status = 'rejected'
-		deal.been_reviewed = True
-		deal.reject_message = self.request.get('reject_message')
-		deal.put()
-		self.redirect('/admin/pending')
+		try:
+			dealID = enc.decrypt_key(self.request.get('deal'))
+			logging.debug(dealID)
+			deal = levr.CustomerDeal.get(dealID)
+			deal.deal_status = 'rejected'
+			deal.been_reviewed = True
+			deal.reject_message = self.request.get('reject_message')
+			deal.put()
+			self.redirect('/admin/pending')
+		except:
+			levr.log_error()
+			self.response.out.write('Error rejecting. See logs.')
 		
 class GodLoginHandler(webapp2.RequestHandler):
 	def get(self):

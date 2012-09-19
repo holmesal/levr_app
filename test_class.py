@@ -6,10 +6,11 @@ import logging
 import levr_encrypt as enc
 import levr_utils
 import base_62_converter as converter
-#from google.appengine.ext import db
+from google.appengine.ext import db
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from datetime import datetime
+from random import randint
 
 class MainPage(webapp2.RequestHandler):
 	def get(self):
@@ -141,9 +142,29 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		self.response.out.write('     I think this means it was a success')
 #		self.redirect('/phone/img?dealID='+str(cd.key())+"&size=dealDetail")
 		
-
+#class UpdateUsersHandler(webapp2.RequestHandler):
+#	def get(self):
+#		#query
+#		users = levr_classes.Customer.all().fetch(None)
+#			
+#			
+#		for user in users:
+#			#generate random number to decide what split test group they are in
+#			choice = randint(10,1000)
+#			decision = choice%2
+#			if decision == 1:
+#				group = 'paid'
+#			else:
+#				group = 'unpaid'
+#			logging.debug(levr_utils.log_model_props(user))
+#			user.group = group
+#			logging.debug(levr_utils.log_model_props(user))
+#			
+#		db.put(users)
+		
 app = webapp2.WSGIApplication([('/new', MainPage),
 								('/new/upload.*', DatabaseUploadHandler)
+#								('/new/update' , UpdateUsersHandler)
 								],debug=True)
 
 

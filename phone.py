@@ -673,7 +673,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			uid	= enc.decrypt_key(self.request.get('uid'))
 			user = levr.Customer.get(uid)
 			logging.debug(levr_utils.log_model_props(user,['alias','email']))
-			
+			logging.debug(self.request.params)
 			#make sure than an image is uploaded
 			logging.debug(self.get_uploads())
 			if self.get_uploads(): #will this work?
@@ -686,8 +686,9 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			
 			#screen for businessID to determine which mode of upload we are receiving
 			if self.request.get('businessID'):
-				logging.debug('iphone')
+				logging.debug('targeted business')
 				#we are on iphone
+				origin = 'phone_existing_business'
 				params = {
 					'uid'				: self.request.get('uid'),
 					'business'			: self.request.get('businessID'),
@@ -696,10 +697,11 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'img_key'			: img_key
 					}
 				
-				(share_url,deal_entity) = levr_utils.dealCreate(params,'phone')
+#				(share_url,deal_entity) = levr_utils.dealCreate(params,'phone_existing_business')
 			else:
-				logging.debug('android')
+				logging.debug('untargeted business')
 				#we are on android
+				origin = 'phone_new_business'
 				params = {
 					'uid'				: self.request.get('uid'),
 					'business_name'		: self.request.get('businessName'),
@@ -710,10 +712,11 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'deal_line1'		: self.request.get('deal_line1'),
 					'img_key'			: img_key
 					}
-				(share_url,deal_entity) = levr_utils.dealCreate(params,'oldphone')
 			
 			
 			
+			#create the deal using the origin specified
+			(share_url,deal_entity) = levr_utils.dealCreate(params,origin)
 			
 			#grab deal information for sending back to phone
 			deal = levr.phoneFormat(deal_entity,'list')
@@ -724,6 +727,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 			logging.debug(levr_utils.log_dict(toEcho))
 			self.response.out.write(json.dumps(toEcho))
 		except:
+			levr.log_error(self.request.body)
 			toEcho = {"success":False}#,"data":{"shareURL":share_url}}
 			self.response.out.write(json.dumps(toEcho))
 class phone_log(webapp2.RequestHandler):

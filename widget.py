@@ -7,7 +7,7 @@ import levr_utils
 #from google.appengine.api import images
 import logging
 import jinja2
-from gaesessions import get_current_session
+#from gaesessions import get_current_session
 #dealtype - bundle or 
 #dealitem -
 
@@ -52,15 +52,14 @@ class RemoteHandler(webapp2.RequestHandler):
 class LoggedInFavHandler(webapp2.RequestHandler):
 	def get(self):
 		try:
-			pass
-			dealID		= enc.decrypt_key(self.request.get('deal'))
+#			dealID		= enc.decrypt_key(self.request.get('deal'))
 			businessID	= self.request.get('id') #do not decrypt
-			session		= get_current_session()
-			customer_key= enc.decrypt_key(session['uid'])
-			customer	= levr.Customer.get(customer_key)
-			fav			= levr.Favorite(parent=customer.key())
-			fav.dealID	= dealID
-			fav.put()
+#			session		= get_current_session()
+#			customer_key= enc.decrypt_key(session['uid'])
+#			customer	= levr.Customer.get(customer_key)
+#			fav			= levr.Favorite(parent=customer.key())
+#			fav.dealID	= dealID
+#			fav.put()
 			self.redirect('/widget/remote?id='+businessID+'action=success')
 		except:
 			levr.log_error()

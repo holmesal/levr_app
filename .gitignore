@@ -7,7 +7,8 @@ bin
 todo*
 test.py
 Copy*
-
+Crypto/
+pycrypto-2.3*
 
 
 #extraneous files

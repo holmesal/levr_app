@@ -16,6 +16,7 @@ class Customer(db.Model):
 	payment_email	= db.EmailProperty()
 	pw 				= db.StringProperty()
 	alias			= db.StringProperty(default='')
+	group			= db.StringProperty(choices=set(["paid","unpaid"]),default="paid")
 	#stats
 	money_earned	= db.FloatProperty(default = 0.0) #new earning for all deals
 	money_available = db.FloatProperty(default = 0.0) #aka payment pending

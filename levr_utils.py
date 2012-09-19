@@ -11,6 +11,7 @@ from google.appengine.ext import db
 #from google.appengine.ext.webapp import blobstore_handlers
 from gaesessions import get_current_session
 import base_62_converter as converter
+from random import randint 
 
 # ==== Variables ==== #
 if os.environ['SERVER_SOFTWARE'].startswith('Development') == True:
@@ -68,9 +69,27 @@ def signupCustomer(email,alias,pw):
 		c.email = email
 		c.pw 	= pw
 		c.alias = alias
+		
+		#generate random number to decide what split test group they are in
+		choice = randint(10,1000)
+		decision = choice%2
+		if decision == 1:
+			group = 'paid'
+		else:
+			group = 'unpaid'
+		
+		#set a/b test group to customer entity
+		c.group = group
+		
 		#put
 		c.put()
-		return {'success':True,'uid':enc.encrypt_key(c.key().__str__()),'email':email,'userName':alias}
+		return {
+			'success'	:True,
+			'uid'		:enc.encrypt_key(c.key().__str__()),
+			'email'		:email,
+			'userName'	:alias,
+			'group'		:group
+			}
 	elif r_email != None:
 		return {
 			'success': False,
@@ -102,6 +121,7 @@ def loginCustomer(email_or_owner,pw):
 								'uid'			: enc.encrypt_key(r_email.key().__str__()),
 								'email'			: r_email.email,
 								'userName'		: r_email.alias,
+								'group'			: r_email.group
 								},
 			'notifications'	: r_email.get_notifications()
 		}
@@ -113,6 +133,7 @@ def loginCustomer(email_or_owner,pw):
 								'uid'			: enc.encrypt_key(r_owner.key().__str__()),
 								'email'			: r_owner.email,
 								'userName'		: r_owner.alias,
+								'group'			: r_email.group
 								},
 			'notifications'	: r_owner.get_notifications()
 		}

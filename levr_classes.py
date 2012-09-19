@@ -26,7 +26,8 @@ class Customer(db.Model):
 	vicinity		= db.StringProperty(default='') #the area of the user, probably a college campus
 	favorites		= db.ListProperty(db.Key,default=[])
 	date_created	= db.DateTimeProperty(auto_now_add=True)
-	date_last_edited= db.DateTimeProperty(auto_now=True)
+	date_last_edited= db.DateTimeProperty(auto_now_add=True)
+	date_last_login = db.DateTimeProperty(auto_now=True)
 	
 	def increment_new_redeem_count(self):
 		logging.info('incrementing!')

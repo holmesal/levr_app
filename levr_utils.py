@@ -115,6 +115,9 @@ def loginCustomer(email_or_owner,pw):
 	r_owner = q_owner.get()
 	if r_email != None:
 		#found user on the basis of email
+		
+		#automatically update last login
+		r_email.put()
 		return {
 			'success'		: True,
 			'data'			: {
@@ -127,13 +130,17 @@ def loginCustomer(email_or_owner,pw):
 		}
 	elif r_owner != None:
 		#found user on the basis of username
+		
+		#automatically update last_login
+		r_owner.put()
+		
 		return {
 			'success'		: True,
 			'data'			: {
 								'uid'			: enc.encrypt_key(r_owner.key().__str__()),
 								'email'			: r_owner.email,
 								'userName'		: r_owner.alias,
-								'group'			: r_email.group
+								'group'			: r_owner.group
 								},
 			'notifications'	: r_owner.get_notifications()
 		}

@@ -702,8 +702,8 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 				#we are on android
 				params = {
 					'uid'				: self.request.get('uid'),
-					'business_name'		: self.request.get('business_name'),
-					'geo_point'			: self.request.get('geo_point'),
+					'business_name'		: self.request.get('businessName'),
+					'geo_point'			: self.request.get('geoPoint'),
 					'vicinity'			: self.request.get('vicinity'),
 					'types'				: self.request.get('types'),
 					'deal_description'	: self.request.get('deal_description'),

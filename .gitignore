@@ -9,6 +9,8 @@ test.py
 Copy*
 Crypto/
 pycrypto-2.3*
+python-geohash-*
+org.eclipse*
 
 
 #extraneous files

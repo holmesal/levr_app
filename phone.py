@@ -694,6 +694,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'business'			: self.request.get('businessID'),
 					'deal_description'	: self.request.get('deal_description'),
 					'deal_line1'		: self.request.get('deal_line1'),
+					'distance'			: self.request.get('distance'), #is -1 if unknown = double
 					'img_key'			: img_key
 					}
 				
@@ -710,6 +711,7 @@ class uploadDeal(blobstore_handlers.BlobstoreUploadHandler):
 					'types'				: self.request.get('types'),
 					'deal_description'	: self.request.get('deal_description'),
 					'deal_line1'		: self.request.get('deal_line1'),
+					'distance'			: self.request.get('distance'), #is -1 if unknown = double
 					'img_key'			: img_key
 					}
 			

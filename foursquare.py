@@ -85,7 +85,7 @@ class PushHandler(webapp2.RequestHandler):
 		result = urlfetch.fetch(url=url,
 								payload=json.dumps(reply),
 								method=urlfetch.POST)
-		logging.debug(reply)
+		logging.debug(result)
 		
 		
 app = webapp2.WSGIApplication([('/foursquare/push', PushHandler),

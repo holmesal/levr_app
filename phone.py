@@ -137,7 +137,7 @@ class phone(webapp2.RequestHandler):
 					deal = levr.phoneFormat(result,'list',primaryCat)
 					#indicate that this is not a sentinel
 					deal['isSentinel'] = False
-					logging.debug(deal.geohash)
+					logging.debug(result.geohash)
 					#push the whole dictionary onto a list
 					dealResults.append(deal)
 					#increment the counter

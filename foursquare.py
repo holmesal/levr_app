@@ -30,16 +30,14 @@ class AuthorizeHandler(webapp2.RequestHandler):
 class PushHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.debug('Foursquare push request received!')
-		checkin = self.request.get('checkin')
+		checkin = json.loads(self.request.get('checkin'))
 		secret = self.request.get('secret')
-		checkin2 = json.loads(checkin)
-		logging.debug(checkin)
-		logging.debug(checkin2)
+		logging.debug(checkin['venue'])
 		logging.debug(secret)
 		
 		#verify that the secret passed matches ours
-		secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
-		if secret != body.secret:
+		hc_secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
+		if hc_secret != secret:
 			#raise an exception
 			logging.debug('SECRETS DO NOT MATCH')
 		
@@ -76,17 +74,18 @@ class PushHandler(webapp2.RequestHandler):
 		'''
 		
 		reply = {
-			CHECKIN_ID		: checkin.id,
-			text			: 'hi there!',
-			url				: 'http://www.levr.com',
-			contentID		: ''
+			'CHECKIN_ID'		: checkin['id'],
+			'text'				: 'hi there!',
+			'url'				: 'http://www.levr.com',
+			'contentID'			: ''
 		}
 			
-		url = 'https://api.foursquare.com/v2/checkins/CHECKIN_ID/reply'
+		url = 'https://api.foursquare.com/v2/checkins/'+reply['CHECKIN_ID']+'/reply'
+		logging.debug(url)
 		result = urlfetch.fetch(url=url,
-								payload=reply,
+								payload=json.dumps(reply),
 								method=urlfetch.POST)
-		logging.debug(response)
+		logging.debug(reply)
 		
 		
 app = webapp2.WSGIApplication([('/foursquare/push', PushHandler),

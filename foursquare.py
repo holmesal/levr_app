@@ -57,7 +57,7 @@ class PushHandler(webapp2.RequestHandler):
 		
 		if business:	#business found
 			#for deal in levr.Deal().all().filter('businessID =', str(business.key())).run():
-			q = levr.Deal.gql("WHERE businessID = :1 AND status = :2 ORDER BY count_redeemed DESC",str(business.key()),'active')
+			q = levr.Deal.gql("WHERE businessID = :1 AND deal_status = :2 ORDER BY count_redeemed DESC",str(business.key()),'active')
 			numdeals = q.count()
 			if numdeals > 1:	#many deals found
 				topdeal = q.get()

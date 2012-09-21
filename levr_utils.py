@@ -12,6 +12,7 @@ from google.appengine.ext import db
 from gaesessions import get_current_session
 import base_62_converter as converter
 from random import randint 
+import geo.geohash as geohash
 
 # ==== Variables ==== #
 if os.environ['SERVER_SOFTWARE'].startswith('Development') == True:
@@ -279,12 +280,16 @@ def dealCreate(params,origin,upload_flag=True):
 			#if a business doesn't exist in db, then create a new one
 			business = levr.Business()
 			logging.debug(business.__str__())
+			
+			#create geohash from geopoint
+			geo_hash = geohash.encode(geo_point.lat,geo_point.lon)
+			
 			#add data to the new business
 			business.business_name 	= business_name
 			business.vicinity 		= vicinity
 			business.geo_point		= geo_point
 			business.types			= types
-			
+			business.geo_hash		= geo_hash
 			
 			#put business
 			business.put()
@@ -306,7 +311,7 @@ def dealCreate(params,origin,upload_flag=True):
 		logging.debug('-------------------------------------------')
 		logging.debug(tags)
 	else:
-		#
+		#BusinessID was passed, grab the business
 		logging.debug('not oldphoone')
 		
 		if 'business' in params:
@@ -323,6 +328,7 @@ def dealCreate(params,origin,upload_flag=True):
 		business_name 	= business.business_name
 		geo_point		= business.geo_point
 		vicinity		= business.vicinity
+		geo_hash		= business.geo_hash
 		
 
 	logging.debug('!!!!!')
@@ -427,6 +433,7 @@ def dealCreate(params,origin,upload_flag=True):
 	else:
 		#an image was not uploaded. do nothing
 		logging.debug('image not uploaded')
+	
 	
 	
 	

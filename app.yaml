@@ -89,6 +89,6 @@ builtins:
 inbound_services:
 - mail
 
-# skip_files:
-# - ^Crypto/
+skip_files:
+- ^Crypto/
 

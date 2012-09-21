@@ -68,6 +68,10 @@ class phone(webapp2.RequestHandler):
 					#!!!not used
 				numResults 	= decoded["in"]["size"]
 				geo_point	= decoded["in"]["geoPoint"]
+				try:
+					precision = int(decoded['in']['precision'])
+				except:
+					precision = 6
 				
 				logging.debug(numResults)
 					#length of search results list
@@ -83,8 +87,9 @@ class phone(webapp2.RequestHandler):
 				
 				###filter by location - get neighborhoods
 				request_point = levr.geo_converter(geo_point)
-				request_point = levr.geo_converter('42.35,-71.110')
+#				request_point = levr.geo_converter('42.35,-71.110')
 				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=6)
+				logging.debug(center_hash)
 				hash_set = geohash.expand(center_hash)
 				logging.debug(hash_set)
 				
@@ -94,7 +99,7 @@ class phone(webapp2.RequestHandler):
 				tags = levr.tagger(primaryCat)
 				logging.debug(tags)
 				
-				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).count()))
+				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).filter('deal_status =','active').count()))
 				
 				
 				
@@ -113,12 +118,15 @@ class phone(webapp2.RequestHandler):
 							q.filter('tags =',tag)
 					#filter by geohash
 					q.filter('geo_hash >=',query_hash).filter('geo_hash <=',query_hash+"{") #max bound
-					logging.debug(q)
-					logging.debug(levr_utils.log_dict(q.__dict__))
+#					logging.debug(q)
+#					logging.debug(levr_utils.log_dict(q.__dict__))
 					
 					#get all keys for this neighborhood
-					deal_keys.extend(q.fetch(None))
-					logging.debug(deal_keys)
+					fetched_deals = q.fetch(None)
+					logging.info('From: '+query_hash+", fetched: "+str(fetched_deals.__len__()))
+					
+					deal_keys.extend(fetched_deals)
+#					logging.debug(deal_keys)
 				
 				#batch get results. here is where we would set the number of results we want and the offset
 				results = levr.Deal.get(deal_keys)
@@ -127,7 +135,7 @@ class phone(webapp2.RequestHandler):
 				#initialize isEmpty to 1
 				isEmpty = True
 				dealResults = []
-				#iterate over the results§
+				#iterate over the results
 				#Want to grab deal information for each category
 				for result in results:
 #					logging.info('Rank: ' + str(result.rank))
@@ -137,7 +145,7 @@ class phone(webapp2.RequestHandler):
 					deal = levr.phoneFormat(result,'list',primaryCat)
 					#indicate that this is not a sentinel
 					deal['isSentinel'] = False
-					logging.debug(result.geohash)
+					logging.debug(result.geo_hash)
 					#push the whole dictionary onto a list
 					dealResults.append(deal)
 					#increment the counter

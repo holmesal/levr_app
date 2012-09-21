@@ -1,6 +1,7 @@
 import os
 import webapp2
 import levr_classes as levr
+import levr_utils
 #import levr_encrypt as enc
 #import levr_utils
 #from google.appengine.ext import db
@@ -32,8 +33,7 @@ class PushHandler(webapp2.RequestHandler):
 		logging.debug('Foursquare push request received!')
 		checkin = json.loads(self.request.get('checkin'))
 		secret = self.request.get('secret')
-		logging.debug(checkin['venue'])
-		logging.debug(secret)
+		logging.debug(levr_utils.log_dict(checkin))
 		
 		#verify that the secret passed matches ours
 		hc_secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'

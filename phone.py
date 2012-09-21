@@ -78,6 +78,9 @@ class phone(webapp2.RequestHandler):
 				primaryCat = primaryCat.lower()
 				
 				
+				
+				
+				
 				###filter by location - get neighborhoods
 				request_point = levr.geo_converter(geo_point)
 				request_point = levr.geo_converter('42.35,-71.110')
@@ -144,6 +147,70 @@ class phone(webapp2.RequestHandler):
 				for d in deals:
 					logging.debug(d.geo_hash)
 				
+				
+#				############OLD
+#				#normalize search query
+#				primaryCat = primaryCat.lower()
+#				
+#				
+#				#build search query
+#				q = levr.Deal.all()
+#				
+#				logging.debug("total number of deals: "+str(q.count()))
+#				#only active deals
+#				q.filter('deal_status','active')
+#				#primaryCat will be mapresults to return everything
+#				if primaryCat == 'all':
+#					#get all deals - no filter
+#					logging.debug('all')
+#				else:
+#					logging.debug('not all')
+#					#normalize search query
+#					primaryCat = primaryCat.lower()
+#					#otherwise, search based on the tags
+#					tags = levr.tagger(primaryCat)
+#					logging.debug(tags)
+#					#grab all deals where primary_cat is in tags
+#					for tag in tags:
+#						logging.debug('tag: '+str(tag))
+#						q.filter('tags =',tag)
+#				
+#				###filter by location
+#				request_point = levr.geo_converter(geo_point)
+#				request_point = levr.geo_converter('42.35,-71.110')
+#				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=6)
+#				hash_set = geohash.expand(center_hash)
+#				
+#				#get keys of all corresponding deals
+#				deal_keys = []
+#				for query_hash in hash_set:
+#					q.filter('geo_hash >=',query_hash) #min bound
+#					q.filter('geo_hash <=',query_hash+"{") #max bound
+#					deal_keys.extend(q.fetch(None))
+#				
+#				#batch get results. here is where we would set the number of results we want and the offset
+#				results = levr.Deal.get(deal_keys)
+#				logging.debug
+#				#define an empty "dealResults" LIST, and initialize the counter to 0
+#				#initialize isEmpty to 1
+#				isEmpty = True
+#				#iterate over the results
+#				#Want to grab deal information for each category
+#				for result in results:
+##					logging.info('Rank: ' + str(result.rank))
+#					#break if results limit is hit
+#					isEmpty = False
+#					#trade an object for a phone-formatted dictionary
+#					deal = levr.phoneFormat(result,'list',primaryCat)
+#					#indicate that this is not a sentinel
+#					deal['isSentinel'] = False
+#					#push the whole dictionary onto a list
+#					dealResults.append(deal)
+#					#increment the counter
+##					resultsPushed += 1
+#				###########################/OLD
+
+
 #				#if isempty is true, send back suggested searches instead
 #				if isEmpty == False:
 #					dealResults.append({"isSentinel":True})

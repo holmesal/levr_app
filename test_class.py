@@ -6,6 +6,7 @@ import logging
 import levr_encrypt as enc
 import levr_utils
 import base_62_converter as converter
+#import geo.geohash as geohash
 import geo.geohash as geohash
 from google.appengine.ext import db
 from google.appengine.ext import blobstore

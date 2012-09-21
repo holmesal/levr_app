@@ -7,6 +7,7 @@ import levr_classes as levr
 import logging
 import jinja2
 from google.appengine.api import urlfetch
+import json
 
 #CASES:
 
@@ -21,15 +22,24 @@ from google.appengine.api import urlfetch
 	#Response: Hey, check out {{DEALTEXT}}(deeplink to dealDetail) and 5 more deals(deeplink to dealResults)
 
 
+class AuthorizeHandler(webapp2.RequestHandler):
+	def get(self):
+		pass
+
+
 class PushHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.debug('Foursquare push request received!')
-		#grab the checkin object
 		checkin = self.request.get('checkin')
+		secret = self.request.get('secret')
+		checkin2 = json.loads(checkin)
+		logging.debug(checkin)
+		logging.debug(checkin2)
+		logging.debug(secret)
 		
 		#verify that the secret passed matches ours
 		secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
-		if secret != self.request.get('secret'):
+		if secret != body.secret:
 			#raise an exception
 			logging.debug('SECRETS DO NOT MATCH')
 		
@@ -79,5 +89,6 @@ class PushHandler(webapp2.RequestHandler):
 		logging.debug(response)
 		
 		
-app = webapp2.WSGIApplication([('/foursquare/push', PushHandler)],
+app = webapp2.WSGIApplication([('/foursquare/push', PushHandler),
+								('/foursquare/authorize', AuthorizeHandler)],
 								debug=True)

@@ -1,5 +1,5 @@
 application: levr-production
-version: beta
+version: public
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -49,6 +49,9 @@ handlers:
   script: download.app
 - url: /beta.*
   script: beta.app
+- url: /foursquare.*
+  script: foursquare.app
+  secure: always
 
 
 

@@ -109,6 +109,7 @@ class Business(db.Model):
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
 	widget_id		= db.StringProperty(default=levr_utils.create_unique_id())
+	foursquare_id	= db.StringProperty()
 
 
 	def create_tags(self):

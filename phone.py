@@ -127,7 +127,7 @@ class phone(webapp2.RequestHandler):
 				#initialize isEmpty to 1
 				isEmpty = True
 				dealResults = []
-				#iterate over the results
+				#iterate over the results§
 				#Want to grab deal information for each category
 				for result in results:
 #					logging.info('Rank: ' + str(result.rank))
@@ -137,15 +137,17 @@ class phone(webapp2.RequestHandler):
 					deal = levr.phoneFormat(result,'list',primaryCat)
 					#indicate that this is not a sentinel
 					deal['isSentinel'] = False
+					logging.debug(deal.geohash)
 					#push the whole dictionary onto a list
 					dealResults.append(deal)
 					#increment the counter
 #					resultsPushed += 1
+				logging.debug(dealResults.__len__())
 				
 				##debug
-				deals = levr.Deal.all().fetch(None)
-				for d in deals:
-					logging.debug(d.geo_hash)
+#				deals = levr.Deal.all().fetch(None)
+#				for d in deals:
+#					logging.debug(d.geo_hash)
 				
 				
 #				############OLD

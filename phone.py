@@ -71,7 +71,7 @@ class phone(webapp2.RequestHandler):
 				try:
 					precision = int(decoded['in']['precision'])
 				except:
-					precision = 6
+					precision = 5
 				
 				logging.debug(numResults)
 					#length of search results list
@@ -88,7 +88,7 @@ class phone(webapp2.RequestHandler):
 				###filter by location - get neighborhoods
 				request_point = levr.geo_converter(geo_point)
 #				request_point = levr.geo_converter('42.35,-71.110')
-				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=6)
+				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=precision)
 				logging.debug(center_hash)
 				hash_set = geohash.expand(center_hash)
 				logging.debug(hash_set)

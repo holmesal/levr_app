@@ -7,6 +7,7 @@ import levr_classes as levr
 import logging
 import jinja2
 from google.appengine.api import urlfetch
+import json
 
 #CASES:
 
@@ -21,15 +22,22 @@ from google.appengine.api import urlfetch
 	#Response: Hey, check out {{DEALTEXT}}(deeplink to dealDetail) and 5 more deals(deeplink to dealResults)
 
 
+class AuthorizeHandler(webapp2.RequestHandler):
+	def get(self):
+		pass
+
+
 class PushHandler(webapp2.RequestHandler):
 	def post(self):
 		logging.debug('Foursquare push request received!')
-		#grab the checkin object
-		checkin = self.request.get('checkin')
+		checkin = json.loads(self.request.get('checkin'))
+		secret = self.request.get('secret')
+		logging.debug(checkin['venue'])
+		logging.debug(secret)
 		
 		#verify that the secret passed matches ours
-		secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
-		if secret != self.request.get('secret'):
+		hc_secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
+		if hc_secret != secret:
 			#raise an exception
 			logging.debug('SECRETS DO NOT MATCH')
 		
@@ -66,18 +74,20 @@ class PushHandler(webapp2.RequestHandler):
 		'''
 		
 		reply = {
-			CHECKIN_ID		: checkin.id,
-			text			: 'hi there!',
-			url				: 'http://www.levr.com',
-			contentID		: ''
+			'CHECKIN_ID'		: checkin['id'],
+			'text'				: 'hi there!',
+			'url'				: 'http://www.levr.com',
+			'contentID'			: ''
 		}
 			
-		url = 'https://api.foursquare.com/v2/checkins/CHECKIN_ID/reply'
+		url = 'https://api.foursquare.com/v2/checkins/'+reply['CHECKIN_ID']+'/reply'
+		logging.debug(url)
 		result = urlfetch.fetch(url=url,
-								payload=reply,
+								payload=json.dumps(reply),
 								method=urlfetch.POST)
-		logging.debug(response)
+		logging.debug(reply)
 		
 		
-app = webapp2.WSGIApplication([('/foursquare/push', PushHandler)],
+app = webapp2.WSGIApplication([('/foursquare/push', PushHandler),
+								('/foursquare/authorize', AuthorizeHandler)],
 								debug=True)

@@ -49,7 +49,7 @@ class PushHandler(webapp2.RequestHandler):
 		
 		#initialize the response object
 		reply = {
-			'CHECKIN_ID'		: 'id',
+			'CHECKIN_ID'		: checkin['id'],
 			'text'				: 'hi there!',
 			'url'				: 'http://www.levr.com',
 			'contentID'			: 'BWANHHPAHAHA'

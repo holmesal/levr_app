@@ -1,7 +1,7 @@
-#import levr_classes as levr
+import levr_classes as levr
 import webapp2
-#import logging
-#import levr_utils
+import logging
+import levr_utils
 #from datetime import datetime
 #from datetime import timedelta
 class StoreBusinessesHandler(webapp2.RequestHandler):
@@ -21,9 +21,10 @@ class StoreBusinessesHandler(webapp2.RequestHandler):
 #			logging.debug(levr_utils.log_model_props(bus, ['business_name','date_created']))
 #			
 #		
-#		##########################################
-#		#open file with all businesses
-#		f	= open('businesses-other.txt','r')
+		##########################################
+		##FOR ADDING BUSINESSES##
+		#open file with all businesses
+#		f	= open('businesses.txt','r')
 #		
 #		#read whole text file
 #		conglomerate	= f.read()

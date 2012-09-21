@@ -8,6 +8,7 @@ import logging
 import levr_classes as levr
 import levr_encrypt as enc
 import levr_utils
+import geo.geohash as geohash
 from google.appengine.ext import db
 from google.appengine.api import images
 from google.appengine.api import mail
@@ -66,6 +67,8 @@ class phone(webapp2.RequestHandler):
 					#starting index of search results
 					#!!!not used
 				numResults 	= decoded["in"]["size"]
+				geo_point	= decoded["in"]["geoPoint"]
+				
 				logging.debug(numResults)
 					#length of search results list
 					#should be None if we want all results
@@ -75,43 +78,57 @@ class phone(webapp2.RequestHandler):
 				primaryCat = primaryCat.lower()
 				
 				
-				#build search query
-				q = levr.Deal.all()
-				#only active deals
-				q.filter('deal_status','active')
-				#primaryCat will be mapresults to return everything
-				if primaryCat == 'all':
-					#get all deals - no filter
-					logging.debug('all')
-				else:
-					logging.debug('not all')
-					#normalize search query
-					primaryCat = primaryCat.lower()
-					#otherwise, search based on the tags
-					tags = levr.tagger(primaryCat)
-					logging.debug(tags)
+				###filter by location - get neighborhoods
+				request_point = levr.geo_converter(geo_point)
+				request_point = levr.geo_converter('42.35,-71.110')
+				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=6)
+				hash_set = geohash.expand(center_hash)
+				logging.debug(hash_set)
+				
+				#normalize search query
+				primaryCat = primaryCat.lower()
+				#otherwise, search based on the tags
+				tags = levr.tagger(primaryCat)
+				logging.debug(tags)
+				
+				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).count()))
+				
+				
+				
+				
+				####build search query
+				#only grabbing deal keys, then batch get array
+				deal_keys = []
+				for query_hash in hash_set:
+					#only grab keys for deals that have active status
+					q = levr.Deal.all(keys_only=True).filter('deal_status =','active')
 					#grab all deals where primary_cat is in tags
 					for tag in tags:
-						logging.debug('tag: '+str(tag))
-						q.filter('tags =',tag)
-				#finally, sort the query
+						#all is a special keyword
+						if tag != 'all':
+							logging.debug('tag: '+str(tag))
+							q.filter('tags =',tag)
+					#filter by geohash
+					q.filter('geo_hash >=',query_hash).filter('geo_hash <=',query_hash+"{") #max bound
+					logging.debug(q)
+					logging.debug(levr_utils.log_dict(q.__dict__))
+					
+					#get all keys for this neighborhood
+					deal_keys.extend(q.fetch(None))
+					logging.debug(deal_keys)
 				
 				#batch get results. here is where we would set the number of results we want and the offset
-				results = q.fetch(None)
-				
-				
+				results = levr.Deal.get(deal_keys)
+				logging.info('number of deals fetched: '+str(results.__len__()))
 				#define an empty "dealResults" LIST, and initialize the counter to 0
-				dealResults = []
-				resultsPushed = 0
 				#initialize isEmpty to 1
 				isEmpty = True
+				dealResults = []
 				#iterate over the results
 				#Want to grab deal information for each category
 				for result in results:
-					logging.info('Rank: ' + str(result.rank))
+#					logging.info('Rank: ' + str(result.rank))
 					#break if results limit is hit
-					if resultsPushed == numResults:
-						break
 					isEmpty = False
 					#trade an object for a phone-formatted dictionary
 					deal = levr.phoneFormat(result,'list',primaryCat)
@@ -120,8 +137,13 @@ class phone(webapp2.RequestHandler):
 					#push the whole dictionary onto a list
 					dealResults.append(deal)
 					#increment the counter
-					resultsPushed += 1
-
+#					resultsPushed += 1
+				
+				##debug
+				deals = levr.Deal.all().fetch(None)
+				for d in deals:
+					logging.debug(d.geo_hash)
+				
 #				#if isempty is true, send back suggested searches instead
 #				if isEmpty == False:
 #					dealResults.append({"isSentinel":True})

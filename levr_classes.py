@@ -100,6 +100,7 @@ class Business(db.Model):
 	business_name 	= db.StringProperty()
 	vicinity		= db.StringProperty()
 	geo_point		= db.GeoPtProperty() #latitude the longitude
+	geo_hash		= db.StringProperty()
 	types			= db.ListProperty(str)
 	targeted		= db.BooleanProperty(default=False)
 	owner			= db.ReferenceProperty(BusinessOwner,collection_name='businesses')
@@ -148,6 +149,7 @@ class Deal(polymodel.PolyModel):
 	count_redeemed 	= db.IntegerProperty(default = 0) 	#total redemptions
 	count_seen 		= db.IntegerProperty(default = 0)  #number seen
 	geo_point		= db.GeoPtProperty() #latitude the longitude
+	geo_hash		= db.StringProperty()
 	deal_status		= db.StringProperty(choices=set(["pending","active","rejected","expired"]),default="active")
 	been_reviewed	= db.BooleanProperty(default=False)
 	reject_message	= db.StringProperty()

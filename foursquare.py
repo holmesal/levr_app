@@ -33,7 +33,7 @@ class PushHandler(webapp2.RequestHandler):
 			#raise an exception
 			logging.debug('SECRETS DO NOT MATCH')
 		
-		#go look in our database for a matching foursquare venue id
+		'''#go look in our database for a matching foursquare venue id
 		business = levr.Business.gql('WHERE foursquare_id IS :1',checkin.venue.id).get()
 		
 		#initialize the response object
@@ -62,6 +62,15 @@ class PushHandler(webapp2.RequestHandler):
 		else:			#no business found
 			reply.text = "There aren't any deals here - maybe you'll be the first to add one? Click to upload."
 			reply.url = '' #deeplink into deal upload screen
+			
+		'''
+		
+		reply = {
+			CHECKIN_ID		: checkin.id,
+			text			: 'hi there!',
+			url				: 'http://www.levr.com',
+			contentID		: ''
+		}
 			
 		url = 'https://api.foursquare.com/v2/checkins/CHECKIN_ID/reply'
 		result = urlfetch.fetch(url=url,

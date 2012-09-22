@@ -170,8 +170,8 @@ class StoreGeohashHandler(webapp2.RequestHandler):
 		#grab each of their geo_points
 		#has geo_points into geo_hash
 		#store geo_hash
-		business_keys	= levr.Business.all(keys_only=True).fetch(None)
-		businesses		= levr.Business.get(business_keys)
+		business_keys	= levr.Deal.all(keys_only=True).fetch(None)
+		businesses		= levr.Deal.get(business_keys)
 		for b in businesses:
 			geo_point	= b.geo_point
 			logging.debug(geo_point)

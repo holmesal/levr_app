@@ -443,11 +443,12 @@ def dealCreate(params,origin,upload_flag=True):
 	deal.deal_text 			= deal_text
 	deal.deal_type			= deal_type
 	deal.description 		= description
-	deal.tags				= tags
+	deal.tags				= list(set(tags)) #list->set->list removes duplicates
 	deal.business_name		= business_name
 	deal.businessID			= businessID.__str__()
 	deal.vicinity			= vicinity
 	deal.geo_point			= geo_point
+	deal.geo_hash			= geo_hash
 	
 	#secondary_name
 	if deal_type == 'bundle':
@@ -512,11 +513,16 @@ def get_deals_in_area(tags,request_point,precision=5):
 	hash_set = geohash.expand(center_hash)
 	logging.debug(hash_set)
 	
-	
-	ref_query = levr.Deal.all(keys_only=True).filter('deal_status =','active')
+	##DEBUG
+	ref_query = levr.Deal.all().filter('deal_status =','active')
 	for tag in tags:
-		ref_query.filter('tags =',tag)
-	logging.info("total number of deals: "+str(ref_query.fetch(None).__len__()))
+		if tag != 'all':
+			ref_query.filter('tags =',tag)
+	ref_deals = ref_query.fetch(None)
+	logging.info("total number of deals: "+str(ref_deals.__len__()))
+#	for d in ref_deals:
+#		logging.debug(d.geo_hash)
+	##/DEBUG
 	
 	
 	####build search query

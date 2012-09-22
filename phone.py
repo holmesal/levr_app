@@ -51,6 +51,11 @@ class phone(webapp2.RequestHandler):
 			
 			#***************dealResults************************************************
 			elif action == "popularItems":
+				geo_point = decoded['in']['geoPoint']
+				request_point = levr.geo_converter(geo_point)
+				
+				deals = levr_utils.get_deals_in_area(['all'],request_point)
+				
 				logging.info('popularItems')
 				data = {
 					'popularItems' : ['all','food','indian','pizza','BU','commonwealth']
@@ -95,7 +100,6 @@ class phone(webapp2.RequestHandler):
 				tags = levr.tagger(primaryCat)
 				logging.debug(tags)
 				
-				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).filter('deal_status =','active').fetch(None).__len__()))
 				#batch get results. here is where we would set the number of results we want and the offset
 				results = levr_utils.get_deals_in_area(tags,request_point,precision)
 				

@@ -15,6 +15,7 @@ from google.appengine.api import mail
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
+
 class phone(webapp2.RequestHandler):
 	def post(self):
 		#decode the input JSON and pull out the action parameter
@@ -54,7 +55,36 @@ class phone(webapp2.RequestHandler):
 				geo_point = decoded['in']['geoPoint']
 				request_point = levr.geo_converter(geo_point)
 				
+				#get all deals in the area
 				deals = levr_utils.get_deals_in_area(['all'],request_point)
+				
+				#compile a list of all of the tags
+				tags = []
+				for deal in deals:
+					tags.extend(list(set(deal.tags)))
+				tags.sort()
+				logging.debug(tags)
+				
+				#convert list of all tags to a dict of key=tag, val=frequency
+				count = {}
+				for tag in tags:
+					logging.debug(tag in count)
+					if tag in count:
+						count[tag] += 1
+					else:
+						count[tag] = 1
+				
+				logging.debug(levr_utils.log_dict(count))
+				#convert dict of tag:freq into list of tuples
+				tuple_list = []
+				for key in count:
+					tuple_list.append((count[key],key))
+				tuple_list.sort()
+				tuple_list.reverse()
+				
+				for i in tuple_list:
+					logging.debug(i)
+				
 				
 				logging.info('popularItems')
 				data = {

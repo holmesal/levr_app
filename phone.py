@@ -88,6 +88,7 @@ class phone(webapp2.RequestHandler):
 				###filter by location - get neighborhoods
 				request_point = levr.geo_converter(geo_point)
 #				request_point = levr.geo_converter('42.35,-71.110')
+				logging.debug(precision)
 				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=precision)
 				logging.debug(center_hash)
 				hash_set = geohash.expand(center_hash)
@@ -99,7 +100,7 @@ class phone(webapp2.RequestHandler):
 				tags = levr.tagger(primaryCat)
 				logging.debug(tags)
 				
-				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).filter('deal_status =','active').count()))
+				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).filter('deal_status =','active').fetch(None).__len__()))
 				
 				
 				

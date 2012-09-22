@@ -28,6 +28,7 @@ class Customer(db.Model):
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now_add=True)
 	date_last_login = db.DateTimeProperty(auto_now=True)
+	foursquare_token= db.StringProperty()
 	
 	def increment_new_redeem_count(self):
 		logging.info('incrementing!')
@@ -109,7 +110,7 @@ class Business(db.Model):
 	date_created	= db.DateTimeProperty(auto_now_add=True)
 	date_last_edited= db.DateTimeProperty(auto_now=True)
 	widget_id		= db.StringProperty(default=levr_utils.create_unique_id())
-	foursquare_id	= db.StringProperty()
+	foursquare_id	= db.StringProperty(default='undefined')
 
 
 	def create_tags(self):

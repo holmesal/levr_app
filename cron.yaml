@@ -1,4 +1,9 @@
 cron:
+
+- description: add foursquare name and id to new businesses (default=undefined)
+  url: /foursquare/catchup
+  schedule: every 24 hours
+
 #- description: set status of expired deals from active to expired
 #  url: /tasks/cleanDeals
 #  schedule: every day 18:23

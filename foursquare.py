@@ -67,7 +67,7 @@ class PushHandler(webapp2.RequestHandler):
 			logging.debug('SECRETS DO NOT MATCH')
 		
 		#go look in our database for a matching foursquare venue id
-		business = levr.Business.gql('WHERE business_name IS :1',checkin["venue"]["name"]).get()
+		business = levr.Business.gql('WHERE foursquare_id = :1',checkin["venue"]["id"]).get()
 		#business = levr.Business.get('ahFzfmxldnItcHJvZHVjdGlvbnIQCxIIQnVzaW5lc3MY-dIBDA')
 		
 		#initialize the response object
@@ -84,7 +84,7 @@ class PushHandler(webapp2.RequestHandler):
 			numdeals = q.count()
 			if numdeals > 1:	#many deals found
 				topdeal = q.get()
-				reply['text'] = "There are deals here! "+topdeal.deal_text + ". Click to see all "+numdeals+" deals."
+				reply['text'] = "There are "+str(numdeals)+" deals here! Click to browse them."
 				reply['url'] = '' #deeplink into dealResults screen
 			elif numdeals == 1:	#only one deal found
 				topdeal = q.get()
@@ -123,7 +123,7 @@ class CatchUpHandler(webapp2.RequestHandler):
 		#scan the database for entries with no foursquare ID
 		q = levr.Business.all().filter('foursquare_id =','undefined')
 		
-		for business in q.run(limit=1):
+		for business in q.run():
 			ll = str(business.geo_point)
 			search = urllib.quote(business.business_name)
 			url = "https://api.foursquare.com/v2/venues/search?v=20120920&intent=match&ll="+ll+"&query="+search+"&client_id="+client_id+"&client_secret="+secret
@@ -134,11 +134,14 @@ class CatchUpHandler(webapp2.RequestHandler):
 			try:
 				match = json.loads(result.content)['response']['venues'][0]
 				business.foursquare_id = match['id']
+				business.foursquare_name = match['name']
 				business.put()
-				logging.debug('added foursquare_id for ' + business.business_name)
+				logging.debug('added foursquare data for ' + business.business_name)
 				#logging.debug(business.business_name + ' REPLACED BY ' + match['name'])
 			except:
 				business.foursquare_id = 'notfound'
+				business.foursquare_name = 'notfound'
+				business.put()
 				logging.debug('no match found for ' + business.business_name)
 				
 		
@@ -155,10 +158,10 @@ class CatchUpHandler(webapp2.RequestHandler):
 class TestHandler(webapp2.RequestHandler):
 	def get(self):
 		pass
-		'''q = levr.Business.all()
+		q = levr.Business.all()
 		for business in q:
 			business.foursquare_id = 'undefined'
-			business.put()	'''	
+			business.put()
 
 app = webapp2.WSGIApplication([('/foursquare/push', PushHandler),
 								('/foursquare/authorize', AuthorizeBeginHandler),

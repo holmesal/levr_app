@@ -95,16 +95,19 @@ class PushHandler(webapp2.RequestHandler):
 				reply['url'] = '' #deeplink into deal upload screen
 		else:			#no business found
 			#ask pat for all the deals within walking distance
-			url = 'http://www.levr.com/phone/dealResults'
+			url = 'http://www.levr.com/phone'
 			ll = str(checkin['venue']['location']['lat'])+','+str(checkin['venue']['location']['lat'])
 			data = {
-				'geo_point': ll,
-				'primaryCat': 'all',
-				'numResults': 20,
-				'precision':7
+				'action':'dealResults',
+				'in':{
+					'geoPoint': ll,
+					'primaryCat': 'all',
+					'size': 20,
+					'precision':7
+					}
 			}
 			result = urlfetch.fetch(url=url,
-									payload=urllib.urlencode(data),
+									payload=json.dumps(data),
 									method=urlfetch.POST)
 									
 			logging.debug(json.loads(result.content))

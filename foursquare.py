@@ -96,32 +96,17 @@ class PushHandler(webapp2.RequestHandler):
 		else:			#no business found
 			#ask pat for all the deals within walking distance
 			url = 'http://www.levr.com/phone'
-			ll = str(checkin['venue']['location']['lat'])+','+str(checkin['venue']['location']['lat'])
-			data = {
-				'action':'dealResults',
-				'in':{
-					'geoPoint': ll,
-					'primaryCat': 'all',
-					'size': 20,
-					'precision':7
-					}
-			}
-			result = urlfetch.fetch(url=url,
-									payload=json.dumps(data),
-									method=urlfetch.POST)
-									
-			logging.debug(json.loads(result.content))
-			#if the business type is a restaurant, etc
-			reply['text'] = "There are 27 deals near you - click to view."
-			reply['url'] = '' #deeplink into deal upload screen
-			
-		
-		'''reply = {
-			'CHECKIN_ID'		: checkin['id'],
-			'text'				: 'hi there!',
-			'url'				: 'http://www.levr.com',
-			'contentID'			: 'BWANHHPAHAHA'
-		}'''
+			ll = str(checkin['venue']['location']['lat'])+','+str(checkin['venue']['location']['lng'])
+			request_point = levr.geo_converter(ll)
+			precision = 6
+			results = levr_utils.get_deals_in_area(['all'],request_point,precision)
+
+			if len(results) > 0:
+				reply['text'] = "There are "+str(len(results))+" deals near you - click to view."
+				reply['url'] = '' #deeplink into deal upload screen
+			else:
+				reply['text'] = "See any deals? Pay it forward: click to upload."
+				reply['url'] = '' #deeplink into deal upload screen
 			
 		url = 'https://api.foursquare.com/v2/checkins/'+reply['CHECKIN_ID']+'/reply?v=20120920&oauth_token='+'PZVIKS4EH5IFBJX1GH5TUFYAA3Z5EX55QBJOE3YDXKNVYESZ'
 		logging.debug(url)

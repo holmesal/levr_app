@@ -551,6 +551,9 @@ def get_deals_in_area(tags,request_point,precision=5):
 	
 	#batch get results. here is where we would set the number of results we want and the offset
 	deals = levr.Deal.get(deal_keys)
+	
+	logging.info('number of deals fetched: '+str(deals.__len__()))
+	
 	return deals
 
 
@@ -621,3 +624,4 @@ def log_dict(obj,props=None):
 		logging.warning('There was an error in log_dict')
 	finally:
 		return log_str
+

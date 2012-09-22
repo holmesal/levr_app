@@ -9,6 +9,7 @@ import levr_classes as levr
 import levr_encrypt as enc
 import levr_utils
 import geo.geohash as geohash
+from common_word_list import blacklist
 from google.appengine.ext import db
 from google.appengine.api import images
 from google.appengine.api import mail
@@ -65,30 +66,59 @@ class phone(webapp2.RequestHandler):
 				tags.sort()
 				logging.debug(tags)
 				
+				
+				
 				#convert list of all tags to a dict of key=tag, val=frequency
 				count = {}
 				for tag in tags:
-					logging.debug(tag in count)
+#					logging.debug(tag in count)
 					if tag in count:
 						count[tag] += 1
 					else:
 						count[tag] = 1
+						
+				#DEBUG
+				#convert dict of tag:freq into list of tuples
+				tuple_list1 = []
+				for key in count:
+					tuple_list1.append((count[key],key))
+				tuple_list1.sort()
+				tuple_list1.reverse()
+				logging.debug(tuple_list1)
+				#/DEBUG
 				
-				logging.debug(levr_utils.log_dict(count))
+				#remove unwanted stuff
+				new_count = {}
+				for tag in count:
+					#search occurs more than once
+					if count[tag] >1:
+						#tag is not a number
+						if tag.isdigit() == False:
+							#tag is not in blacklist
+							if tag not in blacklist:
+								new_count[tag] = count[tag]
+					
+#				logging.debug(levr_utils.log_dict(count))
+
+				
 				#convert dict of tag:freq into list of tuples
 				tuple_list = []
-				for key in count:
-					tuple_list.append((count[key],key))
+				for key in new_count:
+					tuple_list.append((new_count[key],key))
 				tuple_list.sort()
 				tuple_list.reverse()
 				
-				for i in tuple_list:
-					logging.debug(i)
+				logging.debug(tuple_list)
+#				for i in tuple_list:
+#					logging.debug(i)
+				
+				#select only the most popular ones, and convert to list
+				word_list = [x[1] for x in tuple_list]
 				
 				
 				logging.info('popularItems')
 				data = {
-					'popularItems' : ['all','food','indian','pizza','BU','commonwealth']
+					'popularItems' : word_list[:5]
 					}
 				toEcho = {'success': True,'data':data}
 			
@@ -116,13 +146,8 @@ class phone(webapp2.RequestHandler):
 				#normalize search query
 				primaryCat = primaryCat.lower()
 				
-				
-				
-				
-				
 				###filter by location - get neighborhoods
 				request_point = levr.geo_converter(geo_point)
-#				
 				
 				#normalize search query
 				primaryCat = primaryCat.lower()
@@ -135,7 +160,6 @@ class phone(webapp2.RequestHandler):
 				
 				
 				
-				logging.info('number of deals fetched: '+str(results.__len__()))
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				#initialize isEmpty to 1
 				isEmpty = True

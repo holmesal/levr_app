@@ -121,7 +121,28 @@ class CatchUpHandler(webapp2.RequestHandler):
 		secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
 		
 		#scan the database for entries with no foursquare ID
+		q = levr.Business.all().filter('foursquare_id =','undefined')
 		
+		for business in q.run(limit=1):
+			ll = str(business.geo_point)
+			search = urllib.quote(business.business_name)
+			url = "https://api.foursquare.com/v2/venues/search?v=20120920&intent=match&ll="+ll+"&query="+search+"&client_id="+client_id+"&client_secret="+secret
+			result = urlfetch.fetch(url=url)
+			
+			self.response.out.write('running ' + business.business_name + '\n')
+			
+			try:
+				match = json.loads(result.content)['response']['venues'][0]
+				business.foursquare_id = match['id']
+				business.put()
+				logging.debug('added foursquare_id for ' + business.business_name)
+				#logging.debug(business.business_name + ' REPLACED BY ' + match['name'])
+			except:
+				business.foursquare_id = 'notfound'
+				logging.debug('no match found for ' + business.business_name)
+				
+		
+		'''
 		search = self.request.get('q')
 		logging.info(search)
 		url = "https://api.foursquare.com/v2/venues/search?v=20120920&intent=match&ll=42.351824,-71.11982&query="+urllib.quote(search)+"&client_id="+client_id+"&client_secret="+secret
@@ -129,9 +150,19 @@ class CatchUpHandler(webapp2.RequestHandler):
 		result = urlfetch.fetch(url=url)
 		business = json.loads(result.content)
 		self.response.out.write(levr_utils.log_dict(business))
-		
+		'''
+
+class TestHandler(webapp2.RequestHandler):
+	def get(self):
+		pass
+		'''q = levr.Business.all()
+		for business in q:
+			business.foursquare_id = 'undefined'
+			business.put()	'''	
+
 app = webapp2.WSGIApplication([('/foursquare/push', PushHandler),
 								('/foursquare/authorize', AuthorizeBeginHandler),
 								('/foursquare/authorize/complete', AuthorizeCompleteHandler),
-								('/foursquare/catchup', CatchUpHandler)],
+								('/foursquare/catchup', CatchUpHandler),
+								('/foursquare/test', TestHandler)],
 								debug=True)

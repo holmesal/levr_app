@@ -95,7 +95,7 @@ class PushHandler(webapp2.RequestHandler):
 				reply['url'] = '' #deeplink into deal upload screen
 		else:			#no business found
 			#ask pat for all the deals within walking distance
-			url = './phone/dealResults'
+			url = 'http://www.levr.com/phone/dealResults'
 			ll = str(checkin['venue']['location']['lat'])+','+str(checkin['venue']['location']['lat'])
 			data = {
 				'geo_point': ll,

@@ -58,7 +58,7 @@ class PushHandler(webapp2.RequestHandler):
 		logging.debug(self.request.body)
 		checkin = json.loads(self.request.get('checkin'))
 		secret = self.request.get('secret')
-		logging.debug(levr_utils.log_dict(checkin))
+		logging.debug(checkin)
 		
 		#verify that the secret passed matches ours
 		hc_secret = 'LB3J4Q5VQWZPOZATSMOAEDOE5UYNL5P44YCR0FCPWFNXLR2K'
@@ -84,18 +84,35 @@ class PushHandler(webapp2.RequestHandler):
 			numdeals = q.count()
 			if numdeals > 1:	#many deals found
 				topdeal = q.get()
-				reply['text'] = "There are "+str(numdeals)+" deals here! Click to browse them."
+				reply['text'] = "There are "+str(numdeals)+" deals here! Click to browse."
 				reply['url'] = '' #deeplink into dealResults screen
 			elif numdeals == 1:	#only one deal found
 				topdeal = q.get()
-				reply['text'] = "There's a deal here! "+topdeal.deal_text+". Click to redeem."
+				reply['text'] = topdeal.deal_text+". Click to redeem."
 				reply['url'] = '' #deeplink into dealDetail screen
 			else:	#no deals found
-				reply['text'] = "There aren't any deals here - maybe you'll be the first to add one? Click to upload."
+				reply['text'] = "See any deals? Pay it forward: click to upload."
 				reply['url'] = '' #deeplink into deal upload screen
 		else:			#no business found
+			#ask pat for all the deals within walking distance
+			url = 'http://www.levr.com/phone'
+			ll = str(checkin['venue']['location']['lat'])+','+str(checkin['venue']['location']['lat'])
+			data = {
+				'action':'dealResults',
+				'in':{
+					'geoPoint': ll,
+					'primaryCat': 'all',
+					'size': 20,
+					'precision':7
+					}
+			}
+			result = urlfetch.fetch(url=url,
+									payload=json.dumps(data),
+									method=urlfetch.POST)
+									
+			logging.debug(json.loads(result.content))
 			#if the business type is a restaurant, etc
-			reply['text'] = "There aren't any deals here - maybe you'll be the first to add one? Click to upload."
+			reply['text'] = "There are 27 deals near you - click to view."
 			reply['url'] = '' #deeplink into deal upload screen
 			
 		
@@ -108,10 +125,8 @@ class PushHandler(webapp2.RequestHandler):
 			
 		url = 'https://api.foursquare.com/v2/checkins/'+reply['CHECKIN_ID']+'/reply?v=20120920&oauth_token='+'PZVIKS4EH5IFBJX1GH5TUFYAA3Z5EX55QBJOE3YDXKNVYESZ'
 		logging.debug(url)
-		data = urllib.urlencode(reply)
-		logging.debug(data)
 		result = urlfetch.fetch(url=url,
-								payload=data,
+								payload=urllib.urlencode(reply),
 								method=urlfetch.POST)
 		logging.debug(levr_utils.log_dict(result.__dict__))
 		

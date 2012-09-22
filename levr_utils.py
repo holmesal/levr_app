@@ -279,7 +279,7 @@ def dealCreate(params,origin,upload_flag=True):
 			logging.debug('business doesnt exist')
 			#if a business doesn't exist in db, then create a new one
 			business = levr.Business()
-			logging.debug(business.__str__())
+			logging.debug(log_model_props(business))
 			
 			#create geohash from geopoint
 			geo_hash = geohash.encode(geo_point.lat,geo_point.lon)

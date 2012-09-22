@@ -87,12 +87,7 @@ class phone(webapp2.RequestHandler):
 				
 				###filter by location - get neighborhoods
 				request_point = levr.geo_converter(geo_point)
-#				request_point = levr.geo_converter('42.35,-71.110')
-				logging.debug(precision)
-				center_hash = geohash.encode(request_point.lat,request_point.lon,precision=precision)
-				logging.debug(center_hash)
-				hash_set = geohash.expand(center_hash)
-				logging.debug(hash_set)
+#				
 				
 				#normalize search query
 				primaryCat = primaryCat.lower()
@@ -101,36 +96,11 @@ class phone(webapp2.RequestHandler):
 				logging.debug(tags)
 				
 				logging.info("total number of deals: "+str(levr.Deal.all(keys_only=True).filter('deal_status =','active').fetch(None).__len__()))
-				
-				
-				
-				
-				####build search query
-				#only grabbing deal keys, then batch get array
-				deal_keys = []
-				for query_hash in hash_set:
-					#only grab keys for deals that have active status
-					q = levr.Deal.all(keys_only=True).filter('deal_status =','active')
-					#grab all deals where primary_cat is in tags
-					for tag in tags:
-						#all is a special keyword
-						if tag != 'all':
-							logging.debug('tag: '+str(tag))
-							q.filter('tags =',tag)
-					#filter by geohash
-					q.filter('geo_hash >=',query_hash).filter('geo_hash <=',query_hash+"{") #max bound
-#					logging.debug(q)
-#					logging.debug(levr_utils.log_dict(q.__dict__))
-					
-					#get all keys for this neighborhood
-					fetched_deals = q.fetch(None)
-					logging.info('From: '+query_hash+", fetched: "+str(fetched_deals.__len__()))
-					
-					deal_keys.extend(fetched_deals)
-#					logging.debug(deal_keys)
-				
 				#batch get results. here is where we would set the number of results we want and the offset
-				results = levr.Deal.get(deal_keys)
+				results = levr_utils.get_deals_in_area(tags,request_point,precision)
+				
+				
+				
 				logging.info('number of deals fetched: '+str(results.__len__()))
 				#define an empty "dealResults" LIST, and initialize the counter to 0
 				#initialize isEmpty to 1

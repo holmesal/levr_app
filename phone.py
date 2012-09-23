@@ -53,6 +53,7 @@ class phone(webapp2.RequestHandler):
 			
 			#***************dealResults************************************************
 			elif action == "popularItems":
+				logging.info('popularItems')
 				lat = decoded['in']['latitude']
 				lon = decoded['in']['longitude']
 				
@@ -118,9 +119,16 @@ class phone(webapp2.RequestHandler):
 				word_list = [x[1] for x in tuple_list]
 				
 				
-				logging.info('popularItems')
+				#if the popular items list is longer than 6, send entire list, else only send 6
+				logging.debug(word_list.__len__())
+				if word_list.__len__()<6:
+					popularItems = word_list
+				else:
+					popularItems = word_list[:6]
+				
+				
 				data = {
-					'popularItems' : word_list[:5]
+					'popularItems' : popularItems
 					}
 				toEcho = {'success': True,'data':data}
 			

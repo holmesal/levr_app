@@ -313,11 +313,27 @@ class FixTagHandler(webapp2.RequestHandler):
 		
 		db.put(deals)
 
+class TestHandler(webapp2.RequestHandler):
+    def get(self,a):
+        self.response.headers['Content-Type'] = 'text/plain'
+#        self.response.out.write(self.request.path)
+        self.response.out.write(str(a))
+
+#application = webapp.WSGIApplication(
+#                                     [('/', MainPage)],
+#                                     debug=True)
+
+#application = webapp.WSGIApplication([
+#                                    (r'/myapp/(?P<url>\d{4})/$', MainPage)
+#                                    ],
+#                                     debug=True)
+
 app = webapp2.WSGIApplication([('/new', MainPage),
 								('/new/upload.*', DatabaseUploadHandler),
 								('/new/geohash', StoreGeohashHandler),
 								('/new/find', FilterGeohashHandler),
-								('/new/fixTags', FixTagHandler)
+								('/new/fixTags', FixTagHandler),
+								(r'/new/test/(.*)/a', TestHandler)
 #								('/new/update' , UpdateUsersHandler)
 								],debug=True)
 

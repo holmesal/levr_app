@@ -297,6 +297,21 @@ class FixTagHandler(webapp2.RequestHandler):
 	def get():
 		#get all deals
 		deals = levr.Deal.all().fetch(None)
+		
+		#tags are from business_name, deal_text, description
+		#no longer using secondary name
+		for deal in deals:
+			tags = []
+			business_name = levr.tagger(deal.business_name)
+			tags.extend(business_name)
+			deal_text = levr.tagger(deal.deal_text)
+			tags.extend(deal_text)
+			description = levr.tagger(deal.description)
+			tags.extend(description)
+			logging.debug(tags)
+			deal.tags = tags
+		
+		db.put(deals)
 
 app = webapp2.WSGIApplication([('/new', MainPage),
 								('/new/upload.*', DatabaseUploadHandler),

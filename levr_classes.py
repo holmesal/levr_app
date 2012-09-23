@@ -347,6 +347,7 @@ def geo_converter(geo_str):
 	return None
 
 def tagger(text): 
+	# text is a string
 #	parsing function for creating tags from description, etc
 	#replace underscores with spaces
 	text.replace("_"," ")

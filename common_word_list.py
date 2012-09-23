@@ -6,7 +6,7 @@ blacklist = [
 'restaurant',
 'store',
 
-#description words
+#deal description words
 'dollar',
 'dollars',
 'buy',
@@ -22,6 +22,7 @@ blacklist = [
 'haha',
 'cool',
 'avenue',
+'purchase'
 
 ##Roadway words
 'ave',

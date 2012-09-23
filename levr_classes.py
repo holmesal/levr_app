@@ -121,9 +121,9 @@ class Business(db.Model):
 		#takes a business, and returns critical properties taggified
 		business_name	= tagger(self.business_name)
 		tags.extend(business_name)
-		vicinity		= tagger(self.vicinity)
-		tags.extend(vicinity)
-		
+#		vicinity		= tagger(self.vicinity)
+#		tags.extend(vicinity)
+#		
 		for t in self.types:
 			t			= tagger(t)
 			tags.extend(t)

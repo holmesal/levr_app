@@ -53,8 +53,10 @@ class phone(webapp2.RequestHandler):
 			
 			#***************dealResults************************************************
 			elif action == "popularItems":
-				geo_point = decoded['in']['geoPoint']
-				request_point = levr.geo_converter(geo_point)
+				lat = decoded['in']['latitude']
+				lon = decoded['in']['longitude']
+				
+				request_point = levr.geo_converter(str(lat)+","+str(lon))
 				
 				#get all deals in the area
 				deals = levr_utils.get_deals_in_area(['all'],request_point)

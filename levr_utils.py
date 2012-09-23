@@ -247,6 +247,9 @@ def dealCreate(params,origin,upload_flag=True):
 			geo_point = params['geo_point']
 			geo_point = levr.geo_converter(geo_point)
 			logging.debug("geo point: "+str(geo_point))
+			#create geohash from geopoint
+			geo_hash = geohash.encode(geo_point.lat,geo_point.lon)
+			logging.info(geo_hash)
 		else:
 			raise KeyError('geo_point not in params')
 		
@@ -279,10 +282,9 @@ def dealCreate(params,origin,upload_flag=True):
 			logging.debug('business doesnt exist')
 			#if a business doesn't exist in db, then create a new one
 			business = levr.Business()
-			logging.debug(log_model_props(business))
 			
-			#create geohash from geopoint
-			geo_hash = geohash.encode(geo_point.lat,geo_point.lon)
+			
+			
 			
 			#add data to the new business
 			business.business_name 	= business_name
@@ -291,6 +293,7 @@ def dealCreate(params,origin,upload_flag=True):
 			business.types			= types
 			business.geo_hash		= geo_hash
 			
+			logging.debug(log_model_props(business))
 			#put business
 			business.put()
 			
@@ -298,7 +301,7 @@ def dealCreate(params,origin,upload_flag=True):
 		else:
 			logging.debug('business exists')
 			#business exists- grab its tags
-		
+			logging.debug(geo_hash)
 		
 		#grab the businesses tags
 		tags.extend(business.create_tags())
@@ -329,6 +332,8 @@ def dealCreate(params,origin,upload_flag=True):
 		geo_point		= business.geo_point
 		vicinity		= business.vicinity
 		geo_hash		= business.geo_hash
+		
+		logging.debug(log_model_props(business))
 		
 
 	logging.debug('!!!!!')
@@ -438,7 +443,6 @@ def dealCreate(params,origin,upload_flag=True):
 	
 	
 	
-	
 	#add the data
 	deal.deal_text 			= deal_text
 	deal.deal_type			= deal_type
@@ -448,6 +452,7 @@ def dealCreate(params,origin,upload_flag=True):
 	deal.businessID			= businessID.__str__()
 	deal.vicinity			= vicinity
 	deal.geo_point			= geo_point
+	logging.debug(geo_hash)
 	deal.geo_hash			= geo_hash
 	
 	#secondary_name

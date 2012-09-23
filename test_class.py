@@ -60,15 +60,26 @@ class DatabaseUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		b = levr.Business.all(keys_only=True).get()
 		
 		
+#		params = {
+#					'uid'				: enc.encrypt_key(c.key()),
+#					'business'			: enc.encrypt_key(str(b)),
+#					'deal_description'	: 'description!!!',
+#					'deal_line1'		: 'DEAL LINE!',
+#					'img_key'			: img_key
+#					}
 		params = {
 					'uid'				: enc.encrypt_key(c.key()),
 					'business'			: enc.encrypt_key(str(b)),
+					'business_name'		: 'Alamos',
+					'geo_point'			: '42.2,-71.2',
+					'vicinity'			: '10 Buick St',
+					'types'				: 'aaa,type_o_negative',
 					'deal_description'	: 'description!!!',
 					'deal_line1'		: 'DEAL LINE!',
 					'img_key'			: img_key
 					}
-
-		(share_url,dealID) = levr_utils.dealCreate(params,'phone')
+		
+		(share_url,dealID) = levr_utils.dealCreate(params,'phone_existing_business')
 		logging.debug(share_url)
 		logging.debug(dealID)
 		
@@ -280,11 +291,18 @@ class FilterGeohashHandler(webapp2.RequestHandler):
 #			self.response.out.write(b.geo_hash)
 #			self.response.out.write('<br/>')
 		
-		
+
+class FixTagHandler(webapp2.RequestHandler):
+	@staticmethod
+	def get():
+		#get all deals
+		deals = levr.Deal.all().fetch(None)
+
 app = webapp2.WSGIApplication([('/new', MainPage),
 								('/new/upload.*', DatabaseUploadHandler),
 								('/new/geohash', StoreGeohashHandler),
 								('/new/find', FilterGeohashHandler),
+								('/new/fixTags', FixTagHandler)
 #								('/new/update' , UpdateUsersHandler)
 								],debug=True)
 

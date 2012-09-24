@@ -260,8 +260,8 @@ def phoneFormat(deal,use,primary_cat=None):
 		#mydeals is for the list of a users uploaded deals
 		#widget is for the html iframe for merchants
 		data = {"dealID"		: dealID,
-				"imgURL"		: 'beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=list',
-				"imgURLlarge"	: 'beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"		: 'http://beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=list',
+				"imgURLlarge"	: 'http://beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"geoPoint"		: deal.geo_point,
 				"vicinity"		: deal.vicinity,
 				"dealText"  	: dealText,
@@ -299,7 +299,7 @@ def phoneFormat(deal,use,primary_cat=None):
 #		b = db.get(deal.businessID)
 		#uploaded by a user
 		data = {"dealID"		: dealID,
-				"imgURL"	  	: 'beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+				"imgURL"	  	: 'http://beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"dealText"  	: dealText,
 				"dealTextExtra" : dealTextExtra,
 				"businessName"	: deal.business_name,
@@ -319,7 +319,7 @@ def phoneFormat(deal,use,primary_cat=None):
 #			business = deal_parent
 			alias = ''
 			
-		data = {"barcodeURL"	: 'beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+		data = {"barcodeURL"	: 'http://beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
 				"ninjaName"		: alias,
 				"isExclusive"	: deal.is_exclusive}
 	elif use == 'manage':
@@ -332,8 +332,8 @@ def phoneFormat(deal,use,primary_cat=None):
 			"vicinity"		:deal.vicinity,
 			"description"	:deal.description,
 			"isExclusive"	:deal.is_exclusive,
-			"imgURLLarge"	:'beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
-			"imgURLSmall"	:'beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=list',
+			"imgURLLarge"	:'http://beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=dealDetail',
+			"imgURLSmall"	:'http://beta.levr-production.appspot.com/phone/img?dealID='+dealID+'&size=list',
 
 			}
 	data.update({'geoPoint':str(deal.geo_point)})
